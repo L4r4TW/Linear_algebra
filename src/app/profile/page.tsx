@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
@@ -25,7 +26,10 @@ type ProfileRow = {
 
 export default function ProfilePage() {
   const supabase = useMemo(() => createBrowserSupabaseClient(), []);
+  const router = useRouter();
+
   const [loading, setLoading] = useState(true);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [email, setEmail] = useState("");
   const [profile, setProfile] = useState<ProfileRow | null>(null);
@@ -89,6 +93,20 @@ export default function ProfilePage() {
     void loadProfileAndStats();
   }, [supabase]);
 
+  async function handleLogout() {
+    setIsLoggingOut(true);
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      setErrorMessage(error.message);
+      setIsLoggingOut(false);
+      return;
+    }
+
+    router.push("/login");
+    router.refresh();
+  }
+
   if (loading) {
     return (
       <main className="min-h-screen bg-slate-50 px-6 py-14 text-slate-900">
@@ -97,14 +115,30 @@ export default function ProfilePage() {
     );
   }
 
+  const displayName = profile?.username || email || "unknown user";
+
   return (
     <main className="min-h-screen bg-slate-50 px-6 py-14 text-slate-900">
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-8">
         <section className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-700">
-            Profile
-          </p>
-          <h1 className="mt-2 text-3xl font-semibold">Your stats</h1>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-700">
+                Profile
+              </p>
+              <h1 className="mt-2 text-3xl font-semibold">Your stats</h1>
+            </div>
+            {!errorMessage && (
+              <button
+                type="button"
+                onClick={handleLogout}
+                disabled={isLoggingOut}
+                className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium disabled:opacity-60"
+              >
+                {isLoggingOut ? "Logging out..." : "Logout"}
+              </button>
+            )}
+          </div>
 
           {errorMessage && (
             <p className="mt-4 text-sm text-rose-700">
@@ -114,7 +148,10 @@ export default function ProfilePage() {
 
           {!errorMessage && (
             <>
-              <p className="mt-3 text-sm text-slate-700">Email: {email || "unknown"}</p>
+              <p className="mt-4 text-sm font-medium text-slate-800">
+                You are logged in as {displayName}.
+              </p>
+              <p className="mt-2 text-sm text-slate-700">Email: {email || "unknown"}</p>
               <p className="mt-1 text-sm text-slate-700">
                 Username: {profile?.username ?? "No profile row yet"}
               </p>
