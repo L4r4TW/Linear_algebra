@@ -33,6 +33,13 @@ npm run dev
 
 Open `http://localhost:3000`.
 
+## MVP Database
+
+- `profiles`: one row per auth user.
+- `topics`: groups exercises (for example vectors, matrices).
+- `exercises`: exercise definitions per topic.
+- `attempts`: user submissions and correctness history.
+
 ## Project Structure
 
 - `src/app`: App Router pages/layout.
@@ -50,6 +57,6 @@ Open `http://localhost:3000`.
 ## Recommended Next Work
 
 1. Add row-level security (RLS) policies.
-2. Add dynamic routes: `units/[slug]`, `lessons/[slug]`, `exercises/[id]`.
-3. Build an admin authoring UI for exercise creation.
-4. Add tests for schema + data fetching.
+2. Add dynamic routes: `topics/[slug]`, `exercises/[id]`.
+3. Build attempt submission API route and scoring logic.
+4. Build an admin authoring UI for exercises.

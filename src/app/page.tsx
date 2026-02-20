@@ -1,10 +1,10 @@
+import Link from "next/link";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
-type UnitRow = {
+type TopicRow = {
   id: string;
-  title: string;
   slug: string;
-  position: number;
+  title: string;
 };
 
 export default async function Home() {
@@ -12,22 +12,22 @@ export default async function Home() {
     Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL) &&
     Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
-  let units: UnitRow[] = [];
+  let topics: TopicRow[] = [];
   let dbError = "";
 
   if (hasSupabaseEnv) {
     try {
       const supabase = createServerSupabaseClient();
       const { data, error } = await supabase
-        .from("units")
-        .select("id, title, slug, position")
-        .order("position", { ascending: true })
-        .limit(6);
+        .from("topics")
+        .select("id, slug, title")
+        .order("title", { ascending: true })
+        .limit(8);
 
       if (error) {
         dbError = error.message;
       } else {
-        units = data ?? [];
+        topics = data ?? [];
       }
     } catch (error) {
       dbError = error instanceof Error ? error.message : "Unknown error";
@@ -45,10 +45,29 @@ export default async function Home() {
             Open source exercises for Khan-style linear algebra learning
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-slate-700">
-            This project is built with Next.js App Router and Supabase
-            Postgres. Start by loading the schema and seed files, then add more
-            exercises lesson by lesson.
+            Next.js App Router and Supabase Postgres starter with auth +
+            practice flow.
           </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link
+              href="/practice"
+              className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white"
+            >
+              Start practice
+            </Link>
+            <Link
+              href="/login"
+              className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium"
+            >
+              Login
+            </Link>
+            <Link
+              href="/profile"
+              className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium"
+            >
+              Profile
+            </Link>
+          </div>
         </section>
 
         <section className="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-sm">
@@ -66,28 +85,27 @@ export default async function Home() {
           )}
           {hasSupabaseEnv && !dbError && (
             <p className="mt-3 text-emerald-700">
-              Supabase connection works. Loaded {units.length} unit(s).
+              Supabase connection works. Loaded {topics.length} topic(s).
             </p>
           )}
         </section>
 
         <section className="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-sm">
-          <h2 className="text-2xl font-semibold">Starter units</h2>
-          {units.length === 0 ? (
+          <h2 className="text-2xl font-semibold">Starter topics</h2>
+          {topics.length === 0 ? (
             <p className="mt-3 text-slate-700">
-              No units found yet. Run the SQL in <code>supabase/seed.sql</code>{" "}
+              No topics found yet. Run the SQL in <code>supabase/seed.sql</code>{" "}
               after creating the schema.
             </p>
           ) : (
             <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-              {units.map((unit) => (
+              {topics.map((topic) => (
                 <li
-                  key={unit.id}
+                  key={topic.id}
                   className="rounded-xl border border-slate-200 bg-white px-4 py-3"
                 >
-                  <p className="text-sm text-slate-500">Unit {unit.position}</p>
-                  <p className="font-medium">{unit.title}</p>
-                  <p className="text-sm text-slate-600">/{unit.slug}</p>
+                  <p className="font-medium">{topic.title}</p>
+                  <p className="text-sm text-slate-600">/{topic.slug}</p>
                 </li>
               ))}
             </ul>

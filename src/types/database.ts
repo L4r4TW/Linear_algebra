@@ -9,83 +9,94 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      attempts: {
+        Row: {
+          answer: Json;
+          created_at: string;
+          exercise_id: string;
+          id: string;
+          is_correct: boolean;
+          user_id: string;
+        };
+        Insert: {
+          answer: Json;
+          created_at?: string;
+          exercise_id: string;
+          id?: string;
+          is_correct: boolean;
+          user_id: string;
+        };
+        Update: {
+          answer?: Json;
+          created_at?: string;
+          exercise_id?: string;
+          id?: string;
+          is_correct?: boolean;
+          user_id?: string;
+        };
+      };
       exercises: {
         Row: {
           created_at: string;
-          difficulty: "easy" | "medium" | "hard";
+          difficulty: number;
           id: string;
-          lesson_id: string;
-          prompt: string;
-          solution: string;
-          source_ref: string | null;
-          title: string;
+          prompt: Json;
+          solution: Json;
+          topic_id: string;
+          type: string;
         };
         Insert: {
           created_at?: string;
-          difficulty?: "easy" | "medium" | "hard";
+          difficulty: number;
           id?: string;
-          lesson_id: string;
-          prompt: string;
-          solution: string;
-          source_ref?: string | null;
-          title: string;
+          prompt: Json;
+          solution: Json;
+          topic_id: string;
+          type: string;
         };
         Update: {
           created_at?: string;
-          difficulty?: "easy" | "medium" | "hard";
+          difficulty?: number;
           id?: string;
-          lesson_id?: string;
-          prompt?: string;
-          solution?: string;
-          source_ref?: string | null;
-          title?: string;
+          prompt?: Json;
+          solution?: Json;
+          topic_id?: string;
+          type?: string;
         };
       };
-      lessons: {
+      profiles: {
         Row: {
           created_at: string;
           id: string;
-          position: number;
-          slug: string;
-          title: string;
-          unit_id: string;
+          username: string;
         };
         Insert: {
           created_at?: string;
-          id?: string;
-          position: number;
-          slug: string;
-          title: string;
-          unit_id: string;
+          id: string;
+          username: string;
         };
         Update: {
           created_at?: string;
           id?: string;
-          position?: number;
-          slug?: string;
-          title?: string;
-          unit_id?: string;
+          username?: string;
         };
       };
-      units: {
+      topics: {
         Row: {
           created_at: string;
           id: string;
-          position: number;
           slug: string;
           title: string;
         };
         Insert: {
           created_at?: string;
           id?: string;
-          position: number;
           slug: string;
           title: string;
         };
         Update: {
           created_at?: string;
           id?: string;
-          position?: number;
           slug?: string;
           title?: string;
         };
@@ -93,9 +104,7 @@ export type Database = {
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
-    Enums: {
-      exercise_difficulty: "easy" | "medium" | "hard";
-    };
+    Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };
 };
