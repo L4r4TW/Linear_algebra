@@ -1,65 +1,99 @@
-import Image from "next/image";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
 
-export default function Home() {
+type UnitRow = {
+  id: string;
+  title: string;
+  slug: string;
+  position: number;
+};
+
+export default async function Home() {
+  const hasSupabaseEnv =
+    Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL) &&
+    Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+
+  let units: UnitRow[] = [];
+  let dbError = "";
+
+  if (hasSupabaseEnv) {
+    try {
+      const supabase = createServerSupabaseClient();
+      const { data, error } = await supabase
+        .from("units")
+        .select("id, title, slug, position")
+        .order("position", { ascending: true })
+        .limit(6);
+
+      if (error) {
+        dbError = error.message;
+      } else {
+        units = data ?? [];
+      }
+    } catch (error) {
+      dbError = error instanceof Error ? error.message : "Unknown error";
+    }
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="min-h-screen bg-[linear-gradient(120deg,#f3f9ff_0%,#fcf8f3_100%)] px-6 py-14 text-slate-900">
+      <div className="mx-auto flex w-full max-w-5xl flex-col gap-10">
+        <section className="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-sm">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-teal-700">
+            Linear Algebra Practice
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+            Open source exercises for Khan-style linear algebra learning
+          </h1>
+          <p className="mt-4 max-w-2xl text-lg text-slate-700">
+            This project is built with Next.js App Router and Supabase
+            Postgres. Start by loading the schema and seed files, then add more
+            exercises lesson by lesson.
+          </p>
+        </section>
+
+        <section className="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-sm">
+          <h2 className="text-2xl font-semibold">Quick status</h2>
+          {!hasSupabaseEnv && (
+            <p className="mt-3 text-slate-700">
+              Supabase env vars are not set. Copy <code>.env.example</code> to{" "}
+              <code>.env.local</code> and add your project values.
+            </p>
+          )}
+          {hasSupabaseEnv && dbError && (
+            <p className="mt-3 text-rose-700">
+              Connected to Supabase config, but query failed: {dbError}
+            </p>
+          )}
+          {hasSupabaseEnv && !dbError && (
+            <p className="mt-3 text-emerald-700">
+              Supabase connection works. Loaded {units.length} unit(s).
+            </p>
+          )}
+        </section>
+
+        <section className="rounded-3xl border border-slate-200 bg-white/90 p-8 shadow-sm">
+          <h2 className="text-2xl font-semibold">Starter units</h2>
+          {units.length === 0 ? (
+            <p className="mt-3 text-slate-700">
+              No units found yet. Run the SQL in <code>supabase/seed.sql</code>{" "}
+              after creating the schema.
+            </p>
+          ) : (
+            <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+              {units.map((unit) => (
+                <li
+                  key={unit.id}
+                  className="rounded-xl border border-slate-200 bg-white px-4 py-3"
+                >
+                  <p className="text-sm text-slate-500">Unit {unit.position}</p>
+                  <p className="font-medium">{unit.title}</p>
+                  <p className="text-sm text-slate-600">/{unit.slug}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </div>
+    </main>
   );
 }
