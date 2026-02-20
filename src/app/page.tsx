@@ -17,7 +17,7 @@ export default async function Home() {
 
   if (hasSupabaseEnv) {
     try {
-      const supabase = createServerSupabaseClient();
+      const supabase = await createServerSupabaseClient();
       const { data, error } = await supabase
         .from("topics")
         .select("id, slug, title")

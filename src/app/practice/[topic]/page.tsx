@@ -32,7 +32,7 @@ export default async function TopicPracticePage({
   params: Promise<TopicPageParams>;
 }) {
   const { topic } = await params;
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
 
   const { data: topicRow, error: topicError } = await supabase
     .from("topics")

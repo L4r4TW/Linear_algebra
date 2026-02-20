@@ -8,7 +8,7 @@ type TopicRow = {
 };
 
 export default async function PracticePage() {
-  const supabase = createServerSupabaseClient();
+  const supabase = await createServerSupabaseClient();
   const { data: topics, error } = await supabase
     .from("topics")
     .select("id, slug, title")
