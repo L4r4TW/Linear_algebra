@@ -109,6 +109,12 @@ export function VectorPlane({
         const p = toPx(value);
         const major = value === 0;
         const showLabel = value !== 0 && value % 2 === 0;
+        const strokeColor = major
+          ? "#94a3b8"
+          : showLabel
+            ? "#cbd5e1"
+            : "#e2e8f0";
+        const strokeWidth = major ? 1.2 : showLabel ? 1.1 : 1;
         return (
           <g key={value}>
             <line
@@ -116,16 +122,16 @@ export function VectorPlane({
               y1={size - p}
               x2={size}
               y2={size - p}
-              stroke={major ? "#94a3b8" : "#e2e8f0"}
-              strokeWidth={major ? 1.2 : 1}
+              stroke={strokeColor}
+              strokeWidth={strokeWidth}
             />
             <line
               x1={p}
               y1={0}
               x2={p}
               y2={size}
-              stroke={major ? "#94a3b8" : "#e2e8f0"}
-              strokeWidth={major ? 1.2 : 1}
+              stroke={strokeColor}
+              strokeWidth={strokeWidth}
             />
             {showLabel && (
               <>
