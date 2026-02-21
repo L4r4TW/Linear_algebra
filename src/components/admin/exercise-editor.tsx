@@ -503,6 +503,12 @@ export function ExerciseEditor({
             </form>
           ) : (
             <div className="space-y-4">
+              {watchedType === "vector_xy_from_graph" && (
+                <div>
+                  <p className="mb-2 text-sm font-semibold text-slate-700">Graph preview</p>
+                  <VectorPlane x={vectorX} y={vectorY} />
+                </div>
+              )}
               <div>
                 <p className="mb-2 text-sm font-semibold text-slate-700">Prompt preview</p>
                 <MarkdownPreview markdown={watchedPrompt || ""} />
