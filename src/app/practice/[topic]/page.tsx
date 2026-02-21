@@ -42,6 +42,15 @@ type ExerciseRow = {
   solution: Json;
 };
 
+type ExerciseRefRow = {
+  id: string;
+  subtheme_id: string;
+};
+
+type AttemptRefRow = {
+  exercise_id: string;
+};
+
 export default async function ThemePracticePage({
   params,
   searchParams,
@@ -53,6 +62,10 @@ export default async function ThemePracticePage({
   const { subtheme: selectedSubthemeSlug } = await searchParams;
 
   const supabase = await createServerSupabaseClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const { data: themeRow, error: themeError } = await supabase
     .from("themes")
@@ -87,6 +100,55 @@ export default async function ThemePracticePage({
     typedSubthemes.find((item) => item.slug === selectedSubthemeSlug) ??
     typedSubthemes[0] ??
     null;
+
+  const totalBySubtheme = new Map<string, number>();
+  const solvedBySubtheme = new Map<string, number>();
+
+  typedSubthemes.forEach((subtheme) => {
+    totalBySubtheme.set(subtheme.id, 0);
+    solvedBySubtheme.set(subtheme.id, 0);
+  });
+
+  const subthemeIds = typedSubthemes.map((subtheme) => subtheme.id);
+  const exerciseIdToSubtheme = new Map<string, string>();
+
+  if (subthemeIds.length > 0) {
+    const { data: refs } = await supabase
+      .from("exercises")
+      .select("id, subtheme_id")
+      .in("subtheme_id", subthemeIds)
+      .eq("status", "published");
+
+    const typedRefs = (refs as ExerciseRefRow[]) ?? [];
+
+    typedRefs.forEach((ref) => {
+      exerciseIdToSubtheme.set(ref.id, ref.subtheme_id);
+      totalBySubtheme.set(ref.subtheme_id, (totalBySubtheme.get(ref.subtheme_id) ?? 0) + 1);
+    });
+
+    if (user && typedRefs.length > 0) {
+      const exerciseIds = typedRefs.map((ref) => ref.id);
+
+      const { data: solvedAttempts } = await supabase
+        .from("attempts")
+        .select("exercise_id")
+        .eq("user_id", user.id)
+        .eq("is_correct", true)
+        .in("exercise_id", exerciseIds);
+
+      const solvedExerciseIds = new Set(
+        ((solvedAttempts as AttemptRefRow[]) ?? []).map((item) => item.exercise_id)
+      );
+
+      solvedExerciseIds.forEach((exerciseId) => {
+        const subthemeId = exerciseIdToSubtheme.get(exerciseId);
+        if (!subthemeId) {
+          return;
+        }
+        solvedBySubtheme.set(subthemeId, (solvedBySubtheme.get(subthemeId) ?? 0) + 1);
+      });
+    }
+  }
 
   let exercises: ExerciseRow[] = [];
   let exercisesErrorMessage = "";
@@ -143,6 +205,9 @@ export default async function ThemePracticePage({
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {typedSubthemes.map((subtheme) => {
                 const isActive = selectedSubtheme?.id === subtheme.id;
+                const solved = solvedBySubtheme.get(subtheme.id) ?? 0;
+                const total = totalBySubtheme.get(subtheme.id) ?? 0;
+
                 return (
                   <Link
                     key={subtheme.id}
@@ -154,6 +219,9 @@ export default async function ThemePracticePage({
                     }`}
                   >
                     <p className="text-sm font-medium">{subtheme.title}</p>
+                    <p className="mt-1 text-sm text-slate-700">
+                      Solved: {solved}/{total}
+                    </p>
                   </Link>
                 );
               })}
