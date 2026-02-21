@@ -26,6 +26,18 @@ type VectorPromptConfig = {
   vectorEnd?: [number, number];
 };
 
+type PointPromptConfig = {
+  kind: "point_plot_from_coordinates";
+  grid?: {
+    xMin?: number;
+    xMax?: number;
+    yMin?: number;
+    yMax?: number;
+    step?: number;
+  };
+  target?: [number, number];
+};
+
 function getValidationMessage(error: ZodError) {
   const flattened = error.flatten().fieldErrors;
   const firstMessage = Object.values(flattened).flat().find(Boolean);
@@ -77,6 +89,45 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
       },
       origin: rawConfig?.origin ?? [0, 0],
       vectorEnd: [x, y],
+      showLabels: true,
+    };
+
+    return {
+      subtheme_id: parsed.subthemeId,
+      type: parsed.type,
+      difficulty: parsed.difficulty,
+      prompt_md: parsed.promptMd,
+      solution_md: parsed.solutionMd,
+      choices: parsed.choicesJson,
+      hints: parsed.hintsJson,
+      tags: parsed.tagsJson,
+      status: parsed.status,
+      prompt,
+      solution: { result: { x, y } },
+      updated_at: new Date().toISOString(),
+    };
+  }
+
+  if (parsed.type === "point_plot_from_coordinates") {
+    const rawConfig =
+      parsed.choicesJson && typeof parsed.choicesJson === "object"
+        ? (parsed.choicesJson as PointPromptConfig)
+        : null;
+    const target = rawConfig?.target ?? [0, 0];
+    const x = Number(target[0]) || 0;
+    const y = Number(target[1]) || 0;
+    const prompt = {
+      kind: "point_plot_from_coordinates",
+      question:
+        parsed.promptMd || `Plot the point (${x}, ${y}) on the coordinate system.`,
+      grid: {
+        xMin: Number(rawConfig?.grid?.xMin ?? -10),
+        xMax: Number(rawConfig?.grid?.xMax ?? 10),
+        yMin: Number(rawConfig?.grid?.yMin ?? -10),
+        yMax: Number(rawConfig?.grid?.yMax ?? 10),
+        step: Number(rawConfig?.grid?.step ?? 1),
+      },
+      target: [x, y],
       showLabels: true,
     };
 

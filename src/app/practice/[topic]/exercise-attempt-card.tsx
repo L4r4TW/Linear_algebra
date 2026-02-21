@@ -25,6 +25,19 @@ type VectorPrompt = {
   vectorEnd?: [number, number];
 };
 
+type PointPrompt = {
+  kind: "point_plot_from_coordinates";
+  question?: string;
+  grid?: {
+    xMin?: number;
+    xMax?: number;
+    yMin?: number;
+    yMax?: number;
+    step?: number;
+  };
+  target?: [number, number];
+};
+
 function getQuestionText(prompt: Json): string {
   if (prompt && typeof prompt === "object" && !Array.isArray(prompt)) {
     const maybeQuestion = (prompt as Record<string, unknown>).question;
@@ -89,6 +102,19 @@ function getVectorPrompt(prompt: Json): VectorPrompt | null {
   return obj as unknown as VectorPrompt;
 }
 
+function getPointPrompt(prompt: Json): PointPrompt | null {
+  if (!prompt || typeof prompt !== "object" || Array.isArray(prompt)) {
+    return null;
+  }
+
+  const obj = prompt as Record<string, unknown>;
+  if (obj.kind !== "point_plot_from_coordinates") {
+    return null;
+  }
+
+  return obj as unknown as PointPrompt;
+}
+
 function getExpectedVector(solution: Json): { x: number; y: number } | null {
   if (!solution || typeof solution !== "object" || Array.isArray(solution)) {
     return null;
@@ -126,8 +152,12 @@ export function ExerciseAttemptCard({
   const [isSolved, setIsSolved] = useState(initialSolved);
   const [vectorXInput, setVectorXInput] = useState("");
   const [vectorYInput, setVectorYInput] = useState("");
+  const [plottedPoint, setPlottedPoint] = useState<{ x: number; y: number } | null>(
+    null
+  );
 
   const vectorPrompt = getVectorPrompt(prompt);
+  const pointPrompt = getPointPrompt(prompt);
   const expectedVector = getExpectedVector(solution);
 
   async function saveAttempt(correctness: boolean, rawAnswer: string) {
@@ -187,7 +217,14 @@ export function ExerciseAttemptCard({
     let correctness = false;
     let rawAnswer = answer;
 
-    if (vectorPrompt && expectedVector) {
+    if (pointPrompt && expectedVector) {
+      correctness = Boolean(
+        plottedPoint &&
+          plottedPoint.x === expectedVector.x &&
+          plottedPoint.y === expectedVector.y
+      );
+      rawAnswer = plottedPoint ? `(${plottedPoint.x}, ${plottedPoint.y})` : "";
+    } else if (vectorPrompt && expectedVector) {
       const x = Number(vectorXInput.trim());
       const y = Number(vectorYInput.trim());
       correctness =
@@ -221,7 +258,24 @@ export function ExerciseAttemptCard({
       )}
       <p className="font-medium">{getQuestionText(prompt)}</p>
 
-      {vectorPrompt ? (
+      {pointPrompt ? (
+        <div className="mt-4 space-y-4">
+          <VectorPlane
+            x={plottedPoint?.x ?? 0}
+            y={plottedPoint?.y ?? 0}
+            min={Number(pointPrompt.grid?.xMin ?? -10)}
+            max={Number(pointPrompt.grid?.xMax ?? 10)}
+            mode="point"
+            interactive
+            showPoint={Boolean(plottedPoint)}
+            onChange={(next) => setPlottedPoint(next)}
+          />
+          <p className="text-sm text-slate-700">
+            Plotted point:{" "}
+            {plottedPoint ? `(${plottedPoint.x}, ${plottedPoint.y})` : "not selected"}
+          </p>
+        </div>
+      ) : vectorPrompt ? (
         <div className="mt-4 space-y-4">
           <VectorPlane
             x={Number(vectorPrompt.vectorEnd?.[0] ?? 0)}
@@ -270,7 +324,9 @@ export function ExerciseAttemptCard({
         onClick={handleSubmit}
         disabled={
           isSaving ||
-          (vectorPrompt
+          (pointPrompt
+            ? !plottedPoint
+            : vectorPrompt
             ? !vectorXInput.trim() || !vectorYInput.trim()
             : !answer.trim())
         }

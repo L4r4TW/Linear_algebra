@@ -8,6 +8,8 @@ type VectorPlaneProps = {
   min?: number;
   max?: number;
   size?: number;
+  mode?: "vector" | "point";
+  showPoint?: boolean;
   interactive?: boolean;
   onChange?: (next: { x: number; y: number }) => void;
 };
@@ -22,6 +24,8 @@ export function VectorPlane({
   min = -10,
   max = 10,
   size = 420,
+  mode = "vector",
+  showPoint = true,
   interactive = false,
   onChange,
 }: VectorPlaneProps) {
@@ -159,16 +163,18 @@ export function VectorPlane({
         );
       })}
 
-      <line
-        x1={half}
-        y1={half}
-        x2={arrowX}
-        y2={size - arrowY}
-        stroke="#0f766e"
-        strokeWidth={3}
-        markerEnd="url(#vector-head)"
-      />
-      <circle cx={arrowX} cy={size - arrowY} r={4} fill="#0f766e" />
+      {mode === "vector" && (
+        <line
+          x1={half}
+          y1={half}
+          x2={arrowX}
+          y2={size - arrowY}
+          stroke="#0f766e"
+          strokeWidth={3}
+          markerEnd="url(#vector-head)"
+        />
+      )}
+      {showPoint && <circle cx={arrowX} cy={size - arrowY} r={4} fill="#0f766e" />}
     </svg>
   );
 }
