@@ -108,7 +108,8 @@ export function VectorPlane({
         const value = min + idx;
         const p = toPx(value);
         const major = value === 0;
-        const showLabel = value !== 0 && value % 2 === 0;
+        const showLabel =
+          value !== 0 && value % 2 === 0 && value !== max && value !== min;
         const strokeColor = major
           ? "#94a3b8"
           : showLabel
