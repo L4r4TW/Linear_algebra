@@ -64,11 +64,25 @@ function promptPreview(promptMd: string): string {
 }
 
 function parseVectorConfig(value: unknown): { x: number; y: number } {
-  if (!value || typeof value !== "object" || Array.isArray(value)) {
+  let source: unknown = value;
+
+  if (typeof source === "string") {
+    const trimmed = source.trim();
+    if (!trimmed) {
+      return { x: 0, y: 0 };
+    }
+    try {
+      source = JSON.parse(trimmed);
+    } catch {
+      return { x: 0, y: 0 };
+    }
+  }
+
+  if (!source || typeof source !== "object" || Array.isArray(source)) {
     return { x: 0, y: 0 };
   }
 
-  const maybeVectorEnd = (value as Record<string, unknown>).vectorEnd;
+  const maybeVectorEnd = (source as Record<string, unknown>).vectorEnd;
   if (!Array.isArray(maybeVectorEnd) || maybeVectorEnd.length < 2) {
     return { x: 0, y: 0 };
   }
