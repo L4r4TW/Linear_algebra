@@ -1,21 +1,21 @@
 import { z } from "zod";
 
-const jsonbArrayStringField = z
+const jsonbStringField = z
   .string()
   .transform((value) => value.trim())
   .refine((value) => {
     try {
-      const parsed = JSON.parse(value || "[]");
-      return Array.isArray(parsed);
+      JSON.parse(value || "null");
+      return true;
     } catch {
       return false;
     }
-  }, "Must be a JSON array")
-  .transform((value) => JSON.parse(value || "[]") as unknown[]);
+  }, "Must be valid JSON")
+  .transform((value) => JSON.parse(value || "null") as unknown);
 
-export const jsonbArrayField = z.union([
-  jsonbArrayStringField,
-  z.array(z.unknown()),
+export const jsonbField = z.union([
+  jsonbStringField,
+  z.unknown(),
 ]);
 
 export const exerciseEditorSchema = z.object({
@@ -29,9 +29,9 @@ export const exerciseEditorSchema = z.object({
   status: z.enum(["draft", "published"]),
   promptMd: z.string().min(3, "Prompt is required"),
   solutionMd: z.string().min(3, "Solution is required"),
-  choicesJson: jsonbArrayField,
-  hintsJson: jsonbArrayField,
-  tagsJson: jsonbArrayField,
+  choicesJson: jsonbField,
+  hintsJson: jsonbField,
+  tagsJson: jsonbField,
 });
 
 export type ExerciseEditorInput = z.input<typeof exerciseEditorSchema>;

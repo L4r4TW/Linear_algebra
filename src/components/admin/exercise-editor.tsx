@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { MarkdownPreview } from "@/components/admin/markdown-preview";
+import { VectorPlane } from "@/components/admin/vector-plane";
 import {
   exerciseEditorSchema,
   type ExerciseEditorInput,
@@ -62,6 +63,24 @@ function promptPreview(promptMd: string): string {
   return normalized.length > 72 ? `${normalized.slice(0, 72)}...` : normalized;
 }
 
+function parseVectorConfig(value: unknown): { x: number; y: number } {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return { x: 0, y: 0 };
+  }
+
+  const maybeVectorEnd = (value as Record<string, unknown>).vectorEnd;
+  if (!Array.isArray(maybeVectorEnd) || maybeVectorEnd.length < 2) {
+    return { x: 0, y: 0 };
+  }
+
+  const x = Number(maybeVectorEnd[0]);
+  const y = Number(maybeVectorEnd[1]);
+  return {
+    x: Number.isFinite(x) ? Math.round(x) : 0,
+    y: Number.isFinite(y) ? Math.round(y) : 0,
+  };
+}
+
 export function ExerciseEditor({
   subthemes,
   existingExercises,
@@ -93,6 +112,8 @@ export function ExerciseEditor({
   const watchedValues = useWatch({ control: form.control });
   const watchedPrompt = useWatch({ control: form.control, name: "promptMd" });
   const watchedSolution = useWatch({ control: form.control, name: "solutionMd" });
+  const watchedType = useWatch({ control: form.control, name: "type" });
+  const watchedChoices = useWatch({ control: form.control, name: "choicesJson" });
 
   const selectedExercise = useMemo(
     () => existingExercises.find((item) => item.id === selectedId),
@@ -122,6 +143,37 @@ export function ExerciseEditor({
       tagsJson: toJsonString(selectedExercise.tags),
     });
   }, [form, selectedExercise]);
+
+  const [{ x: vectorX, y: vectorY }, setVectorCoords] = useState(() =>
+    parseVectorConfig(watchedChoices)
+  );
+
+  useEffect(() => {
+    setVectorCoords(parseVectorConfig(watchedChoices));
+  }, [watchedChoices]);
+
+  function applyVectorCoords(next: { x: number; y: number }) {
+    setVectorCoords(next);
+    const nextConfig = {
+      kind: "vector_xy_from_graph",
+      grid: { xMin: -10, xMax: 10, yMin: -10, yMax: 10, step: 1 },
+      origin: [0, 0],
+      vectorEnd: [next.x, next.y],
+    };
+    form.setValue("choicesJson", JSON.stringify(nextConfig, null, 2), {
+      shouldDirty: true,
+    });
+
+    if (!form.getValues("promptMd").trim()) {
+      form.setValue(
+        "promptMd",
+        "Read the vector coordinates from the graph and enter them as (X, Y).",
+        { shouldDirty: true }
+      );
+    }
+
+    form.setValue("solutionMd", `(${next.x}, ${next.y})`, { shouldDirty: true });
+  }
 
   useEffect(() => {
     if (!form.formState.isDirty) {
@@ -331,7 +383,14 @@ export function ExerciseEditor({
 
                 <div className="space-y-2">
                   <Label htmlFor="type">Type</Label>
-                  <Input id="type" {...form.register("type")} />
+                  <select
+                    id="type"
+                    className="h-11 w-full rounded-md border border-slate-300 bg-white px-3"
+                    {...form.register("type")}
+                  >
+                    <option value="short_answer">short_answer</option>
+                    <option value="vector_xy_from_graph">vector_xy_from_graph</option>
+                  </select>
                 </div>
               </div>
 
@@ -364,6 +423,45 @@ export function ExerciseEditor({
                 <Textarea id="solutionMd" rows={8} {...form.register("solutionMd")} />
                 <p className="text-xs text-rose-700">{form.formState.errors.solutionMd?.message}</p>
               </div>
+
+              {watchedType === "vector_xy_from_graph" && (
+                <div className="space-y-3 rounded-lg border border-slate-200 bg-slate-50 p-4">
+                  <p className="text-sm font-semibold text-slate-800">Vector graph editor</p>
+                  <p className="text-sm text-slate-600">
+                    Drag the vector endpoint on the grid. It updates the expected answer automatically.
+                  </p>
+                  <VectorPlane
+                    x={vectorX}
+                    y={vectorY}
+                    interactive
+                    onChange={(next) => applyVectorCoords(next)}
+                  />
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="vectorX">Vector X</Label>
+                      <Input
+                        id="vectorX"
+                        type="number"
+                        value={vectorX}
+                        onChange={(event) =>
+                          applyVectorCoords({ x: Number(event.target.value) || 0, y: vectorY })
+                        }
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="vectorY">Vector Y</Label>
+                      <Input
+                        id="vectorY"
+                        type="number"
+                        value={vectorY}
+                        onChange={(event) =>
+                          applyVectorCoords({ x: vectorX, y: Number(event.target.value) || 0 })
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="grid gap-4 md:grid-cols-3">
                 <div className="space-y-2">

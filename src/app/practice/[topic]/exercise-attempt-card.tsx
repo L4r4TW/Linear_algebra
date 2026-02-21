@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { VectorPlane } from "@/components/admin/vector-plane";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 import type { Json } from "@/types/database";
 
@@ -9,6 +10,19 @@ type ExerciseAttemptCardProps = {
   prompt: Json;
   solution: Json;
   initialSolved?: boolean;
+};
+
+type VectorPrompt = {
+  kind: "vector_xy_from_graph";
+  question?: string;
+  grid?: {
+    xMin?: number;
+    xMax?: number;
+    yMin?: number;
+    yMax?: number;
+    step?: number;
+  };
+  vectorEnd?: [number, number];
 };
 
 function getQuestionText(prompt: Json): string {
@@ -62,6 +76,39 @@ function expectedAnswer(solution: Json): unknown {
   return solution;
 }
 
+function getVectorPrompt(prompt: Json): VectorPrompt | null {
+  if (!prompt || typeof prompt !== "object" || Array.isArray(prompt)) {
+    return null;
+  }
+
+  const obj = prompt as Record<string, unknown>;
+  if (obj.kind !== "vector_xy_from_graph") {
+    return null;
+  }
+
+  return obj as unknown as VectorPrompt;
+}
+
+function getExpectedVector(solution: Json): { x: number; y: number } | null {
+  if (!solution || typeof solution !== "object" || Array.isArray(solution)) {
+    return null;
+  }
+
+  const maybeResult = (solution as Record<string, unknown>).result;
+  if (!maybeResult || typeof maybeResult !== "object" || Array.isArray(maybeResult)) {
+    return null;
+  }
+
+  const x = Number((maybeResult as Record<string, unknown>).x);
+  const y = Number((maybeResult as Record<string, unknown>).y);
+
+  if (!Number.isFinite(x) || !Number.isFinite(y)) {
+    return null;
+  }
+
+  return { x, y };
+}
+
 export function ExerciseAttemptCard({
   exerciseId,
   prompt,
@@ -77,6 +124,11 @@ export function ExerciseAttemptCard({
   const [saveMessage, setSaveMessage] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [isSolved, setIsSolved] = useState(initialSolved);
+  const [vectorXInput, setVectorXInput] = useState("");
+  const [vectorYInput, setVectorYInput] = useState("");
+
+  const vectorPrompt = getVectorPrompt(prompt);
+  const expectedVector = getExpectedVector(solution);
 
   async function saveAttempt(correctness: boolean, rawAnswer: string) {
     setIsSaving(true);
@@ -132,10 +184,23 @@ export function ExerciseAttemptCard({
   }
 
   async function handleSubmit() {
-    const parsedInput = parseInput(answer);
-    const expected = expectedAnswer(solution);
+    let correctness = false;
+    let rawAnswer = answer;
 
-    const correctness = normalize(parsedInput) === normalize(expected);
+    if (vectorPrompt && expectedVector) {
+      const x = Number(vectorXInput.trim());
+      const y = Number(vectorYInput.trim());
+      correctness =
+        Number.isFinite(x) &&
+        Number.isFinite(y) &&
+        x === expectedVector.x &&
+        y === expectedVector.y;
+      rawAnswer = `(${vectorXInput.trim()}, ${vectorYInput.trim()})`;
+    } else {
+      const parsedInput = parseInput(answer);
+      const expected = expectedAnswer(solution);
+      correctness = normalize(parsedInput) === normalize(expected);
+    }
 
     setSubmitted(true);
     setIsCorrect(correctness);
@@ -144,7 +209,7 @@ export function ExerciseAttemptCard({
       setIsSolved(true);
     }
 
-    await saveAttempt(correctness, answer);
+    await saveAttempt(correctness, rawAnswer);
   }
 
   return (
@@ -156,21 +221,59 @@ export function ExerciseAttemptCard({
       )}
       <p className="font-medium">{getQuestionText(prompt)}</p>
 
-      <label className="mt-3 flex flex-col gap-2">
-        <span className="text-sm text-slate-700">Your answer</span>
-        <textarea
-          value={answer}
-          onChange={(event) => setAnswer(event.target.value)}
-          rows={3}
-          className="rounded-lg border border-slate-300 px-3 py-2"
-          placeholder="Type a number, text, or JSON."
-        />
-      </label>
+      {vectorPrompt ? (
+        <div className="mt-4 space-y-4">
+          <VectorPlane
+            x={Number(vectorPrompt.vectorEnd?.[0] ?? 0)}
+            y={Number(vectorPrompt.vectorEnd?.[1] ?? 0)}
+            min={Number(vectorPrompt.grid?.xMin ?? -10)}
+            max={Number(vectorPrompt.grid?.xMax ?? 10)}
+          />
+          <div className="grid gap-3 sm:grid-cols-2">
+            <label className="flex flex-col gap-2">
+              <span className="text-sm text-slate-700">X</span>
+              <input
+                value={vectorXInput}
+                onChange={(event) => setVectorXInput(event.target.value)}
+                type="number"
+                className="rounded-lg border border-slate-300 px-3 py-2"
+                placeholder="X coordinate"
+              />
+            </label>
+            <label className="flex flex-col gap-2">
+              <span className="text-sm text-slate-700">Y</span>
+              <input
+                value={vectorYInput}
+                onChange={(event) => setVectorYInput(event.target.value)}
+                type="number"
+                className="rounded-lg border border-slate-300 px-3 py-2"
+                placeholder="Y coordinate"
+              />
+            </label>
+          </div>
+        </div>
+      ) : (
+        <label className="mt-3 flex flex-col gap-2">
+          <span className="text-sm text-slate-700">Your answer</span>
+          <textarea
+            value={answer}
+            onChange={(event) => setAnswer(event.target.value)}
+            rows={3}
+            className="rounded-lg border border-slate-300 px-3 py-2"
+            placeholder="Type a number, text, or JSON."
+          />
+        </label>
+      )}
 
       <button
         type="button"
         onClick={handleSubmit}
-        disabled={!answer.trim() || isSaving}
+        disabled={
+          isSaving ||
+          (vectorPrompt
+            ? !vectorXInput.trim() || !vectorYInput.trim()
+            : !answer.trim())
+        }
         className="mt-3 rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
       >
         Submit answer

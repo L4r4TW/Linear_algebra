@@ -13,6 +13,19 @@ type ActionResult = {
   id?: string;
 };
 
+type VectorPromptConfig = {
+  kind: "vector_xy_from_graph";
+  grid?: {
+    xMin?: number;
+    xMax?: number;
+    yMin?: number;
+    yMax?: number;
+    step?: number;
+  };
+  origin?: [number, number];
+  vectorEnd?: [number, number];
+};
+
 function getValidationMessage(error: ZodError) {
   const flattened = error.flatten().fieldErrors;
   const firstMessage = Object.values(flattened).flat().find(Boolean);
@@ -44,6 +57,45 @@ async function assertAdmin() {
 }
 
 function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>) {
+  if (parsed.type === "vector_xy_from_graph") {
+    const rawConfig =
+      parsed.choicesJson && typeof parsed.choicesJson === "object"
+        ? (parsed.choicesJson as VectorPromptConfig)
+        : null;
+    const vectorEnd = rawConfig?.vectorEnd ?? [0, 0];
+    const x = Number(vectorEnd[0]) || 0;
+    const y = Number(vectorEnd[1]) || 0;
+    const prompt = {
+      kind: "vector_xy_from_graph",
+      question: parsed.promptMd,
+      grid: {
+        xMin: Number(rawConfig?.grid?.xMin ?? -10),
+        xMax: Number(rawConfig?.grid?.xMax ?? 10),
+        yMin: Number(rawConfig?.grid?.yMin ?? -10),
+        yMax: Number(rawConfig?.grid?.yMax ?? 10),
+        step: Number(rawConfig?.grid?.step ?? 1),
+      },
+      origin: rawConfig?.origin ?? [0, 0],
+      vectorEnd: [x, y],
+      showLabels: true,
+    };
+
+    return {
+      subtheme_id: parsed.subthemeId,
+      type: parsed.type,
+      difficulty: parsed.difficulty,
+      prompt_md: parsed.promptMd,
+      solution_md: parsed.solutionMd,
+      choices: parsed.choicesJson,
+      hints: parsed.hintsJson,
+      tags: parsed.tagsJson,
+      status: parsed.status,
+      prompt,
+      solution: { result: { x, y } },
+      updated_at: new Date().toISOString(),
+    };
+  }
+
   return {
     subtheme_id: parsed.subthemeId,
     type: parsed.type,
