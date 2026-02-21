@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
@@ -16,6 +17,7 @@ import {
 } from "@/lib/validation/exercise";
 import {
   autosaveDraftAction,
+  deleteExerciseAction,
   publishExerciseAction,
   upsertExerciseAction,
 } from "@/app/admin/exercises/actions";
@@ -57,6 +59,7 @@ export function ExerciseEditor({
   subthemes,
   existingExercises,
 }: ExerciseEditorProps) {
+  const router = useRouter();
   const [selectedId, setSelectedId] = useState<string>("");
   const [serverMessage, setServerMessage] = useState<string>("");
   const [activePane, setActivePane] = useState<"editor" | "preview">("editor");
@@ -135,6 +138,7 @@ export function ExerciseEditor({
         if (result.ok && result.id && !(watchedValues as ExerciseEditorInput).id) {
           form.setValue("id", result.id);
           setSelectedId(result.id);
+          router.refresh();
         }
       });
     }, 1200);
@@ -144,7 +148,7 @@ export function ExerciseEditor({
         clearTimeout(autosaveTimerRef.current);
       }
     };
-  }, [form, watchedValues]);
+  }, [form, router, watchedValues]);
 
   const onSubmit = form.handleSubmit((values) => {
     startTransition(async () => {
@@ -153,6 +157,7 @@ export function ExerciseEditor({
       if (result.ok && result.id) {
         form.setValue("id", result.id);
         setSelectedId(result.id);
+        router.refresh();
       }
     });
   });
@@ -169,6 +174,37 @@ export function ExerciseEditor({
       setServerMessage(result.message);
       if (result.ok) {
         form.setValue("status", "published");
+        router.refresh();
+      }
+    });
+  };
+
+  const handleDelete = (id: string) => {
+    if (!window.confirm("Delete this exercise? This action cannot be undone.")) {
+      return;
+    }
+
+    startTransition(async () => {
+      const result = await deleteExerciseAction(id);
+      setServerMessage(result.message);
+      if (result.ok) {
+        if (selectedId === id) {
+          setSelectedId("");
+          form.reset({
+            id: undefined,
+            subthemeId: subthemes[0]?.id || "",
+            title: "",
+            type: "short_answer",
+            difficulty: 1,
+            status: "draft",
+            promptMd: "",
+            solutionMd: "",
+            choicesJson: "[]",
+            hintsJson: "[]",
+            tagsJson: "[]",
+          });
+        }
+        router.refresh();
       }
     });
   };
@@ -203,26 +239,30 @@ export function ExerciseEditor({
           </Button>
           <div className="max-h-[560px] space-y-2 overflow-auto pr-1">
             {existingExercises.map((exercise) => (
-              <button
+              <div
                 key={exercise.id}
-                type="button"
-                onClick={() => setSelectedId(exercise.id)}
-                className={`w-full rounded-lg border p-3 text-left ${
+                className={`rounded-lg border p-3 ${
                   selectedId === exercise.id
                     ? "border-slate-900 bg-slate-100"
-                    : "border-slate-200 hover:bg-slate-50"
+                    : "border-slate-200 bg-white"
                 }`}
               >
-                <p className="font-medium">{exercise.title}</p>
-                <div className="mt-2 flex items-center justify-between">
-                  <Badge variant={exercise.status === "published" ? "success" : "secondary"}>
-                    {exercise.status}
-                  </Badge>
-                  <span className="text-xs text-slate-500">
-                    {new Date(exercise.updated_at).toLocaleDateString()}
-                  </span>
-                </div>
-              </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedId(exercise.id)}
+                  className="w-full text-left"
+                >
+                  <p className="font-medium">{exercise.title}</p>
+                  <div className="mt-2 flex items-center justify-between">
+                    <Badge variant={exercise.status === "published" ? "success" : "secondary"}>
+                      {exercise.status}
+                    </Badge>
+                    <span className="text-xs text-slate-500">
+                      {new Date(exercise.updated_at).toLocaleDateString()}
+                    </span>
+                  </div>
+                </button>
+              </div>
             ))}
             {existingExercises.length === 0 && (
               <p className="text-sm text-slate-600">No exercises yet.</p>
@@ -350,6 +390,16 @@ export function ExerciseEditor({
                 <Button type="button" variant="outline" onClick={handlePublish} disabled={isPending}>
                   Publish
                 </Button>
+                {form.getValues("id") && (
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={() => handleDelete(form.getValues("id") || "")}
+                    disabled={isPending}
+                  >
+                    Delete
+                  </Button>
+                )}
                 {isPending && <span className="text-sm text-slate-600">Working...</span>}
               </div>
             </form>

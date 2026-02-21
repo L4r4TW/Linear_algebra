@@ -150,3 +150,23 @@ export async function publishExerciseAction(
     };
   }
 }
+
+export async function deleteExerciseAction(
+  id: string
+): Promise<ActionResult> {
+  try {
+    const { supabase } = await assertAdmin();
+    const { error } = await supabase.from("exercises").delete().eq("id", id);
+
+    if (error) {
+      return { ok: false, message: error.message || "Delete failed" };
+    }
+
+    return { ok: true, message: "Exercise deleted", id };
+  } catch (error) {
+    return {
+      ok: false,
+      message: error instanceof Error ? error.message : "Unknown error",
+    };
+  }
+}
