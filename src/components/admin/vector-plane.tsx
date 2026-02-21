@@ -21,7 +21,7 @@ export function VectorPlane({
   y,
   min = -10,
   max = 10,
-  size = 280,
+  size = 420,
   interactive = false,
   onChange,
 }: VectorPlaneProps) {
