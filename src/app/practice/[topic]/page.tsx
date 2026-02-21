@@ -113,7 +113,6 @@ export default async function ThemePracticePage({
             Practice Theme
           </p>
           <h1 className="mt-2 text-3xl font-semibold">{typedTheme.title}</h1>
-          <p className="mt-2 text-sm text-slate-600">/{typedTheme.slug}</p>
           {typedUnit && (
             <p className="mt-1 text-sm text-slate-600">
               Unit {typedUnit.position}: {typedUnit.title}
@@ -154,7 +153,6 @@ export default async function ThemePracticePage({
                     }`}
                   >
                     <p className="text-sm font-medium">{subtheme.title}</p>
-                    <p className="text-xs text-slate-600">/{subtheme.slug}</p>
                   </Link>
                 );
               })}
@@ -186,8 +184,6 @@ export default async function ThemePracticePage({
                   <li key={exercise.id}>
                     <ExerciseAttemptCard
                       exerciseId={exercise.id}
-                      type={exercise.type}
-                      difficulty={exercise.difficulty}
                       prompt={exercise.prompt}
                       solution={exercise.solution}
                     />

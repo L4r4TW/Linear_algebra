@@ -6,8 +6,6 @@ import type { Json } from "@/types/database";
 
 type ExerciseAttemptCardProps = {
   exerciseId: string;
-  type: string;
-  difficulty: number;
   prompt: Json;
   solution: Json;
 };
@@ -65,8 +63,6 @@ function expectedAnswer(solution: Json): unknown {
 
 export function ExerciseAttemptCard({
   exerciseId,
-  type,
-  difficulty,
   prompt,
   solution,
 }: ExerciseAttemptCardProps) {
@@ -147,10 +143,7 @@ export function ExerciseAttemptCard({
 
   return (
     <div className="rounded-lg border border-slate-200 p-4">
-      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
-        {type} - difficulty {difficulty}
-      </p>
-      <p className="mt-2 font-medium">{getQuestionText(prompt)}</p>
+      <p className="font-medium">{getQuestionText(prompt)}</p>
 
       <label className="mt-3 flex flex-col gap-2">
         <span className="text-sm text-slate-700">Your answer</span>

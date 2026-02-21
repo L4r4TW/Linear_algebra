@@ -89,7 +89,6 @@ export default async function PracticePage() {
                             className="block rounded-lg border border-slate-200 bg-white px-3 py-2 hover:border-slate-300"
                           >
                             <p className="text-sm font-medium">{theme.title}</p>
-                            <p className="text-xs text-slate-600">/{theme.slug}</p>
                           </Link>
                         </li>
                       ))}

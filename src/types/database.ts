@@ -37,47 +37,77 @@ export type Database = {
       };
       exercises: {
         Row: {
+          choices: Json;
           created_at: string;
+          created_by: string | null;
           difficulty: number;
+          hints: Json;
           id: string;
           prompt: Json;
+          prompt_md: string;
           solution: Json;
+          solution_md: string;
+          status: "draft" | "published" | "archived";
           subtheme_id: string;
+          tags: Json;
+          title: string;
           type: string;
+          updated_at: string;
         };
         Insert: {
+          choices?: Json;
           created_at?: string;
+          created_by?: string | null;
           difficulty: number;
+          hints?: Json;
           id?: string;
           prompt: Json;
+          prompt_md?: string;
           solution: Json;
+          solution_md?: string;
+          status?: "draft" | "published" | "archived";
           subtheme_id: string;
+          tags?: Json;
+          title?: string;
           type: string;
+          updated_at?: string;
         };
         Update: {
+          choices?: Json;
           created_at?: string;
+          created_by?: string | null;
           difficulty?: number;
+          hints?: Json;
           id?: string;
           prompt?: Json;
+          prompt_md?: string;
           solution?: Json;
+          solution_md?: string;
+          status?: "draft" | "published" | "archived";
           subtheme_id?: string;
+          tags?: Json;
+          title?: string;
           type?: string;
+          updated_at?: string;
         };
       };
       profiles: {
         Row: {
           created_at: string;
           id: string;
+          role: "student" | "admin";
           username: string;
         };
         Insert: {
           created_at?: string;
           id: string;
+          role?: "student" | "admin";
           username: string;
         };
         Update: {
           created_at?: string;
           id?: string;
+          role?: "student" | "admin";
           username?: string;
         };
       };

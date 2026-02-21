@@ -42,6 +42,9 @@ export default function RootLayout({
               <Link href="/profile" className="rounded-md px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100">
                 Profile
               </Link>
+              <Link href="/admin/exercises" className="rounded-md px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100">
+                Admin
+              </Link>
               <Link href="/login" className="rounded-md px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100">
                 Login
               </Link>
