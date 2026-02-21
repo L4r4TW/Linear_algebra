@@ -42,7 +42,7 @@ export type Database = {
           id: string;
           prompt: Json;
           solution: Json;
-          topic_id: string;
+          theme_id: string;
           type: string;
         };
         Insert: {
@@ -51,7 +51,7 @@ export type Database = {
           id?: string;
           prompt: Json;
           solution: Json;
-          topic_id: string;
+          theme_id: string;
           type: string;
         };
         Update: {
@@ -60,7 +60,7 @@ export type Database = {
           id?: string;
           prompt?: Json;
           solution?: Json;
-          topic_id?: string;
+          theme_id?: string;
           type?: string;
         };
       };
@@ -81,22 +81,51 @@ export type Database = {
           username?: string;
         };
       };
-      topics: {
+      themes: {
         Row: {
           created_at: string;
           id: string;
+          position: number;
+          slug: string;
+          title: string;
+          unit_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          position: number;
+          slug: string;
+          title: string;
+          unit_id: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          position?: number;
+          slug?: string;
+          title?: string;
+          unit_id?: string;
+        };
+      };
+      units: {
+        Row: {
+          created_at: string;
+          id: string;
+          position: number;
           slug: string;
           title: string;
         };
         Insert: {
           created_at?: string;
           id?: string;
+          position: number;
           slug: string;
           title: string;
         };
         Update: {
           created_at?: string;
           id?: string;
+          position?: number;
           slug?: string;
           title?: string;
         };

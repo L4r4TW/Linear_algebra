@@ -36,8 +36,9 @@ Open `http://localhost:3000`.
 ## MVP Database
 
 - `profiles`: one row per auth user.
-- `topics`: groups exercises (for example vectors, matrices).
-- `exercises`: exercise definitions per topic.
+- `units`: top-level course units.
+- `themes`: themes inside units.
+- `exercises`: exercise definitions per theme.
 - `attempts`: user submissions and correctness history.
 
 ## Project Structure
@@ -56,7 +57,7 @@ Open `http://localhost:3000`.
 
 ## Recommended Next Work
 
-1. Add row-level security (RLS) policies.
-2. Add dynamic routes: `topics/[slug]`, `exercises/[id]`.
+1. Add all remaining themes for Unit 2 and Unit 3.
+2. Add dynamic routes for units and themes browsing.
 3. Build attempt submission API route and scoring logic.
 4. Build an admin authoring UI for exercises.

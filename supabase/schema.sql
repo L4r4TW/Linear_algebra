@@ -3,7 +3,7 @@ create extension if not exists "pgcrypto";
 -- Dev reset: removes legacy schema from previous iterations.
 drop table if exists public.attempts cascade;
 drop table if exists public.exercises cascade;
-drop table if exists public.lessons cascade;
+drop table if exists public.themes cascade;
 drop table if exists public.units cascade;
 drop table if exists public.topics cascade;
 drop table if exists public.profiles cascade;
@@ -14,16 +14,27 @@ create table public.profiles (
   created_at timestamptz not null default now()
 );
 
-create table public.topics (
+create table public.units (
   id uuid primary key default gen_random_uuid(),
   slug text not null unique,
   title text not null,
+  position integer not null unique check (position > 0),
   created_at timestamptz not null default now()
+);
+
+create table public.themes (
+  id uuid primary key default gen_random_uuid(),
+  unit_id uuid not null references public.units(id) on delete cascade,
+  slug text not null unique,
+  title text not null,
+  position integer not null check (position > 0),
+  created_at timestamptz not null default now(),
+  unique (unit_id, position)
 );
 
 create table public.exercises (
   id uuid primary key default gen_random_uuid(),
-  topic_id uuid not null references public.topics(id) on delete cascade,
+  theme_id uuid not null references public.themes(id) on delete cascade,
   type text not null,
   prompt jsonb not null,
   solution jsonb not null,
@@ -40,8 +51,11 @@ create table public.attempts (
   created_at timestamptz not null default now()
 );
 
-create index idx_exercises_topic_id
-  on public.exercises(topic_id);
+create index idx_themes_unit_position
+  on public.themes(unit_id, position);
+
+create index idx_exercises_theme_id
+  on public.exercises(theme_id);
 
 create index idx_attempts_user_id_created_at
   on public.attempts(user_id, created_at desc);

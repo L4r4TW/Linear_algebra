@@ -14,7 +14,7 @@ type ExerciseRow = {
 };
 
 type PracticeRunnerProps = {
-  topicSlug: string;
+  themeSlug: string;
   exercise: ExerciseRow;
 };
 
@@ -69,7 +69,7 @@ function expectedAnswer(solution: Json): unknown {
   return solution;
 }
 
-export function PracticeRunner({ topicSlug, exercise }: PracticeRunnerProps) {
+export function PracticeRunner({ themeSlug, exercise }: PracticeRunnerProps) {
   const supabase = useMemo(() => createBrowserSupabaseClient(), []);
 
   const [answer, setAnswer] = useState("");
@@ -160,7 +160,7 @@ export function PracticeRunner({ topicSlug, exercise }: PracticeRunnerProps) {
           onChange={(event) => setAnswer(event.target.value)}
           rows={4}
           className="rounded-lg border border-slate-300 px-3 py-2"
-          placeholder="Type a number, text, or JSON (for vectors/matrices)."
+          placeholder="Type a number, text, or JSON (for vectors or matrices)."
         />
       </label>
 
@@ -175,7 +175,7 @@ export function PracticeRunner({ topicSlug, exercise }: PracticeRunnerProps) {
         </button>
 
         <Link
-          href={`/practice/${topicSlug}`}
+          href={`/practice/${themeSlug}`}
           className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium"
         >
           Reload another
