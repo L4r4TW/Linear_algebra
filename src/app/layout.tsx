@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -19,11 +20,16 @@ export const metadata: Metadata = {
     "Open source linear algebra exercises aligned with the Khan Academy linear algebra course.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const supabase = await createServerSupabaseClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <html lang="en">
       <body
@@ -45,9 +51,11 @@ export default function RootLayout({
               <Link href="/admin/exercises" className="rounded-md px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100">
                 Admin
               </Link>
-              <Link href="/login" className="rounded-md px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100">
-                Login
-              </Link>
+              {!user && (
+                <Link href="/login" className="rounded-md px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100">
+                  Login
+                </Link>
+              )}
             </div>
           </nav>
         </header>
