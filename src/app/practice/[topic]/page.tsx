@@ -103,6 +103,7 @@ export default async function ThemePracticePage({
 
   const totalBySubtheme = new Map<string, number>();
   const solvedBySubtheme = new Map<string, number>();
+  const solvedExerciseIds = new Set<string>();
 
   typedSubthemes.forEach((subtheme) => {
     totalBySubtheme.set(subtheme.id, 0);
@@ -136,9 +137,9 @@ export default async function ThemePracticePage({
         .eq("is_correct", true)
         .in("exercise_id", exerciseIds);
 
-      const solvedExerciseIds = new Set(
-        ((solvedAttempts as AttemptRefRow[]) ?? []).map((item) => item.exercise_id)
-      );
+      ((solvedAttempts as AttemptRefRow[]) ?? []).forEach((item) => {
+        solvedExerciseIds.add(item.exercise_id);
+      });
 
       solvedExerciseIds.forEach((exerciseId) => {
         const subthemeId = exerciseIdToSubtheme.get(exerciseId);
@@ -249,15 +250,22 @@ export default async function ThemePracticePage({
 
             {!exercisesErrorMessage && exercises.length > 0 && (
               <ol className="mt-4 flex list-decimal flex-col gap-4 pl-6">
-                {exercises.map((exercise) => (
+                {[...exercises]
+                  .sort(
+                    (a, b) =>
+                      Number(solvedExerciseIds.has(a.id)) -
+                      Number(solvedExerciseIds.has(b.id))
+                  )
+                  .map((exercise) => (
                   <li key={exercise.id}>
                     <ExerciseAttemptCard
                       exerciseId={exercise.id}
                       prompt={exercise.prompt}
                       solution={exercise.solution}
+                      initialSolved={solvedExerciseIds.has(exercise.id)}
                     />
                   </li>
-                ))}
+                  ))}
               </ol>
             )}
           </section>

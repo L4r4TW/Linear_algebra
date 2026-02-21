@@ -8,6 +8,7 @@ type ExerciseAttemptCardProps = {
   exerciseId: string;
   prompt: Json;
   solution: Json;
+  initialSolved?: boolean;
 };
 
 function getQuestionText(prompt: Json): string {
@@ -65,6 +66,7 @@ export function ExerciseAttemptCard({
   exerciseId,
   prompt,
   solution,
+  initialSolved = false,
 }: ExerciseAttemptCardProps) {
   const supabase = useMemo(() => createBrowserSupabaseClient(), []);
 
@@ -74,6 +76,7 @@ export function ExerciseAttemptCard({
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [saveMessage, setSaveMessage] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [isSolved, setIsSolved] = useState(initialSolved);
 
   async function saveAttempt(correctness: boolean, rawAnswer: string) {
     setIsSaving(true);
@@ -137,12 +140,20 @@ export function ExerciseAttemptCard({
     setSubmitted(true);
     setIsCorrect(correctness);
     setFeedbackMessage(correctness ? "Correct" : "Incorrect");
+    if (correctness) {
+      setIsSolved(true);
+    }
 
     await saveAttempt(correctness, answer);
   }
 
   return (
     <div className="rounded-lg border border-slate-200 p-4">
+      {isSolved && (
+        <span className="inline-flex rounded-full bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-700">
+          Solved
+        </span>
+      )}
       <p className="font-medium">{getQuestionText(prompt)}</p>
 
       <label className="mt-3 flex flex-col gap-2">
