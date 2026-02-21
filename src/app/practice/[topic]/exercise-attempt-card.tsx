@@ -185,10 +185,6 @@ export function ExerciseAttemptCard({
           >
             {feedbackMessage}
           </p>
-          <p className="mt-2 text-sm text-slate-700">Correct solution:</p>
-          <pre className="mt-2 overflow-x-auto rounded bg-white p-3 text-sm text-slate-800">
-            {JSON.stringify(solution, null, 2)}
-          </pre>
         </div>
       )}
 
