@@ -108,6 +108,7 @@ export function VectorPlane({
         const value = min + idx;
         const p = toPx(value);
         const major = value === 0;
+        const showLabel = value !== 0 && value % 2 === 0;
         return (
           <g key={value}>
             <line
@@ -126,6 +127,27 @@ export function VectorPlane({
               stroke={major ? "#94a3b8" : "#e2e8f0"}
               strokeWidth={major ? 1.2 : 1}
             />
+            {showLabel && (
+              <>
+                <text
+                  x={p}
+                  y={half - 6}
+                  textAnchor="middle"
+                  fontSize="10"
+                  fill="#64748b"
+                >
+                  {value}
+                </text>
+                <text
+                  x={half + 6}
+                  y={size - p + 3}
+                  fontSize="10"
+                  fill="#64748b"
+                >
+                  {value}
+                </text>
+              </>
+            )}
           </g>
         );
       })}
@@ -143,4 +165,3 @@ export function VectorPlane({
     </svg>
   );
 }
-
