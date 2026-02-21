@@ -28,7 +28,7 @@ export const exerciseEditorSchema = z.object({
   difficulty: z.coerce.number().int().min(1).max(5),
   status: z.enum(["draft", "published"]),
   promptMd: z.string().min(3, "Prompt is required"),
-  solutionMd: z.string().min(3, "Solution is required"),
+  solutionMd: z.string().min(1, "Solution is required"),
   choicesJson: jsonbField,
   hintsJson: jsonbField,
   tagsJson: jsonbField,
