@@ -96,6 +96,7 @@ export default async function ThemePracticePage({
       .from("exercises")
       .select("id, type, difficulty, prompt, solution")
       .eq("subtheme_id", selectedSubtheme.id)
+      .eq("status", "published")
       .order("created_at", { ascending: true });
 
     if (error) {

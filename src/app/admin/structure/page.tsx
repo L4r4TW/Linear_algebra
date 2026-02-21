@@ -1,26 +1,35 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ExerciseEditor } from "@/components/admin/exercise-editor";
+import { StructureManager } from "@/components/admin/structure-manager";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 type ProfileRole = "student" | "admin";
 
-type AdminExerciseRow = {
+type UnitRow = {
   id: string;
-  status: "draft" | "published";
-  subtheme_id: string;
-  type: string;
-  difficulty: number;
-  prompt_md: string;
-  solution_md: string;
-  choices: unknown;
-  hints: unknown;
-  tags: unknown;
-  updated_at: string;
+  slug: string;
+  title: string;
+  position: number;
 };
 
-export default async function AdminExercisesPage() {
+type ThemeRow = {
+  id: string;
+  unit_id: string;
+  slug: string;
+  title: string;
+  position: number;
+};
+
+type SubthemeRow = {
+  id: string;
+  theme_id: string;
+  slug: string;
+  title: string;
+  position: number;
+};
+
+export default async function AdminStructurePage() {
   const supabase = await createServerSupabaseClient();
 
   const {
@@ -57,27 +66,20 @@ export default async function AdminExercisesPage() {
     );
   }
 
-  const [{ data: subthemes }, { data: themes }, { data: exercises }] = await Promise.all([
+  const [{ data: units }, { data: themes }, { data: subthemes }] = await Promise.all([
+    supabase
+      .from("units")
+      .select("id, slug, title, position")
+      .order("position", { ascending: true }),
+    supabase
+      .from("themes")
+      .select("id, unit_id, slug, title, position")
+      .order("position", { ascending: true }),
     supabase
       .from("subthemes")
-      .select("id, title, theme_id, position")
+      .select("id, theme_id, slug, title, position")
       .order("position", { ascending: true }),
-    supabase.from("themes").select("id, title"),
-    supabase
-      .from("exercises")
-      .select(
-        "id, status, subtheme_id, type, difficulty, prompt_md, solution_md, choices, hints, tags, updated_at"
-      )
-      .order("updated_at", { ascending: false }),
   ]);
-
-  const themeTitleById = new Map((themes ?? []).map((item) => [item.id, item.title]));
-
-  const subthemeOptions = (subthemes ?? []).map((item) => ({
-    id: item.id,
-    title: item.title,
-    themeTitle: themeTitleById.get(item.theme_id) ?? "Unknown theme",
-  }));
 
   return (
     <main className="min-h-screen bg-slate-50 px-6 py-10 text-slate-900">
@@ -87,19 +89,20 @@ export default async function AdminExercisesPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-teal-700">
               Admin
             </p>
-            <h1 className="text-3xl font-semibold">Exercise Management</h1>
+            <h1 className="text-3xl font-semibold">Structure Management</h1>
             <p className="mt-2 text-sm text-slate-600">
-              Draft and publish exercises with markdown + LaTeX, metadata, and live preview.
+              Add, edit, and delete units, themes, and subthemes.
             </p>
           </div>
-          <Link href="/admin/structure" className="rounded-md border border-slate-300 px-3 py-2 text-sm">
-            Go to Structure Admin
+          <Link href="/admin/exercises" className="rounded-md border border-slate-300 px-3 py-2 text-sm">
+            Go to Exercise Admin
           </Link>
         </div>
 
-        <ExerciseEditor
-          subthemes={subthemeOptions}
-          existingExercises={(exercises as AdminExerciseRow[]) ?? []}
+        <StructureManager
+          units={(units as UnitRow[]) ?? []}
+          themes={(themes as ThemeRow[]) ?? []}
+          subthemes={(subthemes as SubthemeRow[]) ?? []}
         />
       </div>
     </main>

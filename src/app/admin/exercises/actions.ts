@@ -46,7 +46,6 @@ async function assertAdmin() {
 function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>) {
   return {
     subtheme_id: parsed.subthemeId,
-    title: parsed.title,
     type: parsed.type,
     difficulty: parsed.difficulty,
     prompt_md: parsed.promptMd,

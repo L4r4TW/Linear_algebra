@@ -47,7 +47,7 @@ export type Database = {
           prompt_md: string;
           solution: Json;
           solution_md: string;
-          status: "draft" | "published" | "archived";
+          status: "draft" | "published";
           subtheme_id: string;
           tags: Json;
           title: string;
@@ -65,7 +65,7 @@ export type Database = {
           prompt_md?: string;
           solution: Json;
           solution_md?: string;
-          status?: "draft" | "published" | "archived";
+          status?: "draft" | "published";
           subtheme_id: string;
           tags?: Json;
           title?: string;
@@ -83,7 +83,7 @@ export type Database = {
           prompt_md?: string;
           solution?: Json;
           solution_md?: string;
-          status?: "draft" | "published" | "archived";
+          status?: "draft" | "published";
           subtheme_id?: string;
           tags?: Json;
           title?: string;

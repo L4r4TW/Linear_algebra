@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const jsonbArrayField = z
+const jsonbArrayStringField = z
   .string()
   .transform((value) => value.trim())
   .refine((value) => {
@@ -13,16 +13,20 @@ export const jsonbArrayField = z
   }, "Must be a JSON array")
   .transform((value) => JSON.parse(value || "[]") as unknown[]);
 
+export const jsonbArrayField = z.union([
+  jsonbArrayStringField,
+  z.array(z.unknown()),
+]);
+
 export const exerciseEditorSchema = z.object({
   id: z.preprocess(
     (value) => (typeof value === "string" && value.trim() === "" ? undefined : value),
     z.string().uuid().optional()
   ),
   subthemeId: z.string().uuid("Select a subtheme"),
-  title: z.string().min(3).max(140),
   type: z.string().min(2).max(60),
   difficulty: z.coerce.number().int().min(1).max(5),
-  status: z.enum(["draft", "published", "archived"]),
+  status: z.enum(["draft", "published"]),
   promptMd: z.string().min(3, "Prompt is required"),
   solutionMd: z.string().min(3, "Solution is required"),
   choicesJson: jsonbArrayField,

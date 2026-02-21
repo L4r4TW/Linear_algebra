@@ -30,8 +30,7 @@ type SubthemeOption = {
 
 type ExistingExercise = {
   id: string;
-  title: string;
-  status: "draft" | "published" | "archived";
+  status: "draft" | "published";
   subtheme_id: string;
   type: string;
   difficulty: number;
@@ -55,6 +54,14 @@ function toJsonString(value: unknown): string {
   return JSON.stringify(value, null, 2);
 }
 
+function promptPreview(promptMd: string): string {
+  const normalized = (promptMd || "").replace(/\s+/g, " ").trim();
+  if (!normalized) {
+    return "No prompt yet";
+  }
+  return normalized.length > 72 ? `${normalized.slice(0, 72)}...` : normalized;
+}
+
 export function ExerciseEditor({
   subthemes,
   existingExercises,
@@ -71,7 +78,6 @@ export function ExerciseEditor({
     defaultValues: {
       id: undefined,
       subthemeId: subthemes[0]?.id || "",
-      title: "",
       type: "short_answer",
       difficulty: 1,
       status: "draft",
@@ -93,6 +99,11 @@ export function ExerciseEditor({
     [existingExercises, selectedId]
   );
 
+  const subthemeTitleById = useMemo(
+    () => new Map(subthemes.map((item) => [item.id, item.title])),
+    [subthemes]
+  );
+
   useEffect(() => {
     if (!selectedExercise) {
       return;
@@ -101,7 +112,6 @@ export function ExerciseEditor({
     form.reset({
       id: selectedExercise.id,
       subthemeId: selectedExercise.subtheme_id,
-      title: selectedExercise.title,
       type: selectedExercise.type,
       difficulty: selectedExercise.difficulty,
       status: selectedExercise.status,
@@ -124,11 +134,10 @@ export function ExerciseEditor({
 
     autosaveTimerRef.current = setTimeout(() => {
       const values = watchedValues as ExerciseEditorInput;
-      const titleOk = (values.title ?? "").trim().length >= 3;
       const promptOk = (values.promptMd ?? "").trim().length >= 3;
       const solutionOk = (values.solutionMd ?? "").trim().length >= 3;
 
-      if (!titleOk || !promptOk || !solutionOk) {
+      if (!promptOk || !solutionOk) {
         return;
       }
 
@@ -193,7 +202,6 @@ export function ExerciseEditor({
           form.reset({
             id: undefined,
             subthemeId: subthemes[0]?.id || "",
-            title: "",
             type: "short_answer",
             difficulty: 1,
             status: "draft",
@@ -214,7 +222,6 @@ export function ExerciseEditor({
     form.reset({
       id: undefined,
       subthemeId: subthemes[0]?.id || "",
-      title: "",
       type: "short_answer",
       difficulty: 1,
       status: "draft",
@@ -252,7 +259,8 @@ export function ExerciseEditor({
                   onClick={() => setSelectedId(exercise.id)}
                   className="w-full text-left"
                 >
-                  <p className="font-medium">{exercise.title}</p>
+                  <p className="font-medium">{subthemeTitleById.get(exercise.subtheme_id) ?? "Unknown subtheme"}</p>
+                  <p className="mt-1 text-sm text-slate-700">{promptPreview(exercise.prompt_md)}</p>
                   <div className="mt-2 flex items-center justify-between">
                     <Badge variant={exercise.status === "published" ? "success" : "secondary"}>
                       {exercise.status}
@@ -306,12 +314,6 @@ export function ExerciseEditor({
 
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="title">Title</Label>
-                  <Input id="title" {...form.register("title")} />
-                  <p className="text-xs text-rose-700">{form.formState.errors.title?.message}</p>
-                </div>
-
-                <div className="space-y-2">
                   <Label htmlFor="subthemeId">Subtheme</Label>
                   <select
                     id="subthemeId"
@@ -326,14 +328,14 @@ export function ExerciseEditor({
                   </select>
                   <p className="text-xs text-rose-700">{form.formState.errors.subthemeId?.message}</p>
                 </div>
-              </div>
 
-              <div className="grid gap-4 md:grid-cols-3">
                 <div className="space-y-2">
                   <Label htmlFor="type">Type</Label>
                   <Input id="type" {...form.register("type")} />
                 </div>
+              </div>
 
+              <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="difficulty">Difficulty (1-5)</Label>
                   <Input id="difficulty" type="number" min={1} max={5} {...form.register("difficulty")} />
@@ -347,9 +349,7 @@ export function ExerciseEditor({
                     {...form.register("status")}
                   >
                     <option value="draft">draft</option>
-                    <option value="published">published</option>
-                    <option value="archived">archived</option>
-                  </select>
+                    <option value="published">published</option>                  </select>
                 </div>
               </div>
 
