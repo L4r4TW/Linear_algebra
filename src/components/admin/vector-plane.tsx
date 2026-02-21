@@ -163,7 +163,7 @@ export function VectorPlane({
         );
       })}
 
-      {mode === "vector" && (
+      {(mode === "vector" || (mode === "point" && showPoint)) && (
         <line
           x1={half}
           y1={half}
@@ -174,7 +174,9 @@ export function VectorPlane({
           markerEnd="url(#vector-head)"
         />
       )}
-      {showPoint && <circle cx={arrowX} cy={size - arrowY} r={4} fill="#0f766e" />}
+      {mode === "vector" && showPoint && (
+        <circle cx={arrowX} cy={size - arrowY} r={4} fill="#0f766e" />
+      )}
     </svg>
   );
 }
