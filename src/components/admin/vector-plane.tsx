@@ -139,7 +139,7 @@ export function VectorPlane({
                   x={p}
                   y={half - 6}
                   textAnchor="middle"
-                  fontSize="10"
+                  fontSize="14"
                   fill="#64748b"
                 >
                   {value}
@@ -147,7 +147,7 @@ export function VectorPlane({
                 <text
                   x={half + 6}
                   y={size - p + 3}
-                  fontSize="10"
+                  fontSize="14"
                   fill="#64748b"
                 >
                   {value}
