@@ -38,6 +38,12 @@ type PointPrompt = {
   target?: [number, number];
 };
 
+type MultipleChoicePrompt = {
+  kind: "multiple_choice";
+  question?: string;
+  options?: Array<{ id: string; text: string }>;
+};
+
 function getQuestionText(prompt: Json): string {
   if (prompt && typeof prompt === "object" && !Array.isArray(prompt)) {
     const maybeQuestion = (prompt as Record<string, unknown>).question;
@@ -115,6 +121,19 @@ function getPointPrompt(prompt: Json): PointPrompt | null {
   return obj as unknown as PointPrompt;
 }
 
+function getMultipleChoicePrompt(prompt: Json): MultipleChoicePrompt | null {
+  if (!prompt || typeof prompt !== "object" || Array.isArray(prompt)) {
+    return null;
+  }
+
+  const obj = prompt as Record<string, unknown>;
+  if (obj.kind !== "multiple_choice") {
+    return null;
+  }
+
+  return obj as unknown as MultipleChoicePrompt;
+}
+
 function getExpectedVector(solution: Json): { x: number; y: number } | null {
   if (!solution || typeof solution !== "object" || Array.isArray(solution)) {
     return null;
@@ -155,9 +174,11 @@ export function ExerciseAttemptCard({
   const [plottedPoint, setPlottedPoint] = useState<{ x: number; y: number } | null>(
     null
   );
+  const [selectedChoice, setSelectedChoice] = useState("");
 
   const vectorPrompt = getVectorPrompt(prompt);
   const pointPrompt = getPointPrompt(prompt);
+  const multipleChoicePrompt = getMultipleChoicePrompt(prompt);
   const expectedVector = getExpectedVector(solution);
 
   async function saveAttempt(correctness: boolean, rawAnswer: string) {
@@ -217,7 +238,11 @@ export function ExerciseAttemptCard({
     let correctness = false;
     let rawAnswer = answer;
 
-    if (pointPrompt && expectedVector) {
+    if (multipleChoicePrompt) {
+      const expected = String(expectedAnswer(solution));
+      correctness = selectedChoice === expected;
+      rawAnswer = selectedChoice;
+    } else if (pointPrompt && expectedVector) {
       correctness = Boolean(
         plottedPoint &&
           plottedPoint.x === expectedVector.x &&
@@ -258,7 +283,29 @@ export function ExerciseAttemptCard({
       )}
       <p className="font-medium">{getQuestionText(prompt)}</p>
 
-      {pointPrompt ? (
+      {multipleChoicePrompt ? (
+        <div className="mt-4 space-y-3">
+          {(multipleChoicePrompt.options ?? []).map((option) => (
+            <label
+              key={option.id}
+              className="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2"
+            >
+              <input
+                type="radio"
+                name={`mc-${exerciseId}`}
+                value={option.id}
+                checked={selectedChoice === option.id}
+                onChange={(event) => setSelectedChoice(event.target.value)}
+                className="mt-1"
+              />
+              <span className="text-sm text-slate-800">
+                <span className="font-semibold">{option.id.toUpperCase()}.</span>{" "}
+                {option.text}
+              </span>
+            </label>
+          ))}
+        </div>
+      ) : pointPrompt ? (
         <div className="mt-4 space-y-4">
           <VectorPlane
             x={plottedPoint?.x ?? 0}
@@ -324,7 +371,9 @@ export function ExerciseAttemptCard({
         onClick={handleSubmit}
         disabled={
           isSaving ||
-          (pointPrompt
+          (multipleChoicePrompt
+            ? !selectedChoice
+            : pointPrompt
             ? !plottedPoint
             : vectorPrompt
             ? !vectorXInput.trim() || !vectorYInput.trim()

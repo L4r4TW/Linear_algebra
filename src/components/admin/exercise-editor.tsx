@@ -100,6 +100,64 @@ function parseGraphCoords(value: unknown): { x: number; y: number } {
   };
 }
 
+function parseMultipleChoiceConfig(value: unknown): {
+  options: [string, string, string, string];
+  correct: "a" | "b" | "c" | "d";
+} {
+  let source: unknown = value;
+
+  if (typeof source === "string") {
+    const trimmed = source.trim();
+    if (!trimmed) {
+      return { options: ["", "", "", ""], correct: "a" };
+    }
+    try {
+      source = JSON.parse(trimmed);
+    } catch {
+      return { options: ["", "", "", ""], correct: "a" };
+    }
+  }
+
+  if (!source || typeof source !== "object" || Array.isArray(source)) {
+    return { options: ["", "", "", ""], correct: "a" };
+  }
+
+  const optionsMap: Record<"a" | "b" | "c" | "d", string> = {
+    a: "",
+    b: "",
+    c: "",
+    d: "",
+  };
+
+  const rawOptions = (source as Record<string, unknown>).options;
+  if (Array.isArray(rawOptions)) {
+    rawOptions.forEach((item) => {
+      if (!item || typeof item !== "object" || Array.isArray(item)) {
+        return;
+      }
+      const id = (item as Record<string, unknown>).id;
+      const text = (item as Record<string, unknown>).text;
+      if (
+        (id === "a" || id === "b" || id === "c" || id === "d") &&
+        typeof text === "string"
+      ) {
+        optionsMap[id] = text;
+      }
+    });
+  }
+
+  const rawCorrect = (source as Record<string, unknown>).correctOption;
+  const correct =
+    rawCorrect === "a" || rawCorrect === "b" || rawCorrect === "c" || rawCorrect === "d"
+      ? rawCorrect
+      : "a";
+
+  return {
+    options: [optionsMap.a, optionsMap.b, optionsMap.c, optionsMap.d],
+    correct,
+  };
+}
+
 export function ExerciseEditor({
   subthemes,
   existingExercises,
@@ -163,17 +221,16 @@ export function ExerciseEditor({
     });
   }, [form, selectedExercise]);
 
-  const [{ x: graphX, y: graphY }, setGraphCoords] = useState(() =>
-    parseGraphCoords(watchedChoices)
+  const { x: graphX, y: graphY } = useMemo(
+    () => parseGraphCoords(watchedChoices),
+    [watchedChoices]
+  );
+  const { options: mcOptions, correct: mcCorrect } = useMemo(
+    () => parseMultipleChoiceConfig(watchedChoices),
+    [watchedChoices]
   );
 
-  useEffect(() => {
-    setGraphCoords(parseGraphCoords(watchedChoices));
-  }, [watchedChoices]);
-
   function applyGraphCoords(next: { x: number; y: number }) {
-    setGraphCoords(next);
-
     if (watchedType === "vector_xy_from_graph") {
       const nextConfig = {
         kind: "vector_xy_from_graph",
@@ -214,6 +271,35 @@ export function ExerciseEditor({
     }
 
     form.setValue("solutionMd", `(${next.x}, ${next.y})`, { shouldDirty: true });
+  }
+
+  function applyMultipleChoiceConfig(
+    nextOptions: [string, string, string, string],
+    nextCorrect: "a" | "b" | "c" | "d"
+  ) {
+    const config = {
+      kind: "multiple_choice",
+      options: [
+        { id: "a", text: nextOptions[0] },
+        { id: "b", text: nextOptions[1] },
+        { id: "c", text: nextOptions[2] },
+        { id: "d", text: nextOptions[3] },
+      ],
+      correctOption: nextCorrect,
+    };
+    form.setValue("choicesJson", JSON.stringify(config, null, 2), {
+      shouldDirty: true,
+    });
+
+    if (!form.getValues("promptMd").trim()) {
+      form.setValue(
+        "promptMd",
+        "Choose the correct answer.",
+        { shouldDirty: true }
+      );
+    }
+
+    form.setValue("solutionMd", nextCorrect, { shouldDirty: true });
   }
 
   useEffect(() => {
@@ -434,6 +520,7 @@ export function ExerciseEditor({
                     <option value="point_plot_from_coordinates">
                       point_plot_from_coordinates
                     </option>
+                    <option value="multiple_choice">multiple_choice</option>
                   </select>
                 </div>
               </div>
@@ -555,6 +642,54 @@ export function ExerciseEditor({
                         }
                       />
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {watchedType === "multiple_choice" && (
+                <div className="space-y-3 rounded-lg border border-slate-200 bg-slate-50 p-4">
+                  <p className="text-sm font-semibold text-slate-800">
+                    Multiple choice editor
+                  </p>
+                  <div className="grid gap-3">
+                    {(["a", "b", "c", "d"] as const).map((id, idx) => (
+                      <div key={id} className="space-y-1">
+                        <Label htmlFor={`choice-${id}`}>Option {id.toUpperCase()}</Label>
+                        <Input
+                          id={`choice-${id}`}
+                          value={mcOptions[idx]}
+                          onChange={(event) => {
+                            const next = [...mcOptions] as [
+                              string,
+                              string,
+                              string,
+                              string,
+                            ];
+                            next[idx] = event.target.value;
+                            applyMultipleChoiceConfig(next, mcCorrect);
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="mc-correct">Correct option</Label>
+                    <select
+                      id="mc-correct"
+                      className="h-11 w-full rounded-md border border-slate-300 bg-white px-3"
+                      value={mcCorrect}
+                      onChange={(event) =>
+                        applyMultipleChoiceConfig(
+                          mcOptions,
+                          event.target.value as "a" | "b" | "c" | "d"
+                        )
+                      }
+                    >
+                      <option value="a">A</option>
+                      <option value="b">B</option>
+                      <option value="c">C</option>
+                      <option value="d">D</option>
+                    </select>
                   </div>
                 </div>
               )}

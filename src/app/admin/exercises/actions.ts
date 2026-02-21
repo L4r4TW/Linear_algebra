@@ -38,6 +38,12 @@ type PointPromptConfig = {
   target?: [number, number];
 };
 
+type MultipleChoicePromptConfig = {
+  kind: "multiple_choice";
+  options?: Array<{ id: string; text: string }>;
+  correctOption?: string;
+};
+
 function getValidationMessage(error: ZodError) {
   const flattened = error.flatten().fieldErrors;
   const firstMessage = Object.values(flattened).flat().find(Boolean);
@@ -143,6 +149,49 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
       status: parsed.status,
       prompt,
       solution: { result: { x, y } },
+      updated_at: new Date().toISOString(),
+    };
+  }
+
+  if (parsed.type === "multiple_choice") {
+    const rawConfig =
+      parsed.choicesJson && typeof parsed.choicesJson === "object"
+        ? (parsed.choicesJson as MultipleChoicePromptConfig)
+        : null;
+    const fallbackOptions = [
+      { id: "a", text: "Option A" },
+      { id: "b", text: "Option B" },
+      { id: "c", text: "Option C" },
+      { id: "d", text: "Option D" },
+    ];
+    const options =
+      rawConfig?.options && rawConfig.options.length >= 2
+        ? rawConfig.options
+            .filter((item) => item && typeof item.id === "string")
+            .map((item) => ({ id: item.id, text: item.text ?? "" }))
+        : fallbackOptions;
+    const validIds = new Set(options.map((item) => item.id));
+    const correctOption =
+      rawConfig?.correctOption && validIds.has(rawConfig.correctOption)
+        ? rawConfig.correctOption
+        : options[0]?.id ?? "a";
+
+    return {
+      subtheme_id: parsed.subthemeId,
+      type: parsed.type,
+      difficulty: parsed.difficulty,
+      prompt_md: parsed.promptMd,
+      solution_md: parsed.solutionMd,
+      choices: parsed.choicesJson,
+      hints: parsed.hintsJson,
+      tags: parsed.tagsJson,
+      status: parsed.status,
+      prompt: {
+        kind: "multiple_choice",
+        question: parsed.promptMd,
+        options,
+      },
+      solution: { result: correctOption },
       updated_at: new Date().toISOString(),
     };
   }
