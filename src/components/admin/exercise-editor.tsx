@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState, useTransition } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useWatch } from "react-hook-form";
 import { Badge } from "@/components/ui/badge";
@@ -273,7 +273,7 @@ export function ExerciseEditor({
     form.setValue("solutionMd", `(${next.x}, ${next.y})`, { shouldDirty: true });
   }
 
-  function applyMultipleChoiceConfig(
+  const applyMultipleChoiceConfig = useCallback(function applyMultipleChoiceConfig(
     nextOptions: [string, string, string, string],
     nextCorrect: "a" | "b" | "c" | "d"
   ) {
@@ -300,7 +300,25 @@ export function ExerciseEditor({
     }
 
     form.setValue("solutionMd", nextCorrect, { shouldDirty: true });
-  }
+  }, [form]);
+
+  useEffect(() => {
+    if (watchedType !== "multiple_choice") {
+      return;
+    }
+
+    const rawChoices = String(form.getValues("choicesJson") ?? "").trim();
+    const current = parseMultipleChoiceConfig(form.getValues("choicesJson"));
+
+    if (!rawChoices || rawChoices === "[]") {
+      applyMultipleChoiceConfig(current.options, current.correct);
+      return;
+    }
+
+    if (!String(form.getValues("solutionMd") ?? "").trim()) {
+      form.setValue("solutionMd", current.correct, { shouldDirty: true });
+    }
+  }, [applyMultipleChoiceConfig, form, watchedType]);
 
   useEffect(() => {
     if (!form.formState.isDirty) {
@@ -549,11 +567,13 @@ export function ExerciseEditor({
                 <p className="text-xs text-rose-700">{form.formState.errors.promptMd?.message}</p>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="solutionMd">Solution (Markdown + LaTeX)</Label>
-                <Textarea id="solutionMd" rows={8} {...form.register("solutionMd")} />
-                <p className="text-xs text-rose-700">{form.formState.errors.solutionMd?.message}</p>
-              </div>
+              {watchedType !== "multiple_choice" && (
+                <div className="space-y-2">
+                  <Label htmlFor="solutionMd">Solution (Markdown + LaTeX)</Label>
+                  <Textarea id="solutionMd" rows={8} {...form.register("solutionMd")} />
+                  <p className="text-xs text-rose-700">{form.formState.errors.solutionMd?.message}</p>
+                </div>
+              )}
 
               {watchedType === "vector_xy_from_graph" && (
                 <div className="space-y-3 rounded-lg border border-slate-200 bg-slate-50 p-4">
