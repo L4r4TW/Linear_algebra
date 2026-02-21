@@ -39,7 +39,7 @@ type PointPromptConfig = {
 };
 
 type MultipleChoicePromptConfig = {
-  kind: "multiple_choice";
+  kind: "single_choice" | "multiple_choice";
   options?: Array<{ id: string; text: string }>;
   correctOption?: string;
 };
@@ -153,7 +153,7 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
     };
   }
 
-  if (parsed.type === "multiple_choice") {
+  if (parsed.type === "single_choice" || parsed.type === "multiple_choice") {
     const rawConfig =
       parsed.choicesJson && typeof parsed.choicesJson === "object"
         ? (parsed.choicesJson as MultipleChoicePromptConfig)
@@ -178,7 +178,7 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
 
     return {
       subtheme_id: parsed.subthemeId,
-      type: parsed.type,
+      type: "single_choice",
       difficulty: parsed.difficulty,
       prompt_md: parsed.promptMd,
       solution_md: parsed.solutionMd,
@@ -187,7 +187,7 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
       tags: parsed.tagsJson,
       status: parsed.status,
       prompt: {
-        kind: "multiple_choice",
+        kind: "single_choice",
         question: parsed.promptMd,
         options,
       },

@@ -39,7 +39,7 @@ type PointPrompt = {
 };
 
 type MultipleChoicePrompt = {
-  kind: "multiple_choice";
+  kind: "single_choice" | "multiple_choice";
   question?: string;
   options?: Array<{ id: string; text: string }>;
 };
@@ -127,7 +127,7 @@ function getMultipleChoicePrompt(prompt: Json): MultipleChoicePrompt | null {
   }
 
   const obj = prompt as Record<string, unknown>;
-  if (obj.kind !== "multiple_choice") {
+  if (obj.kind !== "multiple_choice" && obj.kind !== "single_choice") {
     return null;
   }
 

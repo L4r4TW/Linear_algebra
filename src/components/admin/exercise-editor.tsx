@@ -210,7 +210,10 @@ export function ExerciseEditor({
     form.reset({
       id: selectedExercise.id,
       subthemeId: selectedExercise.subtheme_id,
-      type: selectedExercise.type,
+      type:
+        selectedExercise.type === "multiple_choice"
+          ? "single_choice"
+          : selectedExercise.type,
       difficulty: selectedExercise.difficulty,
       status: selectedExercise.status,
       promptMd: selectedExercise.prompt_md,
@@ -278,7 +281,7 @@ export function ExerciseEditor({
     nextCorrect: "a" | "b" | "c" | "d"
   ) {
     const config = {
-      kind: "multiple_choice",
+      kind: "single_choice",
       options: [
         { id: "a", text: nextOptions[0] },
         { id: "b", text: nextOptions[1] },
@@ -303,7 +306,7 @@ export function ExerciseEditor({
   }, [form]);
 
   useEffect(() => {
-    if (watchedType !== "multiple_choice") {
+    if (watchedType !== "single_choice" && watchedType !== "multiple_choice") {
       return;
     }
 
@@ -332,7 +335,7 @@ export function ExerciseEditor({
     autosaveTimerRef.current = setTimeout(() => {
       const values = watchedValues as ExerciseEditorInput;
       const promptOk = (values.promptMd ?? "").trim().length >= 3;
-      const solutionOk = (values.solutionMd ?? "").trim().length >= 3;
+      const solutionOk = (values.solutionMd ?? "").trim().length >= 1;
 
       if (!promptOk || !solutionOk) {
         return;
@@ -538,7 +541,7 @@ export function ExerciseEditor({
                     <option value="point_plot_from_coordinates">
                       point_plot_from_coordinates
                     </option>
-                    <option value="multiple_choice">multiple_choice</option>
+                    <option value="single_choice">single_choice</option>
                   </select>
                 </div>
               </div>
@@ -567,7 +570,7 @@ export function ExerciseEditor({
                 <p className="text-xs text-rose-700">{form.formState.errors.promptMd?.message}</p>
               </div>
 
-              {watchedType !== "multiple_choice" && (
+              {watchedType !== "single_choice" && watchedType !== "multiple_choice" && (
                 <div className="space-y-2">
                   <Label htmlFor="solutionMd">Solution (Markdown + LaTeX)</Label>
                   <Textarea id="solutionMd" rows={8} {...form.register("solutionMd")} />
@@ -666,7 +669,7 @@ export function ExerciseEditor({
                 </div>
               )}
 
-              {watchedType === "multiple_choice" && (
+              {(watchedType === "single_choice" || watchedType === "multiple_choice") && (
                 <div className="space-y-3 rounded-lg border border-slate-200 bg-slate-50 p-4">
                   <p className="text-sm font-semibold text-slate-800">
                     Multiple choice editor
