@@ -42,7 +42,7 @@ export type Database = {
           id: string;
           prompt: Json;
           solution: Json;
-          theme_id: string;
+          subtheme_id: string;
           type: string;
         };
         Insert: {
@@ -51,7 +51,7 @@ export type Database = {
           id?: string;
           prompt: Json;
           solution: Json;
-          theme_id: string;
+          subtheme_id: string;
           type: string;
         };
         Update: {
@@ -60,7 +60,7 @@ export type Database = {
           id?: string;
           prompt?: Json;
           solution?: Json;
-          theme_id?: string;
+          subtheme_id?: string;
           type?: string;
         };
       };
@@ -79,6 +79,32 @@ export type Database = {
           created_at?: string;
           id?: string;
           username?: string;
+        };
+      };
+      subthemes: {
+        Row: {
+          created_at: string;
+          id: string;
+          position: number;
+          slug: string;
+          theme_id: string;
+          title: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          position: number;
+          slug: string;
+          theme_id: string;
+          title: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          position?: number;
+          slug?: string;
+          theme_id?: string;
+          title?: string;
         };
       };
       themes: {

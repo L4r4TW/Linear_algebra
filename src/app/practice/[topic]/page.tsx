@@ -2,10 +2,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import type { Json } from "@/types/database";
-import { PracticeRunner } from "./practice-runner";
+import { ExerciseAttemptCard } from "./exercise-attempt-card";
 
 type ThemePageParams = {
   topic: string;
+};
+
+type ThemeSearchParams = {
+  subtheme?: string;
 };
 
 type ThemeRow = {
@@ -22,6 +26,14 @@ type UnitRow = {
   position: number;
 };
 
+type SubthemeRow = {
+  id: string;
+  slug: string;
+  title: string;
+  position: number;
+  theme_id: string;
+};
+
 type ExerciseRow = {
   id: string;
   type: string;
@@ -32,10 +44,14 @@ type ExerciseRow = {
 
 export default async function ThemePracticePage({
   params,
+  searchParams,
 }: {
   params: Promise<ThemePageParams>;
+  searchParams: Promise<ThemeSearchParams>;
 }) {
   const { topic } = await params;
+  const { subtheme: selectedSubthemeSlug } = await searchParams;
+
   const supabase = await createServerSupabaseClient();
 
   const { data: themeRow, error: themeError } = await supabase
@@ -48,22 +64,46 @@ export default async function ThemePracticePage({
     notFound();
   }
 
-  const { data: unitRow } = await supabase
-    .from("units")
-    .select("id, title, position")
-    .eq("id", (themeRow as ThemeRow).unit_id)
-    .maybeSingle();
-
-  const { data: exercise, error: exerciseError } = await supabase
-    .from("exercises")
-    .select("id, type, difficulty, prompt, solution")
-    .eq("theme_id", (themeRow as ThemeRow).id)
-    .order("created_at", { ascending: true })
-    .limit(1)
-    .maybeSingle();
-
   const typedTheme = themeRow as ThemeRow;
+
+  const [{ data: unitRow }, { data: subthemes, error: subthemesError }] =
+    await Promise.all([
+      supabase
+        .from("units")
+        .select("id, title, position")
+        .eq("id", typedTheme.unit_id)
+        .maybeSingle(),
+      supabase
+        .from("subthemes")
+        .select("id, slug, title, position, theme_id")
+        .eq("theme_id", typedTheme.id)
+        .order("position", { ascending: true }),
+    ]);
+
   const typedUnit = (unitRow as UnitRow | null) ?? null;
+  const typedSubthemes = (subthemes as SubthemeRow[]) ?? [];
+
+  const selectedSubtheme =
+    typedSubthemes.find((item) => item.slug === selectedSubthemeSlug) ??
+    typedSubthemes[0] ??
+    null;
+
+  let exercises: ExerciseRow[] = [];
+  let exercisesErrorMessage = "";
+
+  if (selectedSubtheme) {
+    const { data, error } = await supabase
+      .from("exercises")
+      .select("id, type, difficulty, prompt, solution")
+      .eq("subtheme_id", selectedSubtheme.id)
+      .order("created_at", { ascending: true });
+
+    if (error) {
+      exercisesErrorMessage = error.message;
+    } else {
+      exercises = (data as ExerciseRow[]) ?? [];
+    }
+  }
 
   return (
     <main className="min-h-screen bg-slate-50 px-6 py-14 text-slate-900">
@@ -87,23 +127,76 @@ export default async function ThemePracticePage({
         </section>
 
         <section className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-          {exerciseError && (
-            <p className="text-sm text-rose-700">
-              Failed to load exercise: {exerciseError.message}
+          <h2 className="text-xl font-semibold">Subthemes</h2>
+
+          {subthemesError && (
+            <p className="mt-3 text-sm text-rose-700">
+              Failed to load subthemes: {subthemesError.message}
             </p>
           )}
 
-          {!exerciseError && !exercise && (
-            <p className="text-sm text-slate-700">No exercises in this theme yet.</p>
+          {!subthemesError && typedSubthemes.length === 0 && (
+            <p className="mt-3 text-sm text-slate-700">No subthemes in this theme yet.</p>
           )}
 
-          {!exerciseError && exercise && (
-            <PracticeRunner
-              themeSlug={typedTheme.slug}
-              exercise={exercise as ExerciseRow}
-            />
+          {!subthemesError && typedSubthemes.length > 0 && (
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              {typedSubthemes.map((subtheme) => {
+                const isActive = selectedSubtheme?.id === subtheme.id;
+                return (
+                  <Link
+                    key={subtheme.id}
+                    href={`/practice/${typedTheme.slug}?subtheme=${subtheme.slug}`}
+                    className={`rounded-xl border px-4 py-3 transition-colors ${
+                      isActive
+                        ? "border-teal-600 bg-teal-50"
+                        : "border-slate-200 bg-slate-50 hover:border-slate-300"
+                    }`}
+                  >
+                    <p className="text-sm font-medium">{subtheme.title}</p>
+                    <p className="text-xs text-slate-600">/{subtheme.slug}</p>
+                  </Link>
+                );
+              })}
+            </div>
           )}
         </section>
+
+        {selectedSubtheme && (
+          <section className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+            <h2 className="text-xl font-semibold">
+              Exercises: {selectedSubtheme.title}
+            </h2>
+
+            {exercisesErrorMessage && (
+              <p className="mt-3 text-sm text-rose-700">
+                Failed to load exercises: {exercisesErrorMessage}
+              </p>
+            )}
+
+            {!exercisesErrorMessage && exercises.length === 0 && (
+              <p className="mt-3 text-sm text-slate-700">
+                No exercises for this subtheme yet.
+              </p>
+            )}
+
+            {!exercisesErrorMessage && exercises.length > 0 && (
+              <ol className="mt-4 flex list-decimal flex-col gap-4 pl-6">
+                {exercises.map((exercise) => (
+                  <li key={exercise.id}>
+                    <ExerciseAttemptCard
+                      exerciseId={exercise.id}
+                      type={exercise.type}
+                      difficulty={exercise.difficulty}
+                      prompt={exercise.prompt}
+                      solution={exercise.solution}
+                    />
+                  </li>
+                ))}
+              </ol>
+            )}
+          </section>
+        )}
       </div>
     </main>
   );
