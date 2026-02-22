@@ -178,6 +178,8 @@ export function MultiVectorPlane({
         const [tip, left, right] = toArrowhead(sx, sy, ex, ey);
         const mx = (sx + ex) / 2;
         const my = (sy + ey) / 2;
+        const labelX = mx + 6;
+        const labelY = my - 14;
 
         return (
           <g key={vector.id}>
@@ -198,8 +200,8 @@ export function MultiVectorPlane({
               onClick={() => onSelect?.(vector.id)}
             />
             <text
-              x={mx + 6}
-              y={my - 8}
+              x={labelX}
+              y={labelY}
               fontSize="16"
               fontWeight="600"
               fill={vector.color}
@@ -207,16 +209,16 @@ export function MultiVectorPlane({
               {vector.id}
             </text>
             <line
-              x1={mx + 3}
-              y1={my - 20}
-              x2={mx + 15}
-              y2={my - 20}
+              x1={labelX - 3}
+              y1={labelY - 12}
+              x2={labelX + 9}
+              y2={labelY - 12}
               stroke={vector.color}
               strokeWidth={2}
               strokeLinecap="round"
             />
             <polygon
-              points={`${mx + 15},${my - 20} ${mx + 10},${my - 23} ${mx + 10},${my - 17}`}
+              points={`${labelX + 9},${labelY - 12} ${labelX + 4},${labelY - 15} ${labelX + 4},${labelY - 9}`}
               fill={vector.color}
             />
 
