@@ -17,7 +17,6 @@ import {
 
 type UnitItem = {
   id: string;
-  slug: string;
   title: string;
   position: number;
 };
@@ -25,7 +24,6 @@ type UnitItem = {
 type ThemeItem = {
   id: string;
   unit_id: string;
-  slug: string;
   title: string;
   position: number;
 };
@@ -33,7 +31,6 @@ type ThemeItem = {
 type SubthemeItem = {
   id: string;
   theme_id: string;
-  slug: string;
   title: string;
   position: number;
 };
@@ -49,23 +46,21 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
   const [isPending, startTransition] = useTransition();
   const [message, setMessage] = useState("");
 
-  const [newUnit, setNewUnit] = useState({ slug: "", title: "", position: 1 });
+  const [newUnit, setNewUnit] = useState({ title: "", position: 1 });
   const [newTheme, setNewTheme] = useState({
     unitId: units[0]?.id || "",
-    slug: "",
     title: "",
     position: 1,
   });
   const [newSubtheme, setNewSubtheme] = useState({
     themeId: themes[0]?.id || "",
-    slug: "",
     title: "",
     position: 1,
   });
 
   const [unitEdits, setUnitEdits] = useState(() =>
     Object.fromEntries(
-      units.map((item) => [item.id, { slug: item.slug, title: item.title, position: item.position }])
+      units.map((item) => [item.id, { title: item.title, position: item.position }])
     )
   );
 
@@ -73,7 +68,7 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
     Object.fromEntries(
       themes.map((item) => [
         item.id,
-        { unitId: item.unit_id, slug: item.slug, title: item.title, position: item.position },
+        { unitId: item.unit_id, title: item.title, position: item.position },
       ])
     )
   );
@@ -84,7 +79,6 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
         item.id,
         {
           themeId: item.theme_id,
-          slug: item.slug,
           title: item.title,
           position: item.position,
         },
@@ -183,13 +177,8 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
       return;
     }
 
-    const slug = newSubtheme.slug.trim().toLowerCase().replace(/\s+/g, "-");
     const title = newSubtheme.title.trim();
 
-    if (!slug) {
-      setMessage("Subtheme slug is required.");
-      return;
-    }
     if (!title) {
       setMessage("Subtheme title is required.");
       return;
@@ -206,7 +195,6 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
       const result = await upsertSubthemeAction({
         ...newSubtheme,
         themeId: effectiveNewSubthemeThemeId,
-        slug,
         title,
         position: safePosition,
       });
@@ -215,12 +203,11 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
         setNewSubtheme((prev) => ({
           ...prev,
           themeId: effectiveNewSubthemeThemeId,
-          slug: "",
           title: "",
           position: nextSubthemePosition(effectiveNewSubthemeThemeId),
         }));
       } else {
-        setNewSubtheme((prev) => ({ ...prev, slug, title, position: safePosition }));
+        setNewSubtheme((prev) => ({ ...prev, title, position: safePosition }));
       }
     });
   }
@@ -252,12 +239,7 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
           <CardTitle>Units</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid gap-2 md:grid-cols-[1fr_1fr_120px_auto]">
-            <Input
-              placeholder="slug"
-              value={newUnit.slug}
-              onChange={(e) => setNewUnit((p) => ({ ...p, slug: e.target.value }))}
-            />
+          <div className="grid gap-2 md:grid-cols-[1fr_120px_auto]">
             <Input
               placeholder="title"
               value={newUnit.title}
@@ -273,28 +255,13 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
           </div>
 
           {units.map((unit) => (
-            <div key={unit.id} className="grid gap-2 rounded-md border border-slate-200 p-3 md:grid-cols-[1fr_1fr_120px_auto_auto]">
-              <Input
-                value={unitEdits[unit.id]?.slug ?? unit.slug}
-                onChange={(e) =>
-                  setUnitEdits((p) => ({
-                    ...p,
-                    [unit.id]: {
-                      slug: p[unit.id]?.slug ?? unit.slug,
-                      title: p[unit.id]?.title ?? unit.title,
-                      position: p[unit.id]?.position ?? unit.position,
-                      slug: e.target.value,
-                    },
-                  }))
-                }
-              />
+            <div key={unit.id} className="grid gap-2 rounded-md border border-slate-200 p-3 md:grid-cols-[1fr_120px_auto_auto]">
               <Input
                 value={unitEdits[unit.id]?.title ?? unit.title}
                 onChange={(e) =>
                   setUnitEdits((p) => ({
                     ...p,
                     [unit.id]: {
-                      slug: p[unit.id]?.slug ?? unit.slug,
                       title: p[unit.id]?.title ?? unit.title,
                       position: p[unit.id]?.position ?? unit.position,
                       title: e.target.value,
@@ -310,7 +277,6 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
                   setUnitEdits((p) => ({
                     ...p,
                     [unit.id]: {
-                      slug: p[unit.id]?.slug ?? unit.slug,
                       title: p[unit.id]?.title ?? unit.title,
                       position: Number(e.target.value) || 1,
                     },
@@ -333,7 +299,7 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
           <CardTitle>Themes</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid gap-2 md:grid-cols-[1fr_1fr_1fr_120px_auto]">
+          <div className="grid gap-2 md:grid-cols-[1fr_1fr_120px_auto]">
             <select
               className="h-11 rounded-md border border-slate-300 px-3"
               value={newTheme.unitId}
@@ -343,11 +309,6 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
                 <option key={unit.id} value={unit.id}>{unit.title}</option>
               ))}
             </select>
-            <Input
-              placeholder="slug"
-              value={newTheme.slug}
-              onChange={(e) => setNewTheme((p) => ({ ...p, slug: e.target.value }))}
-            />
             <Input
               placeholder="title"
               value={newTheme.title}
@@ -363,7 +324,7 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
           </div>
 
           {themes.map((theme) => (
-            <div key={theme.id} className="grid gap-2 rounded-md border border-slate-200 p-3 md:grid-cols-[1fr_1fr_1fr_120px_auto_auto]">
+            <div key={theme.id} className="grid gap-2 rounded-md border border-slate-200 p-3 md:grid-cols-[1fr_1fr_120px_auto_auto]">
               <div className="space-y-1">
                 <Label className="text-xs text-slate-500">Unit</Label>
                 <select
@@ -374,7 +335,6 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
                       ...p,
                       [theme.id]: {
                         unitId: e.target.value,
-                        slug: p[theme.id]?.slug ?? theme.slug,
                         title: p[theme.id]?.title ?? theme.title,
                         position: p[theme.id]?.position ?? theme.position,
                       },
@@ -387,27 +347,12 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
                 </select>
               </div>
               <Input
-                value={themeEdits[theme.id]?.slug ?? theme.slug}
-                onChange={(e) =>
-                  setThemeEdits((p) => ({
-                    ...p,
-                    [theme.id]: {
-                      unitId: p[theme.id]?.unitId ?? theme.unit_id,
-                      slug: e.target.value,
-                      title: p[theme.id]?.title ?? theme.title,
-                      position: p[theme.id]?.position ?? theme.position,
-                    },
-                  }))
-                }
-              />
-              <Input
                 value={themeEdits[theme.id]?.title ?? theme.title}
                 onChange={(e) =>
                   setThemeEdits((p) => ({
                     ...p,
                     [theme.id]: {
                       unitId: p[theme.id]?.unitId ?? theme.unit_id,
-                      slug: p[theme.id]?.slug ?? theme.slug,
                       title: e.target.value,
                       position: p[theme.id]?.position ?? theme.position,
                     },
@@ -419,14 +364,13 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
                 min={1}
                 value={themeEdits[theme.id]?.position ?? theme.position}
                 onChange={(e) =>
-                  setThemeEdits((p) => ({
-                    ...p,
-                    [theme.id]: {
-                      unitId: p[theme.id]?.unitId ?? theme.unit_id,
-                      slug: p[theme.id]?.slug ?? theme.slug,
-                      title: p[theme.id]?.title ?? theme.title,
-                      position: Number(e.target.value) || 1,
-                    },
+                    setThemeEdits((p) => ({
+                      ...p,
+                      [theme.id]: {
+                        unitId: p[theme.id]?.unitId ?? theme.unit_id,
+                        title: p[theme.id]?.title ?? theme.title,
+                        position: Number(e.target.value) || 1,
+                      },
                   }))
                 }
               />
@@ -449,7 +393,7 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
           <CardTitle>Subthemes</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid gap-2 md:grid-cols-[1fr_1fr_1fr_120px_auto]">
+          <div className="grid gap-2 md:grid-cols-[1fr_1fr_120px_auto]">
             <select
               className="h-11 rounded-md border border-slate-300 px-3"
               value={effectiveNewSubthemeThemeId}
@@ -459,11 +403,6 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
                 <option key={theme.id} value={theme.id}>{theme.title}</option>
               ))}
             </select>
-            <Input
-              placeholder="slug"
-              value={newSubtheme.slug}
-              onChange={(e) => setNewSubtheme((p) => ({ ...p, slug: e.target.value }))}
-            />
             <Input
               placeholder="title"
               value={newSubtheme.title}
@@ -499,7 +438,7 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
           )}
 
           {subthemes.map((subtheme) => (
-            <div key={subtheme.id} className="grid gap-2 rounded-md border border-slate-200 p-3 md:grid-cols-[1fr_1fr_1fr_120px_auto_auto]">
+            <div key={subtheme.id} className="grid gap-2 rounded-md border border-slate-200 p-3 md:grid-cols-[1fr_1fr_120px_auto_auto]">
               <div className="space-y-1">
                 <Label className="text-xs text-slate-500">Theme</Label>
                 <select
@@ -510,7 +449,6 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
                       ...p,
                       [subtheme.id]: {
                         themeId: e.target.value,
-                        slug: p[subtheme.id]?.slug ?? subtheme.slug,
                         title: p[subtheme.id]?.title ?? subtheme.title,
                         position: p[subtheme.id]?.position ?? subtheme.position,
                       },
@@ -523,27 +461,12 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
                 </select>
               </div>
               <Input
-                value={subthemeEdits[subtheme.id]?.slug ?? subtheme.slug}
-                onChange={(e) =>
-                  setSubthemeEdits((p) => ({
-                    ...p,
-                    [subtheme.id]: {
-                      themeId: p[subtheme.id]?.themeId ?? subtheme.theme_id,
-                      slug: e.target.value,
-                      title: p[subtheme.id]?.title ?? subtheme.title,
-                      position: p[subtheme.id]?.position ?? subtheme.position,
-                    },
-                  }))
-                }
-              />
-              <Input
                 value={subthemeEdits[subtheme.id]?.title ?? subtheme.title}
                 onChange={(e) =>
                   setSubthemeEdits((p) => ({
                     ...p,
                     [subtheme.id]: {
                       themeId: p[subtheme.id]?.themeId ?? subtheme.theme_id,
-                      slug: p[subtheme.id]?.slug ?? subtheme.slug,
                       title: e.target.value,
                       position: p[subtheme.id]?.position ?? subtheme.position,
                     },
@@ -555,14 +478,13 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
                 min={1}
                 value={subthemeEdits[subtheme.id]?.position ?? subtheme.position}
                 onChange={(e) =>
-                  setSubthemeEdits((p) => ({
-                    ...p,
-                    [subtheme.id]: {
-                      themeId: p[subtheme.id]?.themeId ?? subtheme.theme_id,
-                      slug: p[subtheme.id]?.slug ?? subtheme.slug,
-                      title: p[subtheme.id]?.title ?? subtheme.title,
-                      position: Number(e.target.value) || 1,
-                    },
+                    setSubthemeEdits((p) => ({
+                      ...p,
+                      [subtheme.id]: {
+                        themeId: p[subtheme.id]?.themeId ?? subtheme.theme_id,
+                        title: p[subtheme.id]?.title ?? subtheme.title,
+                        position: Number(e.target.value) || 1,
+                      },
                   }))
                 }
               />
