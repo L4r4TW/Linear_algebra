@@ -100,6 +100,27 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
     () => new Map(themes.map((item) => [item.id, item.title])),
     [themes]
   );
+  const effectiveNewSubthemeThemeId =
+    themes.find((theme) => theme.id === newSubtheme.themeId)?.id ?? themes[0]?.id ?? "";
+
+  const subthemePositionsByTheme = useMemo(() => {
+    const byTheme = new Map<string, Set<number>>();
+    subthemes.forEach((item) => {
+      if (!byTheme.has(item.theme_id)) {
+        byTheme.set(item.theme_id, new Set<number>());
+      }
+      byTheme.get(item.theme_id)?.add(item.position);
+    });
+    return byTheme;
+  }, [subthemes]);
+
+  function nextSubthemePosition(themeId: string) {
+    const used = subthemePositionsByTheme.get(themeId);
+    if (!used || used.size === 0) {
+      return 1;
+    }
+    return Math.max(...Array.from(used)) + 1;
+  }
 
   function refreshWithMessage(text: string) {
     setMessage(text);
@@ -157,9 +178,50 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
   }
 
   function handleCreateSubtheme() {
+    if (!effectiveNewSubthemeThemeId) {
+      setMessage("Create a theme first, then add a subtheme.");
+      return;
+    }
+
+    const slug = newSubtheme.slug.trim().toLowerCase().replace(/\s+/g, "-");
+    const title = newSubtheme.title.trim();
+
+    if (!slug) {
+      setMessage("Subtheme slug is required.");
+      return;
+    }
+    if (!title) {
+      setMessage("Subtheme title is required.");
+      return;
+    }
+
+    const usedPositions =
+      subthemePositionsByTheme.get(effectiveNewSubthemeThemeId) ?? new Set<number>();
+    const requestedPosition = Math.max(1, Number(newSubtheme.position) || 1);
+    const safePosition = usedPositions.has(requestedPosition)
+      ? nextSubthemePosition(effectiveNewSubthemeThemeId)
+      : requestedPosition;
+
     startTransition(async () => {
-      const result = await upsertSubthemeAction(newSubtheme);
+      const result = await upsertSubthemeAction({
+        ...newSubtheme,
+        themeId: effectiveNewSubthemeThemeId,
+        slug,
+        title,
+        position: safePosition,
+      });
       refreshWithMessage(result.message);
+      if (result.ok) {
+        setNewSubtheme((prev) => ({
+          ...prev,
+          themeId: effectiveNewSubthemeThemeId,
+          slug: "",
+          title: "",
+          position: nextSubthemePosition(effectiveNewSubthemeThemeId),
+        }));
+      } else {
+        setNewSubtheme((prev) => ({ ...prev, slug, title, position: safePosition }));
+      }
     });
   }
 
@@ -213,31 +275,45 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
           {units.map((unit) => (
             <div key={unit.id} className="grid gap-2 rounded-md border border-slate-200 p-3 md:grid-cols-[1fr_1fr_120px_auto_auto]">
               <Input
-                value={unitEdits[unit.id]?.slug ?? ""}
+                value={unitEdits[unit.id]?.slug ?? unit.slug}
                 onChange={(e) =>
                   setUnitEdits((p) => ({
                     ...p,
-                    [unit.id]: { ...p[unit.id], slug: e.target.value },
+                    [unit.id]: {
+                      slug: p[unit.id]?.slug ?? unit.slug,
+                      title: p[unit.id]?.title ?? unit.title,
+                      position: p[unit.id]?.position ?? unit.position,
+                      slug: e.target.value,
+                    },
                   }))
                 }
               />
               <Input
-                value={unitEdits[unit.id]?.title ?? ""}
+                value={unitEdits[unit.id]?.title ?? unit.title}
                 onChange={(e) =>
                   setUnitEdits((p) => ({
                     ...p,
-                    [unit.id]: { ...p[unit.id], title: e.target.value },
+                    [unit.id]: {
+                      slug: p[unit.id]?.slug ?? unit.slug,
+                      title: p[unit.id]?.title ?? unit.title,
+                      position: p[unit.id]?.position ?? unit.position,
+                      title: e.target.value,
+                    },
                   }))
                 }
               />
               <Input
                 type="number"
                 min={1}
-                value={unitEdits[unit.id]?.position ?? 1}
+                value={unitEdits[unit.id]?.position ?? unit.position}
                 onChange={(e) =>
                   setUnitEdits((p) => ({
                     ...p,
-                    [unit.id]: { ...p[unit.id], position: Number(e.target.value) || 1 },
+                    [unit.id]: {
+                      slug: p[unit.id]?.slug ?? unit.slug,
+                      title: p[unit.id]?.title ?? unit.title,
+                      position: Number(e.target.value) || 1,
+                    },
                   }))
                 }
               />
@@ -292,11 +368,16 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
                 <Label className="text-xs text-slate-500">Unit</Label>
                 <select
                   className="h-11 w-full rounded-md border border-slate-300 px-3"
-                  value={themeEdits[theme.id]?.unitId ?? ""}
+                  value={themeEdits[theme.id]?.unitId ?? theme.unit_id}
                   onChange={(e) =>
                     setThemeEdits((p) => ({
                       ...p,
-                      [theme.id]: { ...p[theme.id], unitId: e.target.value },
+                      [theme.id]: {
+                        unitId: e.target.value,
+                        slug: p[theme.id]?.slug ?? theme.slug,
+                        title: p[theme.id]?.title ?? theme.title,
+                        position: p[theme.id]?.position ?? theme.position,
+                      },
                     }))
                   }
                 >
@@ -306,31 +387,46 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
                 </select>
               </div>
               <Input
-                value={themeEdits[theme.id]?.slug ?? ""}
+                value={themeEdits[theme.id]?.slug ?? theme.slug}
                 onChange={(e) =>
                   setThemeEdits((p) => ({
                     ...p,
-                    [theme.id]: { ...p[theme.id], slug: e.target.value },
+                    [theme.id]: {
+                      unitId: p[theme.id]?.unitId ?? theme.unit_id,
+                      slug: e.target.value,
+                      title: p[theme.id]?.title ?? theme.title,
+                      position: p[theme.id]?.position ?? theme.position,
+                    },
                   }))
                 }
               />
               <Input
-                value={themeEdits[theme.id]?.title ?? ""}
+                value={themeEdits[theme.id]?.title ?? theme.title}
                 onChange={(e) =>
                   setThemeEdits((p) => ({
                     ...p,
-                    [theme.id]: { ...p[theme.id], title: e.target.value },
+                    [theme.id]: {
+                      unitId: p[theme.id]?.unitId ?? theme.unit_id,
+                      slug: p[theme.id]?.slug ?? theme.slug,
+                      title: e.target.value,
+                      position: p[theme.id]?.position ?? theme.position,
+                    },
                   }))
                 }
               />
               <Input
                 type="number"
                 min={1}
-                value={themeEdits[theme.id]?.position ?? 1}
+                value={themeEdits[theme.id]?.position ?? theme.position}
                 onChange={(e) =>
                   setThemeEdits((p) => ({
                     ...p,
-                    [theme.id]: { ...p[theme.id], position: Number(e.target.value) || 1 },
+                    [theme.id]: {
+                      unitId: p[theme.id]?.unitId ?? theme.unit_id,
+                      slug: p[theme.id]?.slug ?? theme.slug,
+                      title: p[theme.id]?.title ?? theme.title,
+                      position: Number(e.target.value) || 1,
+                    },
                   }))
                 }
               />
@@ -356,7 +452,7 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
           <div className="grid gap-2 md:grid-cols-[1fr_1fr_1fr_120px_auto]">
             <select
               className="h-11 rounded-md border border-slate-300 px-3"
-              value={newSubtheme.themeId}
+              value={effectiveNewSubthemeThemeId}
               onChange={(e) => setNewSubtheme((p) => ({ ...p, themeId: e.target.value }))}
             >
               {themes.map((theme) => (
@@ -379,8 +475,28 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
               value={newSubtheme.position}
               onChange={(e) => setNewSubtheme((p) => ({ ...p, position: Number(e.target.value) || 1 }))}
             />
-            <Button type="button" onClick={handleCreateSubtheme} disabled={isPending}>Add subtheme</Button>
+            <Button
+              type="button"
+              onClick={handleCreateSubtheme}
+              disabled={isPending || themes.length === 0}
+            >
+              Add subtheme
+            </Button>
           </div>
+          {themes.length === 0 && (
+            <p className="text-sm text-slate-600">
+              Add a theme first to enable subtheme creation.
+            </p>
+          )}
+          {themes.length > 0 && (
+            <p className="text-xs text-slate-500">
+              Tip: next available position in this theme is{" "}
+              <span className="font-semibold">
+                {nextSubthemePosition(effectiveNewSubthemeThemeId)}
+              </span>
+              .
+            </p>
+          )}
 
           {subthemes.map((subtheme) => (
             <div key={subtheme.id} className="grid gap-2 rounded-md border border-slate-200 p-3 md:grid-cols-[1fr_1fr_1fr_120px_auto_auto]">
@@ -388,11 +504,16 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
                 <Label className="text-xs text-slate-500">Theme</Label>
                 <select
                   className="h-11 w-full rounded-md border border-slate-300 px-3"
-                  value={subthemeEdits[subtheme.id]?.themeId ?? ""}
+                  value={subthemeEdits[subtheme.id]?.themeId ?? subtheme.theme_id}
                   onChange={(e) =>
                     setSubthemeEdits((p) => ({
                       ...p,
-                      [subtheme.id]: { ...p[subtheme.id], themeId: e.target.value },
+                      [subtheme.id]: {
+                        themeId: e.target.value,
+                        slug: p[subtheme.id]?.slug ?? subtheme.slug,
+                        title: p[subtheme.id]?.title ?? subtheme.title,
+                        position: p[subtheme.id]?.position ?? subtheme.position,
+                      },
                     }))
                   }
                 >
@@ -402,31 +523,46 @@ export function StructureManager({ units, themes, subthemes }: StructureManagerP
                 </select>
               </div>
               <Input
-                value={subthemeEdits[subtheme.id]?.slug ?? ""}
+                value={subthemeEdits[subtheme.id]?.slug ?? subtheme.slug}
                 onChange={(e) =>
                   setSubthemeEdits((p) => ({
                     ...p,
-                    [subtheme.id]: { ...p[subtheme.id], slug: e.target.value },
+                    [subtheme.id]: {
+                      themeId: p[subtheme.id]?.themeId ?? subtheme.theme_id,
+                      slug: e.target.value,
+                      title: p[subtheme.id]?.title ?? subtheme.title,
+                      position: p[subtheme.id]?.position ?? subtheme.position,
+                    },
                   }))
                 }
               />
               <Input
-                value={subthemeEdits[subtheme.id]?.title ?? ""}
+                value={subthemeEdits[subtheme.id]?.title ?? subtheme.title}
                 onChange={(e) =>
                   setSubthemeEdits((p) => ({
                     ...p,
-                    [subtheme.id]: { ...p[subtheme.id], title: e.target.value },
+                    [subtheme.id]: {
+                      themeId: p[subtheme.id]?.themeId ?? subtheme.theme_id,
+                      slug: p[subtheme.id]?.slug ?? subtheme.slug,
+                      title: e.target.value,
+                      position: p[subtheme.id]?.position ?? subtheme.position,
+                    },
                   }))
                 }
               />
               <Input
                 type="number"
                 min={1}
-                value={subthemeEdits[subtheme.id]?.position ?? 1}
+                value={subthemeEdits[subtheme.id]?.position ?? subtheme.position}
                 onChange={(e) =>
                   setSubthemeEdits((p) => ({
                     ...p,
-                    [subtheme.id]: { ...p[subtheme.id], position: Number(e.target.value) || 1 },
+                    [subtheme.id]: {
+                      themeId: p[subtheme.id]?.themeId ?? subtheme.theme_id,
+                      slug: p[subtheme.id]?.slug ?? subtheme.slug,
+                      title: p[subtheme.id]?.title ?? subtheme.title,
+                      position: Number(e.target.value) || 1,
+                    },
                   }))
                 }
               />
