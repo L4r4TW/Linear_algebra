@@ -58,10 +58,10 @@ export function VectorPlane({
 
   return (
     <svg
-      width={size}
-      height={size}
+      width="100%"
+      height="100%"
       viewBox={`0 0 ${size} ${size}`}
-      className={`rounded-lg border border-slate-300 bg-white ${
+      className={`h-auto w-full max-w-[420px] rounded-lg border border-slate-300 bg-white ${
         interactive ? "cursor-crosshair touch-none" : ""
       }`}
       onPointerDown={(event) => {

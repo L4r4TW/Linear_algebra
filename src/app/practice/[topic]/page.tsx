@@ -170,9 +170,9 @@ export default async function ThemePracticePage({
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 px-6 py-14 text-slate-900">
-      <div className="mx-auto flex w-full max-w-4xl flex-col gap-8">
-        <section className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+    <main className="min-h-screen bg-slate-50 px-3 py-8 text-slate-900 sm:px-6 sm:py-14">
+      <div className="mx-auto flex w-full max-w-4xl flex-col gap-5 sm:gap-8">
+        <section className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:rounded-2xl sm:p-8">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-700">
             Practice Theme
           </p>
@@ -189,7 +189,7 @@ export default async function ThemePracticePage({
           </p>
         </section>
 
-        <section className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+        <section className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:rounded-2xl sm:p-8">
           <h2 className="text-xl font-semibold">Subthemes</h2>
 
           {subthemesError && (
@@ -231,7 +231,7 @@ export default async function ThemePracticePage({
         </section>
 
         {selectedSubtheme && (
-          <section className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+          <section className="rounded-none border-0 bg-transparent p-0 shadow-none sm:rounded-2xl sm:border sm:border-slate-200 sm:bg-white sm:p-8 sm:shadow-sm">
             <h2 className="text-xl font-semibold">
               Exercises: {selectedSubtheme.title}
             </h2>
@@ -249,7 +249,7 @@ export default async function ThemePracticePage({
             )}
 
             {!exercisesErrorMessage && exercises.length > 0 && (
-              <ol className="mt-4 flex list-decimal flex-col gap-4 pl-6">
+              <ol className="mt-4 flex list-decimal flex-col gap-4 pl-5 sm:pl-6">
                 {[...exercises]
                   .sort(
                     (a, b) =>
