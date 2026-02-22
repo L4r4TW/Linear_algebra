@@ -44,6 +44,24 @@ type MultipleChoicePromptConfig = {
   correctOption?: string;
 };
 
+type EqualVectorsPromptConfig = {
+  kind: "equal_vectors_pick";
+  grid?: {
+    xMin?: number;
+    xMax?: number;
+    yMin?: number;
+    yMax?: number;
+    step?: number;
+  };
+  vectors?: Array<{
+    id: string;
+    color: string;
+    start: [number, number];
+    end: [number, number];
+  }>;
+  correctIds?: string[];
+};
+
 function getValidationMessage(error: ZodError) {
   const flattened = error.flatten().fieldErrors;
   const firstMessage = Object.values(flattened).flat().find(Boolean);
@@ -192,6 +210,60 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
         options,
       },
       solution: { result: correctOption },
+      updated_at: new Date().toISOString(),
+    };
+  }
+
+  if (parsed.type === "equal_vectors_pick") {
+    const rawConfig =
+      parsed.choicesJson && typeof parsed.choicesJson === "object"
+        ? (parsed.choicesJson as EqualVectorsPromptConfig)
+        : null;
+
+    const fallbackVectors = [
+      { id: "a", color: "#ef4444", start: [0, 0] as [number, number], end: [3, 2] as [number, number] },
+      { id: "b", color: "#3b82f6", start: [2, -1] as [number, number], end: [5, 1] as [number, number] },
+      { id: "c", color: "#10b981", start: [-3, 0] as [number, number], end: [0, 2] as [number, number] },
+      { id: "d", color: "#f59e0b", start: [1, 3] as [number, number], end: [4, 5] as [number, number] },
+    ];
+
+    const vectors =
+      rawConfig?.vectors && rawConfig.vectors.length >= 2
+        ? rawConfig.vectors.map((vector) => ({
+            id: vector.id,
+            color: vector.color || "#0f172a",
+            start: [Number(vector.start?.[0] ?? 0), Number(vector.start?.[1] ?? 0)] as [number, number],
+            end: [Number(vector.end?.[0] ?? 0), Number(vector.end?.[1] ?? 0)] as [number, number],
+          }))
+        : fallbackVectors;
+
+    const validIds = new Set(vectors.map((vector) => vector.id));
+    const correctIds =
+      rawConfig?.correctIds?.filter((id) => validIds.has(id)) ?? [];
+
+    return {
+      subtheme_id: parsed.subthemeId,
+      type: parsed.type,
+      difficulty: parsed.difficulty,
+      prompt_md: parsed.promptMd,
+      solution_md: parsed.solutionMd,
+      choices: parsed.choicesJson,
+      hints: parsed.hintsJson,
+      tags: parsed.tagsJson,
+      status: parsed.status,
+      prompt: {
+        kind: "equal_vectors_pick",
+        question: parsed.promptMd,
+        grid: {
+          xMin: Number(rawConfig?.grid?.xMin ?? -10),
+          xMax: Number(rawConfig?.grid?.xMax ?? 10),
+          yMin: Number(rawConfig?.grid?.yMin ?? -10),
+          yMax: Number(rawConfig?.grid?.yMax ?? 10),
+          step: Number(rawConfig?.grid?.step ?? 1),
+        },
+        vectors,
+      },
+      solution: { result: correctIds.sort() },
       updated_at: new Date().toISOString(),
     };
   }

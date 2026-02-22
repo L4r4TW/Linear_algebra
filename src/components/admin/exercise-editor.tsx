@@ -11,6 +11,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { MarkdownPreview } from "@/components/admin/markdown-preview";
+import {
+  MultiVectorPlane,
+  type PlaneVector,
+} from "@/components/admin/multi-vector-plane";
 import { VectorPlane } from "@/components/admin/vector-plane";
 import {
   exerciseEditorSchema,
@@ -46,6 +50,11 @@ type ExistingExercise = {
 type ExerciseEditorProps = {
   subthemes: SubthemeOption[];
   existingExercises: ExistingExercise[];
+};
+
+type EqualVectorsConfig = {
+  vectors: PlaneVector[];
+  correctIds: string[];
 };
 
 function toJsonString(value: unknown): string {
@@ -158,12 +167,99 @@ function parseMultipleChoiceConfig(value: unknown): {
   };
 }
 
+function parseEqualVectorsConfig(value: unknown): EqualVectorsConfig {
+  const fallback: EqualVectorsConfig = {
+    vectors: [
+      { id: "a", color: "#ef4444", start: [0, 0], end: [3, 2] },
+      { id: "b", color: "#3b82f6", start: [2, -1], end: [5, 1] },
+      { id: "c", color: "#10b981", start: [-3, 0], end: [0, 2] },
+      { id: "d", color: "#f59e0b", start: [1, 3], end: [4, 5] },
+    ],
+    correctIds: ["a", "b"],
+  };
+
+  let source: unknown = value;
+  if (typeof source === "string") {
+    const trimmed = source.trim();
+    if (!trimmed || trimmed === "[]") {
+      return fallback;
+    }
+    try {
+      source = JSON.parse(trimmed);
+    } catch {
+      return fallback;
+    }
+  }
+
+  if (!source || typeof source !== "object" || Array.isArray(source)) {
+    return fallback;
+  }
+
+  const rawVectors = (source as Record<string, unknown>).vectors;
+  if (!Array.isArray(rawVectors) || rawVectors.length < 2) {
+    return fallback;
+  }
+
+  const vectors = rawVectors
+    .map((vector, index) => {
+      if (!vector || typeof vector !== "object" || Array.isArray(vector)) {
+        return null;
+      }
+      const row = vector as Record<string, unknown>;
+      const id =
+        typeof row.id === "string" && row.id.trim()
+          ? row.id.trim().toLowerCase()
+          : String.fromCharCode(97 + index);
+      const color =
+        typeof row.color === "string" && row.color.trim()
+          ? row.color
+          : "#0f766e";
+      const start = Array.isArray(row.start) ? row.start : [0, 0];
+      const end = Array.isArray(row.end) ? row.end : [0, 0];
+      return {
+        id,
+        color,
+        start: [Number(start[0] ?? 0), Number(start[1] ?? 0)] as [number, number],
+        end: [Number(end[0] ?? 0), Number(end[1] ?? 0)] as [number, number],
+      };
+    })
+    .filter(Boolean) as PlaneVector[];
+
+  if (vectors.length < 2) {
+    return fallback;
+  }
+
+  const ids = new Set(vectors.map((vector) => vector.id));
+  const rawCorrectIds = (source as Record<string, unknown>).correctIds;
+  const correctIds = Array.isArray(rawCorrectIds)
+    ? rawCorrectIds
+        .map((id) => (typeof id === "string" ? id : ""))
+        .filter((id) => ids.has(id))
+    : [];
+
+  return {
+    vectors,
+    correctIds,
+  };
+}
+
+function VectorLabel({ id }: { id: string }) {
+  return (
+    <span className="relative inline-flex items-center px-1">
+      <span className="font-semibold">{id}</span>
+      <span className="absolute -top-2 left-0 h-[2px] w-full rounded bg-current" />
+      <span className="absolute -top-[11px] right-[-3px] text-[10px] leading-none">▶</span>
+    </span>
+  );
+}
+
 export function ExerciseEditor({
   subthemes,
   existingExercises,
 }: ExerciseEditorProps) {
   const router = useRouter();
   const [selectedId, setSelectedId] = useState<string>("");
+  const [selectedVectorId, setSelectedVectorId] = useState<string>("a");
   const [serverMessage, setServerMessage] = useState<string>("");
   const [activePane, setActivePane] = useState<"editor" | "preview">("editor");
   const autosaveTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -232,6 +328,16 @@ export function ExerciseEditor({
     () => parseMultipleChoiceConfig(watchedChoices),
     [watchedChoices]
   );
+  const { vectors: equalVectors, correctIds: equalCorrectIds } = useMemo(
+    () => parseEqualVectorsConfig(watchedChoices),
+    [watchedChoices]
+  );
+  const activeEqualVectorId =
+    selectedVectorId && equalVectors.some((vector) => vector.id === selectedVectorId)
+      ? selectedVectorId
+      : equalVectors[0]?.id ?? "";
+  const isSingleChoiceType =
+    watchedType === "single_choice" || watchedType === "multiple_choice";
 
   function applyGraphCoords(next: { x: number; y: number }) {
     if (watchedType === "vector_xy_from_graph") {
@@ -274,6 +380,73 @@ export function ExerciseEditor({
     }
 
     form.setValue("solutionMd", `(${next.x}, ${next.y})`, { shouldDirty: true });
+  }
+
+  const applyEqualVectorsConfig = useCallback(function applyEqualVectorsConfig(
+    nextVectors: PlaneVector[],
+    nextCorrectIds: string[]
+  ) {
+    const uniqueCorrect = [...new Set(nextCorrectIds)].filter((id) =>
+      nextVectors.some((vector) => vector.id === id)
+    );
+    const config = {
+      kind: "equal_vectors_pick",
+      grid: { xMin: -10, xMax: 10, yMin: -10, yMax: 10, step: 1 },
+      vectors: nextVectors,
+      correctIds: uniqueCorrect,
+    };
+    form.setValue("choicesJson", JSON.stringify(config, null, 2), {
+      shouldDirty: true,
+    });
+    if (!form.getValues("promptMd").trim()) {
+      form.setValue(
+        "promptMd",
+        "Pick the equal vectors.",
+        { shouldDirty: true }
+      );
+    }
+    form.setValue("solutionMd", uniqueCorrect.join(", "), { shouldDirty: true });
+  }, [form]);
+
+  function updateEqualVector(
+    id: string,
+    next: { start?: [number, number]; end?: [number, number] }
+  ) {
+    const nextVectors = equalVectors.map((vector) =>
+      vector.id === id
+        ? {
+            ...vector,
+            start: next.start ?? vector.start,
+            end: next.end ?? vector.end,
+          }
+        : vector
+    );
+    applyEqualVectorsConfig(nextVectors, equalCorrectIds);
+  }
+
+  function addEqualVector() {
+    const nextId = String.fromCharCode(97 + equalVectors.length);
+    const palette = ["#ef4444", "#3b82f6", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899"];
+    const nextVector: PlaneVector = {
+      id: nextId,
+      color: palette[equalVectors.length % palette.length],
+      start: [0, 0],
+      end: [2, 1],
+    };
+    const nextVectors = [...equalVectors, nextVector];
+    setSelectedVectorId(nextId);
+    applyEqualVectorsConfig(nextVectors, equalCorrectIds);
+  }
+
+  function removeSelectedEqualVector() {
+    if (equalVectors.length <= 2) {
+      return;
+    }
+    const toRemove = activeEqualVectorId || equalVectors[equalVectors.length - 1]?.id;
+    const nextVectors = equalVectors.filter((vector) => vector.id !== toRemove);
+    const nextSelected = nextVectors[0]?.id ?? "a";
+    setSelectedVectorId(nextSelected);
+    applyEqualVectorsConfig(nextVectors, equalCorrectIds.filter((id) => id !== toRemove));
   }
 
   const applyMultipleChoiceConfig = useCallback(function applyMultipleChoiceConfig(
@@ -322,6 +495,23 @@ export function ExerciseEditor({
       form.setValue("solutionMd", current.correct, { shouldDirty: true });
     }
   }, [applyMultipleChoiceConfig, form, watchedType]);
+
+  useEffect(() => {
+    if (watchedType !== "equal_vectors_pick") {
+      return;
+    }
+
+    const rawChoices = String(form.getValues("choicesJson") ?? "").trim();
+    const parsed = parseEqualVectorsConfig(form.getValues("choicesJson"));
+    if (!rawChoices || rawChoices === "[]") {
+      applyEqualVectorsConfig(parsed.vectors, parsed.correctIds);
+      return;
+    }
+
+    if (!String(form.getValues("solutionMd") ?? "").trim()) {
+      form.setValue("solutionMd", parsed.correctIds.join(", "), { shouldDirty: true });
+    }
+  }, [applyEqualVectorsConfig, form, watchedType]);
 
   useEffect(() => {
     if (!form.formState.isDirty) {
@@ -542,6 +732,7 @@ export function ExerciseEditor({
                       point_plot_from_coordinates
                     </option>
                     <option value="single_choice">single_choice</option>
+                    <option value="equal_vectors_pick">equal_vectors_pick</option>
                   </select>
                 </div>
               </div>
@@ -570,7 +761,7 @@ export function ExerciseEditor({
                 <p className="text-xs text-rose-700">{form.formState.errors.promptMd?.message}</p>
               </div>
 
-              {watchedType !== "single_choice" && watchedType !== "multiple_choice" && (
+              {!isSingleChoiceType && (
                 <div className="space-y-2">
                   <Label htmlFor="solutionMd">Solution (Markdown + LaTeX)</Label>
                   <Textarea id="solutionMd" rows={8} {...form.register("solutionMd")} />
@@ -669,7 +860,7 @@ export function ExerciseEditor({
                 </div>
               )}
 
-              {(watchedType === "single_choice" || watchedType === "multiple_choice") && (
+              {isSingleChoiceType && (
                 <div className="space-y-3 rounded-lg border border-slate-200 bg-slate-50 p-4">
                   <p className="text-sm font-semibold text-slate-800">
                     Multiple choice editor
@@ -713,6 +904,143 @@ export function ExerciseEditor({
                       <option value="c">C</option>
                       <option value="d">D</option>
                     </select>
+                  </div>
+                </div>
+              )}
+
+              {watchedType === "equal_vectors_pick" && (
+                <div className="space-y-3 rounded-lg border border-slate-200 bg-slate-50 p-4">
+                  <p className="text-sm font-semibold text-slate-800">Equal vectors editor</p>
+                  <p className="text-sm text-slate-600">
+                    Select a vector, then drag both handles to set start/end points.
+                  </p>
+                  <div className="flex gap-2">
+                    <Button type="button" variant="outline" onClick={addEqualVector}>
+                      Add vector
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={removeSelectedEqualVector}
+                      disabled={equalVectors.length <= 2}
+                    >
+                      Remove selected
+                    </Button>
+                  </div>
+                  <MultiVectorPlane
+                    vectors={equalVectors}
+                    interactive
+                    selectedId={activeEqualVectorId}
+                    onSelect={(id) => setSelectedVectorId(id)}
+                    onChangeVector={(id, next) => updateEqualVector(id, next)}
+                  />
+
+                  <div className="space-y-3">
+                    {equalVectors.map((vector) => {
+                      const isSelected = activeEqualVectorId === vector.id;
+                      return (
+                        <div
+                          key={vector.id}
+                          className={`rounded-lg border p-3 ${
+                            isSelected
+                              ? "border-slate-900 bg-white"
+                              : "border-slate-200 bg-white"
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <button
+                              type="button"
+                              onClick={() => setSelectedVectorId(vector.id)}
+                              className="cursor-pointer text-sm font-semibold"
+                            >
+                              <VectorLabel id={vector.id} />
+                            </button>
+                            <input
+                              type="color"
+                              value={vector.color}
+                              onChange={(event) =>
+                                applyEqualVectorsConfig(
+                                  equalVectors.map((item) =>
+                                    item.id === vector.id
+                                      ? { ...item, color: event.target.value }
+                                      : item
+                                  ),
+                                  equalCorrectIds
+                                )
+                              }
+                              className="h-8 w-12 cursor-pointer rounded border border-slate-300"
+                            />
+                          </div>
+                          <div className="mt-3 grid gap-2 md:grid-cols-4">
+                            <Input
+                              type="number"
+                              value={vector.start[0]}
+                              onChange={(event) =>
+                                updateEqualVector(vector.id, {
+                                  start: [Number(event.target.value) || 0, vector.start[1]],
+                                })
+                              }
+                            />
+                            <Input
+                              type="number"
+                              value={vector.start[1]}
+                              onChange={(event) =>
+                                updateEqualVector(vector.id, {
+                                  start: [vector.start[0], Number(event.target.value) || 0],
+                                })
+                              }
+                            />
+                            <Input
+                              type="number"
+                              value={vector.end[0]}
+                              onChange={(event) =>
+                                updateEqualVector(vector.id, {
+                                  end: [Number(event.target.value) || 0, vector.end[1]],
+                                })
+                              }
+                            />
+                            <Input
+                              type="number"
+                              value={vector.end[1]}
+                              onChange={(event) =>
+                                updateEqualVector(vector.id, {
+                                  end: [vector.end[0], Number(event.target.value) || 0],
+                                })
+                              }
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="space-y-2">
+                    <p className="text-sm font-semibold text-slate-800">
+                      Mark equal vectors (correct answers)
+                    </p>
+                    <div className="grid gap-2 sm:grid-cols-2">
+                      {equalVectors.map((vector) => {
+                        const checked = equalCorrectIds.includes(vector.id);
+                        return (
+                          <label
+                            key={`correct-${vector.id}`}
+                            className="flex cursor-pointer items-center gap-2 rounded border border-slate-200 bg-white px-3 py-2"
+                          >
+                            <input
+                              type="checkbox"
+                              checked={checked}
+                              onChange={(event) => {
+                                const nextCorrect = event.target.checked
+                                  ? [...equalCorrectIds, vector.id]
+                                  : equalCorrectIds.filter((id) => id !== vector.id);
+                                applyEqualVectorsConfig(equalVectors, nextCorrect);
+                              }}
+                            />
+                            <VectorLabel id={vector.id} />
+                          </label>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
               )}
@@ -767,6 +1095,12 @@ export function ExerciseEditor({
                 <div>
                   <p className="mb-2 text-sm font-semibold text-slate-700">Graph preview</p>
                   <VectorPlane x={graphX} y={graphY} mode="point" />
+                </div>
+              )}
+              {watchedType === "equal_vectors_pick" && (
+                <div>
+                  <p className="mb-2 text-sm font-semibold text-slate-700">Graph preview</p>
+                  <MultiVectorPlane vectors={equalVectors} />
                 </div>
               )}
               <div>

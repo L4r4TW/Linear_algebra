@@ -1,6 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import {
+  MultiVectorPlane,
+  type PlaneVector,
+} from "@/components/admin/multi-vector-plane";
 import { VectorPlane } from "@/components/admin/vector-plane";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 import type { Json } from "@/types/database";
@@ -42,6 +46,19 @@ type MultipleChoicePrompt = {
   kind: "single_choice" | "multiple_choice";
   question?: string;
   options?: Array<{ id: string; text: string }>;
+};
+
+type EqualVectorsPrompt = {
+  kind: "equal_vectors_pick";
+  question?: string;
+  grid?: {
+    xMin?: number;
+    xMax?: number;
+    yMin?: number;
+    yMax?: number;
+    step?: number;
+  };
+  vectors?: PlaneVector[];
 };
 
 function getQuestionText(prompt: Json): string {
@@ -154,6 +171,45 @@ function getExpectedVector(solution: Json): { x: number; y: number } | null {
   return { x, y };
 }
 
+function getEqualVectorsPrompt(prompt: Json): EqualVectorsPrompt | null {
+  if (!prompt || typeof prompt !== "object" || Array.isArray(prompt)) {
+    return null;
+  }
+
+  const obj = prompt as Record<string, unknown>;
+  if (obj.kind !== "equal_vectors_pick") {
+    return null;
+  }
+
+  return obj as unknown as EqualVectorsPrompt;
+}
+
+function getExpectedIdSet(solution: Json): string[] {
+  if (!solution || typeof solution !== "object" || Array.isArray(solution)) {
+    return [];
+  }
+
+  const maybeResult = (solution as Record<string, unknown>).result;
+  if (!Array.isArray(maybeResult)) {
+    return [];
+  }
+
+  return maybeResult
+    .map((item) => (typeof item === "string" ? item : ""))
+    .filter(Boolean)
+    .sort();
+}
+
+function VectorLabel({ id }: { id: string }) {
+  return (
+    <span className="relative inline-flex items-center px-1">
+      <span className="font-semibold">{id}</span>
+      <span className="absolute -top-2 left-0 h-[2px] w-full rounded bg-current" />
+      <span className="absolute -top-[11px] right-[-3px] text-[10px] leading-none">▶</span>
+    </span>
+  );
+}
+
 export function ExerciseAttemptCard({
   exerciseId,
   prompt,
@@ -175,10 +231,12 @@ export function ExerciseAttemptCard({
     null
   );
   const [selectedChoice, setSelectedChoice] = useState("");
+  const [selectedEqualIds, setSelectedEqualIds] = useState<string[]>([]);
 
   const vectorPrompt = getVectorPrompt(prompt);
   const pointPrompt = getPointPrompt(prompt);
   const multipleChoicePrompt = getMultipleChoicePrompt(prompt);
+  const equalVectorsPrompt = getEqualVectorsPrompt(prompt);
   const expectedVector = getExpectedVector(solution);
 
   async function saveAttempt(correctness: boolean, rawAnswer: string) {
@@ -238,7 +296,14 @@ export function ExerciseAttemptCard({
     let correctness = false;
     let rawAnswer = answer;
 
-    if (multipleChoicePrompt) {
+    if (equalVectorsPrompt) {
+      const expected = getExpectedIdSet(solution);
+      const actual = [...selectedEqualIds].sort();
+      correctness =
+        expected.length === actual.length &&
+        expected.every((id, index) => id === actual[index]);
+      rawAnswer = actual.join(", ");
+    } else if (multipleChoicePrompt) {
       const expected = String(expectedAnswer(solution));
       correctness = selectedChoice === expected;
       rawAnswer = selectedChoice;
@@ -283,7 +348,39 @@ export function ExerciseAttemptCard({
       )}
       <p className="font-medium">{getQuestionText(prompt)}</p>
 
-      {multipleChoicePrompt ? (
+      {equalVectorsPrompt ? (
+        <div className="mt-4 space-y-4">
+          <MultiVectorPlane
+            vectors={equalVectorsPrompt.vectors ?? []}
+            min={Number(equalVectorsPrompt.grid?.xMin ?? -10)}
+            max={Number(equalVectorsPrompt.grid?.xMax ?? 10)}
+          />
+          <div className="grid gap-2 sm:grid-cols-2">
+            {(equalVectorsPrompt.vectors ?? []).map((vector) => {
+              const checked = selectedEqualIds.includes(vector.id);
+              return (
+                <label
+                  key={`pick-${vector.id}`}
+                  className="flex cursor-pointer items-center gap-2 rounded border border-slate-200 bg-slate-50 px-3 py-2"
+                >
+                  <input
+                    type="checkbox"
+                    checked={checked}
+                    onChange={(event) => {
+                      setSelectedEqualIds((prev) =>
+                        event.target.checked
+                          ? [...prev, vector.id]
+                          : prev.filter((id) => id !== vector.id)
+                      );
+                    }}
+                  />
+                  <VectorLabel id={vector.id} />
+                </label>
+              );
+            })}
+          </div>
+        </div>
+      ) : multipleChoicePrompt ? (
         <div className="mt-4 space-y-3">
           {(multipleChoicePrompt.options ?? []).map((option) => (
             <label
@@ -371,7 +468,9 @@ export function ExerciseAttemptCard({
         onClick={handleSubmit}
         disabled={
           isSaving ||
-          (multipleChoicePrompt
+          (equalVectorsPrompt
+            ? selectedEqualIds.length === 0
+            : multipleChoicePrompt
             ? !selectedChoice
             : pointPrompt
             ? !plottedPoint
