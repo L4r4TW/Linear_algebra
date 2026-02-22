@@ -9,16 +9,8 @@ type ActionResult = {
   id?: string;
 };
 
-const slugSchema = z
-  .string()
-  .trim()
-  .min(2)
-  .max(80)
-  .regex(/^[a-z0-9-]+$/, "Use lowercase letters, numbers, and hyphens only");
-
 const unitSchema = z.object({
   id: z.string().uuid().optional(),
-  slug: slugSchema,
   title: z.string().trim().min(2).max(120),
   position: z.coerce.number().int().min(1),
 });
@@ -26,7 +18,6 @@ const unitSchema = z.object({
 const themeSchema = z.object({
   id: z.string().uuid().optional(),
   unitId: z.string().uuid(),
-  slug: slugSchema,
   title: z.string().trim().min(2).max(120),
   position: z.coerce.number().int().min(1),
 });
@@ -34,7 +25,6 @@ const themeSchema = z.object({
 const subthemeSchema = z.object({
   id: z.string().uuid().optional(),
   themeId: z.string().uuid(),
-  slug: slugSchema,
   title: z.string().trim().min(2).max(120),
   position: z.coerce.number().int().min(1),
 });
@@ -68,6 +58,101 @@ function firstZodError(error: z.ZodError) {
   return first || "Invalid input";
 }
 
+function slugifyTitle(title: string) {
+  const base = title
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+  return base || "item";
+}
+
+async function buildUniqueUnitSlug(
+  supabase: Awaited<ReturnType<typeof createServerSupabaseClient>>,
+  title: string,
+  excludeId?: string
+) {
+  const base = slugifyTitle(title);
+  const { data } = await supabase
+    .from("units")
+    .select("id, slug")
+    .ilike("slug", `${base}%`);
+
+  const used = new Set(
+    ((data ?? []) as Array<{ id: string; slug: string }>)
+      .filter((row) => row.id !== excludeId)
+      .map((row) => row.slug)
+  );
+
+  if (!used.has(base)) {
+    return base;
+  }
+
+  let idx = 2;
+  while (used.has(`${base}-${idx}`)) {
+    idx += 1;
+  }
+  return `${base}-${idx}`;
+}
+
+async function buildUniqueThemeSlug(
+  supabase: Awaited<ReturnType<typeof createServerSupabaseClient>>,
+  title: string,
+  excludeId?: string
+) {
+  const base = slugifyTitle(title);
+  const { data } = await supabase
+    .from("themes")
+    .select("id, slug")
+    .ilike("slug", `${base}%`);
+
+  const used = new Set(
+    ((data ?? []) as Array<{ id: string; slug: string }>)
+      .filter((row) => row.id !== excludeId)
+      .map((row) => row.slug)
+  );
+
+  if (!used.has(base)) {
+    return base;
+  }
+
+  let idx = 2;
+  while (used.has(`${base}-${idx}`)) {
+    idx += 1;
+  }
+  return `${base}-${idx}`;
+}
+
+async function buildUniqueSubthemeSlug(
+  supabase: Awaited<ReturnType<typeof createServerSupabaseClient>>,
+  title: string,
+  excludeId?: string
+) {
+  const base = slugifyTitle(title);
+  const { data } = await supabase
+    .from("subthemes")
+    .select("id, slug")
+    .ilike("slug", `${base}%`);
+
+  const used = new Set(
+    ((data ?? []) as Array<{ id: string; slug: string }>)
+      .filter((row) => row.id !== excludeId)
+      .map((row) => row.slug)
+  );
+
+  if (!used.has(base)) {
+    return base;
+  }
+
+  let idx = 2;
+  while (used.has(`${base}-${idx}`)) {
+    idx += 1;
+  }
+  return `${base}-${idx}`;
+}
+
 export async function upsertUnitAction(raw: unknown): Promise<ActionResult> {
   const parsed = unitSchema.safeParse(raw);
   if (!parsed.success) {
@@ -76,12 +161,13 @@ export async function upsertUnitAction(raw: unknown): Promise<ActionResult> {
 
   try {
     const supabase = await assertAdmin();
+    const slug = await buildUniqueUnitSlug(supabase, parsed.data.title, parsed.data.id);
 
     if (parsed.data.id) {
       const { data, error } = await supabase
         .from("units")
         .update({
-          slug: parsed.data.slug,
+          slug,
           title: parsed.data.title,
           position: parsed.data.position,
         })
@@ -99,7 +185,7 @@ export async function upsertUnitAction(raw: unknown): Promise<ActionResult> {
     const { data, error } = await supabase
       .from("units")
       .insert({
-        slug: parsed.data.slug,
+        slug,
         title: parsed.data.title,
         position: parsed.data.position,
       })
@@ -137,13 +223,14 @@ export async function upsertThemeAction(raw: unknown): Promise<ActionResult> {
 
   try {
     const supabase = await assertAdmin();
+    const slug = await buildUniqueThemeSlug(supabase, parsed.data.title, parsed.data.id);
 
     if (parsed.data.id) {
       const { data, error } = await supabase
         .from("themes")
         .update({
           unit_id: parsed.data.unitId,
-          slug: parsed.data.slug,
+          slug,
           title: parsed.data.title,
           position: parsed.data.position,
         })
@@ -162,7 +249,7 @@ export async function upsertThemeAction(raw: unknown): Promise<ActionResult> {
       .from("themes")
       .insert({
         unit_id: parsed.data.unitId,
-        slug: parsed.data.slug,
+        slug,
         title: parsed.data.title,
         position: parsed.data.position,
       })
@@ -200,13 +287,18 @@ export async function upsertSubthemeAction(raw: unknown): Promise<ActionResult> 
 
   try {
     const supabase = await assertAdmin();
+    const slug = await buildUniqueSubthemeSlug(
+      supabase,
+      parsed.data.title,
+      parsed.data.id
+    );
 
     if (parsed.data.id) {
       const { data, error } = await supabase
         .from("subthemes")
         .update({
           theme_id: parsed.data.themeId,
-          slug: parsed.data.slug,
+          slug,
           title: parsed.data.title,
           position: parsed.data.position,
         })
@@ -225,7 +317,7 @@ export async function upsertSubthemeAction(raw: unknown): Promise<ActionResult> 
       .from("subthemes")
       .insert({
         theme_id: parsed.data.themeId,
-        slug: parsed.data.slug,
+        slug,
         title: parsed.data.title,
         position: parsed.data.position,
       })
