@@ -36,6 +36,11 @@ type PointPromptConfig = {
     step?: number;
   };
   target?: [number, number];
+  vectors?: Array<{
+    id?: string;
+    color?: string;
+    target?: [number, number];
+  }>;
 };
 
 type MultipleChoicePromptConfig = {
@@ -158,13 +163,37 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
       parsed.choicesJson && typeof parsed.choicesJson === "object"
         ? (parsed.choicesJson as PointPromptConfig)
         : null;
-    const target = rawConfig?.target ?? [0, 0];
-    const x = Number(target[0]) || 0;
-    const y = Number(target[1]) || 0;
+    const fallbackTarget = rawConfig?.target ?? [0, 0];
+    const fallbackVectors = [
+      {
+        id: "a",
+        color: "#3b82f6",
+        target: [Number(fallbackTarget[0]) || 0, Number(fallbackTarget[1]) || 0] as [
+          number,
+          number,
+        ],
+      },
+    ];
+    const vectors =
+      rawConfig?.vectors && rawConfig.vectors.length > 0
+        ? rawConfig.vectors.map((vector, index) => ({
+            id: vector.id?.trim() || String.fromCharCode(97 + index),
+            color: vector.color || "#3b82f6",
+            target: [
+              Number(vector.target?.[0] ?? 0) || 0,
+              Number(vector.target?.[1] ?? 0) || 0,
+            ] as [number, number],
+          }))
+        : fallbackVectors;
+
+    const solutionRows = vectors.map((vector) => ({
+      id: vector.id,
+      x: vector.target[0],
+      y: vector.target[1],
+    }));
     const prompt = {
       kind: "point_plot_from_coordinates",
-      question:
-        parsed.promptMd || `Plot the point (${x}, ${y}) on the coordinate system.`,
+      question: parsed.promptMd || "Plot all required vectors on the coordinate system.",
       grid: {
         xMin: Number(rawConfig?.grid?.xMin ?? -10),
         xMax: Number(rawConfig?.grid?.xMax ?? 10),
@@ -172,7 +201,12 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
         yMax: Number(rawConfig?.grid?.yMax ?? 10),
         step: Number(rawConfig?.grid?.step ?? 1),
       },
-      target: [x, y],
+      vectors: vectors.map((vector) => ({
+        id: vector.id,
+        color: vector.color,
+        start: [0, 0] as [number, number],
+        end: vector.target,
+      })),
       showLabels: true,
     };
 
@@ -187,7 +221,7 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
       tags: parsed.tagsJson,
       status: parsed.status,
       prompt,
-      solution: { result: { x, y } },
+      solution: { result: solutionRows },
       updated_at: new Date().toISOString(),
     };
   }

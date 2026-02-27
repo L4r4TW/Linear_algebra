@@ -57,6 +57,10 @@ type EqualVectorsConfig = {
   correctIds: string[];
 };
 
+type PointPlotVectorsConfig = {
+  vectors: PlaneVector[];
+};
+
 type MultiPartPartType =
   | "short_answer"
   | "single_choice"
@@ -126,6 +130,80 @@ function parseGraphCoords(value: unknown): { x: number; y: number } {
     x: Number.isFinite(x) ? Math.round(x) : 0,
     y: Number.isFinite(y) ? Math.round(y) : 0,
   };
+}
+
+function parsePointPlotVectorsConfig(value: unknown): PointPlotVectorsConfig {
+  const fallback: PointPlotVectorsConfig = {
+    vectors: [{ id: "a", color: "#3b82f6", start: [0, 0], end: [2, 1] }],
+  };
+
+  let source: unknown = value;
+  if (typeof source === "string") {
+    const trimmed = source.trim();
+    if (!trimmed || trimmed === "[]") {
+      return fallback;
+    }
+    try {
+      source = JSON.parse(trimmed);
+    } catch {
+      return fallback;
+    }
+  }
+
+  if (!source || typeof source !== "object" || Array.isArray(source)) {
+    return fallback;
+  }
+
+  const row = source as Record<string, unknown>;
+  const rawVectors = row.vectors;
+  if (!Array.isArray(rawVectors) || rawVectors.length === 0) {
+    const rawTarget = Array.isArray(row.target) ? row.target : [2, 1];
+    return {
+      vectors: [
+        {
+          id: "a",
+          color: "#3b82f6",
+          start: [0, 0],
+          end: [Number(rawTarget[0] ?? 0) || 0, Number(rawTarget[1] ?? 0) || 0],
+        },
+      ],
+    };
+  }
+
+  const vectors = rawVectors
+    .map((item, index) => {
+      if (!item || typeof item !== "object" || Array.isArray(item)) {
+        return null;
+      }
+      const vector = item as Record<string, unknown>;
+      const id =
+        typeof vector.id === "string" && vector.id.trim()
+          ? vector.id.trim().toLowerCase()
+          : String.fromCharCode(97 + index);
+      const color =
+        typeof vector.color === "string" && vector.color.trim()
+          ? vector.color
+          : ["#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899"][
+              index % 6
+            ];
+      const maybeTarget = Array.isArray(vector.target)
+        ? vector.target
+        : Array.isArray(vector.end)
+          ? vector.end
+          : [0, 0];
+      return {
+        id,
+        color,
+        start: [0, 0] as [number, number],
+        end: [Number(maybeTarget[0] ?? 0) || 0, Number(maybeTarget[1] ?? 0) || 0] as [
+          number,
+          number,
+        ],
+      };
+    })
+    .filter(Boolean) as PlaneVector[];
+
+  return vectors.length > 0 ? { vectors } : fallback;
 }
 
 function parseMultipleChoiceConfig(value: unknown): {
@@ -497,6 +575,7 @@ export function ExerciseEditor({
   const router = useRouter();
   const [selectedId, setSelectedId] = useState<string>("");
   const [selectedVectorId, setSelectedVectorId] = useState<string>("a");
+  const [selectedPointVectorId, setSelectedPointVectorId] = useState<string>("a");
   const [serverMessage, setServerMessage] = useState<string>("");
   const [activePane, setActivePane] = useState<"editor" | "preview">("editor");
   const autosaveTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -573,6 +652,10 @@ export function ExerciseEditor({
     () => parseEqualVectorsConfig(watchedChoices),
     [watchedChoices]
   );
+  const { vectors: pointPlotVectors } = useMemo(
+    () => parsePointPlotVectorsConfig(watchedChoices),
+    [watchedChoices]
+  );
   const multiPartParts = useMemo(
     () => parseMultiPartConfig(watchedChoices),
     [watchedChoices]
@@ -581,6 +664,11 @@ export function ExerciseEditor({
     selectedVectorId && equalVectors.some((vector) => vector.id === selectedVectorId)
       ? selectedVectorId
       : equalVectors[0]?.id ?? "";
+  const activePointVectorId =
+    selectedPointVectorId &&
+    pointPlotVectors.some((vector) => vector.id === selectedPointVectorId)
+      ? selectedPointVectorId
+      : pointPlotVectors[0]?.id ?? "";
   const isSingleChoiceType =
     watchedType === "single_choice" || watchedType === "multiple_choice";
   const isChoiceType = isSingleChoiceType || watchedType === "multi_select";
@@ -605,28 +693,84 @@ export function ExerciseEditor({
           { shouldDirty: true }
         );
       }
+      form.setValue("solutionMd", `(${next.x}, ${next.y})`, { shouldDirty: true });
     }
+  }
 
-    if (watchedType === "point_plot_from_coordinates") {
-      const nextConfig = {
-        kind: "point_plot_from_coordinates",
-        grid: { xMin: -10, xMax: 10, yMin: -10, yMax: 10, step: 1 },
-        target: [next.x, next.y],
-      };
-      form.setValue("choicesJson", JSON.stringify(nextConfig, null, 2), {
+  const applyPointPlotVectorsConfig = useCallback(function applyPointPlotVectorsConfig(
+    nextVectors: PlaneVector[]
+  ) {
+    const vectorsWithOrigin = nextVectors.map((vector) => ({
+      id: vector.id,
+      color: vector.color,
+      start: [0, 0] as [number, number],
+      end: vector.end,
+    }));
+    const config = {
+      kind: "point_plot_from_coordinates",
+      grid: { xMin: -10, xMax: 10, yMin: -10, yMax: 10, step: 1 },
+      vectors: vectorsWithOrigin.map((vector) => ({
+        id: vector.id,
+        color: vector.color,
+        target: [Number(vector.end[0] ?? 0), Number(vector.end[1] ?? 0)],
+      })),
+    };
+    form.setValue("choicesJson", JSON.stringify(config, null, 2), {
+      shouldDirty: true,
+    });
+    if (!form.getValues("promptMd").trim()) {
+      form.setValue("promptMd", "Plot all required vectors on the coordinate system.", {
         shouldDirty: true,
       });
-
-      if (!form.getValues("promptMd").trim()) {
-        form.setValue(
-          "promptMd",
-          `Plot the point (${next.x}, ${next.y}) on the coordinate system.`,
-          { shouldDirty: true }
-        );
-      }
     }
+    form.setValue(
+      "solutionMd",
+      vectorsWithOrigin
+        .map((vector) => `${vector.id}: (${vector.end[0]}, ${vector.end[1]})`)
+        .join(", "),
+      { shouldDirty: true }
+    );
+  }, [form]);
 
-    form.setValue("solutionMd", `(${next.x}, ${next.y})`, { shouldDirty: true });
+  function updatePointPlotVector(
+    id: string,
+    next: { start?: [number, number]; end?: [number, number] }
+  ) {
+    const nextVectors = pointPlotVectors.map((vector) =>
+      vector.id === id
+        ? {
+            ...vector,
+            start: [0, 0] as [number, number],
+            end: next.end ?? vector.end,
+          }
+        : vector
+    );
+    applyPointPlotVectorsConfig(nextVectors);
+  }
+
+  function addPointPlotVector() {
+    const nextId = String.fromCharCode(97 + pointPlotVectors.length);
+    const palette = ["#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899"];
+    const nextVector: PlaneVector = {
+      id: nextId,
+      color: palette[pointPlotVectors.length % palette.length],
+      start: [0, 0],
+      end: [2, 1],
+    };
+    const nextVectors = [...pointPlotVectors, nextVector];
+    setSelectedPointVectorId(nextId);
+    applyPointPlotVectorsConfig(nextVectors);
+  }
+
+  function removePointPlotVector() {
+    if (pointPlotVectors.length <= 1) {
+      return;
+    }
+    const toRemove =
+      activePointVectorId || pointPlotVectors[pointPlotVectors.length - 1]?.id;
+    const nextVectors = pointPlotVectors.filter((vector) => vector.id !== toRemove);
+    setSelectedPointVectorId(nextVectors[0]?.id ?? "a");
+    applyPointPlotVectorsConfig(nextVectors);
   }
 
   const applyEqualVectorsConfig = useCallback(function applyEqualVectorsConfig(
@@ -1251,47 +1395,88 @@ export function ExerciseEditor({
 
               {watchedType === "point_plot_from_coordinates" && (
                 <div className="space-y-3 rounded-lg border border-slate-200 bg-slate-50 p-4">
-                  <p className="text-sm font-semibold text-slate-800">Point target editor</p>
+                  <p className="text-sm font-semibold text-slate-800">Point/vector target editor</p>
                   <p className="text-sm text-slate-600">
-                    Set the target point that users will have to plot on the grid.
+                    Set one or more vectors (from origin) that users must draw.
                   </p>
-                  <VectorPlane
-                    x={graphX}
-                    y={graphY}
-                    mode="point"
-                    interactive
-                    onChange={(next) => applyGraphCoords(next)}
-                  />
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <div className="space-y-2">
-                      <Label htmlFor="pointX">Point X</Label>
-                      <Input
-                        id="pointX"
-                        type="number"
-                        value={graphX}
-                        onChange={(event) =>
-                          applyGraphCoords({
-                            x: Number(event.target.value) || 0,
-                            y: graphY,
-                          })
-                        }
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="pointY">Point Y</Label>
-                      <Input
-                        id="pointY"
-                        type="number"
-                        value={graphY}
-                        onChange={(event) =>
-                          applyGraphCoords({
-                            x: graphX,
-                            y: Number(event.target.value) || 0,
-                          })
-                        }
-                      />
-                    </div>
+                  <div className="flex flex-wrap gap-2">
+                    {pointPlotVectors.map((vector) => (
+                      <Button
+                        key={`ppv-${vector.id}`}
+                        type="button"
+                        variant={activePointVectorId === vector.id ? "default" : "outline"}
+                        onClick={() => setSelectedPointVectorId(vector.id)}
+                      >
+                        <VectorLabel id={vector.id} />
+                      </Button>
+                    ))}
                   </div>
+                  <div className="flex gap-2">
+                    <Button type="button" variant="outline" onClick={addPointPlotVector}>
+                      Add vector
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={removePointPlotVector}
+                      disabled={pointPlotVectors.length <= 1}
+                    >
+                      Remove selected
+                    </Button>
+                  </div>
+                  <MultiVectorPlane
+                    vectors={pointPlotVectors}
+                    interactive
+                    selectedId={activePointVectorId}
+                    onSelect={(id) => setSelectedPointVectorId(id)}
+                    onChangeVector={(id, next) => updatePointPlotVector(id, next)}
+                  />
+                  {activePointVectorId && (
+                    <div className="grid gap-4 md:grid-cols-2">
+                      <div className="space-y-2">
+                        <Label htmlFor="pointX">Vector X</Label>
+                        <Input
+                          id="pointX"
+                          type="number"
+                          value={
+                            pointPlotVectors.find((vector) => vector.id === activePointVectorId)
+                              ?.end[0] ?? 0
+                          }
+                          onChange={(event) =>
+                            updatePointPlotVector(activePointVectorId, {
+                              end: [
+                                Number(event.target.value) || 0,
+                                pointPlotVectors.find(
+                                  (vector) => vector.id === activePointVectorId
+                                )?.end[1] ?? 0,
+                              ],
+                            })
+                          }
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="pointY">Vector Y</Label>
+                        <Input
+                          id="pointY"
+                          type="number"
+                          value={
+                            pointPlotVectors.find((vector) => vector.id === activePointVectorId)
+                              ?.end[1] ?? 0
+                          }
+                          onChange={(event) =>
+                            updatePointPlotVector(activePointVectorId, {
+                              end: [
+                                pointPlotVectors.find(
+                                  (vector) => vector.id === activePointVectorId
+                                )?.end[0] ?? 0,
+                                Number(event.target.value) || 0,
+                              ],
+                            })
+                          }
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -1864,7 +2049,7 @@ export function ExerciseEditor({
               {watchedType === "point_plot_from_coordinates" && (
                 <div>
                   <p className="mb-2 text-sm font-semibold text-slate-700">Graph preview</p>
-                  <VectorPlane x={graphX} y={graphY} mode="point" />
+                  <MultiVectorPlane vectors={pointPlotVectors} />
                 </div>
               )}
               {watchedType === "equal_vectors_pick" && (

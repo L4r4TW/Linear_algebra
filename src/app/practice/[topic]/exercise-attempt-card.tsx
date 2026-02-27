@@ -40,6 +40,7 @@ type PointPrompt = {
     step?: number;
   };
   target?: [number, number];
+  vectors?: PlaneVector[];
 };
 
 type MultipleChoicePrompt = {
@@ -216,6 +217,60 @@ function getExpectedVector(solution: Json): { x: number; y: number } | null {
   return { x, y };
 }
 
+function getExpectedVectorRows(solution: Json): Array<{ id: string; x: number; y: number }> {
+  if (!solution || typeof solution !== "object" || Array.isArray(solution)) {
+    return [];
+  }
+  const maybeResult = (solution as Record<string, unknown>).result;
+  if (Array.isArray(maybeResult)) {
+    return maybeResult
+      .map((item, index) => {
+        if (!item || typeof item !== "object" || Array.isArray(item)) {
+          return null;
+        }
+        const row = item as Record<string, unknown>;
+        const id =
+          typeof row.id === "string" && row.id.trim()
+            ? row.id.trim()
+            : String.fromCharCode(97 + index);
+        const x = Number(row.x);
+        const y = Number(row.y);
+        if (!Number.isFinite(x) || !Number.isFinite(y)) {
+          return null;
+        }
+        return { id, x, y };
+      })
+      .filter(Boolean) as Array<{ id: string; x: number; y: number }>;
+  }
+  const single = getExpectedVector(solution);
+  return single ? [{ id: "a", x: single.x, y: single.y }] : [];
+}
+
+function getPointPromptVectors(pointPrompt: PointPrompt | null): PlaneVector[] {
+  if (!pointPrompt) {
+    return [];
+  }
+  if (Array.isArray(pointPrompt.vectors) && pointPrompt.vectors.length > 0) {
+    return pointPrompt.vectors.map((vector, index) => ({
+      id: vector.id || String.fromCharCode(97 + index),
+      color: vector.color || ["#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899"][index % 6],
+      start: [0, 0],
+      end: [Number(vector.end?.[0] ?? 0), Number(vector.end?.[1] ?? 0)],
+    }));
+  }
+  if (Array.isArray(pointPrompt.target) && pointPrompt.target.length >= 2) {
+    return [
+      {
+        id: "a",
+        color: "#3b82f6",
+        start: [0, 0],
+        end: [Number(pointPrompt.target[0] ?? 0), Number(pointPrompt.target[1] ?? 0)],
+      },
+    ];
+  }
+  return [];
+}
+
 function getEqualVectorsPrompt(prompt: Json): EqualVectorsPrompt | null {
   if (!prompt || typeof prompt !== "object" || Array.isArray(prompt)) {
     return null;
@@ -305,9 +360,10 @@ export function ExerciseAttemptCard({
   const [isSolved, setIsSolved] = useState(initialSolved);
   const [vectorXInput, setVectorXInput] = useState("");
   const [vectorYInput, setVectorYInput] = useState("");
-  const [plottedPoint, setPlottedPoint] = useState<{ x: number; y: number } | null>(
-    null
-  );
+  const [selectedPointVectorId, setSelectedPointVectorId] = useState("a");
+  const [pointVectorAnswerMap, setPointVectorAnswerMap] = useState<
+    Record<string, { x: number; y: number }>
+  >({});
   const [selectedChoice, setSelectedChoice] = useState("");
   const [selectedChoices, setSelectedChoices] = useState<string[]>([]);
   const [selectedEqualIds, setSelectedEqualIds] = useState<string[]>([]);
@@ -328,6 +384,24 @@ export function ExerciseAttemptCard({
   const equalVectorsPrompt = getEqualVectorsPrompt(prompt);
   const multiPartPrompt = getMultiPartPrompt(prompt);
   const expectedVector = getExpectedVector(solution);
+  const expectedPointVectors = useMemo(() => getExpectedVectorRows(solution), [solution]);
+  const pointPromptVectors = useMemo(() => getPointPromptVectors(pointPrompt), [pointPrompt]);
+  const pointVectorAnswers = useMemo(
+    () =>
+      pointPromptVectors.map((vector) => ({
+        ...vector,
+        end: [
+          pointVectorAnswerMap[vector.id]?.x ?? 0,
+          pointVectorAnswerMap[vector.id]?.y ?? 0,
+        ] as [number, number],
+      })),
+    [pointPromptVectors, pointVectorAnswerMap]
+  );
+  const activePointVectorId =
+    selectedPointVectorId &&
+    pointVectorAnswers.some((vector) => vector.id === selectedPointVectorId)
+      ? selectedPointVectorId
+      : pointVectorAnswers[0]?.id ?? "";
 
   async function saveAttempt(correctness: boolean, rawAnswer: string) {
     setIsSaving(true);
@@ -513,13 +587,36 @@ export function ExerciseAttemptCard({
       const expected = String(expectedAnswer(solution));
       correctness = selectedChoice === expected;
       rawAnswer = selectedChoice;
-    } else if (pointPrompt && expectedVector) {
-      correctness = Boolean(
-        plottedPoint &&
-          plottedPoint.x === expectedVector.x &&
-          plottedPoint.y === expectedVector.y
+    } else if (pointPrompt) {
+      const expectedRows =
+        expectedPointVectors.length > 0
+          ? expectedPointVectors
+          : expectedVector
+            ? [{ id: "a", x: expectedVector.x, y: expectedVector.y }]
+            : [];
+      const expectedById = new Map(expectedRows.map((row) => [row.id, row]));
+      correctness =
+        expectedRows.length > 0 &&
+        expectedRows.every((row) => {
+          const answerRow = pointVectorAnswers.find((vector) => vector.id === row.id);
+          return Boolean(
+            answerRow && answerRow.end[0] === row.x && answerRow.end[1] === row.y
+          );
+        });
+      rawAnswer = JSON.stringify(
+        pointVectorAnswers.map((vector) => ({
+          id: vector.id,
+          x: vector.end[0],
+          y: vector.end[1],
+          expected:
+            expectedById.has(vector.id)
+              ? {
+                  x: expectedById.get(vector.id)?.x,
+                  y: expectedById.get(vector.id)?.y,
+                }
+              : null,
+        }))
       );
-      rawAnswer = plottedPoint ? `(${plottedPoint.x}, ${plottedPoint.y})` : "";
     } else if (vectorPrompt && expectedVector) {
       const x = Number(vectorXInput.trim());
       const y = Number(vectorYInput.trim());
@@ -806,20 +903,47 @@ export function ExerciseAttemptCard({
         </div>
       ) : pointPrompt ? (
         <div className="mt-4 space-y-4">
-          <VectorPlane
-            x={plottedPoint?.x ?? 0}
-            y={plottedPoint?.y ?? 0}
+          <div className="flex flex-wrap gap-2">
+            {pointVectorAnswers.map((vector) => (
+              <button
+                key={`ptv-${vector.id}`}
+                type="button"
+                onClick={() => setSelectedPointVectorId(vector.id)}
+                className={`rounded border px-3 py-1 text-sm ${
+                  activePointVectorId === vector.id
+                    ? "border-slate-900 bg-slate-900 text-white"
+                    : "border-slate-300 bg-white text-slate-800"
+                }`}
+              >
+                <VectorLabel id={vector.id} />
+              </button>
+            ))}
+          </div>
+          <MultiVectorPlane
+            vectors={pointVectorAnswers}
             min={Number(pointPrompt.grid?.xMin ?? -10)}
             max={Number(pointPrompt.grid?.xMax ?? 10)}
-            mode="point"
             interactive
-            showPoint={Boolean(plottedPoint)}
-            onChange={(next) => setPlottedPoint(next)}
+            selectedId={activePointVectorId}
+            onSelect={(id) => setSelectedPointVectorId(id)}
+            onChangeVector={(id, next) =>
+              setPointVectorAnswerMap((prev) => ({
+                ...prev,
+                [id]: {
+                  x: Number(next.end?.[0] ?? prev[id]?.x ?? 0),
+                  y: Number(next.end?.[1] ?? prev[id]?.y ?? 0),
+                },
+              }))
+            }
           />
-          <p className="text-sm text-slate-700">
-            Plotted point:{" "}
-            {plottedPoint ? `(${plottedPoint.x}, ${plottedPoint.y})` : "not selected"}
-          </p>
+          <div className="space-y-1 text-sm text-slate-700">
+            {pointVectorAnswers.map((vector) => (
+              <p key={`point-ans-${vector.id}`}>
+                <span className="font-semibold">{vector.id}:</span> ({vector.end[0]},{" "}
+                {vector.end[1]})
+              </p>
+            ))}
+          </div>
         </div>
       ) : vectorPrompt ? (
         <div className="mt-4 space-y-4">
@@ -879,7 +1003,7 @@ export function ExerciseAttemptCard({
             : multipleChoicePrompt
             ? !selectedChoice
             : pointPrompt
-            ? !plottedPoint
+            ? pointVectorAnswers.length === 0
             : vectorPrompt
             ? !vectorXInput.trim() || !vectorYInput.trim()
             : !answer.trim())
