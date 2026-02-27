@@ -85,6 +85,11 @@ type MultiPartPromptConfig = {
     correctText?: string;
     x?: number;
     y?: number;
+    vectors?: Array<{
+      id?: string;
+      color?: string;
+      target?: [number, number];
+    }>;
   }>;
 };
 
@@ -447,7 +452,7 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
         };
       }
 
-      if (type === "vector_xy_from_graph" || type === "point_plot_from_coordinates") {
+      if (type === "vector_xy_from_graph") {
         const x = Number(part.x ?? 0);
         const y = Number(part.y ?? 0);
         return {
@@ -456,6 +461,31 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
           prompt,
           x: Number.isFinite(x) ? x : 0,
           y: Number.isFinite(y) ? y : 0,
+        };
+      }
+
+      if (type === "point_plot_from_coordinates") {
+        const fallbackVector = {
+          id: "a",
+          color: "#3b82f6",
+          target: [Number(part.x ?? 0) || 0, Number(part.y ?? 0) || 0] as [number, number],
+        };
+        const vectors =
+          part.vectors && part.vectors.length > 0
+            ? part.vectors.map((vector, index) => ({
+                id: vector.id?.trim() || String.fromCharCode(97 + index),
+                color: vector.color || "#3b82f6",
+                target: [
+                  Number(vector.target?.[0] ?? 0) || 0,
+                  Number(vector.target?.[1] ?? 0) || 0,
+                ] as [number, number],
+              }))
+            : [fallbackVector];
+        return {
+          id,
+          type,
+          prompt,
+          vectors,
         };
       }
 
@@ -505,7 +535,15 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
               type: part.type,
               prompt: part.prompt,
               grid: { xMin: -10, xMax: 10, yMin: -10, yMax: 10, step: 1 },
-              target: [Number(part.x ?? 0), Number(part.y ?? 0)] as [number, number],
+              vectors: (part.vectors ?? []).map((vector) => ({
+                id: vector.id,
+                color: vector.color,
+                start: [0, 0] as [number, number],
+                end: [
+                  Number(vector.target?.[0] ?? 0),
+                  Number(vector.target?.[1] ?? 0),
+                ] as [number, number],
+              })),
             };
           }
           return {
@@ -530,12 +568,23 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
           if (part.type === "short_answer") {
             return { id: part.id, type: part.type, correctText: part.correctText ?? "" };
           }
-          if (part.type === "vector_xy_from_graph" || part.type === "point_plot_from_coordinates") {
+          if (part.type === "vector_xy_from_graph") {
             return {
               id: part.id,
               type: part.type,
               x: Number(part.x ?? 0),
               y: Number(part.y ?? 0),
+            };
+          }
+          if (part.type === "point_plot_from_coordinates") {
+            return {
+              id: part.id,
+              type: part.type,
+              vectors: (part.vectors ?? []).map((vector) => ({
+                id: vector.id,
+                x: Number(vector.target?.[0] ?? 0),
+                y: Number(vector.target?.[1] ?? 0),
+              })),
             };
           }
           return { id: part.id, type: part.type };

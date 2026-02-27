@@ -78,6 +78,7 @@ type MultiPartPart = {
   correctOption?: "a" | "b" | "c" | "d";
   correctOptions?: Array<"a" | "b" | "c" | "d">;
   coord?: { x: number; y: number };
+  pointVectors?: PlaneVector[];
 };
 
 function toJsonString(value: unknown): string {
@@ -535,6 +536,58 @@ function parseMultiPartConfig(value: unknown): MultiPartPart[] {
       if (type === "vector_xy_from_graph" || type === "point_plot_from_coordinates") {
         const x = Number(row.x ?? 0);
         const y = Number(row.y ?? 0);
+        if (type === "point_plot_from_coordinates") {
+          const rawVectors = Array.isArray(row.vectors) ? row.vectors : null;
+          const pointVectors = rawVectors && rawVectors.length > 0
+            ? rawVectors
+                .map((rawVector, vectorIndex) => {
+                  if (!rawVector || typeof rawVector !== "object" || Array.isArray(rawVector)) {
+                    return null;
+                  }
+                  const vector = rawVector as Record<string, unknown>;
+                  const id =
+                    typeof vector.id === "string" && vector.id.trim()
+                      ? vector.id.trim().toLowerCase()
+                      : String.fromCharCode(97 + vectorIndex);
+                  const color =
+                    typeof vector.color === "string" && vector.color.trim()
+                      ? vector.color
+                      : ["#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899"][
+                          vectorIndex % 6
+                        ];
+                  const target = Array.isArray(vector.target)
+                    ? vector.target
+                    : [0, 0];
+                  return {
+                    id,
+                    color,
+                    start: [0, 0] as [number, number],
+                    end: [Number(target[0] ?? 0) || 0, Number(target[1] ?? 0) || 0] as [
+                      number,
+                      number,
+                    ],
+                  };
+                })
+                .filter(Boolean) as PlaneVector[]
+            : [
+                {
+                  id: "a",
+                  color: "#3b82f6",
+                  start: [0, 0],
+                  end: [
+                    Number.isFinite(x) ? x : 0,
+                    Number.isFinite(y) ? y : 0,
+                  ] as [number, number],
+                },
+              ];
+          return {
+            id,
+            type,
+            prompt,
+            pointVectors,
+          };
+        }
+
         return {
           id,
           type,
@@ -576,6 +629,9 @@ export function ExerciseEditor({
   const [selectedId, setSelectedId] = useState<string>("");
   const [selectedVectorId, setSelectedVectorId] = useState<string>("a");
   const [selectedPointVectorId, setSelectedPointVectorId] = useState<string>("a");
+  const [selectedMultiPartPointVectorIds, setSelectedMultiPartPointVectorIds] = useState<
+    Record<string, string>
+  >({});
   const [serverMessage, setServerMessage] = useState<string>("");
   const [activePane, setActivePane] = useState<"editor" | "preview">("editor");
   const autosaveTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -955,12 +1011,19 @@ export function ExerciseEditor({
       }
 
       if (part.type === "point_plot_from_coordinates") {
+        const pointVectors = (part.pointVectors && part.pointVectors.length > 0
+          ? part.pointVectors
+          : [{ id: "a", color: "#3b82f6", start: [0, 0], end: [0, 0] as [number, number] }]
+        ).map((vector) => ({
+          id: vector.id,
+          color: vector.color,
+          target: [Number(vector.end?.[0] ?? 0), Number(vector.end?.[1] ?? 0)],
+        }));
         return {
           id,
           type: "point_plot_from_coordinates" as const,
           prompt,
-          x: Number(part.coord?.x ?? 0),
-          y: Number(part.coord?.y ?? 0),
+          vectors: pointVectors,
         };
       }
 
@@ -1016,6 +1079,56 @@ export function ExerciseEditor({
     }
     const nextParts = multiPartParts.filter((part) => part.id !== id);
     applyMultiPartConfig(nextParts);
+  }
+
+  function getMultiPartPointVectors(part: MultiPartPart): PlaneVector[] {
+    if (part.pointVectors && part.pointVectors.length > 0) {
+      return part.pointVectors.map((vector) => ({
+        ...vector,
+        start: [0, 0],
+      }));
+    }
+    return [{ id: "a", color: "#3b82f6", start: [0, 0], end: [0, 0] }];
+  }
+
+  function updateMultiPartPointVectors(partId: string, nextVectors: PlaneVector[]) {
+    updateMultiPartPart(partId, {
+      pointVectors: nextVectors.map((vector) => ({
+        ...vector,
+        start: [0, 0],
+      })),
+    });
+  }
+
+  function addMultiPartPointVector(partId: string, part: MultiPartPart) {
+    const current = getMultiPartPointVectors(part);
+    const nextId = String.fromCharCode(97 + current.length);
+    const palette = ["#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899"];
+    const nextVector: PlaneVector = {
+      id: nextId,
+      color: palette[current.length % palette.length],
+      start: [0, 0],
+      end: [2, 1],
+    };
+    setSelectedMultiPartPointVectorIds((prev) => ({ ...prev, [partId]: nextId }));
+    updateMultiPartPointVectors(partId, [...current, nextVector]);
+  }
+
+  function removeMultiPartPointVector(partId: string, part: MultiPartPart) {
+    const current = getMultiPartPointVectors(part);
+    if (current.length <= 1) {
+      return;
+    }
+    const selected = selectedMultiPartPointVectorIds[partId];
+    const activeId = selected && current.some((vector) => vector.id === selected)
+      ? selected
+      : current[0]?.id ?? "a";
+    const next = current.filter((vector) => vector.id !== activeId);
+    setSelectedMultiPartPointVectorIds((prev) => ({
+      ...prev,
+      [partId]: next[0]?.id ?? "a",
+    }));
+    updateMultiPartPointVectors(partId, next);
   }
 
   useEffect(() => {
@@ -1795,6 +1908,7 @@ export function ExerciseEditor({
                                     correctOptions: undefined,
                                     correctText: undefined,
                                     coord: { x: 0, y: 0 },
+                                    pointVectors: undefined,
                                   });
                                   return;
                                 }
@@ -1805,7 +1919,10 @@ export function ExerciseEditor({
                                     correctOption: undefined,
                                     correctOptions: undefined,
                                     correctText: undefined,
-                                    coord: { x: 0, y: 0 },
+                                    coord: undefined,
+                                    pointVectors: [
+                                      { id: "a", color: "#3b82f6", start: [0, 0], end: [0, 0] },
+                                    ],
                                   });
                                   return;
                                 }
@@ -1859,18 +1976,12 @@ export function ExerciseEditor({
                           </div>
                         )}
 
-                        {(part.type === "vector_xy_from_graph" ||
-                          part.type === "point_plot_from_coordinates") && (
+                        {part.type === "vector_xy_from_graph" && (
                           <div className="mt-3 space-y-3">
                             <VectorPlane
                               x={Number(part.coord?.x ?? 0)}
                               y={Number(part.coord?.y ?? 0)}
-                              mode={
-                                part.type === "point_plot_from_coordinates"
-                                  ? "point"
-                                  : "vector"
-                              }
-                              interactive={part.type === "point_plot_from_coordinates"}
+                              mode="vector"
                               onChange={(next) =>
                                 updateMultiPartPart(part.id, { coord: next })
                               }
@@ -1909,6 +2020,87 @@ export function ExerciseEditor({
                                 />
                               </div>
                             </div>
+                          </div>
+                        )}
+
+                        {part.type === "point_plot_from_coordinates" && (
+                          <div className="mt-3 space-y-3">
+                            <div className="flex flex-wrap gap-2">
+                              {getMultiPartPointVectors(part).map((vector) => {
+                                const selected = selectedMultiPartPointVectorIds[part.id];
+                                const activeId =
+                                  selected &&
+                                  getMultiPartPointVectors(part).some((item) => item.id === selected)
+                                    ? selected
+                                    : getMultiPartPointVectors(part)[0]?.id ?? "";
+                                return (
+                                  <Button
+                                    key={`mp-ptv-${part.id}-${vector.id}`}
+                                    type="button"
+                                    variant={activeId === vector.id ? "default" : "outline"}
+                                    onClick={() =>
+                                      setSelectedMultiPartPointVectorIds((prev) => ({
+                                        ...prev,
+                                        [part.id]: vector.id,
+                                      }))
+                                    }
+                                  >
+                                    <VectorLabel id={vector.id} />
+                                  </Button>
+                                );
+                              })}
+                            </div>
+
+                            <div className="flex gap-2">
+                              <Button
+                                type="button"
+                                variant="outline"
+                                onClick={() => addMultiPartPointVector(part.id, part)}
+                              >
+                                Add vector
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="outline"
+                                onClick={() => removeMultiPartPointVector(part.id, part)}
+                                disabled={getMultiPartPointVectors(part).length <= 1}
+                              >
+                                Remove selected
+                              </Button>
+                            </div>
+
+                            <MultiVectorPlane
+                              vectors={getMultiPartPointVectors(part)}
+                              interactive
+                              selectedId={
+                                selectedMultiPartPointVectorIds[part.id] &&
+                                getMultiPartPointVectors(part).some(
+                                  (vector) =>
+                                    vector.id === selectedMultiPartPointVectorIds[part.id]
+                                )
+                                  ? selectedMultiPartPointVectorIds[part.id]
+                                  : getMultiPartPointVectors(part)[0]?.id ?? ""
+                              }
+                              onSelect={(id) =>
+                                setSelectedMultiPartPointVectorIds((prev) => ({
+                                  ...prev,
+                                  [part.id]: id,
+                                }))
+                              }
+                              onChangeVector={(id, next) => {
+                                const current = getMultiPartPointVectors(part);
+                                const updated = current.map((vector) =>
+                                  vector.id === id
+                                    ? {
+                                        ...vector,
+                                        start: [0, 0] as [number, number],
+                                        end: next.end ?? vector.end,
+                                      }
+                                    : vector
+                                );
+                                updateMultiPartPointVectors(part.id, updated);
+                              }}
+                            />
                           </div>
                         )}
 

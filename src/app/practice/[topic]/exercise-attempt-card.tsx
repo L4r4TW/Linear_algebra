@@ -91,6 +91,7 @@ type MultiPartPrompt = {
     };
     vectorEnd?: [number, number];
     target?: [number, number];
+    vectors?: PlaneVector[];
   }>;
 };
 
@@ -333,6 +334,64 @@ function getMultiPartSolutionMap(solution: Json) {
   return map;
 }
 
+function getPointVectorsFromMultiPartPromptPart(
+  part: NonNullable<MultiPartPrompt["parts"]>[number]
+): PlaneVector[] {
+  if (Array.isArray(part.vectors) && part.vectors.length > 0) {
+    return part.vectors.map((vector, index) => ({
+      id: vector.id || String.fromCharCode(97 + index),
+      color: vector.color || ["#3b82f6", "#ef4444", "#10b981", "#f59e0b", "#8b5cf6", "#ec4899"][index % 6],
+      start: [0, 0],
+      end: [Number(vector.end?.[0] ?? 0), Number(vector.end?.[1] ?? 0)],
+    }));
+  }
+  if (Array.isArray(part.target) && part.target.length >= 2) {
+    return [
+      {
+        id: "a",
+        color: "#3b82f6",
+        start: [0, 0],
+        end: [Number(part.target[0] ?? 0), Number(part.target[1] ?? 0)],
+      },
+    ];
+  }
+  return [{ id: "a", color: "#3b82f6", start: [0, 0], end: [0, 0] }];
+}
+
+function getPointVectorsFromMultiPartExpected(
+  expected: Record<string, unknown> | undefined
+): Array<{ id: string; x: number; y: number }> {
+  if (!expected) {
+    return [];
+  }
+  if (Array.isArray(expected.vectors)) {
+    return expected.vectors
+      .map((item, index) => {
+        if (!item || typeof item !== "object" || Array.isArray(item)) {
+          return null;
+        }
+        const row = item as Record<string, unknown>;
+        const id =
+          typeof row.id === "string" && row.id.trim()
+            ? row.id.trim()
+            : String.fromCharCode(97 + index);
+        const x = Number(row.x);
+        const y = Number(row.y);
+        if (!Number.isFinite(x) || !Number.isFinite(y)) {
+          return null;
+        }
+        return { id, x, y };
+      })
+      .filter(Boolean) as Array<{ id: string; x: number; y: number }>;
+  }
+  const x = Number(expected.x);
+  const y = Number(expected.y);
+  if (Number.isFinite(x) && Number.isFinite(y)) {
+    return [{ id: "a", x, y }];
+  }
+  return [];
+}
+
 function VectorLabel({ id }: { id: string }) {
   return (
     <span className="relative inline-flex items-center px-1">
@@ -373,8 +432,11 @@ export function ExerciseAttemptCard({
   const [multiPartCoordAnswers, setMultiPartCoordAnswers] = useState<
     Record<string, { x: string; y: string }>
   >({});
-  const [multiPartPlottedPoints, setMultiPartPlottedPoints] = useState<
-    Record<string, { x: number; y: number } | null>
+  const [multiPartPointAnswerMap, setMultiPartPointAnswerMap] = useState<
+    Record<string, Record<string, { x: number; y: number }>>
+  >({});
+  const [multiPartPointSelectedVectorIds, setMultiPartPointSelectedVectorIds] = useState<
+    Record<string, string>
   >({});
 
   const vectorPrompt = getVectorPrompt(prompt);
@@ -534,16 +596,15 @@ export function ExerciseAttemptCard({
 
         if (part.type === "point_plot_from_coordinates") {
           gradedCount += 1;
-          const actual = multiPartPlottedPoints[part.id];
-          const expectedX = Number(expected?.x);
-          const expectedY = Number(expected?.y);
-          if (
-            actual &&
-            Number.isFinite(expectedX) &&
-            Number.isFinite(expectedY) &&
-            actual.x === expectedX &&
-            actual.y === expectedY
-          ) {
+          const expectedVectors = getPointVectorsFromMultiPartExpected(expected);
+          const answerMap = multiPartPointAnswerMap[part.id] ?? {};
+          const correct =
+            expectedVectors.length > 0 &&
+            expectedVectors.every((vector) => {
+              const actual = answerMap[vector.id];
+              return Boolean(actual && actual.x === vector.x && actual.y === vector.y);
+            });
+          if (correct) {
             correctCount += 1;
           }
           return;
@@ -559,7 +620,7 @@ export function ExerciseAttemptCard({
           single: multiPartSingleAnswers,
           multi: multiPartMultiAnswers,
           coord: multiPartCoordAnswers,
-          plot: multiPartPlottedPoints,
+          plot: multiPartPointAnswerMap,
         },
         null,
         2
@@ -795,24 +856,80 @@ export function ExerciseAttemptCard({
 
               {part.type === "point_plot_from_coordinates" && (
                 <div className="mt-3 space-y-3">
-                  <VectorPlane
-                    x={multiPartPlottedPoints[part.id]?.x ?? 0}
-                    y={multiPartPlottedPoints[part.id]?.y ?? 0}
-                    min={Number(part.grid?.xMin ?? -10)}
-                    max={Number(part.grid?.xMax ?? 10)}
-                    mode="point"
-                    interactive
-                    showPoint={Boolean(multiPartPlottedPoints[part.id])}
-                    onChange={(next) =>
-                      setMultiPartPlottedPoints((prev) => ({ ...prev, [part.id]: next }))
-                    }
-                  />
-                  <p className="text-sm text-slate-700">
-                    Plotted point:{" "}
-                    {multiPartPlottedPoints[part.id]
-                      ? `(${multiPartPlottedPoints[part.id]?.x}, ${multiPartPlottedPoints[part.id]?.y})`
-                      : "not selected"}
-                  </p>
+                  {(() => {
+                    const promptVectors = getPointVectorsFromMultiPartPromptPart(part);
+                    const answerMap = multiPartPointAnswerMap[part.id] ?? {};
+                    const answerVectors = promptVectors.map((vector) => ({
+                      ...vector,
+                      end: [
+                        answerMap[vector.id]?.x ?? 0,
+                        answerMap[vector.id]?.y ?? 0,
+                      ] as [number, number],
+                    }));
+                    const selected = multiPartPointSelectedVectorIds[part.id];
+                    const activeVectorId =
+                      selected && answerVectors.some((vector) => vector.id === selected)
+                        ? selected
+                        : answerVectors[0]?.id ?? "";
+                    return (
+                      <>
+                        <div className="flex flex-wrap gap-2">
+                          {answerVectors.map((vector) => (
+                            <button
+                              key={`mpp-${part.id}-${vector.id}`}
+                              type="button"
+                              onClick={() =>
+                                setMultiPartPointSelectedVectorIds((prev) => ({
+                                  ...prev,
+                                  [part.id]: vector.id,
+                                }))
+                              }
+                              className={`rounded border px-3 py-1 text-sm ${
+                                activeVectorId === vector.id
+                                  ? "border-slate-900 bg-slate-900 text-white"
+                                  : "border-slate-300 bg-white text-slate-800"
+                              }`}
+                            >
+                              <VectorLabel id={vector.id} />
+                            </button>
+                          ))}
+                        </div>
+                        <MultiVectorPlane
+                          vectors={answerVectors}
+                          min={Number(part.grid?.xMin ?? -10)}
+                          max={Number(part.grid?.xMax ?? 10)}
+                          interactive
+                          selectedId={activeVectorId}
+                          onSelect={(id) =>
+                            setMultiPartPointSelectedVectorIds((prev) => ({
+                              ...prev,
+                              [part.id]: id,
+                            }))
+                          }
+                          onChangeVector={(id, next) =>
+                            setMultiPartPointAnswerMap((prev) => ({
+                              ...prev,
+                              [part.id]: {
+                                ...(prev[part.id] ?? {}),
+                                [id]: {
+                                  x: Number(next.end?.[0] ?? prev[part.id]?.[id]?.x ?? 0),
+                                  y: Number(next.end?.[1] ?? prev[part.id]?.[id]?.y ?? 0),
+                                },
+                              },
+                            }))
+                          }
+                        />
+                        <div className="space-y-1 text-sm text-slate-700">
+                          {answerVectors.map((vector) => (
+                            <p key={`mpp-readout-${part.id}-${vector.id}`}>
+                              <span className="font-semibold">{vector.id}:</span> ({vector.end[0]},{" "}
+                              {vector.end[1]})
+                            </p>
+                          ))}
+                        </div>
+                      </>
+                    );
+                  })()}
                 </div>
               )}
             </div>
