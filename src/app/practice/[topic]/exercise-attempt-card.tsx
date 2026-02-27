@@ -48,6 +48,12 @@ type MultipleChoicePrompt = {
   options?: Array<{ id: string; text: string }>;
 };
 
+type MultiSelectPrompt = {
+  kind: "multi_select";
+  question?: string;
+  options?: Array<{ id: string; text: string }>;
+};
+
 type EqualVectorsPrompt = {
   kind: "equal_vectors_pick";
   question?: string;
@@ -151,6 +157,19 @@ function getMultipleChoicePrompt(prompt: Json): MultipleChoicePrompt | null {
   return obj as unknown as MultipleChoicePrompt;
 }
 
+function getMultiSelectPrompt(prompt: Json): MultiSelectPrompt | null {
+  if (!prompt || typeof prompt !== "object" || Array.isArray(prompt)) {
+    return null;
+  }
+
+  const obj = prompt as Record<string, unknown>;
+  if (obj.kind !== "multi_select") {
+    return null;
+  }
+
+  return obj as unknown as MultiSelectPrompt;
+}
+
 function getExpectedVector(solution: Json): { x: number; y: number } | null {
   if (!solution || typeof solution !== "object" || Array.isArray(solution)) {
     return null;
@@ -231,11 +250,13 @@ export function ExerciseAttemptCard({
     null
   );
   const [selectedChoice, setSelectedChoice] = useState("");
+  const [selectedChoices, setSelectedChoices] = useState<string[]>([]);
   const [selectedEqualIds, setSelectedEqualIds] = useState<string[]>([]);
 
   const vectorPrompt = getVectorPrompt(prompt);
   const pointPrompt = getPointPrompt(prompt);
   const multipleChoicePrompt = getMultipleChoicePrompt(prompt);
+  const multiSelectPrompt = getMultiSelectPrompt(prompt);
   const equalVectorsPrompt = getEqualVectorsPrompt(prompt);
   const expectedVector = getExpectedVector(solution);
 
@@ -299,6 +320,13 @@ export function ExerciseAttemptCard({
     if (equalVectorsPrompt) {
       const expected = getExpectedIdSet(solution);
       const actual = [...selectedEqualIds].sort();
+      correctness =
+        expected.length === actual.length &&
+        expected.every((id, index) => id === actual[index]);
+      rawAnswer = actual.join(", ");
+    } else if (multiSelectPrompt) {
+      const expected = getExpectedIdSet(solution);
+      const actual = [...selectedChoices].sort();
       correctness =
         expected.length === actual.length &&
         expected.every((id, index) => id === actual[index]);
@@ -379,6 +407,35 @@ export function ExerciseAttemptCard({
               );
             })}
           </div>
+        </div>
+      ) : multiSelectPrompt ? (
+        <div className="mt-4 space-y-3">
+          {(multiSelectPrompt.options ?? []).map((option) => {
+            const checked = selectedChoices.includes(option.id);
+            return (
+              <label
+                key={option.id}
+                className="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2"
+              >
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={(event) => {
+                    setSelectedChoices((prev) =>
+                      event.target.checked
+                        ? [...prev, option.id]
+                        : prev.filter((id) => id !== option.id)
+                    );
+                  }}
+                  className="mt-1"
+                />
+                <span className="text-sm text-slate-800">
+                  <span className="font-semibold">{option.id.toUpperCase()}.</span>{" "}
+                  {option.text}
+                </span>
+              </label>
+            );
+          })}
         </div>
       ) : multipleChoicePrompt ? (
         <div className="mt-4 space-y-3">
@@ -470,6 +527,8 @@ export function ExerciseAttemptCard({
           isSaving ||
           (equalVectorsPrompt
             ? selectedEqualIds.length === 0
+            : multiSelectPrompt
+            ? selectedChoices.length === 0
             : multipleChoicePrompt
             ? !selectedChoice
             : pointPrompt

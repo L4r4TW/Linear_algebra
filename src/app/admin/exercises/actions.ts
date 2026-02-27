@@ -44,6 +44,12 @@ type MultipleChoicePromptConfig = {
   correctOption?: string;
 };
 
+type MultiSelectPromptConfig = {
+  kind: "multi_select";
+  options?: Array<{ id: string; text: string }>;
+  correctOptions?: string[];
+};
+
 type EqualVectorsPromptConfig = {
   kind: "equal_vectors_pick";
   grid?: {
@@ -210,6 +216,52 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
         options,
       },
       solution: { result: correctOption },
+      updated_at: new Date().toISOString(),
+    };
+  }
+
+  if (parsed.type === "multi_select") {
+    const rawConfig =
+      parsed.choicesJson && typeof parsed.choicesJson === "object"
+        ? (parsed.choicesJson as MultiSelectPromptConfig)
+        : null;
+    const fallbackOptions = [
+      { id: "a", text: "Option A" },
+      { id: "b", text: "Option B" },
+      { id: "c", text: "Option C" },
+      { id: "d", text: "Option D" },
+    ];
+    const options =
+      rawConfig?.options && rawConfig.options.length >= 2
+        ? rawConfig.options
+            .filter((item) => item && typeof item.id === "string")
+            .map((item) => ({ id: item.id, text: item.text ?? "" }))
+        : fallbackOptions;
+    const validIds = new Set(options.map((item) => item.id));
+    const correctOptions = [
+      ...new Set(
+        (rawConfig?.correctOptions ?? [])
+          .filter((id): id is string => typeof id === "string")
+          .filter((id) => validIds.has(id))
+      ),
+    ].sort();
+
+    return {
+      subtheme_id: parsed.subthemeId,
+      type: "multi_select",
+      difficulty: parsed.difficulty,
+      prompt_md: parsed.promptMd,
+      solution_md: parsed.solutionMd,
+      choices: parsed.choicesJson,
+      hints: parsed.hintsJson,
+      tags: parsed.tagsJson,
+      status: parsed.status,
+      prompt: {
+        kind: "multi_select",
+        question: parsed.promptMd,
+        options,
+      },
+      solution: { result: correctOptions },
       updated_at: new Date().toISOString(),
     };
   }

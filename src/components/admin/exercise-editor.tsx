@@ -167,6 +167,70 @@ function parseMultipleChoiceConfig(value: unknown): {
   };
 }
 
+function parseMultiSelectConfig(value: unknown): {
+  options: [string, string, string, string];
+  correct: Array<"a" | "b" | "c" | "d">;
+} {
+  let source: unknown = value;
+
+  if (typeof source === "string") {
+    const trimmed = source.trim();
+    if (!trimmed) {
+      return { options: ["", "", "", ""], correct: ["a"] };
+    }
+    try {
+      source = JSON.parse(trimmed);
+    } catch {
+      return { options: ["", "", "", ""], correct: ["a"] };
+    }
+  }
+
+  if (!source || typeof source !== "object" || Array.isArray(source)) {
+    return { options: ["", "", "", ""], correct: ["a"] };
+  }
+
+  const optionsMap: Record<"a" | "b" | "c" | "d", string> = {
+    a: "",
+    b: "",
+    c: "",
+    d: "",
+  };
+
+  const rawOptions = (source as Record<string, unknown>).options;
+  if (Array.isArray(rawOptions)) {
+    rawOptions.forEach((item) => {
+      if (!item || typeof item !== "object" || Array.isArray(item)) {
+        return;
+      }
+      const id = (item as Record<string, unknown>).id;
+      const text = (item as Record<string, unknown>).text;
+      if (
+        (id === "a" || id === "b" || id === "c" || id === "d") &&
+        typeof text === "string"
+      ) {
+        optionsMap[id] = text;
+      }
+    });
+  }
+
+  const rawCorrect = (source as Record<string, unknown>).correctOptions;
+  const correct = Array.isArray(rawCorrect)
+    ? [
+        ...new Set(
+          rawCorrect.filter(
+            (id): id is "a" | "b" | "c" | "d" =>
+              id === "a" || id === "b" || id === "c" || id === "d"
+          )
+        ),
+      ]
+    : [];
+
+  return {
+    options: [optionsMap.a, optionsMap.b, optionsMap.c, optionsMap.d],
+    correct: correct.length > 0 ? correct : ["a"],
+  };
+}
+
 function parseEqualVectorsConfig(value: unknown): EqualVectorsConfig {
   const fallback: EqualVectorsConfig = {
     vectors: [
@@ -328,6 +392,10 @@ export function ExerciseEditor({
     () => parseMultipleChoiceConfig(watchedChoices),
     [watchedChoices]
   );
+  const { options: msOptions, correct: msCorrect } = useMemo(
+    () => parseMultiSelectConfig(watchedChoices),
+    [watchedChoices]
+  );
   const { vectors: equalVectors, correctIds: equalCorrectIds } = useMemo(
     () => parseEqualVectorsConfig(watchedChoices),
     [watchedChoices]
@@ -338,6 +406,7 @@ export function ExerciseEditor({
       : equalVectors[0]?.id ?? "";
   const isSingleChoiceType =
     watchedType === "single_choice" || watchedType === "multiple_choice";
+  const isChoiceType = isSingleChoiceType || watchedType === "multi_select";
 
   function applyGraphCoords(next: { x: number; y: number }) {
     if (watchedType === "vector_xy_from_graph") {
@@ -478,6 +547,34 @@ export function ExerciseEditor({
     form.setValue("solutionMd", nextCorrect, { shouldDirty: true });
   }, [form]);
 
+  const applyMultiSelectConfig = useCallback(function applyMultiSelectConfig(
+    nextOptions: [string, string, string, string],
+    nextCorrect: Array<"a" | "b" | "c" | "d">
+  ) {
+    const uniqueCorrect = [...new Set(nextCorrect)].sort() as Array<
+      "a" | "b" | "c" | "d"
+    >;
+    const config = {
+      kind: "multi_select",
+      options: [
+        { id: "a", text: nextOptions[0] },
+        { id: "b", text: nextOptions[1] },
+        { id: "c", text: nextOptions[2] },
+        { id: "d", text: nextOptions[3] },
+      ],
+      correctOptions: uniqueCorrect,
+    };
+    form.setValue("choicesJson", JSON.stringify(config, null, 2), {
+      shouldDirty: true,
+    });
+
+    if (!form.getValues("promptMd").trim()) {
+      form.setValue("promptMd", "Select all correct answers.", { shouldDirty: true });
+    }
+
+    form.setValue("solutionMd", uniqueCorrect.join(", "), { shouldDirty: true });
+  }, [form]);
+
   useEffect(() => {
     if (watchedType !== "single_choice" && watchedType !== "multiple_choice") {
       return;
@@ -495,6 +592,24 @@ export function ExerciseEditor({
       form.setValue("solutionMd", current.correct, { shouldDirty: true });
     }
   }, [applyMultipleChoiceConfig, form, watchedType]);
+
+  useEffect(() => {
+    if (watchedType !== "multi_select") {
+      return;
+    }
+
+    const rawChoices = String(form.getValues("choicesJson") ?? "").trim();
+    const current = parseMultiSelectConfig(form.getValues("choicesJson"));
+
+    if (!rawChoices || rawChoices === "[]") {
+      applyMultiSelectConfig(current.options, current.correct);
+      return;
+    }
+
+    if (!String(form.getValues("solutionMd") ?? "").trim()) {
+      form.setValue("solutionMd", current.correct.join(", "), { shouldDirty: true });
+    }
+  }, [applyMultiSelectConfig, form, watchedType]);
 
   useEffect(() => {
     if (watchedType !== "equal_vectors_pick") {
@@ -732,6 +847,7 @@ export function ExerciseEditor({
                       point_plot_from_coordinates
                     </option>
                     <option value="single_choice">single_choice</option>
+                    <option value="multi_select">multi_select</option>
                     <option value="equal_vectors_pick">equal_vectors_pick</option>
                   </select>
                 </div>
@@ -761,7 +877,7 @@ export function ExerciseEditor({
                 <p className="text-xs text-rose-700">{form.formState.errors.promptMd?.message}</p>
               </div>
 
-              {!isSingleChoiceType && (
+              {!isChoiceType && (
                 <div className="space-y-2">
                   <Label htmlFor="solutionMd">Solution (Markdown + LaTeX)</Label>
                   <Textarea id="solutionMd" rows={8} {...form.register("solutionMd")} />
@@ -904,6 +1020,63 @@ export function ExerciseEditor({
                       <option value="c">C</option>
                       <option value="d">D</option>
                     </select>
+                  </div>
+                </div>
+              )}
+
+              {watchedType === "multi_select" && (
+                <div className="space-y-3 rounded-lg border border-slate-200 bg-slate-50 p-4">
+                  <p className="text-sm font-semibold text-slate-800">
+                    Multi select editor
+                  </p>
+                  <div className="grid gap-3">
+                    {(["a", "b", "c", "d"] as const).map((id, idx) => (
+                      <div key={id} className="space-y-1">
+                        <Label htmlFor={`ms-choice-${id}`}>Option {id.toUpperCase()}</Label>
+                        <Input
+                          id={`ms-choice-${id}`}
+                          value={msOptions[idx]}
+                          onChange={(event) => {
+                            const next = [...msOptions] as [
+                              string,
+                              string,
+                              string,
+                              string,
+                            ];
+                            next[idx] = event.target.value;
+                            applyMultiSelectConfig(next, msCorrect);
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-sm font-semibold text-slate-700">
+                      Correct options
+                    </p>
+                    <div className="grid gap-2 sm:grid-cols-2">
+                      {(["a", "b", "c", "d"] as const).map((id) => {
+                        const checked = msCorrect.includes(id);
+                        return (
+                          <label
+                            key={`ms-correct-${id}`}
+                            className="flex cursor-pointer items-center gap-2 rounded border border-slate-200 bg-white px-3 py-2"
+                          >
+                            <input
+                              type="checkbox"
+                              checked={checked}
+                              onChange={(event) => {
+                                const next = event.target.checked
+                                  ? [...msCorrect, id]
+                                  : msCorrect.filter((item) => item !== id);
+                                applyMultiSelectConfig(msOptions, next.length > 0 ? next : [id]);
+                              }}
+                            />
+                            <span>{id.toUpperCase()}</span>
+                          </label>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
               )}
