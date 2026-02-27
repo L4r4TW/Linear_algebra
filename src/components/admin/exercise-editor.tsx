@@ -57,6 +57,25 @@ type EqualVectorsConfig = {
   correctIds: string[];
 };
 
+type MultiPartPartType =
+  | "short_answer"
+  | "single_choice"
+  | "multi_select"
+  | "open_text"
+  | "vector_xy_from_graph"
+  | "point_plot_from_coordinates";
+
+type MultiPartPart = {
+  id: string;
+  type: MultiPartPartType;
+  prompt: string;
+  correctText?: string;
+  options?: [string, string, string, string];
+  correctOption?: "a" | "b" | "c" | "d";
+  correctOptions?: Array<"a" | "b" | "c" | "d">;
+  coord?: { x: number; y: number };
+};
+
 function toJsonString(value: unknown): string {
   if (!value) {
     return "[]";
@@ -307,6 +326,160 @@ function parseEqualVectorsConfig(value: unknown): EqualVectorsConfig {
   };
 }
 
+function parseMultiPartConfig(value: unknown): MultiPartPart[] {
+  const fallback: MultiPartPart[] = [
+    {
+      id: "part-1",
+      type: "short_answer",
+      prompt: "Part 1",
+      correctText: "",
+    },
+  ];
+
+  let source: unknown = value;
+  if (typeof source === "string") {
+    const trimmed = source.trim();
+    if (!trimmed || trimmed === "[]") {
+      return fallback;
+    }
+    try {
+      source = JSON.parse(trimmed);
+    } catch {
+      return fallback;
+    }
+  }
+
+  if (!source || typeof source !== "object" || Array.isArray(source)) {
+    return fallback;
+  }
+
+  const rawParts = (source as Record<string, unknown>).parts;
+  if (!Array.isArray(rawParts) || rawParts.length === 0) {
+    return fallback;
+  }
+
+  const parsed = rawParts
+    .map((rawPart, idx): MultiPartPart | null => {
+      if (!rawPart || typeof rawPart !== "object" || Array.isArray(rawPart)) {
+        return null;
+      }
+      const row = rawPart as Record<string, unknown>;
+      const id = (typeof row.id === "string" && row.id.trim()) || `part-${idx + 1}`;
+      const type = row.type;
+      const prompt = (typeof row.prompt === "string" && row.prompt) || `Part ${idx + 1}`;
+
+      if (type === "single_choice") {
+        const optionMap: Record<"a" | "b" | "c" | "d", string> = {
+          a: "",
+          b: "",
+          c: "",
+          d: "",
+        };
+        const rawOptions = row.options;
+        if (Array.isArray(rawOptions)) {
+          rawOptions.forEach((option) => {
+            if (!option || typeof option !== "object" || Array.isArray(option)) {
+              return;
+            }
+            const optionId = (option as Record<string, unknown>).id;
+            const optionText = (option as Record<string, unknown>).text;
+            if (
+              (optionId === "a" || optionId === "b" || optionId === "c" || optionId === "d") &&
+              typeof optionText === "string"
+            ) {
+              optionMap[optionId] = optionText;
+            }
+          });
+        }
+        const correctOption =
+          row.correctOption === "a" ||
+          row.correctOption === "b" ||
+          row.correctOption === "c" ||
+          row.correctOption === "d"
+            ? row.correctOption
+            : "a";
+        return {
+          id,
+          type,
+          prompt,
+          options: [optionMap.a, optionMap.b, optionMap.c, optionMap.d],
+          correctOption,
+        };
+      }
+
+      if (type === "multi_select") {
+        const optionMap: Record<"a" | "b" | "c" | "d", string> = {
+          a: "",
+          b: "",
+          c: "",
+          d: "",
+        };
+        const rawOptions = row.options;
+        if (Array.isArray(rawOptions)) {
+          rawOptions.forEach((option) => {
+            if (!option || typeof option !== "object" || Array.isArray(option)) {
+              return;
+            }
+            const optionId = (option as Record<string, unknown>).id;
+            const optionText = (option as Record<string, unknown>).text;
+            if (
+              (optionId === "a" || optionId === "b" || optionId === "c" || optionId === "d") &&
+              typeof optionText === "string"
+            ) {
+              optionMap[optionId] = optionText;
+            }
+          });
+        }
+        const rawCorrect = row.correctOptions;
+        const correctOptions = Array.isArray(rawCorrect)
+          ? [
+              ...new Set(
+                rawCorrect.filter(
+                  (id): id is "a" | "b" | "c" | "d" =>
+                    id === "a" || id === "b" || id === "c" || id === "d"
+                )
+              ),
+            ]
+          : [];
+        return {
+          id,
+          type,
+          prompt,
+          options: [optionMap.a, optionMap.b, optionMap.c, optionMap.d],
+          correctOptions: correctOptions.length > 0 ? correctOptions : ["a"],
+        };
+      }
+
+      if (type === "open_text") {
+        return { id, type, prompt };
+      }
+
+      if (type === "vector_xy_from_graph" || type === "point_plot_from_coordinates") {
+        const x = Number(row.x ?? 0);
+        const y = Number(row.y ?? 0);
+        return {
+          id,
+          type,
+          prompt,
+          coord: {
+            x: Number.isFinite(x) ? x : 0,
+            y: Number.isFinite(y) ? y : 0,
+          },
+        };
+      }
+
+      return {
+        id,
+        type: "short_answer",
+        prompt,
+        correctText: typeof row.correctText === "string" ? row.correctText : "",
+      };
+    })
+    .filter(Boolean) as MultiPartPart[];
+
+  return parsed.length > 0 ? parsed : fallback;
+}
+
 function VectorLabel({ id }: { id: string }) {
   return (
     <span className="relative inline-flex items-center px-1">
@@ -400,6 +573,10 @@ export function ExerciseEditor({
     () => parseEqualVectorsConfig(watchedChoices),
     [watchedChoices]
   );
+  const multiPartParts = useMemo(
+    () => parseMultiPartConfig(watchedChoices),
+    [watchedChoices]
+  );
   const activeEqualVectorId =
     selectedVectorId && equalVectors.some((vector) => vector.id === selectedVectorId)
       ? selectedVectorId
@@ -407,6 +584,7 @@ export function ExerciseEditor({
   const isSingleChoiceType =
     watchedType === "single_choice" || watchedType === "multiple_choice";
   const isChoiceType = isSingleChoiceType || watchedType === "multi_select";
+  const isMultiPartType = watchedType === "multi_part";
 
   function applyGraphCoords(next: { x: number; y: number }) {
     if (watchedType === "vector_xy_from_graph") {
@@ -575,6 +753,127 @@ export function ExerciseEditor({
     form.setValue("solutionMd", uniqueCorrect.join(", "), { shouldDirty: true });
   }, [form]);
 
+  const applyMultiPartConfig = useCallback(function applyMultiPartConfig(
+    nextParts: MultiPartPart[]
+  ) {
+    const parts = nextParts.map((part, index) => {
+      const id = part.id || `part-${index + 1}`;
+      const prompt = (part.prompt || `Part ${index + 1}`).trim();
+
+      if (part.type === "single_choice") {
+        const options = part.options ?? ["", "", "", ""];
+        return {
+          id,
+          type: "single_choice" as const,
+          prompt,
+          options: [
+            { id: "a", text: options[0] ?? "" },
+            { id: "b", text: options[1] ?? "" },
+            { id: "c", text: options[2] ?? "" },
+            { id: "d", text: options[3] ?? "" },
+          ],
+          correctOption: part.correctOption ?? "a",
+        };
+      }
+
+      if (part.type === "multi_select") {
+        const options = part.options ?? ["", "", "", ""];
+        return {
+          id,
+          type: "multi_select" as const,
+          prompt,
+          options: [
+            { id: "a", text: options[0] ?? "" },
+            { id: "b", text: options[1] ?? "" },
+            { id: "c", text: options[2] ?? "" },
+            { id: "d", text: options[3] ?? "" },
+          ],
+          correctOptions: [...new Set(part.correctOptions ?? ["a"])],
+        };
+      }
+
+      if (part.type === "open_text") {
+        return {
+          id,
+          type: "open_text" as const,
+          prompt,
+        };
+      }
+
+      if (part.type === "vector_xy_from_graph") {
+        return {
+          id,
+          type: "vector_xy_from_graph" as const,
+          prompt,
+          x: Number(part.coord?.x ?? 0),
+          y: Number(part.coord?.y ?? 0),
+        };
+      }
+
+      if (part.type === "point_plot_from_coordinates") {
+        return {
+          id,
+          type: "point_plot_from_coordinates" as const,
+          prompt,
+          x: Number(part.coord?.x ?? 0),
+          y: Number(part.coord?.y ?? 0),
+        };
+      }
+
+      return {
+        id,
+        type: "short_answer" as const,
+        prompt,
+        correctText: part.correctText ?? "",
+      };
+    });
+
+    form.setValue(
+      "choicesJson",
+      JSON.stringify({ kind: "multi_part", parts }, null, 2),
+      { shouldDirty: true }
+    );
+
+    if (!form.getValues("promptMd").trim()) {
+      form.setValue("promptMd", "Solve all parts of the exercise.", {
+        shouldDirty: true,
+      });
+    }
+
+    form.setValue("solutionMd", "Auto-generated from multi-part builder.", {
+      shouldDirty: true,
+    });
+  }, [form]);
+
+  function updateMultiPartPart(id: string, patch: Partial<MultiPartPart>) {
+    const nextParts = multiPartParts.map((part) =>
+      part.id === id ? { ...part, ...patch } : part
+    );
+    applyMultiPartConfig(nextParts);
+  }
+
+  function addMultiPartPart() {
+    const nextId = `part-${multiPartParts.length + 1}`;
+    const nextParts = [
+      ...multiPartParts,
+      {
+        id: nextId,
+        type: "short_answer" as const,
+        prompt: `Part ${multiPartParts.length + 1}`,
+        correctText: "",
+      },
+    ];
+    applyMultiPartConfig(nextParts);
+  }
+
+  function removeMultiPartPart(id: string) {
+    if (multiPartParts.length <= 1) {
+      return;
+    }
+    const nextParts = multiPartParts.filter((part) => part.id !== id);
+    applyMultiPartConfig(nextParts);
+  }
+
   useEffect(() => {
     if (watchedType !== "single_choice" && watchedType !== "multiple_choice") {
       return;
@@ -627,6 +926,25 @@ export function ExerciseEditor({
       form.setValue("solutionMd", parsed.correctIds.join(", "), { shouldDirty: true });
     }
   }, [applyEqualVectorsConfig, form, watchedType]);
+
+  useEffect(() => {
+    if (watchedType !== "multi_part") {
+      return;
+    }
+
+    const rawChoices = String(form.getValues("choicesJson") ?? "").trim();
+    const parsed = parseMultiPartConfig(form.getValues("choicesJson"));
+    if (!rawChoices || rawChoices === "[]") {
+      applyMultiPartConfig(parsed);
+      return;
+    }
+
+    if (!String(form.getValues("solutionMd") ?? "").trim()) {
+      form.setValue("solutionMd", "Auto-generated from multi-part builder.", {
+        shouldDirty: true,
+      });
+    }
+  }, [applyMultiPartConfig, form, watchedType]);
 
   useEffect(() => {
     if (!form.formState.isDirty) {
@@ -849,6 +1167,7 @@ export function ExerciseEditor({
                     <option value="single_choice">single_choice</option>
                     <option value="multi_select">multi_select</option>
                     <option value="equal_vectors_pick">equal_vectors_pick</option>
+                    <option value="multi_part">multi_part</option>
                   </select>
                 </div>
               </div>
@@ -877,7 +1196,7 @@ export function ExerciseEditor({
                 <p className="text-xs text-rose-700">{form.formState.errors.promptMd?.message}</p>
               </div>
 
-              {!isChoiceType && (
+              {!isChoiceType && !isMultiPartType && (
                 <div className="space-y-2">
                   <Label htmlFor="solutionMd">Solution (Markdown + LaTeX)</Label>
                   <Textarea id="solutionMd" rows={8} {...form.register("solutionMd")} />
@@ -1214,6 +1533,284 @@ export function ExerciseEditor({
                         );
                       })}
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {watchedType === "multi_part" && (
+                <div className="space-y-3 rounded-lg border border-slate-200 bg-slate-50 p-4">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-sm font-semibold text-slate-800">
+                      Multi-part builder
+                    </p>
+                    <Button type="button" variant="outline" onClick={addMultiPartPart}>
+                      Add part
+                    </Button>
+                  </div>
+
+                  <div className="space-y-3">
+                    {multiPartParts.map((part, index) => (
+                      <div key={part.id} className="rounded-lg border border-slate-200 bg-white p-3">
+                        <div className="flex items-center justify-between gap-2">
+                          <p className="text-sm font-semibold">Part {index + 1}</p>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => removeMultiPartPart(part.id)}
+                            disabled={multiPartParts.length <= 1}
+                          >
+                            Remove
+                          </Button>
+                        </div>
+
+                        <div className="mt-3 grid gap-3 md:grid-cols-2">
+                          <div className="space-y-1">
+                            <Label htmlFor={`mp-type-${part.id}`}>Type</Label>
+                            <select
+                              id={`mp-type-${part.id}`}
+                              className="h-11 w-full rounded-md border border-slate-300 bg-white px-3"
+                              value={part.type}
+                              onChange={(event) => {
+                                const nextType = event.target.value as MultiPartPartType;
+                                if (nextType === "single_choice") {
+                                  updateMultiPartPart(part.id, {
+                                    type: nextType,
+                                    options: ["", "", "", ""],
+                                    correctOption: "a",
+                                    correctText: undefined,
+                                    correctOptions: undefined,
+                                  });
+                                  return;
+                                }
+                                if (nextType === "multi_select") {
+                                  updateMultiPartPart(part.id, {
+                                    type: nextType,
+                                    options: ["", "", "", ""],
+                                    correctOptions: ["a"],
+                                    correctOption: undefined,
+                                    correctText: undefined,
+                                  });
+                                  return;
+                                }
+                                if (nextType === "open_text") {
+                                  updateMultiPartPart(part.id, {
+                                    type: nextType,
+                                    options: undefined,
+                                    correctOption: undefined,
+                                    correctOptions: undefined,
+                                    correctText: undefined,
+                                  });
+                                  return;
+                                }
+                                if (nextType === "vector_xy_from_graph") {
+                                  updateMultiPartPart(part.id, {
+                                    type: nextType,
+                                    options: undefined,
+                                    correctOption: undefined,
+                                    correctOptions: undefined,
+                                    correctText: undefined,
+                                    coord: { x: 0, y: 0 },
+                                  });
+                                  return;
+                                }
+                                if (nextType === "point_plot_from_coordinates") {
+                                  updateMultiPartPart(part.id, {
+                                    type: nextType,
+                                    options: undefined,
+                                    correctOption: undefined,
+                                    correctOptions: undefined,
+                                    correctText: undefined,
+                                    coord: { x: 0, y: 0 },
+                                  });
+                                  return;
+                                }
+                                updateMultiPartPart(part.id, {
+                                  type: "short_answer",
+                                  options: undefined,
+                                  correctOption: undefined,
+                                  correctOptions: undefined,
+                                  correctText: "",
+                                });
+                              }}
+                            >
+                              <option value="short_answer">short_answer</option>
+                              <option value="single_choice">single_choice</option>
+                              <option value="multi_select">multi_select</option>
+                              <option value="open_text">open_text</option>
+                              <option value="vector_xy_from_graph">
+                                vector_xy_from_graph
+                              </option>
+                              <option value="point_plot_from_coordinates">
+                                point_plot_from_coordinates
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div className="mt-3 space-y-1">
+                          <Label htmlFor={`mp-prompt-${part.id}`}>Prompt</Label>
+                          <Textarea
+                            id={`mp-prompt-${part.id}`}
+                            rows={2}
+                            value={part.prompt}
+                            onChange={(event) =>
+                              updateMultiPartPart(part.id, { prompt: event.target.value })
+                            }
+                          />
+                        </div>
+
+                        {part.type === "short_answer" && (
+                          <div className="mt-3 space-y-1">
+                            <Label htmlFor={`mp-answer-${part.id}`}>Expected answer</Label>
+                            <Input
+                              id={`mp-answer-${part.id}`}
+                              value={part.correctText ?? ""}
+                              onChange={(event) =>
+                                updateMultiPartPart(part.id, {
+                                  correctText: event.target.value,
+                                })
+                              }
+                            />
+                          </div>
+                        )}
+
+                        {(part.type === "vector_xy_from_graph" ||
+                          part.type === "point_plot_from_coordinates") && (
+                          <div className="mt-3 space-y-3">
+                            <VectorPlane
+                              x={Number(part.coord?.x ?? 0)}
+                              y={Number(part.coord?.y ?? 0)}
+                              mode={
+                                part.type === "point_plot_from_coordinates"
+                                  ? "point"
+                                  : "vector"
+                              }
+                              interactive={part.type === "point_plot_from_coordinates"}
+                              onChange={(next) =>
+                                updateMultiPartPart(part.id, { coord: next })
+                              }
+                            />
+                            <div className="grid gap-3 md:grid-cols-2">
+                              <div className="space-y-1">
+                                <Label htmlFor={`mp-coord-x-${part.id}`}>X</Label>
+                                <Input
+                                  id={`mp-coord-x-${part.id}`}
+                                  type="number"
+                                  value={Number(part.coord?.x ?? 0)}
+                                  onChange={(event) =>
+                                    updateMultiPartPart(part.id, {
+                                      coord: {
+                                        x: Number(event.target.value) || 0,
+                                        y: Number(part.coord?.y ?? 0),
+                                      },
+                                    })
+                                  }
+                                />
+                              </div>
+                              <div className="space-y-1">
+                                <Label htmlFor={`mp-coord-y-${part.id}`}>Y</Label>
+                                <Input
+                                  id={`mp-coord-y-${part.id}`}
+                                  type="number"
+                                  value={Number(part.coord?.y ?? 0)}
+                                  onChange={(event) =>
+                                    updateMultiPartPart(part.id, {
+                                      coord: {
+                                        x: Number(part.coord?.x ?? 0),
+                                        y: Number(event.target.value) || 0,
+                                      },
+                                    })
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {(part.type === "single_choice" || part.type === "multi_select") && (
+                          <div className="mt-3 space-y-3">
+                            <div className="grid gap-2">
+                              {(["a", "b", "c", "d"] as const).map((id, idx) => (
+                                <div key={`mp-${part.id}-${id}`} className="space-y-1">
+                                  <Label htmlFor={`mp-option-${part.id}-${id}`}>
+                                    Option {id.toUpperCase()}
+                                  </Label>
+                                  <Input
+                                    id={`mp-option-${part.id}-${id}`}
+                                    value={part.options?.[idx] ?? ""}
+                                    onChange={(event) => {
+                                      const next = [...(part.options ?? ["", "", "", ""])] as [
+                                        string,
+                                        string,
+                                        string,
+                                        string,
+                                      ];
+                                      next[idx] = event.target.value;
+                                      updateMultiPartPart(part.id, { options: next });
+                                    }}
+                                  />
+                                </div>
+                              ))}
+                            </div>
+
+                            {part.type === "single_choice" && (
+                              <div className="space-y-1">
+                                <Label htmlFor={`mp-correct-${part.id}`}>Correct option</Label>
+                                <select
+                                  id={`mp-correct-${part.id}`}
+                                  className="h-11 w-full rounded-md border border-slate-300 bg-white px-3"
+                                  value={part.correctOption ?? "a"}
+                                  onChange={(event) =>
+                                    updateMultiPartPart(part.id, {
+                                      correctOption: event.target.value as "a" | "b" | "c" | "d",
+                                    })
+                                  }
+                                >
+                                  <option value="a">A</option>
+                                  <option value="b">B</option>
+                                  <option value="c">C</option>
+                                  <option value="d">D</option>
+                                </select>
+                              </div>
+                            )}
+
+                            {part.type === "multi_select" && (
+                              <div className="space-y-2">
+                                <p className="text-sm font-semibold text-slate-700">
+                                  Correct options
+                                </p>
+                                <div className="grid gap-2 sm:grid-cols-2">
+                                  {(["a", "b", "c", "d"] as const).map((id) => {
+                                    const checked = (part.correctOptions ?? []).includes(id);
+                                    return (
+                                      <label
+                                        key={`mp-correct-many-${part.id}-${id}`}
+                                        className="flex cursor-pointer items-center gap-2 rounded border border-slate-200 bg-white px-3 py-2"
+                                      >
+                                        <input
+                                          type="checkbox"
+                                          checked={checked}
+                                          onChange={(event) => {
+                                            const current = part.correctOptions ?? [];
+                                            const next = event.target.checked
+                                              ? [...current, id]
+                                              : current.filter((item) => item !== id);
+                                            updateMultiPartPart(part.id, {
+                                              correctOptions: next.length > 0 ? next : [id],
+                                            });
+                                          }}
+                                        />
+                                        <span>{id.toUpperCase()}</span>
+                                      </label>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}

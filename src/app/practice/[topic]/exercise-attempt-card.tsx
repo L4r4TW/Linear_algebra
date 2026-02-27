@@ -67,6 +67,32 @@ type EqualVectorsPrompt = {
   vectors?: PlaneVector[];
 };
 
+type MultiPartPrompt = {
+  kind: "multi_part";
+  question?: string;
+  parts?: Array<{
+    id: string;
+    type:
+      | "short_answer"
+      | "single_choice"
+      | "multi_select"
+      | "open_text"
+      | "vector_xy_from_graph"
+      | "point_plot_from_coordinates";
+    prompt: string;
+    options?: Array<{ id: string; text: string }>;
+    grid?: {
+      xMin?: number;
+      xMax?: number;
+      yMin?: number;
+      yMax?: number;
+      step?: number;
+    };
+    vectorEnd?: [number, number];
+    target?: [number, number];
+  }>;
+};
+
 function getQuestionText(prompt: Json): string {
   if (prompt && typeof prompt === "object" && !Array.isArray(prompt)) {
     const maybeQuestion = (prompt as Record<string, unknown>).question;
@@ -203,6 +229,17 @@ function getEqualVectorsPrompt(prompt: Json): EqualVectorsPrompt | null {
   return obj as unknown as EqualVectorsPrompt;
 }
 
+function getMultiPartPrompt(prompt: Json): MultiPartPrompt | null {
+  if (!prompt || typeof prompt !== "object" || Array.isArray(prompt)) {
+    return null;
+  }
+  const obj = prompt as Record<string, unknown>;
+  if (obj.kind !== "multi_part") {
+    return null;
+  }
+  return obj as unknown as MultiPartPrompt;
+}
+
 function getExpectedIdSet(solution: Json): string[] {
   if (!solution || typeof solution !== "object" || Array.isArray(solution)) {
     return [];
@@ -217,6 +254,28 @@ function getExpectedIdSet(solution: Json): string[] {
     .map((item) => (typeof item === "string" ? item : ""))
     .filter(Boolean)
     .sort();
+}
+
+function getMultiPartSolutionMap(solution: Json) {
+  const map = new Map<string, Record<string, unknown>>();
+  if (!solution || typeof solution !== "object" || Array.isArray(solution)) {
+    return map;
+  }
+  const maybeResult = (solution as Record<string, unknown>).result;
+  if (!Array.isArray(maybeResult)) {
+    return map;
+  }
+  maybeResult.forEach((item) => {
+    if (!item || typeof item !== "object" || Array.isArray(item)) {
+      return;
+    }
+    const row = item as Record<string, unknown>;
+    const id = row.id;
+    if (typeof id === "string") {
+      map.set(id, row);
+    }
+  });
+  return map;
 }
 
 function VectorLabel({ id }: { id: string }) {
@@ -252,12 +311,22 @@ export function ExerciseAttemptCard({
   const [selectedChoice, setSelectedChoice] = useState("");
   const [selectedChoices, setSelectedChoices] = useState<string[]>([]);
   const [selectedEqualIds, setSelectedEqualIds] = useState<string[]>([]);
+  const [multiPartTextAnswers, setMultiPartTextAnswers] = useState<Record<string, string>>({});
+  const [multiPartSingleAnswers, setMultiPartSingleAnswers] = useState<Record<string, string>>({});
+  const [multiPartMultiAnswers, setMultiPartMultiAnswers] = useState<Record<string, string[]>>({});
+  const [multiPartCoordAnswers, setMultiPartCoordAnswers] = useState<
+    Record<string, { x: string; y: string }>
+  >({});
+  const [multiPartPlottedPoints, setMultiPartPlottedPoints] = useState<
+    Record<string, { x: number; y: number } | null>
+  >({});
 
   const vectorPrompt = getVectorPrompt(prompt);
   const pointPrompt = getPointPrompt(prompt);
   const multipleChoicePrompt = getMultipleChoicePrompt(prompt);
   const multiSelectPrompt = getMultiSelectPrompt(prompt);
   const equalVectorsPrompt = getEqualVectorsPrompt(prompt);
+  const multiPartPrompt = getMultiPartPrompt(prompt);
   const expectedVector = getExpectedVector(solution);
 
   async function saveAttempt(correctness: boolean, rawAnswer: string) {
@@ -317,7 +386,116 @@ export function ExerciseAttemptCard({
     let correctness = false;
     let rawAnswer = answer;
 
-    if (equalVectorsPrompt) {
+    if (multiPartPrompt) {
+      const solutionMap = getMultiPartSolutionMap(solution);
+      let gradedCount = 0;
+      let correctCount = 0;
+      let pendingCount = 0;
+
+      (multiPartPrompt.parts ?? []).forEach((part) => {
+        const expected = solutionMap.get(part.id);
+        if (part.type === "short_answer") {
+          gradedCount += 1;
+          const actual = multiPartTextAnswers[part.id] ?? "";
+          const expectedText =
+            expected && typeof expected.correctText === "string"
+              ? expected.correctText
+              : "";
+          if (normalize(actual) === normalize(expectedText)) {
+            correctCount += 1;
+          }
+          return;
+        }
+
+        if (part.type === "single_choice") {
+          gradedCount += 1;
+          const actual = multiPartSingleAnswers[part.id] ?? "";
+          const expectedId =
+            expected && typeof expected.correctOption === "string"
+              ? expected.correctOption
+              : "";
+          if (actual === expectedId) {
+            correctCount += 1;
+          }
+          return;
+        }
+
+        if (part.type === "multi_select") {
+          gradedCount += 1;
+          const actual = [...(multiPartMultiAnswers[part.id] ?? [])].sort();
+          const expectedIds =
+            expected && Array.isArray(expected.correctOptions)
+              ? expected.correctOptions
+                  .filter((id): id is string => typeof id === "string")
+                  .sort()
+              : [];
+          if (
+            actual.length === expectedIds.length &&
+            actual.every((id, index) => id === expectedIds[index])
+          ) {
+            correctCount += 1;
+          }
+          return;
+        }
+
+        if (part.type === "vector_xy_from_graph") {
+          gradedCount += 1;
+          const actual = multiPartCoordAnswers[part.id];
+          const actualX = Number(actual?.x);
+          const actualY = Number(actual?.y);
+          const expectedX = Number(expected?.x);
+          const expectedY = Number(expected?.y);
+          if (
+            Number.isFinite(actualX) &&
+            Number.isFinite(actualY) &&
+            Number.isFinite(expectedX) &&
+            Number.isFinite(expectedY) &&
+            actualX === expectedX &&
+            actualY === expectedY
+          ) {
+            correctCount += 1;
+          }
+          return;
+        }
+
+        if (part.type === "point_plot_from_coordinates") {
+          gradedCount += 1;
+          const actual = multiPartPlottedPoints[part.id];
+          const expectedX = Number(expected?.x);
+          const expectedY = Number(expected?.y);
+          if (
+            actual &&
+            Number.isFinite(expectedX) &&
+            Number.isFinite(expectedY) &&
+            actual.x === expectedX &&
+            actual.y === expectedY
+          ) {
+            correctCount += 1;
+          }
+          return;
+        }
+
+        pendingCount += 1;
+      });
+
+      correctness = gradedCount > 0 && correctCount === gradedCount;
+      rawAnswer = JSON.stringify(
+        {
+          text: multiPartTextAnswers,
+          single: multiPartSingleAnswers,
+          multi: multiPartMultiAnswers,
+          coord: multiPartCoordAnswers,
+          plot: multiPartPlottedPoints,
+        },
+        null,
+        2
+      );
+      setFeedbackMessage(
+        `Auto-graded ${correctCount}/${gradedCount} correct${
+          pendingCount > 0 ? `, ${pendingCount} open-text pending` : ""
+        }`
+      );
+    } else if (equalVectorsPrompt) {
       const expected = getExpectedIdSet(solution);
       const actual = [...selectedEqualIds].sort();
       correctness =
@@ -359,7 +537,9 @@ export function ExerciseAttemptCard({
 
     setSubmitted(true);
     setIsCorrect(correctness);
-    setFeedbackMessage(correctness ? "Correct" : "Incorrect");
+    if (!multiPartPrompt) {
+      setFeedbackMessage(correctness ? "Correct" : "Incorrect");
+    }
     if (correctness) {
       setIsSolved(true);
     }
@@ -376,7 +556,172 @@ export function ExerciseAttemptCard({
       )}
       <p className="font-medium">{getQuestionText(prompt)}</p>
 
-      {equalVectorsPrompt ? (
+      {multiPartPrompt ? (
+        <div className="mt-4 space-y-4">
+          {(multiPartPrompt.parts ?? []).map((part, index) => (
+            <div key={part.id} className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+              <p className="text-sm font-semibold text-slate-700">Part {index + 1}</p>
+              <p className="mt-1 text-sm text-slate-800">{part.prompt}</p>
+
+              {part.type === "short_answer" && (
+                <input
+                  value={multiPartTextAnswers[part.id] ?? ""}
+                  onChange={(event) =>
+                    setMultiPartTextAnswers((prev) => ({
+                      ...prev,
+                      [part.id]: event.target.value,
+                    }))
+                  }
+                  className="mt-3 w-full rounded-lg border border-slate-300 px-3 py-2"
+                  placeholder="Your answer"
+                />
+              )}
+
+              {part.type === "open_text" && (
+                <textarea
+                  value={multiPartTextAnswers[part.id] ?? ""}
+                  onChange={(event) =>
+                    setMultiPartTextAnswers((prev) => ({
+                      ...prev,
+                      [part.id]: event.target.value,
+                    }))
+                  }
+                  rows={3}
+                  className="mt-3 w-full rounded-lg border border-slate-300 px-3 py-2"
+                  placeholder="Write your explanation"
+                />
+              )}
+
+              {part.type === "single_choice" && (
+                <div className="mt-3 space-y-2">
+                  {(part.options ?? []).map((option) => (
+                    <label
+                      key={`${part.id}-${option.id}`}
+                      className="flex cursor-pointer items-start gap-2 rounded border border-slate-200 bg-white px-3 py-2"
+                    >
+                      <input
+                        type="radio"
+                        name={`mp-single-${exerciseId}-${part.id}`}
+                        value={option.id}
+                        checked={(multiPartSingleAnswers[part.id] ?? "") === option.id}
+                        onChange={(event) =>
+                          setMultiPartSingleAnswers((prev) => ({
+                            ...prev,
+                            [part.id]: event.target.value,
+                          }))
+                        }
+                      />
+                      <span className="text-sm">
+                        <span className="font-semibold">{option.id.toUpperCase()}.</span>{" "}
+                        {option.text}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              )}
+
+              {part.type === "multi_select" && (
+                <div className="mt-3 space-y-2">
+                  {(part.options ?? []).map((option) => {
+                    const selected = multiPartMultiAnswers[part.id] ?? [];
+                    const checked = selected.includes(option.id);
+                    return (
+                      <label
+                        key={`${part.id}-${option.id}`}
+                        className="flex cursor-pointer items-start gap-2 rounded border border-slate-200 bg-white px-3 py-2"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          onChange={(event) =>
+                            setMultiPartMultiAnswers((prev) => {
+                              const current = prev[part.id] ?? [];
+                              const next = event.target.checked
+                                ? [...current, option.id]
+                                : current.filter((id) => id !== option.id);
+                              return { ...prev, [part.id]: next };
+                            })
+                          }
+                        />
+                        <span className="text-sm">
+                          <span className="font-semibold">{option.id.toUpperCase()}.</span>{" "}
+                          {option.text}
+                        </span>
+                      </label>
+                    );
+                  })}
+                </div>
+              )}
+
+              {part.type === "vector_xy_from_graph" && (
+                <div className="mt-3 space-y-3">
+                  <VectorPlane
+                    x={Number(part.vectorEnd?.[0] ?? 0)}
+                    y={Number(part.vectorEnd?.[1] ?? 0)}
+                    min={Number(part.grid?.xMin ?? -10)}
+                    max={Number(part.grid?.xMax ?? 10)}
+                  />
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <label className="flex flex-col gap-2">
+                      <span className="text-sm text-slate-700">X</span>
+                      <input
+                        value={multiPartCoordAnswers[part.id]?.x ?? ""}
+                        onChange={(event) =>
+                          setMultiPartCoordAnswers((prev) => ({
+                            ...prev,
+                            [part.id]: { x: event.target.value, y: prev[part.id]?.y ?? "" },
+                          }))
+                        }
+                        type="number"
+                        className="rounded-lg border border-slate-300 px-3 py-2"
+                        placeholder="X coordinate"
+                      />
+                    </label>
+                    <label className="flex flex-col gap-2">
+                      <span className="text-sm text-slate-700">Y</span>
+                      <input
+                        value={multiPartCoordAnswers[part.id]?.y ?? ""}
+                        onChange={(event) =>
+                          setMultiPartCoordAnswers((prev) => ({
+                            ...prev,
+                            [part.id]: { x: prev[part.id]?.x ?? "", y: event.target.value },
+                          }))
+                        }
+                        type="number"
+                        className="rounded-lg border border-slate-300 px-3 py-2"
+                        placeholder="Y coordinate"
+                      />
+                    </label>
+                  </div>
+                </div>
+              )}
+
+              {part.type === "point_plot_from_coordinates" && (
+                <div className="mt-3 space-y-3">
+                  <VectorPlane
+                    x={multiPartPlottedPoints[part.id]?.x ?? 0}
+                    y={multiPartPlottedPoints[part.id]?.y ?? 0}
+                    min={Number(part.grid?.xMin ?? -10)}
+                    max={Number(part.grid?.xMax ?? 10)}
+                    mode="point"
+                    interactive
+                    showPoint={Boolean(multiPartPlottedPoints[part.id])}
+                    onChange={(next) =>
+                      setMultiPartPlottedPoints((prev) => ({ ...prev, [part.id]: next }))
+                    }
+                  />
+                  <p className="text-sm text-slate-700">
+                    Plotted point:{" "}
+                    {multiPartPlottedPoints[part.id]
+                      ? `(${multiPartPlottedPoints[part.id]?.x}, ${multiPartPlottedPoints[part.id]?.y})`
+                      : "not selected"}
+                  </p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      ) : equalVectorsPrompt ? (
         <div className="mt-4 space-y-4">
           <MultiVectorPlane
             vectors={equalVectorsPrompt.vectors ?? []}
@@ -525,7 +870,9 @@ export function ExerciseAttemptCard({
         onClick={handleSubmit}
         disabled={
           isSaving ||
-          (equalVectorsPrompt
+          (multiPartPrompt
+            ? false
+            : equalVectorsPrompt
             ? selectedEqualIds.length === 0
             : multiSelectPrompt
             ? selectedChoices.length === 0

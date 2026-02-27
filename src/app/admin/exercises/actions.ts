@@ -68,6 +68,21 @@ type EqualVectorsPromptConfig = {
   correctIds?: string[];
 };
 
+type MultiPartPromptConfig = {
+  kind: "multi_part";
+  parts?: Array<{
+    id?: string;
+    type?: "short_answer" | "single_choice" | "multi_select" | "open_text" | "vector_xy_from_graph" | "point_plot_from_coordinates";
+    prompt?: string;
+    options?: Array<{ id: string; text: string }>;
+    correctOption?: string;
+    correctOptions?: string[];
+    correctText?: string;
+    x?: number;
+    y?: number;
+  }>;
+};
+
 function getValidationMessage(error: ZodError) {
   const flattened = error.flatten().fieldErrors;
   const firstMessage = Object.values(flattened).flat().find(Boolean);
@@ -316,6 +331,182 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
         vectors,
       },
       solution: { result: correctIds.sort() },
+      updated_at: new Date().toISOString(),
+    };
+  }
+
+  if (parsed.type === "multi_part") {
+    const rawConfig =
+      parsed.choicesJson && typeof parsed.choicesJson === "object"
+        ? (parsed.choicesJson as MultiPartPromptConfig)
+        : null;
+    const fallbackParts = [
+      {
+        id: "part-1",
+        type: "short_answer" as const,
+        prompt: "Part 1",
+        correctText: "",
+      },
+    ];
+    const rawParts = rawConfig?.parts && rawConfig.parts.length > 0 ? rawConfig.parts : fallbackParts;
+    const parts = rawParts.map((part, index) => {
+      const id = part.id?.trim() || `part-${index + 1}`;
+      const type = part.type ?? "short_answer";
+      const prompt = part.prompt?.trim() || `Part ${index + 1}`;
+      const options = (part.options ?? [])
+        .filter((item) => item && typeof item.id === "string")
+        .map((item) => ({ id: item.id, text: item.text ?? "" }));
+
+      if (type === "single_choice") {
+        const fallbackOptions = options.length >= 2
+          ? options
+          : [
+              { id: "a", text: "Option A" },
+              { id: "b", text: "Option B" },
+              { id: "c", text: "Option C" },
+              { id: "d", text: "Option D" },
+            ];
+        const validIds = new Set(fallbackOptions.map((item) => item.id));
+        return {
+          id,
+          type,
+          prompt,
+          options: fallbackOptions,
+          correctOption:
+            part.correctOption && validIds.has(part.correctOption)
+              ? part.correctOption
+              : fallbackOptions[0].id,
+        };
+      }
+
+      if (type === "multi_select") {
+        const fallbackOptions = options.length >= 2
+          ? options
+          : [
+              { id: "a", text: "Option A" },
+              { id: "b", text: "Option B" },
+              { id: "c", text: "Option C" },
+              { id: "d", text: "Option D" },
+            ];
+        const validIds = new Set(fallbackOptions.map((item) => item.id));
+        const correctOptions = [
+          ...new Set(
+            (part.correctOptions ?? [])
+              .filter((id): id is string => typeof id === "string")
+              .filter((id) => validIds.has(id))
+          ),
+        ];
+        return {
+          id,
+          type,
+          prompt,
+          options: fallbackOptions,
+          correctOptions: correctOptions.length > 0 ? correctOptions : [fallbackOptions[0].id],
+        };
+      }
+
+      if (type === "open_text") {
+        return {
+          id,
+          type,
+          prompt,
+        };
+      }
+
+      if (type === "vector_xy_from_graph" || type === "point_plot_from_coordinates") {
+        const x = Number(part.x ?? 0);
+        const y = Number(part.y ?? 0);
+        return {
+          id,
+          type,
+          prompt,
+          x: Number.isFinite(x) ? x : 0,
+          y: Number.isFinite(y) ? y : 0,
+        };
+      }
+
+      return {
+        id,
+        type: "short_answer" as const,
+        prompt,
+        correctText: part.correctText ?? "",
+      };
+    });
+
+    return {
+      subtheme_id: parsed.subthemeId,
+      type: "multi_part",
+      difficulty: parsed.difficulty,
+      prompt_md: parsed.promptMd,
+      solution_md: parsed.solutionMd,
+      choices: parsed.choicesJson,
+      hints: parsed.hintsJson,
+      tags: parsed.tagsJson,
+      status: parsed.status,
+      prompt: {
+        kind: "multi_part",
+        question: parsed.promptMd,
+        parts: parts.map((part) => {
+          if (part.type === "single_choice" || part.type === "multi_select") {
+            return {
+              id: part.id,
+              type: part.type,
+              prompt: part.prompt,
+              options: part.options,
+            };
+          }
+          if (part.type === "vector_xy_from_graph") {
+            return {
+              id: part.id,
+              type: part.type,
+              prompt: part.prompt,
+              grid: { xMin: -10, xMax: 10, yMin: -10, yMax: 10, step: 1 },
+              origin: [0, 0] as [number, number],
+              vectorEnd: [Number(part.x ?? 0), Number(part.y ?? 0)] as [number, number],
+            };
+          }
+          if (part.type === "point_plot_from_coordinates") {
+            return {
+              id: part.id,
+              type: part.type,
+              prompt: part.prompt,
+              grid: { xMin: -10, xMax: 10, yMin: -10, yMax: 10, step: 1 },
+              target: [Number(part.x ?? 0), Number(part.y ?? 0)] as [number, number],
+            };
+          }
+          return {
+            id: part.id,
+            type: part.type,
+            prompt: part.prompt,
+          };
+        }),
+      },
+      solution: {
+        result: parts.map((part) => {
+          if (part.type === "single_choice") {
+            return { id: part.id, type: part.type, correctOption: part.correctOption };
+          }
+          if (part.type === "multi_select") {
+            return {
+              id: part.id,
+              type: part.type,
+              correctOptions: [...(part.correctOptions ?? [])].sort(),
+            };
+          }
+          if (part.type === "short_answer") {
+            return { id: part.id, type: part.type, correctText: part.correctText ?? "" };
+          }
+          if (part.type === "vector_xy_from_graph" || part.type === "point_plot_from_coordinates") {
+            return {
+              id: part.id,
+              type: part.type,
+              x: Number(part.x ?? 0),
+              y: Number(part.y ?? 0),
+            };
+          }
+          return { id: part.id, type: part.type };
+        }),
+      },
       updated_at: new Date().toISOString(),
     };
   }
