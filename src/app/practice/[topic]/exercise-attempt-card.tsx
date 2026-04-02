@@ -6,6 +6,7 @@ import {
   type PlaneVector,
 } from "@/components/admin/multi-vector-plane";
 import { VectorPlane } from "@/components/admin/vector-plane";
+import { MarkdownContent } from "@/components/content/markdown-content";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 import type { Json } from "@/types/database";
 
@@ -712,14 +713,20 @@ export function ExerciseAttemptCard({
           Solved
         </span>
       )}
-      <p className="font-medium">{getQuestionText(prompt)}</p>
+      <MarkdownContent
+        markdown={getQuestionText(prompt)}
+        className="font-medium text-slate-900"
+      />
 
       {multiPartPrompt ? (
         <div className="mt-4 space-y-4">
           {(multiPartPrompt.parts ?? []).map((part, index) => (
             <div key={part.id} className="rounded-lg border border-slate-200 bg-slate-50 p-3">
               <p className="text-sm font-semibold text-slate-700">Part {index + 1}</p>
-              <p className="mt-1 text-sm text-slate-800">{part.prompt}</p>
+              <MarkdownContent
+                markdown={part.prompt}
+                className="mt-1 text-sm text-slate-800"
+              />
 
               {part.type === "short_answer" && (
                 <input
@@ -769,10 +776,14 @@ export function ExerciseAttemptCard({
                           }))
                         }
                       />
-                      <span className="text-sm">
+                      <div className="text-sm">
                         <span className="font-semibold">{option.id.toUpperCase()}.</span>{" "}
-                        {option.text}
-                      </span>
+                        <MarkdownContent
+                          markdown={option.text}
+                          className="inline text-sm text-slate-800"
+                          inline
+                        />
+                      </div>
                     </label>
                   ))}
                 </div>
@@ -801,10 +812,14 @@ export function ExerciseAttemptCard({
                             })
                           }
                         />
-                        <span className="text-sm">
+                        <div className="text-sm">
                           <span className="font-semibold">{option.id.toUpperCase()}.</span>{" "}
-                          {option.text}
-                        </span>
+                          <MarkdownContent
+                            markdown={option.text}
+                            className="inline text-sm text-slate-800"
+                            inline
+                          />
+                        </div>
                       </label>
                     );
                   })}
@@ -988,10 +1003,14 @@ export function ExerciseAttemptCard({
                   }}
                   className="mt-1"
                 />
-                <span className="text-sm text-slate-800">
+                <div className="text-sm text-slate-800">
                   <span className="font-semibold">{option.id.toUpperCase()}.</span>{" "}
-                  {option.text}
-                </span>
+                  <MarkdownContent
+                    markdown={option.text}
+                    className="inline text-sm text-slate-800"
+                    inline
+                  />
+                </div>
               </label>
             );
           })}
@@ -1011,10 +1030,14 @@ export function ExerciseAttemptCard({
                 onChange={(event) => setSelectedChoice(event.target.value)}
                 className="mt-1"
               />
-              <span className="text-sm text-slate-800">
+              <div className="text-sm text-slate-800">
                 <span className="font-semibold">{option.id.toUpperCase()}.</span>{" "}
-                {option.text}
-              </span>
+                <MarkdownContent
+                  markdown={option.text}
+                  className="inline text-sm text-slate-800"
+                  inline
+                />
+              </div>
             </label>
           ))}
         </div>

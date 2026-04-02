@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { MarkdownContent } from "@/components/content/markdown-content";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 import type { Json } from "@/types/database";
 
@@ -151,7 +152,10 @@ export function PracticeRunner({ themeSlug, exercise }: PracticeRunnerProps) {
         {exercise.type} - difficulty {exercise.difficulty}
       </p>
 
-      <p className="text-lg font-medium">{getQuestionText(exercise.prompt)}</p>
+      <MarkdownContent
+        markdown={getQuestionText(exercise.prompt)}
+        className="text-lg font-medium text-slate-900"
+      />
 
       <label className="flex flex-col gap-2">
         <span className="text-sm text-slate-700">Your answer</span>
