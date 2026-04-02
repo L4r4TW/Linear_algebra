@@ -192,10 +192,14 @@ function parsePointPlotVectorsConfig(value: unknown): PointPlotVectorsConfig {
         : Array.isArray(vector.end)
           ? vector.end
           : [0, 0];
+      const maybeStart = Array.isArray(vector.start) ? vector.start : [0, 0];
       return {
         id,
         color,
-        start: [0, 0] as [number, number],
+        start: [Number(maybeStart[0] ?? 0) || 0, Number(maybeStart[1] ?? 0) || 0] as [
+          number,
+          number,
+        ],
         end: [Number(maybeTarget[0] ?? 0) || 0, Number(maybeTarget[1] ?? 0) || 0] as [
           number,
           number,
@@ -557,11 +561,17 @@ function parseMultiPartConfig(value: unknown): MultiPartPart[] {
                         ];
                   const target = Array.isArray(vector.target)
                     ? vector.target
+                    : Array.isArray(vector.end)
+                      ? vector.end
                     : [0, 0];
+                  const start = Array.isArray(vector.start) ? vector.start : [0, 0];
                   return {
                     id,
                     color,
-                    start: [0, 0] as [number, number],
+                    start: [Number(start[0] ?? 0) || 0, Number(start[1] ?? 0) || 0] as [
+                      number,
+                      number,
+                    ],
                     end: [Number(target[0] ?? 0) || 0, Number(target[1] ?? 0) || 0] as [
                       number,
                       number,
@@ -756,19 +766,20 @@ export function ExerciseEditor({
   const applyPointPlotVectorsConfig = useCallback(function applyPointPlotVectorsConfig(
     nextVectors: PlaneVector[]
   ) {
-    const vectorsWithOrigin = nextVectors.map((vector) => ({
+    const vectorsNormalized = nextVectors.map((vector) => ({
       id: vector.id,
       color: vector.color,
-      start: [0, 0] as [number, number],
-      end: vector.end,
+      start: [Number(vector.start[0] ?? 0), Number(vector.start[1] ?? 0)] as [number, number],
+      end: [Number(vector.end[0] ?? 0), Number(vector.end[1] ?? 0)] as [number, number],
     }));
     const config = {
       kind: "point_plot_from_coordinates",
       grid: { xMin: -10, xMax: 10, yMin: -10, yMax: 10, step: 1 },
-      vectors: vectorsWithOrigin.map((vector) => ({
+      vectors: vectorsNormalized.map((vector) => ({
         id: vector.id,
         color: vector.color,
-        target: [Number(vector.end[0] ?? 0), Number(vector.end[1] ?? 0)],
+        start: vector.start,
+        end: vector.end,
       })),
     };
     form.setValue("choicesJson", JSON.stringify(config, null, 2), {
@@ -781,8 +792,11 @@ export function ExerciseEditor({
     }
     form.setValue(
       "solutionMd",
-      vectorsWithOrigin
-        .map((vector) => `${vector.id}: (${vector.end[0]}, ${vector.end[1]})`)
+      vectorsNormalized
+        .map(
+          (vector) =>
+            `${vector.id}: (${vector.start[0]}, ${vector.start[1]}) -> (${vector.end[0]}, ${vector.end[1]})`
+        )
         .join(", "),
       { shouldDirty: true }
     );
@@ -796,7 +810,7 @@ export function ExerciseEditor({
       vector.id === id
         ? {
             ...vector,
-            start: [0, 0] as [number, number],
+            start: next.start ?? vector.start,
             end: next.end ?? vector.end,
           }
         : vector
@@ -1017,7 +1031,11 @@ export function ExerciseEditor({
         ).map((vector) => ({
           id: vector.id,
           color: vector.color,
-          target: [Number(vector.end?.[0] ?? 0), Number(vector.end?.[1] ?? 0)],
+          start: [
+            Number(vector.start?.[0] ?? 0),
+            Number(vector.start?.[1] ?? 0),
+          ] as [number, number],
+          end: [Number(vector.end?.[0] ?? 0), Number(vector.end?.[1] ?? 0)] as [number, number],
         }));
         return {
           id,
@@ -1083,20 +1101,14 @@ export function ExerciseEditor({
 
   function getMultiPartPointVectors(part: MultiPartPart): PlaneVector[] {
     if (part.pointVectors && part.pointVectors.length > 0) {
-      return part.pointVectors.map((vector) => ({
-        ...vector,
-        start: [0, 0],
-      }));
+      return part.pointVectors;
     }
     return [{ id: "a", color: "#3b82f6", start: [0, 0], end: [0, 0] }];
   }
 
   function updateMultiPartPointVectors(partId: string, nextVectors: PlaneVector[]) {
     updateMultiPartPart(partId, {
-      pointVectors: nextVectors.map((vector) => ({
-        ...vector,
-        start: [0, 0],
-      })),
+      pointVectors: nextVectors,
     });
   }
 
@@ -2093,7 +2105,7 @@ export function ExerciseEditor({
                                   vector.id === id
                                     ? {
                                         ...vector,
-                                        start: [0, 0] as [number, number],
+                                        start: next.start ?? vector.start,
                                         end: next.end ?? vector.end,
                                       }
                                     : vector

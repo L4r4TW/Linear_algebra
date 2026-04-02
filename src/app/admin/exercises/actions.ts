@@ -39,6 +39,8 @@ type PointPromptConfig = {
   vectors?: Array<{
     id?: string;
     color?: string;
+    start?: [number, number];
+    end?: [number, number];
     target?: [number, number];
   }>;
 };
@@ -88,6 +90,8 @@ type MultiPartPromptConfig = {
     vectors?: Array<{
       id?: string;
       color?: string;
+      start?: [number, number];
+      end?: [number, number];
       target?: [number, number];
     }>;
   }>;
@@ -173,7 +177,8 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
       {
         id: "a",
         color: "#3b82f6",
-        target: [Number(fallbackTarget[0]) || 0, Number(fallbackTarget[1]) || 0] as [
+        start: [0, 0] as [number, number],
+        end: [Number(fallbackTarget[0]) || 0, Number(fallbackTarget[1]) || 0] as [
           number,
           number,
         ],
@@ -184,17 +189,21 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
         ? rawConfig.vectors.map((vector, index) => ({
             id: vector.id?.trim() || String.fromCharCode(97 + index),
             color: vector.color || "#3b82f6",
-            target: [
-              Number(vector.target?.[0] ?? 0) || 0,
-              Number(vector.target?.[1] ?? 0) || 0,
+            start: [
+              Number(vector.start?.[0] ?? 0) || 0,
+              Number(vector.start?.[1] ?? 0) || 0,
+            ] as [number, number],
+            end: [
+              Number(vector.end?.[0] ?? vector.target?.[0] ?? 0) || 0,
+              Number(vector.end?.[1] ?? vector.target?.[1] ?? 0) || 0,
             ] as [number, number],
           }))
         : fallbackVectors;
 
     const solutionRows = vectors.map((vector) => ({
       id: vector.id,
-      x: vector.target[0],
-      y: vector.target[1],
+      x: vector.end[0] - vector.start[0],
+      y: vector.end[1] - vector.start[1],
     }));
     const prompt = {
       kind: "point_plot_from_coordinates",
@@ -209,8 +218,8 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
       vectors: vectors.map((vector) => ({
         id: vector.id,
         color: vector.color,
-        start: [0, 0] as [number, number],
-        end: vector.target,
+        start: vector.start,
+        end: vector.end,
       })),
       showLabels: true,
     };
@@ -468,16 +477,21 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
         const fallbackVector = {
           id: "a",
           color: "#3b82f6",
-          target: [Number(part.x ?? 0) || 0, Number(part.y ?? 0) || 0] as [number, number],
+          start: [0, 0] as [number, number],
+          end: [Number(part.x ?? 0) || 0, Number(part.y ?? 0) || 0] as [number, number],
         };
         const vectors =
           part.vectors && part.vectors.length > 0
             ? part.vectors.map((vector, index) => ({
                 id: vector.id?.trim() || String.fromCharCode(97 + index),
                 color: vector.color || "#3b82f6",
-                target: [
-                  Number(vector.target?.[0] ?? 0) || 0,
-                  Number(vector.target?.[1] ?? 0) || 0,
+                start: [
+                  Number(vector.start?.[0] ?? 0) || 0,
+                  Number(vector.start?.[1] ?? 0) || 0,
+                ] as [number, number],
+                end: [
+                  Number(vector.end?.[0] ?? vector.target?.[0] ?? 0) || 0,
+                  Number(vector.end?.[1] ?? vector.target?.[1] ?? 0) || 0,
                 ] as [number, number],
               }))
             : [fallbackVector];
@@ -538,11 +552,14 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
               vectors: (part.vectors ?? []).map((vector) => ({
                 id: vector.id,
                 color: vector.color,
-                start: [0, 0] as [number, number],
-                end: [
-                  Number(vector.target?.[0] ?? 0),
-                  Number(vector.target?.[1] ?? 0),
+                start: [
+                  Number(vector.start?.[0] ?? 0),
+                  Number(vector.start?.[1] ?? 0),
                 ] as [number, number],
+                end: [Number(vector.end?.[0] ?? 0), Number(vector.end?.[1] ?? 0)] as [
+                  number,
+                  number,
+                ],
               })),
             };
           }
@@ -582,8 +599,8 @@ function toExercisePayload(parsed: ReturnType<typeof exerciseEditorSchema.parse>
               type: part.type,
               vectors: (part.vectors ?? []).map((vector) => ({
                 id: vector.id,
-                x: Number(vector.target?.[0] ?? 0),
-                y: Number(vector.target?.[1] ?? 0),
+                x: Number(vector.end?.[0] ?? 0) - Number(vector.start?.[0] ?? 0),
+                y: Number(vector.end?.[1] ?? 0) - Number(vector.start?.[1] ?? 0),
               })),
             };
           }

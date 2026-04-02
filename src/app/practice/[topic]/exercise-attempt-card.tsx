@@ -422,7 +422,7 @@ export function ExerciseAttemptCard({
   const [vectorYInput, setVectorYInput] = useState("");
   const [selectedPointVectorId, setSelectedPointVectorId] = useState("a");
   const [pointVectorAnswerMap, setPointVectorAnswerMap] = useState<
-    Record<string, { x: number; y: number }>
+    Record<string, { sx: number; sy: number; ex: number; ey: number }>
   >({});
   const [selectedChoice, setSelectedChoice] = useState("");
   const [selectedChoices, setSelectedChoices] = useState<string[]>([]);
@@ -434,7 +434,7 @@ export function ExerciseAttemptCard({
     Record<string, { x: string; y: string }>
   >({});
   const [multiPartPointAnswerMap, setMultiPartPointAnswerMap] = useState<
-    Record<string, Record<string, { x: number; y: number }>>
+    Record<string, Record<string, { sx: number; sy: number; ex: number; ey: number }>>
   >({});
   const [multiPartPointSelectedVectorIds, setMultiPartPointSelectedVectorIds] = useState<
     Record<string, string>
@@ -453,9 +453,13 @@ export function ExerciseAttemptCard({
     () =>
       pointPromptVectors.map((vector) => ({
         ...vector,
+        start: [
+          pointVectorAnswerMap[vector.id]?.sx ?? vector.start[0] ?? 0,
+          pointVectorAnswerMap[vector.id]?.sy ?? vector.start[1] ?? 0,
+        ] as [number, number],
         end: [
-          pointVectorAnswerMap[vector.id]?.x ?? 0,
-          pointVectorAnswerMap[vector.id]?.y ?? 0,
+          pointVectorAnswerMap[vector.id]?.ex ?? vector.end[0] ?? 0,
+          pointVectorAnswerMap[vector.id]?.ey ?? vector.end[1] ?? 0,
         ] as [number, number],
       })),
     [pointPromptVectors, pointVectorAnswerMap]
@@ -603,7 +607,11 @@ export function ExerciseAttemptCard({
             expectedVectors.length > 0 &&
             expectedVectors.every((vector) => {
               const actual = answerMap[vector.id];
-              return Boolean(actual && actual.x === vector.x && actual.y === vector.y);
+              return Boolean(
+                actual &&
+                  actual.ex - actual.sx === vector.x &&
+                  actual.ey - actual.sy === vector.y
+              );
             });
           if (correct) {
             correctCount += 1;
@@ -662,19 +670,25 @@ export function ExerciseAttemptCard({
         expectedRows.every((row) => {
           const answerRow = pointVectorAnswers.find((vector) => vector.id === row.id);
           return Boolean(
-            answerRow && answerRow.end[0] === row.x && answerRow.end[1] === row.y
+            answerRow &&
+              answerRow.end[0] - answerRow.start[0] === row.x &&
+              answerRow.end[1] - answerRow.start[1] === row.y
           );
         });
       rawAnswer = JSON.stringify(
         pointVectorAnswers.map((vector) => ({
           id: vector.id,
-          x: vector.end[0],
-          y: vector.end[1],
+          start: { x: vector.start[0], y: vector.start[1] },
+          end: { x: vector.end[0], y: vector.end[1] },
+          displacement: {
+            x: vector.end[0] - vector.start[0],
+            y: vector.end[1] - vector.start[1],
+          },
           expected:
             expectedById.has(vector.id)
               ? {
-                  x: expectedById.get(vector.id)?.x,
-                  y: expectedById.get(vector.id)?.y,
+                x: expectedById.get(vector.id)?.x,
+                y: expectedById.get(vector.id)?.y,
                 }
               : null,
         }))
@@ -876,9 +890,13 @@ export function ExerciseAttemptCard({
                     const answerMap = multiPartPointAnswerMap[part.id] ?? {};
                     const answerVectors = promptVectors.map((vector) => ({
                       ...vector,
+                      start: [
+                        answerMap[vector.id]?.sx ?? vector.start[0] ?? 0,
+                        answerMap[vector.id]?.sy ?? vector.start[1] ?? 0,
+                      ] as [number, number],
                       end: [
-                        answerMap[vector.id]?.x ?? 0,
-                        answerMap[vector.id]?.y ?? 0,
+                        answerMap[vector.id]?.ex ?? vector.end[0] ?? 0,
+                        answerMap[vector.id]?.ey ?? vector.end[1] ?? 0,
                       ] as [number, number],
                     }));
                     const selected = multiPartPointSelectedVectorIds[part.id];
@@ -927,8 +945,10 @@ export function ExerciseAttemptCard({
                               [part.id]: {
                                 ...(prev[part.id] ?? {}),
                                 [id]: {
-                                  x: Number(next.end?.[0] ?? prev[part.id]?.[id]?.x ?? 0),
-                                  y: Number(next.end?.[1] ?? prev[part.id]?.[id]?.y ?? 0),
+                                  sx: Number(next.start?.[0] ?? prev[part.id]?.[id]?.sx ?? 0),
+                                  sy: Number(next.start?.[1] ?? prev[part.id]?.[id]?.sy ?? 0),
+                                  ex: Number(next.end?.[0] ?? prev[part.id]?.[id]?.ex ?? 0),
+                                  ey: Number(next.end?.[1] ?? prev[part.id]?.[id]?.ey ?? 0),
                                 },
                               },
                             }))
@@ -937,8 +957,8 @@ export function ExerciseAttemptCard({
                         <div className="space-y-1 text-sm text-slate-700">
                           {answerVectors.map((vector) => (
                             <p key={`mpp-readout-${part.id}-${vector.id}`}>
-                              <span className="font-semibold">{vector.id}:</span> ({vector.end[0]},{" "}
-                              {vector.end[1]})
+                              <span className="font-semibold">{vector.id}:</span>{" "}
+                              ({vector.start[0]}, {vector.start[1]}) → ({vector.end[0]}, {vector.end[1]})
                             </p>
                           ))}
                         </div>
@@ -1070,8 +1090,10 @@ export function ExerciseAttemptCard({
               setPointVectorAnswerMap((prev) => ({
                 ...prev,
                 [id]: {
-                  x: Number(next.end?.[0] ?? prev[id]?.x ?? 0),
-                  y: Number(next.end?.[1] ?? prev[id]?.y ?? 0),
+                  sx: Number(next.start?.[0] ?? prev[id]?.sx ?? 0),
+                  sy: Number(next.start?.[1] ?? prev[id]?.sy ?? 0),
+                  ex: Number(next.end?.[0] ?? prev[id]?.ex ?? 0),
+                  ey: Number(next.end?.[1] ?? prev[id]?.ey ?? 0),
                 },
               }))
             }
@@ -1079,8 +1101,8 @@ export function ExerciseAttemptCard({
           <div className="space-y-1 text-sm text-slate-700">
             {pointVectorAnswers.map((vector) => (
               <p key={`point-ans-${vector.id}`}>
-                <span className="font-semibold">{vector.id}:</span> ({vector.end[0]},{" "}
-                {vector.end[1]})
+                <span className="font-semibold">{vector.id}:</span>{" "}
+                ({vector.start[0]}, {vector.start[1]}) → ({vector.end[0]}, {vector.end[1]})
               </p>
             ))}
           </div>
