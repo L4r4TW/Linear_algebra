@@ -1,63 +1,145 @@
 # Linear Algebra Exercises
 
-Open source exercise platform for the Khan Academy linear algebra track.
-Built with Next.js App Router and Supabase Postgres.
+Open source linear algebra practice platform aligned with the Khan Academy linear algebra track.
+
+The app is built with Next.js App Router and Supabase. Course content is organized as:
+
+```text
+Units -> Themes -> Subthemes -> Exercises
+```
+
+Students can browse topics, solve exercises, and save progress. Admin users can manage the course structure and author exercises.
+
+## Tech Stack
+
+- Next.js App Router
+- React
+- TypeScript
+- Tailwind CSS
+- Supabase Postgres/Auth/RLS
+- `@supabase/ssr`
+- `react-hook-form`
+- `zod`
+- `react-markdown`
+- `remark-math`
+- `rehype-katex`
+- `katex`
 
 ## Getting Started
 
-1. Install dependencies:
+Install dependencies:
 
 ```bash
 npm install
 ```
 
-2. Set environment variables:
+Create local environment variables:
 
 ```bash
 cp .env.example .env.local
 ```
 
-Then fill in:
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+Fill in:
 
-3. Create database schema in the Supabase SQL Editor:
-- Run `supabase/schema.sql`
-- Run `supabase/seed.sql`
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+```
 
-4. Start development server:
+Start the development server:
 
 ```bash
 npm run dev
 ```
 
-Open `http://localhost:3000`.
+Open:
 
-## MVP Database
+```text
+http://localhost:3000
+```
 
-- `profiles`: one row per auth user.
-- `units`: top-level course units.
-- `themes`: themes inside units.
-- `exercises`: exercise definitions per theme.
-- `attempts`: user submissions and correctness history.
+## Database Setup
 
-## Project Structure
+For a fresh Supabase project, run SQL in this order:
 
-- `src/app`: App Router pages/layout.
-- `src/lib/supabase`: typed Supabase clients.
-- `src/types/database.ts`: starter DB typings.
-- `supabase/schema.sql`: initial schema.
-- `supabase/seed.sql`: starter records.
+1. `supabase/schema.sql`
+2. Each file in `supabase/migrations/` in filename order
+3. `supabase/seed.sql`
+
+Then create or sign in as a user and manually grant admin access if needed:
+
+```sql
+update public.profiles
+set role = 'admin'
+where id = '<auth-user-id>';
+```
+
+Important: `supabase/seed.sql` inserts starter exercises without an explicit `status`. After the admin migration, exercises default to `draft`, while practice pages only show `published` exercises. Publish seeded exercises from the admin UI or update the seed if starter exercises should appear immediately.
 
 ## Scripts
 
-- `npm run dev`: local dev server.
-- `npm run lint`: lint code.
-- `npm run build`: production build.
+```bash
+npm run dev
+npm run lint
+npm run smoke:admin
+npm run build
+```
 
-## Recommended Next Work
+- `npm run dev`: start local development server.
+- `npm run lint`: run ESLint.
+- `npm run smoke:admin`: verify admin-related files exist and lint passes.
+- `npm run build`: create a production build.
 
-1. Add all remaining themes for Unit 2 and Unit 3.
-2. Add dynamic routes for units and themes browsing.
-3. Build attempt submission API route and scoring logic.
-4. Build an admin authoring UI for exercises.
+Production build caveat: the app currently uses `next/font/google` for Geist fonts. In restricted-network environments, `npm run build` can fail while fetching Google Fonts.
+
+## Features
+
+- Course browsing by units, themes, and subthemes.
+- Published exercise listing per subtheme.
+- Progress display based on correct attempts.
+- Supabase email/password login and signup.
+- Profile page with attempt stats, accuracy, streak, and recent attempts.
+- Attempt saving for logged-in users.
+- Admin-only structure management for units, themes, and subthemes.
+- Admin-only exercise management with draft/published workflow.
+- Markdown and LaTeX rendering for exercise prompts.
+- Exercise authoring with live preview and autosave.
+
+Supported exercise formats include:
+
+- text/JSON answer comparison
+- vector coordinate reading from graph
+- point/vector plotting on an interactive plane
+- single choice
+- multi-select
+- equal-vector picking
+- multi-part exercises
+
+## Project Structure
+
+- `src/app`: Next.js App Router pages and layouts.
+- `src/app/practice`: student practice pages.
+- `src/app/admin`: admin pages and server actions.
+- `src/components/admin`: admin editor, structure manager, and graph components.
+- `src/components/content`: markdown/LaTeX rendering.
+- `src/components/ui`: small shared UI primitives.
+- `lib/supabase`: canonical Supabase server/browser clients.
+- `src/lib/supabase`: re-exports for `@/lib/...` imports.
+- `src/types/database.ts`: Supabase database typings.
+- `supabase/schema.sql`: base dev schema.
+- `supabase/migrations`: database migrations.
+- `supabase/seed.sql`: starter content.
+- `PROJECT_CONTEXT.md`: current project handoff notes for future development sessions.
+
+## Admin Access
+
+Admin access is controlled by the `profiles.role` column.
+
+- `student`: normal user.
+- `admin`: can access `/admin/exercises` and `/admin/structure`.
+
+The root layout only shows the Admin navigation link when the signed-in user has `profiles.role = 'admin'`.
+
+## Current Development Notes
+
+See `PROJECT_CONTEXT.md` for a fuller handoff, including known gaps and suggested next work.
