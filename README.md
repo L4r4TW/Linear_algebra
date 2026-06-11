@@ -60,21 +60,17 @@ http://localhost:3000
 
 ## Database Setup
 
-For a fresh Supabase project, run SQL in this order:
+For complete Supabase setup instructions, see `DATABASE_SETUP.md`.
+
+Fresh setup order:
 
 1. `supabase/schema.sql`
-2. Each file in `supabase/migrations/` in filename order
-3. `supabase/seed.sql`
+2. `supabase/migrations/20260221_admin_exercise_panel.sql`
+3. `supabase/migrations/20260221_admin_structure_rls.sql`
+4. `supabase/migrations/20260221_remove_archived_status.sql`
+5. `supabase/seed.sql`
 
-Then create or sign in as a user and manually grant admin access if needed:
-
-```sql
-update public.profiles
-set role = 'admin'
-where id = '<auth-user-id>';
-```
-
-Important: `supabase/seed.sql` inserts starter exercises without an explicit `status`. After the admin migration, exercises default to `draft`, while practice pages only show `published` exercises. Publish seeded exercises from the admin UI or update the seed if starter exercises should appear immediately.
+Important: `supabase/schema.sql` is a development reset script and drops existing project tables. Do not rerun it casually against a database with data you want to keep.
 
 ## Scripts
 

@@ -76,6 +76,7 @@ Known build caveat: production build uses `next/font/google` for Geist fonts. In
 - `supabase/schema.sql`: initial dev schema.
 - `supabase/migrations/`: later database changes for admin UI/RLS/status handling.
 - `supabase/seed.sql`: starter course/content data.
+- `DATABASE_SETUP.md`: detailed Supabase setup, admin promotion, RLS, and verification notes.
 - `scripts/smoke-admin.sh`: admin smoke check.
 
 ## Implemented Features
@@ -107,15 +108,19 @@ Known build caveat: production build uses `next/font/google` for Geist fonts. In
 
 ## Database Notes
 
+Detailed setup is documented in `DATABASE_SETUP.md`.
+
 The initial schema is in `supabase/schema.sql`, but it is not the complete current database shape by itself. Apply migrations from `supabase/migrations/` after the base schema.
 
 Recommended fresh setup order:
 
 1. Run `supabase/schema.sql`.
-2. Run each SQL file in `supabase/migrations/` in filename order.
-3. Run `supabase/seed.sql`.
-4. Create/sign in a user.
-5. Set that user as admin manually:
+2. Run `supabase/migrations/20260221_admin_exercise_panel.sql`.
+3. Run `supabase/migrations/20260221_admin_structure_rls.sql`.
+4. Run `supabase/migrations/20260221_remove_archived_status.sql`.
+5. Run `supabase/seed.sql`.
+6. Create/sign in a user.
+7. Set that user as admin manually:
 
 ```sql
 update public.profiles
