@@ -24,10 +24,15 @@ export default async function Home() {
   let units: UnitRow[] = [];
   let themes: ThemeRow[] = [];
   let dbError = "";
+  let isLoggedIn = false;
 
   if (hasSupabaseEnv) {
     try {
       const supabase = await createServerSupabaseClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      isLoggedIn = Boolean(user);
       const [unitsResult, themesResult] = await Promise.all([
         supabase
           .from("units")
@@ -80,12 +85,14 @@ export default async function Home() {
             >
               Start practice
             </Link>
-            <Link
-              href="/login"
-              className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium"
-            >
-              Login
-            </Link>
+            {!isLoggedIn && (
+              <Link
+                href="/login"
+                className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium"
+              >
+                Login
+              </Link>
+            )}
             <Link
               href="/profile"
               className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium"

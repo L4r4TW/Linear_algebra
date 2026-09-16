@@ -56,9 +56,11 @@ export default async function RootLayout({
               <Link href="/practice" className="rounded-md px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100">
                 Practice
               </Link>
-              <Link href="/profile" className="rounded-md px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100">
-                Profile
-              </Link>
+              {user && (
+                <Link href="/profile" className="rounded-md px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100">
+                  Profile
+                </Link>
+              )}
               {isAdmin && (
                 <Link href="/admin/exercises" className="rounded-md px-3 py-1.5 text-sm text-slate-700 hover:bg-slate-100">
                   Admin
