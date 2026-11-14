@@ -17,7 +17,7 @@ function validSnapshot(data) {
 }
 
 /** Bind one opaque exercise frame to its parent. No DOM access or same-origin permission. */
-export function createAnswerBridge({ frame, channel, onChange = () => {}, timeoutMs = 3000 }) {
+export function createAnswerBridge({ frame, channel, onChange = () => {}, onSubmit = () => {}, onInteraction = () => {}, timeoutMs = 3000 }) {
   const pending = new Map();
   let closed = false;
   let latest;
@@ -37,6 +37,8 @@ export function createAnswerBridge({ frame, channel, onChange = () => {}, timeou
   function receive(event) {
     if (closed || event.source !== frame.contentWindow || event.origin !== 'null' || event.data?.channel !== channel) return;
     const data = event.data;
+    if (data.type === 'exercise-interaction') { onInteraction(); return; }
+    if (data.type === 'submit-answers') { onSubmit(); return; }
     if (data.type === 'answers-changed' && validSnapshot(data)) {
       remember(data);
     } else if (data.type === 'answers' || data.type === 'answer-collection-error') {
@@ -55,6 +57,10 @@ export function createAnswerBridge({ frame, channel, onChange = () => {}, timeou
 
   window.addEventListener('message', receive);
   return {
+    focusAnswer(name) {
+      if (!closed && typeof name === 'string') frame.contentWindow?.postMessage({ channel, type: 'focus-answer', name }, '*');
+    },
+
     showFeedback(fields, entries) {
       if (closed) return;
       frame.contentWindow?.postMessage({ channel, type: 'show-feedback', fields, entries }, '*');

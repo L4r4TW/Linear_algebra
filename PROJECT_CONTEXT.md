@@ -8,7 +8,7 @@ The active work is the independent **experimental-workspace/** WeBWorK integrati
 
 The goal has expanded to a multi-subject practice platform covering the whole OPL, using PG mathematical grading. Design the future catalog for all subjects, while validating playable exercises in batches. Build one complete, reliable exercise flow before broadly enabling large numbers of exercises.
 
-This handoff accompanies the commit adding **practice controls and student grading feedback** on `main`. Its preceding implementation baseline is `ba4e7a1` (server-side grading and persistent submission state). Run `git log -1` and `git status --short` to confirm the current revision and preserve newer local work before continuing.
+This handoff accompanies the accessibility/layout refinement commit on `main`. Its preceding implementation baseline is `5994540` (practice controls and student grading feedback). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
 
 ## Implemented in the sandbox
 
@@ -23,6 +23,8 @@ This handoff accompanies the commit adding **practice controls and student gradi
 9. Practice controls: a prominent Check answer button beneath the frame submits fresh answer pairs, shows Checking… with a spinner, disables repeat submissions and exercise starts, and reports success or an inline error. The frame remains intact on success/failure, preserving edits made during the request. Browser history navigation cancels pending browser work and ignores late responses. No automatic grading retries.
 
 10. Student feedback: per-field PG messages, separate invalid-input/mathematical-error states, overall result and percentage score, saved-result restoration, and changed-since-check markers without replacing inputs.
+
+11. Accessibility/layout: Enter submits eligible single-line fields while preserving native widget/IME keys; conditional focus follows loading, results, and failures; Return to answers focuses the first field needing attention. A dedicated polite live region announces state changes without repeating the result while typing. Visible focus, stronger contrast, assistive MathML, 320px layout, forced colors, reduced motion, 16px answer text, and touch targets have browser coverage.
 
 **UI boundary:** Students can now select, edit, check answers, and read field/overall results. Checked values restore from PG tokens; unsubmitted edits are not autosaved. Inputs remain editable during checking, so later edits are not necessarily included in that submission. No account-based progress or attempt history yet.
 
@@ -85,9 +87,9 @@ Ownership uses `la_experiment_owner`, an HttpOnly/SameSite=Strict cookie, with o
 
 ## Verification recorded before this documentation update
 
-The latest feedback implementation passed **68 server tests and 16 Chromium browser checks**. The real exercise test includes invalid syntax, parsed incorrect coordinates, blank fields, partial/correct/incorrect scores, stale feedback on edits, and refresh without another grading request. New browser checks cover fresh values, keyboard activation, duplicate clicks, editing during a request, server/network failures, explicit retry, mobile sizing, and navigation during grading. Desktop/mobile previews were also inspected. Previous backend verification passed renderer-client, sessions, API, grading, and submission-state smoke checks and the PowerShell renderer check. Live grading covered wrong/partial/correct results (0, 0.25, 1) and clearing previously saved answers.
+The latest accessibility/layout implementation passed **68 server tests and 21 Chromium browser checks**. New checks cover the keyboard-only flow, Enter/native/IME exceptions, forged shortcut messages, focus preservation and error recovery, conditional accessible descriptions, nonrepeating announcements, assistive mathematics, 320px layout, contrast, forced colors, reduced motion, and 200% CSS zoom. The real exercise test includes invalid syntax, parsed incorrect coordinates, blank fields, partial/correct/incorrect scores, stale feedback on edits, and refresh without another grading request. New browser checks cover fresh values, keyboard activation, duplicate clicks, editing during a request, server/network failures, explicit retry, mobile sizing, and navigation during grading. Desktop/mobile previews were also inspected. Previous backend verification passed renderer-client, sessions, API, grading, and submission-state smoke checks and the PowerShell renderer check. Live grading covered wrong/partial/correct results (0, 0.25, 1) and clearing previously saved answers.
 
-A real forced workspace-container replacement also preserved the same owned session, latest submission metadata, score/feedback, and exact regenerated answer values, including whitespace and empty strings. The container-replacement and focused backend smoke results are historical; server/browser suites and renderer-client, sessions, API, grading, and submission-state smoke checks were rerun during feedback implementation. Rerun relevant checks after code changes.
+A real forced workspace-container replacement also preserved the same owned session, latest submission metadata, score/feedback, and exact regenerated answer values, including whitespace and empty strings. The container-replacement and focused backend smoke results are historical. Renderer-client, sessions, API, grading, and submission-state smoke checks passed during feedback implementation; server and browser suites were rerun for accessibility/layout. Rerun relevant checks after code changes.
 
 Run from `experimental-workspace/` after rebuilding:
 
@@ -113,7 +115,7 @@ PG MathObjects uses `error_message` for coordinate hints as well as parser error
 
 The snapshot persists safe `fieldFeedback` with the updated tokens. Older snapshots without it remain valid and obtain field details on the next check. The iframe inserts plain text with accessible field descriptions and invalid-input markers. Editing a checked field marks it changed and flags the overall score as the last checked result. Parent messages remain authenticated by source/origin/channel; the frame stays opaque and live values are preserved.
 
-Next work is to finish accessibility/keyboard review of the complete practice flow, then test a representative set of exercise types and subjects before designing the multi-subject catalog database/importer. In particular, graphs, images, choice groups, custom evaluators, and compound answers need individual compatibility checks; do not infer support from the current four-field exercise.
+The keyboard/accessibility implementation is complete for the verified flow. Actual NVDA/VoiceOver listening has not been performed; run that manual review before public release. Next, test a representative set of exercise types and subjects before designing the multi-subject catalog database/importer. In particular, graphs, images, choice groups, custom evaluators, and compound answers need individual compatibility checks; do not infer support from the current four-field exercise.
 
 After this one-exercise flow is polished, verify more OPL entries and specialized widgets individually. Do not publish all 81k exercises in bulk: indexing, topic relevance, renderer compatibility, source attribution, and licenses still need review. Later integrate Supabase account ownership/progress and durable attempts, plus concurrency suitable for multiple server processes.
 
@@ -129,8 +131,9 @@ experimental-workspace/README.md. Inspect git status and preserve any local
 changes. Grading and submission-state persistence already exist. Continue in the Docker sandbox:
 the Check answer controls already submit to POST /api/sessions/:id/answers.
 Student-safe field/overall feedback is also implemented and restored.
-Continue by reviewing accessibility and testing representative OPL exercise types
-before expanding to a multi-subject catalog.
+Keyboard/accessibility refinements also exist; actual screen-reader listening
+is still a manual release check. Continue by testing representative OPL exercise
+types before expanding to a multi-subject catalog.
 Keep the original Next.js/Supabase application separate.
 ```
 

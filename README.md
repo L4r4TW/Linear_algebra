@@ -29,7 +29,7 @@ docker compose up --build -d --wait --wait-timeout 240
 
 This assumes the existing OPL Docker volume is available. For a new machine, follow the [OPL volume setup](experimental-workspace/README.md#open-problem-library-volume) first. Keep the large library in Docker's Linux volume; do not clone it into Google Drive.
 
-The sandbox has one verified exercise, a picker, isolated answer collection, server-side grading, and saved submission state. **Check answer now submits to PG with a checking state, duplicate protection, and input-preserving errors.** Each field now shows PG feedback, with a clear overall score/result and separate invalid-input states. Saved results restore after refresh. Unsubmitted edits are not saved. The sandbox is not connected to Supabase accounts.
+The sandbox has one verified exercise, a picker, isolated answer collection, server-side grading, and saved submission state. **Check answer now submits to PG with a checking state, duplicate protection, and input-preserving errors.** Each field now shows PG feedback, with a clear overall score/result and separate invalid-input states. Saved results restore after refresh. Keyboard practice now includes Enter submission, intentional focus movement, screen-reader status semantics, and narrow-screen controls. Unsubmitted edits are not saved. The sandbox is not connected to Supabase accounts.
 
 Source is copied into Docker images: rebuild after edits. Saved sessions survive rebuilds in a named volume; `docker compose down --volumes` deletes them. Keep renderer/editor ports private; this development setup is not ready for public deployment.
 

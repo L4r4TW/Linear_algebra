@@ -16,16 +16,17 @@
     <span class="header-label">LINEAR ALGEBRA</span>
   </header>
   <main>
+    <p id="practice-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
     <div class="page-heading"><p class="eyebrow">YOUR PRACTICE SPACE</p><h1>One idea at a time.</h1><p>Choose an exercise. Give yourself room to think.</p></div>
     <div class="practice-layout">
       <aside class="catalog-panel" aria-labelledby="catalog-title">
         <div class="section-heading"><h2 id="catalog-title">Explore topics</h2><span id="exercise-count" class="count" hidden></span></div>
-        <div id="catalog" aria-live="polite" aria-busy="true">
-          <p class="muted" role="status">Loading exercises…</p>
+        <div id="catalog" aria-busy="true">
+          <p class="muted">Loading exercises…</p>
           <div class="skeleton" aria-hidden="true"></div><div class="skeleton short" aria-hidden="true"></div>
         </div>
       </aside>
-      <section id="practice" class="exercise-panel" aria-labelledby="exercise-title" aria-busy="false">
+      <section id="practice" class="exercise-panel" tabindex="-1" aria-labelledby="exercise-title" aria-busy="false">
         <div class="exercise-heading"><div><p id="exercise-topic" class="eyebrow">A FRESH PERSPECTIVE</p><h2 id="exercise-title" tabindex="-1">Your next idea starts here.</h2></div><span id="session-status" class="session-status" hidden>Saved</span></div>
         <div id="exercise-content" class="exercise-content">
           <div class="welcome">
@@ -33,21 +34,22 @@
             <h3>A small step toward understanding.</h3><p>Choose an exercise from the topic list to get started.</p>
           </div>
         </div>
-        <div id="practice-result" class="practice-result" role="status" aria-atomic="true" hidden>
-          <h3 id="result-title" tabindex="-1"></h3>
+        <div id="practice-result" class="practice-result" role="region" aria-labelledby="result-title" hidden>
+          <h3 id="result-title" tabindex="-1" aria-describedby="result-score result-detail"></h3>
           <p id="result-score" class="result-score"></p>
           <p id="result-detail"></p>
           <p id="result-message"></p>
           <p id="result-stale" class="result-stale" hidden>You have unsubmitted changes. These results describe your last check.</p>
+          <button id="review-answers" class="action review-answers" type="button">Return to answers</button>
         </div>
         <div id="practice-controls" class="practice-controls" hidden>
           <button id="check-answer" class="check-answer" type="button" aria-describedby="submission-status submission-error">
             <span class="spinner" aria-hidden="true" hidden></span><span id="check-answer-label">Check answer</span>
           </button>
-          <p id="submission-status" class="submission-status" role="status" aria-atomic="true"></p>
+          <p id="submission-status" class="submission-status"></p>
           <p id="submission-error" class="submission-error" role="alert" aria-atomic="true" hidden></p>
         </div>
-        <p id="exercise-notice" class="exercise-notice" hidden>Only checked answers are saved. Unsubmitted edits stay on this page.</p>
+        <p id="exercise-notice" class="exercise-notice" hidden>Press Enter in a single-line answer to check. Only checked answers are saved; unsubmitted edits stay on this page.</p>
       </section>
     </div>
     <p class="page-footer">Take your time. Understanding grows with practice.</p>

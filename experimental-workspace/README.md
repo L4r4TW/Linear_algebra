@@ -77,7 +77,7 @@ A fresh collection reads the DOM even if a widget changed a value without firing
 
 Collected data remains untrusted browser input. The grading endpoint verifies ownership and derives permitted fields from restored trusted problem HTML; it never treats the client field manifest as an allowlist. No answers are sent to the renderer or persisted by this collection step. Specialized PG widgets still require individual compatibility checks; file uploads are not supported.
 
-Verified in Chromium with the real four-field OPL exercise, plus native-control fixtures for repeated names, selection semantics, hidden-field filtering, request timeouts, forged messages, and frame replacement. The browser suite now has 16 checks, including submitted-state restoration, native keyboard checking, duplicate protection, server/network error preservation, mobile controls, and navigation during grading.
+Verified in Chromium with the real four-field OPL exercise, plus native-control fixtures for repeated names, selection semantics, hidden-field filtering, request timeouts, forged messages, and frame replacement. The browser suite now has 21 checks, including submitted-state restoration, native keyboard checking, duplicate protection, server/network error preservation, mobile controls, and navigation during grading.
 ## Exercise catalog
 
 The server-side allowlist lives in `workspace/server/exercise-catalog.json`. It starts with the verified `dot-product-01` exercise, titled **Dot products and vector operations**, in the **Dot product** topic.
@@ -283,7 +283,7 @@ Run the operator-only live grading diagnostic:
 docker compose exec -T workspace npm run smoke:grading
 ```
 
-It obtains expected answers directly from the renderer in instructor mode solely for testing; instructor responses never pass through the student API and are not logged. Verified against the installed PG engine: incorrect score 0, partial score 0.25, correct score 1, restored correct score 1, and cleared-answer score 0. The current regression suite passes 68 server tests and 16 browser checks.
+It obtains expected answers directly from the renderer in instructor mode solely for testing; instructor responses never pass through the student API and are not logged. Verified against the installed PG engine: incorrect score 0, partial score 0.25, correct score 1, restored correct score 1, and cleared-answer score 0. The current regression suite passes 68 server tests and 21 browser checks.
 
 Implementation: `renderer-client.mjs`, `answer-contract.mjs`, `exercise-sessions.mjs`, and `http-app.mjs` in `workspace/server/`.
 ## Saved submission state
@@ -322,7 +322,7 @@ Run the focused live state check:
 docker compose exec -T workspace npm run smoke:submission-state
 ```
 
-Verified on 2026-11-14: exact answers (including spaces and vector syntax), submission identity/count/time, score, and feedback survive browser refresh and full container replacement. Refresh makes no additional grading request. The full suite passes 68 server tests and 16 browser checks.
+Verified on 2026-11-14: exact answers (including spaces and vector syntax), submission identity/count/time, score, and feedback survive browser refresh and full container replacement. Refresh makes no additional grading request. The full suite passes 68 server tests and 21 browser checks.
 ## Student grading feedback
 
 The practice screen shows feedback directly beneath each answer field and an overall result with a percentage score. Status labels distinguish **Correct**, **Incorrect**, **Partially correct**, **Invalid input**, **Not answered**, and **Not graded**. A failed HTTP request remains a service error rather than a mathematical result.
@@ -336,6 +336,23 @@ The API snapshot includes optional `fieldFeedback` entries with `status` in `cor
 `workspace/public/field-feedback.js` inserts only text into the opaque iframe through source/origin/channel-checked bridge messages. Each visible field links to its message with `aria-describedby`; invalid input uses `aria-invalid`. Editing a field changes its message to **Changed since last check**, removes the old invalid marker, and marks the overall result as describing the last submission. The live inputs remain intact, including edits made while grading was in flight. PG popover controls are removed from the isolated view because the custom messages replace them.
 
 The real Chromium exercise flow covers mixed invalid/wrong/blank/correct fields, coordinate hints, partial credit, all-correct and all-incorrect results, edits, and restoration without another grading request. Unsupported PG widgets and custom evaluators still need separate verification before catalog expansion.
+
+## Accessibility and responsive practice
+
+The complete practice flow supports keyboard navigation:
+
+- The first Tab reveals **Skip to exercise**. Starting or restoring an exercise focuses its heading when the student has not moved elsewhere; Tab then reaches the exercise content and answer fields.
+- **Enter** in an enabled ordinary single-line answer collects fresh values and submits once. Textareas keep newlines; native select/radio/checkbox controls keep their keys. Modified/repeated Enter, IME composition, key code 229, datalists, comboboxes, grids, and fields marked `data-enter-submit="off"` do not trigger this shortcut. Input fields advertise `aria-keyshortcuts` and a mobile Enter hint where applicable.
+- After a check, focus moves to the overall result. **Return to answers** focuses the first invalid, unanswered, or incorrect field, with its feedback available through `aria-describedby`. A failed request returns focus to **Check answer**, with a visible error and retry available.
+- Focus movement is conditional: typing, moving focus, pointing, or scrolling while a request is pending keeps the student's current position. Late math-formatting messages do not repeatedly reset focus.
+
+A dedicated polite live region outside the busy practice panel announces loading, checking, results, restoration, and the transition to unsubmitted edits. The overall result is a named region; continued typing does not rebuild or re-announce its whole result. Service failures use an alert. Hidden stale-result text is excluded from the focused result's accessible description until it applies.
+
+Mathematics retains self-hosted MathJax assistive MathML. Expressions that overflow can receive keyboard focus for local horizontal scrolling. The opaque iframe retains its title, labels, sandbox, content policy, and authenticated source/origin/channel messages; the parent never reads the frame DOM.
+
+The layout is verified at 320 pixels and with 200% CSS zoom. Answer text is at least 16px, ordinary answer controls and primary/mobile action buttons are at least 48px high, secondary actions are at least 44px, and native choice labels have comfortable targets. Focus indicators remain visible across the frame boundary and in forced colors. Muted text contrast is stronger and reduced-motion preferences remain supported.
+
+Automated Chromium checks cover keyboard-only selection/check/review, native and IME exceptions, forged shortcut messages, focus preservation, errors, assistive mathematics, conditional descriptions, nonrepeating announcements, contrast, forced colors, and mobile/reflow dimensions. **An actual NVDA/VoiceOver listening session has not been run.** Before public release, manually check reading order, spoken mathematical expressions, checking/error announcements, and focus recovery with a screen reader on the target browser/device.
 
 ## Render a real exercise
 

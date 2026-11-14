@@ -128,7 +128,7 @@ test('shows session loading and errors, and retries the selected exercise', { ti
   await page.goto(baseUrl);
   await choices(page);
   await page.locator('.exercise-choice').click();
-  await page.getByText('Opening your exercise…').waitFor();
+  await page.locator('#exercise-content').getByText('Opening your exercise…').waitFor();
   assert.equal(await page.locator('.exercise-choice').isDisabled(), true);
   release();
   await page.locator('#exercise-content [role=alert]').waitFor();
@@ -521,6 +521,7 @@ test('real PG feedback distinguishes invalid input, incorrect answers, blanks an
   assert.equal(correct.submission.score,1);
   await page.getByRole('heading',{name:'All answers correct',exact:true}).waitFor();
   await page.waitForFunction(()=>document.querySelector('#result-stale').hidden);
+  assert.doesNotMatch(await page.locator('#result-title').getAttribute('aria-describedby'),/result-stale/);
   assert.equal(await frame.locator('.field-feedback[data-status=correct]').count(),4);
   await page.reload();await ready(page);
   await page.getByRole('heading',{name:'All answers correct',exact:true}).waitFor();
@@ -538,4 +539,197 @@ test('real PG feedback distinguishes invalid input, incorrect answers, blanks an
   assert.equal(incorrect.submission.score,0);
   assert.ok(incorrect.submission.fieldFeedback.every(field=>field.status==='incorrect'));
   await page.getByRole('heading',{name:'Not correct yet',exact:true}).waitFor();
+});
+
+test('keyboard flow supports skip navigation, Enter checking, result focus, and return to invalid answers', {timeout:90_000}, async (t) => {
+  const page = await pageFor(t);
+  await page.goto(baseUrl);
+  await choices(page);
+  await page.keyboard.press('Tab');
+  await page.locator('.skip-link:focus').waitFor();
+  const skip = await page.locator('.skip-link').boundingBox();
+  assert.ok(skip.y >= 0 && skip.height >= 44);
+  await page.keyboard.press('Enter');
+  await page.locator('#practice:focus').waitFor();
+  await page.keyboard.press('Shift+Tab');
+  await page.locator('.exercise-choice:focus').waitFor();
+  await page.keyboard.press('Enter');
+  await ready(page);
+  await page.locator('#exercise-title:focus').waitFor();
+  await page.keyboard.press('Tab');
+  const frame = page.frameLocator('.exercise-frame');
+  await frame.locator('[name=AnSwEr0001]:focus').waitFor();
+  await page.keyboard.type('gibberish(');
+  await page.keyboard.press('Enter');
+  await page.locator('#result-title:focus').waitFor();
+  assert.equal(await page.locator('#result-title').textContent(), 'Check your input');
+  assert.match(await page.locator('#practice-announcement').textContent(), /Check your input.*Score:/);
+  assert.equal(await page.locator('#practice-announcement').getAttribute('aria-live'), 'polite');
+  assert.equal(await page.locator('#practice-result').getAttribute('role'), 'region');
+  await page.keyboard.press('Tab');
+  await page.locator('#review-answers:focus').waitFor();
+  await page.keyboard.press('Enter');
+  await frame.locator('[name=AnSwEr0001]:focus').waitFor();
+  const field = frame.locator('[name=AnSwEr0001]');
+  assert.equal(await field.getAttribute('aria-invalid'), 'true');
+  assert.match(await field.getAttribute('aria-describedby'), /practice-keyboard-help.*practice-field-feedback/);
+  assert.equal(await field.getAttribute('aria-keyshortcuts'), 'Enter');
+  await page.keyboard.press('ControlOrMeta+A');
+  await page.keyboard.type('1');
+  await frame.locator('.field-feedback[data-status=changed]').waitFor();
+  assert.match(await page.locator('#practice-announcement').textContent(), /unsubmitted changes/);
+  assert.match(await page.locator('#result-title').getAttribute('aria-describedby'), /result-stale/);
+  await page.evaluate(() => {
+    window.practiceAnnouncementChanges = 0;
+    new MutationObserver(() => window.practiceAnnouncementChanges++).observe(document.querySelector('#practice-announcement'),{childList:true,subtree:true,characterData:true});
+  });
+  await page.keyboard.type('2');
+  await page.evaluate(async () => (await import('/assets/picker.js')).collectCurrentAnswers());
+  assert.equal(await page.evaluate(() => window.practiceAnnouncementChanges),0);
+  await page.keyboard.press('Tab');
+  await frame.locator('[name=AnSwEr0002]:focus').waitFor();
+  await page.keyboard.press('Shift+Tab');
+  await frame.locator('[name=AnSwEr0001]:focus').waitFor();
+});
+
+test('Enter preserves textarea, selection, widget, modifier, composition, and repeat-key behavior', {timeout:90_000}, async (t) => {
+  const page = await pageFor(t);
+  await page.goto(baseUrl); await choices(page); await page.locator('.exercise-choice').click(); await ready(page);
+  let grades = 0;
+  page.on('request', request => { if (/\/api\/sessions\/[^/]+\/answers$/.test(new URL(request.url()).pathname)) grades++; });
+  const frame = page.frameLocator('.exercise-frame');
+  await frame.locator('#problem_body').evaluate(root => {
+    root.insertAdjacentHTML('beforeend', `<div>
+      <label>Notes<textarea name="fixtureNotes"></textarea></label>
+      <label>Choice<select name="fixtureSelect"><option>One</option><option>Two</option></select></label>
+      <label>Option<input type="checkbox" name="fixtureCheckbox" value="one"></label>
+      <label>Radio<input type="radio" name="fixtureRadio" value="one"></label>
+      <label>Widget<input name="fixtureWidget" role="combobox" aria-expanded="true"></label>
+      <label>Suggestions<input name="fixtureSuggestions" list="fixtureOptions"></label><datalist id="fixtureOptions"><option value="One"></datalist>
+      <label>Opt out<input name="fixtureOptOut" data-enter-submit="off"></label>
+    </div>`);
+  });
+  const notes = frame.locator('[name=fixtureNotes]');
+  await notes.fill('First'); await notes.press('Enter'); await page.keyboard.type('Second');
+  assert.equal(await notes.inputValue(), 'First\nSecond');
+  const checkbox = frame.locator('[name=fixtureCheckbox]');
+  await checkbox.focus(); await page.keyboard.press('Space');
+  assert.equal(await checkbox.isChecked(), true);
+  await checkbox.press('Enter');
+  await frame.locator('[name=fixtureRadio]').press('Enter');
+  await frame.locator('[name=fixtureSelect]').press('Enter'); await page.keyboard.press('Escape');
+  for (const name of ['fixtureWidget','fixtureSuggestions','fixtureOptOut']) await frame.locator('[name='+name+']').press('Enter');
+  const field = frame.locator('[name=AnSwEr0001]');
+  await field.press('Shift+Enter');
+  const prevented = await field.evaluate(field => {
+    const cases = [{isComposing:true},{keyCode:229},{repeat:true},{ctrlKey:true},{altKey:true},{metaKey:true}];
+    const results = cases.map(options => {
+      const event = new KeyboardEvent('keydown',{key:'Enter',bubbles:true,cancelable:true,...options});
+      field.dispatchEvent(event); return event.defaultPrevented;
+    });
+    field.dispatchEvent(new CompositionEvent('compositionstart',{bubbles:true}));
+    const composing = new KeyboardEvent('keydown',{key:'Enter',bubbles:true,cancelable:true});
+    field.dispatchEvent(composing); results.push(composing.defaultPrevented);
+    field.dispatchEvent(new CompositionEvent('compositionend',{bubbles:true}));
+    return results;
+  });
+  assert.ok(prevented.every(value => value === false));
+  const channel = await page.locator('.exercise-frame').evaluate(frame => JSON.parse(frame.srcdoc.match(/const channel=("[^"]+");/)[1]));
+  await page.evaluate(channel => {
+    window.postMessage({channel,type:'submit-answers'},location.origin);
+    window.dispatchEvent(new MessageEvent('message',{
+      source:document.querySelector('.exercise-frame').contentWindow,origin:'https://untrusted.example',data:{channel,type:'submit-answers'},
+    }));
+  },channel);
+  await frame.locator('body').evaluate(()=>parent.postMessage({channel:'wrong-channel',type:'submit-answers'},'*'));
+  // Collecting crosses the same frame message queue, flushing any accidentally posted submit message.
+  await page.evaluate(async () => (await import('/assets/picker.js')).collectCurrentAnswers());
+  assert.equal(grades, 0);
+});
+
+test('slow loads and grading do not steal focus after the student moves elsewhere', {timeout:90_000}, async (t) => {
+  const page = await pageFor(t);
+  await page.goto(baseUrl); await choices(page);
+  let releaseLoad;
+  const loadGate = new Promise(resolve => { releaseLoad = resolve; });
+  t.after(() => releaseLoad());
+  await page.route('**/api/sessions', async route => { await loadGate; await route.fallback(); });
+  await page.locator('.exercise-choice').click();
+  await page.locator('#exercise-content').getByText('Opening your exercise…').waitFor();
+  await page.locator('.brand').focus();
+  releaseLoad(); await ready(page);
+  assert.equal(await page.locator('.brand').evaluate(node => node === document.activeElement), true);
+  let releaseGrade, reached;
+  const gradeGate = new Promise(resolve => { releaseGrade = resolve; });
+  const gradeReached = new Promise(resolve => { reached = resolve; });
+  t.after(() => releaseGrade());
+  await page.route('**/api/sessions/*/answers', async route => { reached(); await gradeGate; await route.fallback(); });
+  await page.getByRole('button',{name:'Check answer',exact:true}).click();
+  await gradeReached;
+  assert.equal(await page.locator('#practice-announcement').textContent(), 'Checking your answers…');
+  const field = page.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]');
+  await field.fill('keep editing');
+  releaseGrade();
+  await page.getByText('Submitted answers checked and saved.',{exact:true}).waitFor();
+  await page.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]:focus').waitFor();
+  assert.equal(await field.inputValue(), 'keep editing');
+  assert.equal(await page.locator('#result-stale').isVisible(), true);
+});
+
+test('service errors announce the failure and leave keyboard focus on the retry control', {timeout:90_000}, async (t) => {
+  const page = await pageFor(t);
+  await page.goto(baseUrl); await choices(page); await page.locator('.exercise-choice').click(); await ready(page);
+  await page.route('**/api/sessions/*/answers', route => route.fulfill({status:503,json:{error:{message:'Checking is temporarily unavailable.'}}}));
+  const frame = page.frameLocator('.exercise-frame');
+  await frame.locator('[name=AnSwEr0001]').fill(' 2 + 3 ');
+  await frame.locator('[name=AnSwEr0001]').press('Enter');
+  await page.locator('#submission-error').waitFor();
+  await page.locator('#check-answer:focus').waitFor();
+  assert.equal(await page.locator('#submission-error').getAttribute('role'),'alert');
+  assert.match(await page.locator('#check-answer').getAttribute('aria-describedby'),/submission-error/);
+  assert.equal(await frame.locator('[name=AnSwEr0001]').inputValue(),' 2 + 3 ');
+  const outline = await page.locator('#check-answer').evaluate(node => getComputedStyle(node).outlineStyle);
+  assert.notEqual(outline,'none');
+});
+
+test('narrow screens retain readable mathematics, touch targets, contrast and visible focus', {timeout:90_000}, async (t) => {
+  const page = await pageFor(t,{width:320,height:740});
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.goto(baseUrl); await choices(page); await page.locator('.exercise-choice').click(); await ready(page);
+  const frame = page.frameLocator('.exercise-frame');
+  const input = frame.locator('[name=AnSwEr0001]');
+  await input.fill('gibberish('); await input.press('Enter');
+  await page.locator('#result-title:focus').waitFor();
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),true);
+  assert.equal(await frame.locator('body').evaluate(() => document.documentElement.scrollWidth <= innerWidth),true);
+  assert.ok(await frame.getByRole('math').count() >= 7);
+  assert.equal(await frame.locator('mjx-assistive-mml math').count(),7);
+  for (const selector of ['#check-answer','#review-answers']) {
+    const bounds=await page.locator(selector).boundingBox(); assert.ok(bounds.height>=48 && bounds.width>=200);
+  }
+  const inputStyle=await input.evaluate(node=>({size:parseFloat(getComputedStyle(node).fontSize),height:node.getBoundingClientRect().height}));
+  assert.ok(inputStyle.size>=16 && inputStyle.height>=48);
+  assert.equal(await page.locator('.spinner').evaluate(node=>getComputedStyle(node).animationName),'none');
+  const contrast=await page.locator('.choice-description').evaluate(node=>{
+    const channels=color=>color.match(/[\d.]+/g).slice(0,3).map(Number).map(value=>{value/=255;return value<=.04045?value/12.92:((value+.055)/1.055)**2.4;});
+    const luminance=color=>channels(color).reduce((sum,value,index)=>sum+value*[.2126,.7152,.0722][index],0);
+    const a=luminance(getComputedStyle(node).color),b=luminance(getComputedStyle(node.closest('button')).backgroundColor);
+    return (Math.max(a,b)+.05)/(Math.min(a,b)+.05);
+  });
+  assert.ok(contrast>=4.5);
+  await page.locator('#review-answers').click();
+  await frame.locator('[name=AnSwEr0001]:focus').waitFor();
+  const focusFits=await input.evaluate(node=>{
+    const rect=node.getBoundingClientRect(),style=getComputedStyle(node);
+    const ring=parseFloat(style.outlineWidth)+parseFloat(style.outlineOffset);
+    return rect.left>=ring && rect.right+ring<=innerWidth;
+  });
+  assert.equal(focusFits,true);
+  await page.screenshot({path:'/qa/artifacts/accessibility-mobile.png',fullPage:true});
+  await page.emulateMedia({forcedColors:'active'});
+  await page.locator('#review-answers').focus();
+  assert.notEqual(await page.locator('#review-answers').evaluate(node=>getComputedStyle(node).outlineStyle),'none');
+  await page.setViewportSize({width:1280,height:1000});
+  await page.evaluate(()=>{document.documentElement.style.zoom='2';});
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth),true);
 });

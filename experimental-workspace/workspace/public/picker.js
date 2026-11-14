@@ -21,6 +21,8 @@ const resultScore = document.querySelector('#result-score');
 const resultDetail = document.querySelector('#result-detail');
 const resultMessage = document.querySelector('#result-message');
 const resultStale = document.querySelector('#result-stale');
+const announcement = document.querySelector('#practice-announcement');
+const reviewButton = document.querySelector('#review-answers');
 const welcome = content.firstElementChild.cloneNode(true);
 
 let exercises = [];
@@ -33,6 +35,16 @@ let frameState;
 let frameTimer;
 let lastAction;
 let submission;
+let interaction = 0;
+
+function announce(message) {
+  if (announcement.textContent !== message) announcement.textContent = message;
+}
+
+function recordInteraction() { interaction++; }
+for (const type of ['focusin', 'pointerdown', 'keydown', 'wheel', 'touchstart']) {
+  document.addEventListener(type, recordInteraction, { capture: true, passive: true });
+}
 
 function element(tag, text, className) {
   const node = document.createElement(tag);
@@ -57,7 +69,6 @@ function stateMessage(heading, message, retry, label = 'Try again') {
 
 function loading(message) {
   const box = element('div', undefined, 'loading');
-  box.setAttribute('role', 'status');
   const spinner = element('span', undefined, 'spinner');
   spinner.setAttribute('aria-hidden', 'true');
   box.append(spinner, element('span', message));
@@ -68,6 +79,7 @@ function updateControls() {
   const submitting = Boolean(submission);
   controls.hidden = !frameState?.ready;
   checkButton.disabled = busy || submitting || !frameState?.ready;
+  reviewButton.disabled = busy || !frameState?.ready;
   checkButton.setAttribute('aria-busy', String(submitting));
   checkLabel.textContent = submitting ? 'Checking…' : 'Check answer';
   checkButton.querySelector('.spinner').hidden = !submitting;
@@ -79,6 +91,17 @@ function updateControls() {
 function displayResult(checked, entries) {
   resultPanel.hidden = !checked;
   if (!checked) return;
+  const stale = Boolean(entries) && !matchesSubmittedAnswers(entries, checked.answers, checked.fieldNames);
+  const changed = resultStale.hidden === stale;
+  resultStale.hidden = !stale;
+  resultTitle.setAttribute('aria-describedby', 'result-score result-detail' + (stale ? ' result-stale' : ''));
+  if (resultPanel.dataset.submissionId === checked.id) {
+    if (changed && frameState?.ready && !submission) announce(stale
+      ? 'You have unsubmitted changes. The displayed result is from your last check.'
+      : 'Your current answers match the last checked submission.');
+    return;
+  }
+  resultPanel.dataset.submissionId = checked.id;
   const fields = checked.fieldFeedback ?? [];
   const invalid = fields.filter((field) => field.status === 'invalid').length;
   const unanswered = fields.filter((field) => field.status === 'unanswered').length;
@@ -98,7 +121,6 @@ function displayResult(checked, entries) {
   if (!fields.length) resultDetail.textContent += ' Check again to see individual field feedback for this saved result.';
   resultMessage.textContent = [checked.feedback?.summary, checked.feedback?.message].filter(Boolean).join(' ');
   resultMessage.hidden = !resultMessage.textContent;
-  resultStale.hidden = !entries || matchesSubmittedAnswers(entries, checked.answers, checked.fieldNames);
 }
 
 function setBusy(value) {
@@ -167,6 +189,7 @@ async function loadCatalog() {
   catalogController?.abort();
   const controller = new AbortController();
   catalogController = controller;
+  announce('Loading exercises…');
   catalog.setAttribute('aria-busy', 'true');
   catalog.replaceChildren(loading('Loading exercises…'));
   count.hidden = true;
@@ -178,11 +201,13 @@ async function loadCatalog() {
     }
     exercises = data.exercises;
     renderCatalog();
+    announce(exercises.length ? 'Exercises are ready. Choose an exercise to start.' : 'No exercises are available right now.');
   } catch (error) {
     if (controller.signal.aborted) return;
     const box = stateMessage('Couldn’t load the exercises', error.message, loadCatalog);
     box.setAttribute('role', 'alert');
     catalog.replaceChildren(box);
+    announce('');
   } finally {
     if (catalogController === controller) catalog.setAttribute('aria-busy', 'false');
   }
@@ -193,6 +218,8 @@ function clearFrame() {
   submission = undefined;
   submissionStatus.textContent = '';
   resultPanel.hidden = true;
+  delete resultPanel.dataset.submissionId;
+  resultStale.hidden = true;
   submissionError.textContent = '';
   submissionError.hidden = true;
   clearTimeout(frameTimer);
@@ -213,6 +240,7 @@ function resetPanel() {
   topic.textContent = 'A FRESH PERSPECTIVE';
   savedLabel.hidden = notice.hidden = true;
   content.replaceChildren(welcome.cloneNode(true));
+  announce('Choose an exercise to start practicing.');
   setBusy(false);
   selectCurrent();
 }
@@ -220,6 +248,7 @@ function resetPanel() {
 function finishFrame(error = false) {
   if (!frameState) return;
   clearTimeout(frameTimer);
+  const firstReady = !frameState.ready;
   frameState.ready = true;
   const { frame, progress, warning } = frameState;
   progress.remove();
@@ -229,10 +258,16 @@ function finishFrame(error = false) {
   setBusy(false);
   frameState.answerBridge.showFeedback(frameState.lastSubmission?.fieldFeedback ?? [], frameState.lastSubmission?.answers ?? []);
   displayResult(frameState.lastSubmission, frameState.answerBridge.getSnapshot()?.entries);
-  title.focus({ preventScroll: true });
+  if (firstReady) {
+    if (frameState.focusAt === interaction) title.focus();
+    announce(error ? 'The exercise is ready, but math formatting needs attention.'
+      : frameState.lastSubmission
+        ? 'Exercise restored. Last result: ' + resultTitle.textContent + '. ' + resultScore.textContent + '.'
+        : 'Exercise ready. Press Tab to reach the answer fields.');
+  }
 }
 
-function displaySession(data) {
+function displaySession(data, { focusAt = interaction } = {}) {
   if (!data?.session || typeof data.session.id !== 'string' || typeof data.session.exerciseId !== 'string' ||
       typeof data.exercise?.html !== 'string') {
     throw new Error('The exercise response could not be read. Please try again.');
@@ -263,6 +298,8 @@ function displaySession(data) {
   const answerBridge = createAnswerBridge({
     frame,
     channel,
+    onSubmit() { if (frameState?.frame === frame) void submitCurrentAnswers(); },
+    onInteraction() { if (frameState?.frame === frame) recordInteraction(); },
     onChange(answers) {
       if (frameState?.frame !== frame) return;
       displayResult(frameState.lastSubmission, answers.entries);
@@ -272,7 +309,7 @@ function displaySession(data) {
       }));
     },
   });
-  frameState = { frame, channel, progress, warning, answerBridge, sessionId: data.session.id, lastSubmission: data.submission ?? null };
+  frameState = { frame, channel, progress, warning, answerBridge, sessionId: data.session.id, lastSubmission: data.submission ?? null, focusAt };
   frameTimer = setTimeout(() => finishFrame(true), 20_000);
 }
 
@@ -290,6 +327,8 @@ async function openExercise({ exerciseId, sessionId }) {
   title.textContent = sessionId ? 'Welcome back.' : 'A new idea is on its way.';
   topic.textContent = sessionId ? 'RESTORING YOUR EXERCISE' : 'PREPARING YOUR EXERCISE';
   content.replaceChildren(loading(sessionId ? 'Restoring your exercise…' : 'Opening your exercise…'));
+  const focusAt = interaction;
+  announce(sessionId ? 'Restoring your exercise…' : 'Opening your exercise…');
   try {
     const data = await request(
       sessionId ? '/api/sessions/' + encodeURIComponent(sessionId) : '/api/sessions',
@@ -297,7 +336,7 @@ async function openExercise({ exerciseId, sessionId }) {
       controller.signal,
     );
     if (current !== operation) return;
-    displaySession(data);
+    displaySession(data, { focusAt });
     if (!sessionId) {
       const url = new URL(location.href);
       url.searchParams.set('session', data.session.id);
@@ -313,6 +352,10 @@ async function openExercise({ exerciseId, sessionId }) {
     const box = stateMessage('Couldn’t open this exercise', message, () => openExercise(lastAction));
     box.setAttribute('role', 'alert');
     content.replaceChildren(box);
+    announce('');
+    const errorHeading = box.querySelector('h3');
+    errorHeading.tabIndex = -1;
+    if (focusAt === interaction) errorHeading.focus();
   }
 }
 
@@ -330,6 +373,9 @@ async function submitCurrentAnswers() {
   submissionError.textContent = '';
   submissionStatus.textContent = 'Checking your answers…';
   updateControls();
+  const focusAt = interaction;
+  let nextFocus;
+  announce('Checking your answers…');
   try {
     const snapshot = await collectCurrentAnswers();
     if (submission !== attempt || frameState !== current) return;
@@ -347,6 +393,9 @@ async function submitCurrentAnswers() {
     current.answerBridge.showFeedback(data.submission.fieldFeedback ?? [], data.submission.answers);
     displayResult(data.submission, current.answerBridge.getSnapshot()?.entries);
     submissionStatus.textContent = 'Submitted answers checked and saved.';
+    announce(resultTitle.textContent + '. ' + resultScore.textContent + '. ' + resultDetail.textContent +
+      (resultStale.hidden ? '' : ' You have unsubmitted changes.'));
+    nextFocus = resultTitle;
   } catch (error) {
     if (attempt.controller.signal.aborted || submission !== attempt || frameState !== current) return;
     submissionStatus.textContent = '';
@@ -357,13 +406,25 @@ async function submitCurrentAnswers() {
         : error.message;
     submissionError.textContent = detail + ' Your inputs are still here.';
     submissionError.hidden = false;
+    announce('');
+    nextFocus = checkButton;
   } finally {
     if (submission === attempt && frameState === current) {
       submission = undefined;
       updateControls();
+      if (nextFocus && focusAt === interaction) nextFocus.focus();
     }
   }
 }
+
+reviewButton.addEventListener('click', () => {
+  if (!frameState?.ready) return;
+  const fields = frameState.lastSubmission?.fieldFeedback ?? [];
+  const priority = ['invalid', 'unanswered', 'incorrect', 'partial', 'ungraded', 'correct'];
+  const name = priority.map((status) => fields.find((field) => field.status === status)?.name).find(Boolean)
+    ?? frameState.lastSubmission?.fieldNames[0];
+  if (name) frameState.answerBridge.focusAnswer(name);
+});
 
 checkButton.addEventListener('click', () => { void submitCurrentAnswers(); });
 
@@ -389,7 +450,7 @@ export async function collectCurrentAnswers() {
 }
 window.addEventListener('popstate', followUrl);
 window.addEventListener('message', (event) => {
-  if (!frameState || event.source !== frameState.frame.contentWindow || event.data?.channel !== frameState.channel) return;
+  if (!frameState || event.origin !== 'null' || event.source !== frameState.frame.contentWindow || event.data?.channel !== frameState.channel) return;
   const height = event.data.height;
   if (Number.isFinite(height) && height > 0) frameState.frame.style.height = Math.max(280, Math.min(3000, height)) + 'px';
   if (event.data.type === 'ready') finishFrame();
