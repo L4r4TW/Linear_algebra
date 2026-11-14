@@ -918,3 +918,31 @@ test('widget feedback describes the visible graph and keeps choice labels togeth
  });
  assert.equal(result.initial.count,2);assert.equal(result.initial.graphDescribed,true);assert.equal(result.initial.groupFeedback,'correct');assert.equal(result.initial.labelIntact,true);assert.equal(result.initial.executable,0);assert.equal(result.initial.plainText,'<img src=x> Hint');assert.equal(result.changed,'changed');assert.equal(result.cleaned,true);
 });
+test('exercise styles opt in native answers while preserving table, graph, editor and author opt-outs',async(t)=>{
+ const page=await pageFor(t);await page.goto(baseUrl);
+ const result=await page.evaluate(async()=>{
+  const {markPracticeControls}=await import('/assets/exercise-frame.js');
+  const root=document.createElement('div');
+  root.innerHTML='<p>Plain question</p><p class="author-prose">Authored question</p><p style="color:red">Colored question</p><input name="ordinary"><input name="authored-field" style="width:73px"><input type="hidden" name="hidden"><input name="problemSeed"><table><tr><td><input name="matrix" size="5"></td></tr></table><div class="graphtool-outer-container"><input name="graph-control"></div><div class="mq-editable-field"><input name="editor"></div><div data-practice-preserve-style><input name="author"></div><label><input type="checkbox" name="choices">Choice</label>';
+  document.body.append(root);markPracticeControls(root);
+  const marked=[...root.querySelectorAll('.practice-answer')].map(n=>n.name);
+  const focused=[...root.querySelectorAll('.practice-focus')].map(n=>n.name);
+  const result={marked,focused,prose:root.querySelectorAll('.practice-prose').length,label:root.querySelector('label').classList.contains('practice-choice-label'),matrixSize:root.querySelector('[name=matrix]').getAttribute('size')};root.remove();return result;
+ });
+ assert.deepEqual(result.marked,['ordinary','choices']);assert.deepEqual(result.focused,['ordinary','authored-field','matrix','choices']);assert.equal(result.label,true);assert.equal(result.prose,1);assert.equal(result.matrixSize,'5');
+});
+
+test('application shell styles cannot reach the exercise and widget geometry survives exercise override removal',async(t)=>{
+ const page=await pageFor(t);await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice').first().click();await ready(page);
+ const frame=page.frameLocator('.exercise-frame');
+ const before=await frame.locator('[name=AnSwEr0001]').evaluate(n=>({height:n.getBoundingClientRect().height,font:getComputedStyle(n).fontSize}));
+ await page.addStyleTag({content:'body{font-size:42px!important;color:red!important}input{height:100px!important}'});
+ const after=await frame.locator('[name=AnSwEr0001]').evaluate(n=>({height:n.getBoundingClientRect().height,font:getComputedStyle(n).fontSize}));
+ assert.deepEqual(after,before);
+ const preserved=await frame.locator('#problem_body').evaluate(root=>{
+  const widget=document.createElement('div');widget.className='graphtool-outer-container';widget.innerHTML='<div class="graphtool-container"><input name="widget-dimension" style="width:73px;height:29px;padding:2px;line-height:17px;font-size:12px;border:1px solid black"><svg width="150" height="90" viewBox="0 0 150 90"><rect width="100" height="40" fill="blue"/></svg></div>';root.append(widget);
+  const signature=()=>{const input=widget.querySelector('input'),svg=widget.querySelector('svg'),s=getComputedStyle(input);return {width:input.getBoundingClientRect().width,height:input.getBoundingClientRect().height,padding:s.padding,lineHeight:s.lineHeight,viewBox:svg.getAttribute('viewBox'),fill:getComputedStyle(svg.querySelector('rect')).fill};};
+  const styled=signature();document.querySelector('[data-practice-exercise-style]').sheet.disabled=true;const upstream=signature();document.querySelector('[data-practice-exercise-style]').sheet.disabled=false;widget.remove();return {styled,upstream};
+ });
+ assert.deepEqual(preserved.styled,preserved.upstream);
+});

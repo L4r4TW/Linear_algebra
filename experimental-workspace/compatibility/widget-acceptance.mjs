@@ -5,6 +5,7 @@ import {join} from 'node:path';
 import {once} from 'node:events';
 import {createHash} from 'node:crypto';
 import {chromium} from 'playwright';
+import {auditExerciseStyles} from './style-audit.mjs';
 import {createApp} from '../application/server/http-app.mjs';
 import {createRendererClient} from '../application/server/renderer-client.mjs';
 import {createExerciseSessions} from '../application/server/exercise-sessions.mjs';
@@ -12,6 +13,7 @@ import {getAnswerContract,completeAnswerEntries} from '../application/server/ans
 const catalog=JSON.parse(await readFile(new URL('./catalog.json',import.meta.url),'utf8'));
 const renderer=process.env.RENDERER_URL??'http://renderer:3000';
 const output=process.env.COMPATIBILITY_OUTPUT??'/artifacts';
+const reportName=process.env.STYLE_AUDIT==='1'?'styling-results.json':'widget-results.json';
 const directory=await mkdtemp(join(tmpdir(),'widget-acceptance-'));
 const check=(ok,code)=>{if(!ok)throw new Error('QA_'+code);};
 const approved=new Map(catalog.exercises.map(f=>[f.id,{id:f.id,renderer:{sourceFilePath:f.rendererPath}}]));
@@ -141,6 +143,7 @@ try{
    check(createHash('sha256').update(bytes).digest('hex')===fixture.source.sha256,'SOURCE_HASH');row.sourceVerified=true;
    const page=await context.newPage();let pageErrors=0;page.on('pageerror',()=>{pageErrors++;});
    row.phase='load';await page.goto('http://localhost:3100');await page.locator('.exercise-choice').filter({hasText:fixture.title}).click();await ready(page);
+   if(process.env.STYLE_AUDIT==='1'){row.phase='styling';row.styling=await auditExerciseStyles(page);}
    const id=new URL(page.url()).searchParams.get('session');const record=await recordFor(id);
    const diagnostic=await expected(fixture,record.seed);
    const initial=await collect(page);row.initialFieldCount=initial.fieldNames.length;
@@ -204,11 +207,11 @@ try{
    check((await recordFor(id)).seed===record.seed,'SEED_CHANGED');row.seedPreserved=true;check(pageErrors===0,'PAGE_ERROR');row.pageErrors=pageErrors;row.passed=true;row.phase='complete';
   }catch(error){row.error=error.message?.startsWith('QA_')?error.message:(error.code??error.name??'Error');row.passed=false;}
   finally{await context.close();}
-  report.exercises.push(row);await writeFile(output+'/widget-results.json',JSON.stringify(report,null,2)+'\n');
+  report.exercises.push(row);await writeFile(output+'/'+reportName,JSON.stringify(report,null,2)+'\n');
   console.log(JSON.stringify({id:row.id,phase:row.phase,passed:row.passed,error:row.error??null,correct:row.correct?.score}));
  }
 }finally{
  await browser.close();app.closeAllConnections();await new Promise(resolve=>app.close(resolve));await rm(directory,{recursive:true,force:true});
 }
-report.complete=true;await writeFile(output+'/widget-results.json',JSON.stringify(report,null,2)+'\n');
+report.complete=true;await writeFile(output+'/'+reportName,JSON.stringify(report,null,2)+'\n');
 if(report.exercises.some(row=>!row.passed))process.exitCode=1;

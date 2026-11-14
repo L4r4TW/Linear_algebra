@@ -226,6 +226,7 @@ test('serves picker assets without making server-side modules public', async (t)
     ['/assets/exercise-frame.js', 'text/javascript'],
     ['/assets/answer-fields.js', 'text/javascript'],
     ['/assets/answer-bridge.js', 'text/javascript'],
+    ['/assets/exercise.css', 'text/css'],
     ['/assets/picker.css', 'text/css'],
   ]) {
     const response = await fetch(f.baseUrl + path);

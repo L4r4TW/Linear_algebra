@@ -47,3 +47,12 @@ docker run --rm --network linear-algebra-experimental_default --shm-size=1g --mo
 ```
 
 Optional `-e WIDGET_FIXTURES=compat-algebra-graphtool-01` selects a focused fixture. The full run writes `widget-results.json` containing scores, statuses, counts, and verification booleans only. Review the results/privacy scan before replacing checked-in evidence. Expected values, choice calibration, private tokens, and session files stay in the operator process/temp storage and are never logged. Unlike the paired probe, this runner uses fresh random session seeds and positive correctness cases. Scaffold stage changes explicitly require refresh; its report records that limitation.
+## Styling audit
+
+[style-audit.mjs](style-audit.mjs) adds protected-geometry and 820px/320px layout checks before the full widget flow. Build the QA image as above, then run:
+
+```powershell
+docker run --rm --network linear-algebra-experimental_default --shm-size=1g -e STYLE_AUDIT=1 --mount type=volume,source=linear-algebra-experimental_opl,target=/opl,readonly --mount "type=bind,source=$compatibilityArtifacts,target=/artifacts" linear-algebra-compatibility-qa node compatibility/widget-acceptance.mjs
+```
+
+This writes `styling-results.json`; reviewed sanitized evidence is [styling-observations.json](styling-observations.json). No screenshots or answer values are written. Protected measurements compare the exercise stylesheet enabled/disabled without changing PG markup. The audit uses a short bounded layout wait because animation-frame callbacks can pause in offscreen mobile iframes. See [STYLING_CONTRACT.md](../STYLING_CONTRACT.md) for allowed selectors and observed narrow-frame scrolling limits.

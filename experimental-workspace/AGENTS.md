@@ -47,3 +47,9 @@ Session handoff and next steps: [PROJECT_CONTEXT.md](../PROJECT_CONTEXT.md). Rep
 - A matching score or native field-name set does not prove usable rendering. Require full owned-session grading, feedback, refresh, keyboard, and narrow-screen checks before promoting candidates. The observed matrix uses nine legacy numeric fields; compound matrix evaluators remain unverified.
 
 - Operator widget acceptance uses server-only exerciseLookup/exerciseList factory injection in a temporary HTTP application. Keep those defaults tied to the real approved catalog; never accept lookup functions, paths, instructor flags, or verification settings from HTTP clients. Positive fixtures and bounded choice calibration belong only to compatibility/widget-acceptance.mjs. Preserve sanitized reports and the explicit scaffold refresh/relock limitation.
+
+## Styling boundaries
+
+Read [STYLING_CONTRACT.md](STYLING_CONTRACT.md). Shell styles belong in `workspace/public/picker.css`; frame overrides belong in `workspace/public/exercise.css`. Preserve renderer base typography: a global font reset changed GraphTool toolbar geometry in a real audit. Opt in only reviewed prose/native controls and app-owned feedback. Keep table/editor/graph dimensions, selectors, SVG paint/viewports and authored inline styles; use `data-practice-preserve-style` for reviewed fragment opt-outs. Do not broaden generic input/button/label/table/SVG/MathJax rules or add `!important` to win conflicts.
+
+For appearance changes, run the browser suite and `STYLE_AUDIT=1` operator widget runner (commands in compatibility/README.md). Preserve sanitized geometry/layout evidence. Horizontal scrolling within narrow matrix/static-image/GraphTool frames is recorded, not full mobile approval. The stylesheet is a required same-origin static resource; keep its failure path isolated and fail-closed.

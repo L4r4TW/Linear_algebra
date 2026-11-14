@@ -18,6 +18,12 @@ The [matrix follow-up](COMPATIBILITY_MATRIX.md#controlled-loader-follow-up) reco
 
 Current checks pass 77 server tests, 26 browser checks, the live smoke checks, and the real HTTP widget acceptance runner. The normal student allowlist still contains only `dot-product-01`.
 
+## Styling rules
+
+[STYLING_CONTRACT.md](STYLING_CONTRACT.md) defines which typography, spacing, colors and containers the application owns. Shell styles stay in `picker.css`; the frame loads a separate `exercise.css` for opt-in plain prose/native controls and app-owned feedback. Renderer base typography, table input geometry and widget/editor/graph internals remain protected. Author classes/inline styles and reviewed preserve-style regions are excluded from appearance opt-in.
+
+Validation passes 77 server tests, 28 browser checks, API smoke, and eleven style-audited widget cases. Matrix/GraphTool geometry matches upstream computed styles with overrides disabled. Narrow matrix/static-image/GraphTool frames still scroll horizontally; see the report before claiming mobile support.
+
 ## Start
 
 Start Docker Desktop with its Linux engine ready. From the repository root:

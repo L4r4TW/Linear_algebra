@@ -1,6 +1,6 @@
 # Project context and session handoff
 
-Updated 2026-11-14. Start with this handoff, [AGENTS.md](AGENTS.md), and the detailed [experimental workspace README](experimental-workspace/README.md). Product direction is in [Project_goals.md](Project_goals.md).
+Updated 2026-11-15. Start with this handoff, [AGENTS.md](AGENTS.md), and the detailed [experimental workspace README](experimental-workspace/README.md). Product direction is in [Project_goals.md](Project_goals.md).
 
 ## Where development stands
 
@@ -8,7 +8,7 @@ The active work is the independent **experimental-workspace/** WeBWorK integrati
 
 The goal has expanded to a multi-subject practice platform covering the whole OPL, using PG mathematical grading. Design the future catalog for all subjects, while validating playable exercises in batches. Build one complete, reliable exercise flow before broadly enabling large numbers of exercises.
 
-This handoff accompanies the widget answer/feedback verification commit on `main`. Its preceding pushed baseline is `832fbf9` (controlled asset loading). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
+This handoff accompanies the scoped exercise styling commit on `main`. Its preceding pushed baseline is `f9bb30f` (widget answer/feedback verification). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
 
 ## Implemented in the sandbox
 
@@ -59,6 +59,14 @@ The new `compatibility/widget-acceptance.mjs` runs the actual picker/owned API/c
 Scaffold Part 1 scores 0.5; explicit refresh exposes Part 2 and permits score 1. Clearing Part 1 relocks two fields on refresh. The report compares still-available cleared fields and records removed blank fields. Automatic stage advancement/relocking is still outstanding; do not claim a seamless staged UI or enable all fixtures yet.
 
 Current validation: **77 server tests**, **26 browser checks**, all five live Node smoke checks, and eleven real owned HTTP widget cases. Prior fixed-seed comparisons and outage verification remain separate historical evidence. No private answers, session files, JWTs, cookies, or instructor maps are committed in the observations. Next work remains post-grade reconciliation and per-widget keyboard/mobile acceptance before catalog promotion.
+
+## Styling boundaries
+
+Read [STYLING_CONTRACT.md](experimental-workspace/STYLING_CONTRACT.md) and sanitized [styling-observations.json](experimental-workspace/compatibility/styling-observations.json). Shell styling remains in `picker.css`; `exercise.css` is now a separately served required stylesheet in the opaque frame. Broad input/label/paragraph/link/MathJax resets were replaced by explicit markers for ordinary prose, native answers, focus and app-owned feedback. Table/inline-styled inputs retain appearance; graph/editor/opt-out regions are protected. Do not set frame-wide fonts or foreground: that changed upstream GraphTool button metrics in the audit. Preserve author styles and generated PG structure.
+
+`compatibility/style-audit.mjs`, enabled by `STYLE_AUDIT=1` in widget-acceptance.mjs, compares protected table/graph/button/board/SVG geometry and paint with exercise overrides enabled/disabled, measures 820px/320px layouts, then runs the full owned grading/restoration flow. All eleven fixtures pass; all reach score 1 and clear to 0. Narrow matrix/static-image/GraphTool frames require horizontal scrolling without making the parent page overflow; those candidates still need deliberate mobile treatment.
+
+Current validation: **77 server tests**, **28 browser checks**, live API smoke (one public exercise), and eleven style-audited owned widget cases. Earlier five-smoke and outage proofs remain historical for areas unchanged in this styling task. No fixtures were promoted. Next remains automatic scaffold content reconciliation, followed by per-widget mobile/keyboard/visual review before broad enablement.
 
 ## Start or resume locally
 

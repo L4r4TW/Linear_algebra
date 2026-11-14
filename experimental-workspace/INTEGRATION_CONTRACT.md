@@ -83,7 +83,7 @@ base-uri 'none';
 | Other external dependencies, fonts, media, nested frames, network fetch/XHR/WebSocket | Remain unsupported. Unapproved stylesheet URLs/imports are blocked; inline author CSS may still override application frame CSS. |
 | Popups and original native form submission | Blocked; the parent performs grading through its own API. |
 
-The parent sizes the frame from authenticated messages, with a height range of 280–3000px. Large problems can require scrolling within the frame. These limits and the current global input styles are part of the compatibility surface.
+The [styling contract](STYLING_CONTRACT.md) separates shell CSS from the dedicated exercise stylesheet. Appearance rules opt in reviewed prose/native controls and application feedback; table/widget geometry and renderer base typography remain upstream-owned. The parent sizes the frame from authenticated messages, with a height range of 280–3000px. Large problems can require scrolling within the frame. These limits and the opt-in styling policy are part of the compatibility surface.
 
 ## 4. Answer contract and serialization
 
@@ -106,7 +106,7 @@ Implementation: [answer-bridge.js](workspace/public/answer-bridge.js), [field-fe
 - Authenticated `submit-answers` and interaction messages support guarded Enter submission and conditional focus movement. Authenticated parent commands show field feedback or focus a named native answer control.
 - Enter is limited to eligible single-line inputs. Modifiers, repeats, composition/key code 229, textarea/select/choice controls, datalists, combobox/grid widgets, and explicit opt-outs preserve their own behavior.
 - Feedback is inserted as text, with accessible descriptions and invalid markers. Edits mark previous results stale. The frame is kept in place during grading and on failures, preserving current inputs.
-- The frame does not execute the renderer's original submit helpers or Bootstrap popovers. Its global input sizing, focus styles, fallback labels, autocomplete settings, and feedback insertion can affect widget layout and behavior.
+- The frame does not execute the renderer's original submit helpers or Bootstrap popovers. Its opt-in native control sizing/focus styles, fallback labels, autocomplete settings, and feedback insertion still need per-widget review; generic widget/table appearance resets are excluded.
 
 ## 6. Compatibility gates and next implementation work
 

@@ -17,6 +17,25 @@ export function shouldSubmitOnEnter(event, root) {
     !field.closest('[role="combobox"],[role="listbox"],[role="grid"],[contenteditable="true"],[data-enter-submit="off"]');
 }
 
+/** Opt in reviewed prose/native answers; never reset table/editor/graph geometry. */
+export function markPracticeControls(root) {
+  if(!root)return;
+  const protectedSelector='.graphtool-outer-container,.jxgbox,.mq-editable-field,.mq-math-mode,[contenteditable="true"],[role="grid"],[data-practice-preserve-style]';
+  for(const paragraph of root.querySelectorAll(':scope > p,:scope > .PGML > p')){
+    if(!paragraph.classList.length&&!paragraph.hasAttribute('style')&&!paragraph.closest(protectedSelector)&&!paragraph.querySelector(protectedSelector+',table,svg,canvas,img,iframe'))paragraph.classList.add('practice-prose');
+  }
+  for(const field of root.querySelectorAll('input,textarea,select')){
+    field.classList.remove('practice-answer','practice-focus');
+    if(!isAnswerFieldName(field.name)||field.matches(':disabled')||field.closest(protectedSelector))continue;
+    if(field.tagName==='INPUT'&&!['text','number','search','email','tel','url','radio','checkbox'].includes(field.type))continue;
+    field.classList.add('practice-focus');
+    if(field.closest('table')||field.hasAttribute('style'))continue;
+    field.classList.add('practice-answer');
+    if(['radio','checkbox'].includes(field.type)){
+      for(const label of field.labels??[])if(root.contains(label)&&label.querySelectorAll('input,textarea,select').length===1&&!label.closest(protectedSelector))label.classList.add('practice-choice-label');
+    }
+  }
+}
 /** Render only the trusted API problem fragment in an opaque, sandboxed frame. */
 export function buildExerciseDocument({ html, channel, mathjaxUrl, dependencies = [] }) {
   const scriptUrl = new URL(mathjaxUrl);
@@ -28,6 +47,7 @@ export function buildExerciseDocument({ html, channel, mathjaxUrl, dependencies 
       ? `<link rel="stylesheet" href="${url}" onerror="resourceFailed()">`
       : `<script src="${url}"${dependency.defer ? ' defer' : ''} onerror="resourceFailed()"></script>`;
   }).join('\n');
+  const stylesheetUrl=escapeAttribute(new URL('/assets/exercise.css',scriptUrl.origin).href);
   const escapedUrl = escapeAttribute(scriptUrl.href);
   const csp = "default-src 'none'; script-src 'unsafe-inline' " + scriptUrl.origin +
     "; style-src 'unsafe-inline' " + scriptUrl.origin + "; img-src data: " + scriptUrl.origin +
@@ -53,18 +73,7 @@ function resourceFailed(){resourceFailure=true;parent.postMessage({channel:${JSO
 window.addEventListener('error',event=>{if(event.error||event.target?.tagName==='IMG')resourceFailed();},true);
 </script>
 ${dependencyHtml}
-<style>
-body{margin:0;padding:18px 8px 24px;font:16px/1.8 system-ui,sans-serif;color:#243e34;overflow-wrap:break-word}
-input:not([type=hidden]),textarea,select{max-width:100%;box-sizing:border-box;font:inherit;border:1px solid #b8cebd;border-radius:7px;padding:8px 11px;background:#fafcf8;color:#203b32;margin:6px 0}
-input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible,[tabindex="0"]:focus-visible{outline:3px solid #075e50;outline-offset:3px}
-mjx-container{max-width:100%;overflow-x:auto;overflow-y:hidden}p{margin-top:0}a{color:#087b69}
-.field-feedback{display:block;max-width:100%;margin:4px 0 14px;padding:10px 12px;border-left:3px solid #6b7b70;border-radius:4px;background:#f3f5f1;font-size:13px;line-height:1.55}.field-feedback strong{display:block;font-weight:700}.field-feedback span{display:block;margin-top:3px}.field-feedback[data-status=correct]{border-color:#087b69;background:#edf7f0;color:#155c49}.field-feedback[data-status=incorrect]{border-color:#b34848;background:#fff1ef;color:#853b35}.field-feedback[data-status=invalid],.field-feedback[data-status=partial]{border-color:#ae7a22;background:#fff7e7;color:#775a26}.field-feedback[data-status=changed]{border-color:#80918a;color:#596c61}input[aria-invalid=true],textarea[aria-invalid=true],select[aria-invalid=true]{border-color:#ae7a22}
-input:not([type=hidden]):not([type=radio]):not([type=checkbox]),select{min-height:48px;font-size:16px}textarea{min-height:108px;font-size:16px}input[type=radio],input[type=checkbox]{min-width:24px;min-height:24px;margin:10px 6px;accent-color:#087b69;padding:0}label:has(input[type=radio]),label:has(input[type=checkbox]){display:inline-flex;align-items:center;min-height:44px;gap:6px}input,textarea,select,[tabindex="0"]{scroll-margin:24px}mjx-container[tabindex="0"]{border-radius:4px}
-@media(forced-colors:active){input,textarea,select,.field-feedback{border:1px solid CanvasText}input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible,[tabindex="0"]:focus-visible{outline-color:Highlight}}
-.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
-input:focus,textarea:focus,select:focus,button:focus,a:focus{outline:3px solid #075e50;outline-offset:3px}
-@media(forced-colors:active){input:focus,textarea:focus,select:focus,button:focus,a:focus{outline-color:Highlight}}
-</style>
+<link rel="stylesheet" data-practice-exercise-style href="${stylesheetUrl}" onerror="resourceFailed()">
 <script>
 const channel=${JSON.stringify(channel)};
 const parentOrigin=${JSON.stringify(scriptUrl.origin)};
@@ -76,6 +85,7 @@ const answerPresentation=${answerPresentation.toString()};
 const installGraphAnswerAdapters=${installGraphAnswerAdapters.toString()};
 const renderFieldFeedback=${renderFieldFeedback.toString()};
 const shouldSubmitOnEnter=${shouldSubmitOnEnter.toString()};
+const markPracticeControls=${markPracticeControls.toString()};
 let feedbackFields=[];
 let composing=false;
 let submittedEntries=[];
@@ -115,6 +125,7 @@ function answersChanged(){
 window.addEventListener('DOMContentLoaded',()=>{
   document.querySelectorAll('.ww-feedback-btn').forEach(node=>node.remove());
   document.querySelectorAll('input,textarea,select').forEach(node=>node.classList.remove('correct','incorrect','partially-correct'));
+  markPracticeControls(document.getElementById('problem_body'));
   const dispose=installGraphAnswerAdapters(document.getElementById('problem_body'),answersChanged);
   window.addEventListener('pagehide',dispose,{once:true});
   applyFeedback();
@@ -172,6 +183,8 @@ function mathLoaded(){
   MathJax.startup.promise.then(()=>{
     function mathScrollTargets(){
       document.querySelectorAll('mjx-container').forEach(node=>{
+        if(node.closest('.graphtool-outer-container,.jxgbox,.mq-editable-field,.mq-math-mode,[data-practice-preserve-style]'))return;
+        node.classList.add('practice-math');
         if(node.scrollWidth>node.clientWidth+1){node.tabIndex=0;node.setAttribute('role','group');node.setAttribute('aria-label','Mathematical expression; scroll horizontally to read more.');}
         else{node.removeAttribute('tabindex');node.removeAttribute('aria-label');node.removeAttribute('role');}
       });
@@ -182,7 +195,7 @@ function mathLoaded(){
     if(document.readyState==='complete')ready();else window.addEventListener('load',ready,{once:true});
   }).catch(()=>mathFailed());
 }
-</script></head><body><p id="practice-keyboard-help" class="sr-only">Press Enter to check a single-line answer. Use Tab or Shift+Tab to move between answers and controls.</p>${html}
+</script></head><body data-practice-frame><p id="practice-keyboard-help" class="practice-sr-only">Press Enter to check a single-line answer. Use Tab or Shift+Tab to move between answers and controls.</p>${html}
 <script src="${escapedUrl}" onload="mathLoaded()" onerror="mathFailed()"></script>
 </body></html>`;
 }
