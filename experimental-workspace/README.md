@@ -37,3 +37,17 @@ The dedicated Compose project is `linear-algebra-experimental`, with its own net
 ## Windows prerequisites
 
 WSL 2 is installed on this host. Docker Desktop must be running with its Linux engine ready before Compose can start containers. If the engine pipe is missing, start Docker Desktop and wait for startup to finish.
+
+## Open Problem Library
+
+The official repository is cloned into Docker volume `linear-algebra-experimental_opl`, at `/library/webwork-open-problem-library` when the volume is mounted at `/library`.
+
+The initial checkout in the local `webwork-open-problem-library/` directory failed due to Windows path-length limits and Google Drive directory conflicts. That directory is an incomplete copy, not the working library. It remains excluded from application Git tracking and Docker builds.
+
+Inspect the Linux copy without changing it:
+
+```powershell
+docker run --rm --mount type=volume,source=linear-algebra-experimental_opl,target=/library,readonly alpine:3.23 ls /library/webwork-open-problem-library
+```
+
+The volume is independent of the starter Compose application and persists when `docker compose down` is run. The renderer is not connected to it yet. Check `OPL_LICENSE` and individual problem licenses before redistributing exercises. Upstream: https://github.com/openwebwork/webwork-open-problem-library.git

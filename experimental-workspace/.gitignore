@@ -4,3 +4,5 @@ workspace/.next/
 workspace/dist/
 workspace/coverage/
 *.log
+
+webwork-open-problem-library/
