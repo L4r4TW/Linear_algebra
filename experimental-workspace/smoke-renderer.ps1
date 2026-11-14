@@ -1,10 +1,15 @@
 param(
-    [string]$RendererUrl = 'http://localhost:3101'
+    [string]$RendererUrl = 'http://localhost:3101',
+    [string]$ExerciseId = 'dot-product-01'
 )
 
 $ErrorActionPreference = 'Stop'
-$exercise = 'Library/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg'
-$seed = '1234'
+$catalog = Get-Content -Raw -LiteralPath (Join-Path $PSScriptRoot 'workspace/server/exercise-catalog.json') | ConvertFrom-Json
+$entries = @($catalog.exercises | Where-Object { $_.id -ceq $ExerciseId })
+if ($entries.Count -ne 1) { throw ('Unknown or duplicate catalog exercise ID: ' + $ExerciseId) }
+$entry = $entries[0]
+$exercise = $entry.renderer.sourceFilePath
+$seed = [string]$entry.verification.seed
 
 function Invoke-Renderer {
     param([hashtable]$Fields)
@@ -39,7 +44,7 @@ $instructor = Invoke-Renderer @{
     isInstructor = '1'
 }
 $answerFields = @($instructor.answers.PSObject.Properties)
-if ($answerFields.Count -ne 4) { throw 'Expected four answer fields for this OPL exercise.' }
+if ($answerFields.Count -ne $entry.verification.answerFieldCount) { throw 'Answer field count does not match the verified catalog entry.' }
 
 $wrongFields = @{
     sessionJWT = $initial.JWT.session
@@ -68,6 +73,7 @@ $restored = Invoke-Renderer @{ sessionJWT = $correct.JWT.session; _format = 'jso
 if ([double]$restored.problem_result.score -ne 1) { throw 'Restored session lost its score.' }
 
 [pscustomobject]@{
+    ExerciseId = $entry.id
     Exercise = $exercise
     Seed = $seed
     AnswerFields = $answerFields.Count

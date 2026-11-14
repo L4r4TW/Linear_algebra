@@ -1,13 +1,15 @@
 {
-  "name": "linear-algebra-experimental-workspace",
-  "version": "0.0.0",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "node --watch server.mjs",
-    "start": "node server.mjs"
-  },
-  "engines": {
-    "node": ">=22"
-  }
+    "name":  "linear-algebra-experimental-workspace",
+    "version":  "0.0.0",
+    "private":  true,
+    "type":  "module",
+    "scripts":  {
+                    "dev":  "node --watch server.mjs",
+                    "start":  "node server.mjs",
+                    "test":  "node --test server/*.test.mjs",
+                    "smoke:renderer-client":  "node server/check-renderer-client.mjs"
+                },
+    "engines":  {
+                    "node":  "\u003e=22"
+                }
 }

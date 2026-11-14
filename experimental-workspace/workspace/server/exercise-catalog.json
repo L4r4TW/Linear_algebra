@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "exercises": [
+    {
+      "id": "dot-product-01",
+      "title": "Dot products and vector operations",
+      "topicId": "dot-product",
+      "topic": "Dot product",
+      "description": "Practice dot products and scalar multiplication using three-dimensional vectors.",
+      "renderer": {
+        "sourceFilePath": "Library/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg"
+      },
+      "source": {
+        "repository": "https://github.com/openwebwork/webwork-open-problem-library",
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "author": "Paul Pearson",
+        "institution": "Fort Lewis College"
+      },
+      "verification": {
+        "seed": 1234,
+        "answerFieldCount": 4
+      }
+    }
+  ]
+}

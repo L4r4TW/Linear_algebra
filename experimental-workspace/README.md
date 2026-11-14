@@ -19,6 +19,70 @@ The first build downloads the official renderer, its PG submodule, and system, P
 
 The renderer is configured for local development. Its editor and raw PG execution API must stay private; this is not a production deployment. The OPL mount is read-only, so editor operations cannot save changes to library files.
 
+## Exercise catalog
+
+The server-side allowlist lives in `workspace/server/exercise-catalog.json`. It starts with the verified `dot-product-01` exercise, titled **Dot products and vector operations**, in the **Dot product** topic.
+
+Each entry records its stable ID, friendly metadata, renderer path, OPL source revision and attribution, and verification fixture. The verification seed is for repeatable checks; future exercise sessions should create and preserve their own seeds.
+
+Backend code can import the helpers from `workspace/server/exercise-catalog.mjs`:
+
+```javascript
+import { getExerciseById, listExercises } from './server/exercise-catalog.mjs';
+
+const choices = listExercises(); // Friendly metadata, without renderer paths.
+const exercise = getExerciseById('dot-product-01'); // Full server configuration.
+const unknown = getExerciseById('not-in-catalog'); // undefined
+```
+
+Use IDs at the client/backend boundary and reject unknown IDs before calling the renderer. Keep both catalog files on the server; do not bundle the JSON into a browser application. The helpers do not add HTTP endpoints or exercise sessions.
+
+The renderer smoke check reads its path, seed, and expected field count from this catalog. To add an entry, choose a unique ID, inspect the real OPL file and applicable license, record its source revision, then verify rendering, grading, and restoration with:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./smoke-renderer.ps1 -ExerciseId dot-product-01
+```
+## Renderer client
+
+`workspace/server/renderer-client.mjs` is a Node-only module. It uses the server catalog and Node built-ins; keep it out of browser imports.
+
+```javascript
+import { loadExercise } from './server/renderer-client.mjs';
+
+const result = await loadExercise({
+  exerciseId: 'dot-product-01',
+  seed: 1234,
+});
+// result: exerciseId, seed, html, sessionToken, problemToken, score, resources
+```
+
+The default client reads the server's `RENDERER_URL` (already configured in Compose). For explicit server configuration, use `createRendererClient({ baseUrl: 'http://renderer:3000', timeoutMs: 30000 })` and call its `loadExercise` method. A base URL may include a deployment path prefix; do not include `/render-api` itself, credentials, query parameters, or fragments.
+
+Only exact catalog IDs and integer seeds from 1 through 2147483647 are accepted. The request supplies the approved PG path and fixes student mode, JSON response format, and hidden solutions/correct-answer controls. Arbitrary caller fields cannot override those settings.
+
+The timeout covers connection, response headers, and response-body reading. Requests are not retried or redirected. Responses must contain exercise HTML, session/problem tokens, valid score/flags/resources, and no instructor answer map. The returned HTML and resources still need an appropriate rendering strategy in the future frontend; the client does not sanitize or display them.
+
+Failures are `RendererClientError` instances with a stable `code`:
+
+| Code | Meaning |
+|---|---|
+| INVALID_CONFIGURATION | Missing/invalid renderer URL or timeout |
+| INVALID_INPUT | Missing exercise ID or invalid seed |
+| UNKNOWN_EXERCISE | ID is absent from the catalog |
+| TIMEOUT | Renderer exceeded the configured deadline |
+| NETWORK_ERROR | Connection, interrupted transfer, or redirect failure |
+| HTTP_ERROR | Non-success HTTP response; upstream status is in `status` |
+| INVALID_RESPONSE | Invalid JSON or unexpected student-response shape |
+| PG_ERROR | PG reported an exercise rendering error |
+
+Messages do not include upstream bodies or session tokens. Keep error causes on the server and map failures to friendly messages in future API routes. Keep the returned tokens in the future session layer rather than serializing the entire result to a browser. This module implements exercise loading; session storage, answer-submission methods, and backend endpoints are separate steps.
+
+Run the client tests and live exercise-loading check after rebuilding:
+
+```powershell
+docker compose exec -T workspace npm test
+docker compose exec -T workspace npm run smoke:renderer-client
+```
 ## Render a real exercise
 
 The following path was verified in the cloned library:
