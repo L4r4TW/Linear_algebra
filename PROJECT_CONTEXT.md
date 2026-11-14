@@ -8,7 +8,7 @@ The active work is the independent **experimental-workspace/** WeBWorK integrati
 
 The goal has expanded to a multi-subject practice platform covering the whole OPL, using PG mathematical grading. Design the future catalog for all subjects, while validating playable exercises in batches. Build one complete, reliable exercise flow before broadly enabling large numbers of exercises.
 
-This handoff accompanies the accessibility/layout refinement commit on `main`. Its preceding implementation baseline is `5994540` (practice controls and student grading feedback). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
+This handoff accompanies the complete-flow verification and renderer restart fix commit on `main`. Its preceding implementation baseline is `489aec1` (accessibility/layout refinements). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
 
 ## Implemented in the sandbox
 
@@ -25,6 +25,8 @@ This handoff accompanies the accessibility/layout refinement commit on `main`. I
 10. Student feedback: per-field PG messages, separate invalid-input/mathematical-error states, overall result and percentage score, saved-result restoration, and changed-since-check markers without replacing inputs.
 
 11. Accessibility/layout: Enter submits eligible single-line fields while preserving native widget/IME keys; conditional focus follows loading, results, and failures; Return to answers focuses the first field needing attention. A dedicated polite live region announces state changes without repeating the result while typing. Visible focus, stronger contrast, assistive MathML, 320px layout, forced colors, reduced motion, 16px answer text, and touch targets have browser coverage.
+
+12. Complete-experience verification: 68 server tests, 23 browser checks, all focused live smoke checks, and actual renderer crash/recovery. New browser tests verify ownership across independent contexts and recovery of an accepted submission whose response was lost. See [PRACTICE_VERIFICATION.md](experimental-workspace/PRACTICE_VERIFICATION.md).
 
 **UI boundary:** Students can now select, edit, check answers, and read field/overall results. Checked values restore from PG tokens; unsubmitted edits are not autosaved. Inputs remain editable during checking, so later edits are not necessarily included in that submission. No account-based progress or attempt history yet.
 
@@ -87,9 +89,9 @@ Ownership uses `la_experiment_owner`, an HttpOnly/SameSite=Strict cookie, with o
 
 ## Verification recorded before this documentation update
 
-The latest accessibility/layout implementation passed **68 server tests and 21 Chromium browser checks**. New checks cover the keyboard-only flow, Enter/native/IME exceptions, forged shortcut messages, focus preservation and error recovery, conditional accessible descriptions, nonrepeating announcements, assistive mathematics, 320px layout, contrast, forced colors, reduced motion, and 200% CSS zoom. The real exercise test includes invalid syntax, parsed incorrect coordinates, blank fields, partial/correct/incorrect scores, stale feedback on edits, and refresh without another grading request. New browser checks cover fresh values, keyboard activation, duplicate clicks, editing during a request, server/network failures, explicit retry, mobile sizing, and navigation during grading. Desktop/mobile previews were also inspected. Previous backend verification passed renderer-client, sessions, API, grading, and submission-state smoke checks and the PowerShell renderer check. Live grading covered wrong/partial/correct results (0, 0.25, 1) and clearing previously saved answers.
+The complete-experience verification passed **68 server tests and 23 Chromium browser checks**, five live smoke scripts, and the PowerShell renderer smoke check. An abrupt renderer failure/recovery check also passed after fixing the startup PID issue. The full suites and the focused outage rerun are recorded in [PRACTICE_VERIFICATION.md](experimental-workspace/PRACTICE_VERIFICATION.md). New checks cover the keyboard-only flow, Enter/native/IME exceptions, forged shortcut messages, focus preservation and error recovery, conditional accessible descriptions, nonrepeating announcements, assistive mathematics, 320px layout, contrast, forced colors, reduced motion, and 200% CSS zoom. The real exercise test includes invalid syntax, parsed incorrect coordinates, blank fields, partial/correct/incorrect scores, stale feedback on edits, and refresh without another grading request. New browser checks cover fresh values, keyboard activation, duplicate clicks, editing during a request, server/network failures, explicit retry, mobile sizing, and navigation during grading. Desktop/mobile previews were also inspected. Previous backend verification passed renderer-client, sessions, API, grading, and submission-state smoke checks and the PowerShell renderer check. Live grading covered wrong/partial/correct results (0, 0.25, 1) and clearing previously saved answers.
 
-A real forced workspace-container replacement also preserved the same owned session, latest submission metadata, score/feedback, and exact regenerated answer values, including whitespace and empty strings. The container-replacement and focused backend smoke results are historical. Renderer-client, sessions, API, grading, and submission-state smoke checks passed during feedback implementation; server and browser suites were rerun for accessibility/layout. Rerun relevant checks after code changes.
+A real forced workspace-container replacement also preserved the same owned session, latest submission metadata, score/feedback, and exact regenerated answer values, including whitespace and empty strings. The workspace-container replacement proof is historical. Server/browser suites and all focused backend/renderer smoke checks were rerun for complete-flow acceptance. The new real renderer outage test verifies 503 recovery, 404 ownership denial while offline, and the unchanged accepted snapshot and mathematical question after restart. Rerun relevant checks after code changes.
 
 Run from `experimental-workspace/` after rebuilding:
 
@@ -107,6 +109,14 @@ docker run --rm --network linear-algebra-experimental_default --shm-size=1g line
 
 The separate browser image keeps Playwright out of app dependencies. It forwards the actual localhost origin through the Docker network; preserve this setup for cookie/origin/secure-context behavior. Instructor answer maps are allowed only in operator diagnostics; never return or log them through student APIs.
 
+## Repeatable acceptance and restart fix
+
+From the repository root, run `powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace/verify-practice.ps1 -IncludeRendererOutage`. The outage option temporarily force-stops only the renderer; the script restores it in `finally` without deleting volumes. Use `-RendererOutageOnly` for focused recovery checks. Private cookies/submission data stay in memory.
+
+The test exposed a stale `/usr/app/script/hypnotoad.pid` in the renderer container. Hypnotoad treated a reused PID as an existing server, sent a hot-reload signal, and exited 140 on restart. Compose now removes only that runtime file and uses `exec hypnotoad` at startup. Keep the wrapper when updating the upstream image. A normal restart after an abrupt outage is now verified; the runner attempts container replacement on recovery failure but still fails that check.
+
+The student flow handles both a failed request before grading and an accepted grade whose response is lost. Inputs survive both; refresh retrieves the last accepted result without another submission. Explicit retries are new submissions, so general idempotency is still future work.
+
 ## Feedback contract and next work
 
 The private renderer `JWT.answer` contains PG results at `score.answers`. `grading-feedback.mjs` reads that configured-server response and projects only field name, status, score, and plain-text PG message. It is not JWT authentication and never accepts a browser grading token. Correct answers and other private claims remain on the server. No instructor request is needed by the student flow.
@@ -117,7 +127,15 @@ The snapshot persists safe `fieldFeedback` with the updated tokens. Older snapsh
 
 The keyboard/accessibility implementation is complete for the verified flow. Actual NVDA/VoiceOver listening has not been performed; run that manual review before public release. Next, test a representative set of exercise types and subjects before designing the multi-subject catalog database/importer. In particular, graphs, images, choice groups, custom evaluators, and compound answers need individual compatibility checks; do not infer support from the current four-field exercise.
 
-After this one-exercise flow is polished, verify more OPL entries and specialized widgets individually. Do not publish all 81k exercises in bulk: indexing, topic relevance, renderer compatibility, source attribution, and licenses still need review. Later integrate Supabase account ownership/progress and durable attempts, plus concurrency suitable for multiple server processes.
+With the one-exercise flow verified, the next development task is a representative compatibility set across OPL subjects and exercise types. Verify each entry and its specialized widgets individually before designing the catalog importer around assumed support. Do not publish all 81k exercises in bulk: indexing, topic relevance, renderer compatibility, source attribution, and licenses still need review. Later integrate Supabase account ownership/progress and durable attempts, plus concurrency suitable for multiple server processes.
+
+## Immediate continuation
+
+1. Select a small representative set across subjects and answer/widget types. Verify real files, attribution, rendering/assets, collection, grading, and restoration. Record unsupported capabilities explicitly.
+2. Design a database catalog for all OPL subjects, with stable IDs, source revisions, multiple topic assignments, licensing/attribution, and verification status. Build a repeatable importer that can index unverified problems without enabling them for students.
+3. Add paginated search/browsing and enable validated batches. Supabase account ownership, durable history, idempotency/concurrency, dependency hardening, and manual screen-reader review remain before broad public release.
+
+Keep the existing single-exercise acceptance suite as the regression baseline. See [PRACTICE_VERIFICATION.md](experimental-workspace/PRACTICE_VERIFICATION.md) for the exact verified behavior and reproduction commands.
 
 ## Remaining limits
 
@@ -131,8 +149,9 @@ experimental-workspace/README.md. Inspect git status and preserve any local
 changes. Grading and submission-state persistence already exist. Continue in the Docker sandbox:
 the Check answer controls already submit to POST /api/sessions/:id/answers.
 Student-safe field/overall feedback is also implemented and restored.
-Keyboard/accessibility refinements also exist; actual screen-reader listening
-is still a manual release check. Continue by testing representative OPL exercise
+Complete-flow acceptance is recorded in experimental-workspace/PRACTICE_VERIFICATION.md;
+preserve the renderer PID cleanup and outage/recovery checks. Actual screen-reader
+listening is still a manual release check. Continue by testing representative OPL exercise
 types before expanding to a multi-subject catalog.
 Keep the original Next.js/Supabase application separate.
 ```

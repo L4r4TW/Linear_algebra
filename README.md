@@ -1,8 +1,8 @@
 # Linear Algebra Exercises
 
-Open source linear algebra practice platform aligned with the Khan Academy linear algebra track.
+Open source practice platform, originally focused on linear algebra and now expanding toward all subjects in the WeBWorK Open Problem Library (OPL).
 
-The app is built with Next.js App Router and Supabase. Course content is organized as:
+The original application uses Next.js App Router and Supabase. Its course content is organized as:
 
 ```text
 Units -> Themes -> Subthemes -> Exercises
@@ -29,7 +29,19 @@ docker compose up --build -d --wait --wait-timeout 240
 
 This assumes the existing OPL Docker volume is available. For a new machine, follow the [OPL volume setup](experimental-workspace/README.md#open-problem-library-volume) first. Keep the large library in Docker's Linux volume; do not clone it into Google Drive.
 
-The sandbox has one verified exercise, a picker, isolated answer collection, server-side grading, and saved submission state. **Check answer now submits to PG with a checking state, duplicate protection, and input-preserving errors.** Each field now shows PG feedback, with a clear overall score/result and separate invalid-input states. Saved results restore after refresh. Keyboard practice now includes Enter submission, intentional focus movement, screen-reader status semantics, and narrow-screen controls. Unsubmitted edits are not saved. The sandbox is not connected to Supabase accounts.
+The sandbox has one exercise verified from selection through real PG grading and restoration: **Dot products and vector operations** (`dot-product-01`). It includes isolated answer fields, Check answer controls, per-field feedback, partial credit, keyboard navigation, mobile layout, and saved session state.
+
+Verification passed **68 server tests and 23 browser checks**, all live smoke checks, and a real renderer failure/recovery test. That test found and fixed a stale PID-file restart bug. See the [acceptance report](experimental-workspace/PRACTICE_VERIFICATION.md) for evidence and limits.
+
+Repeat the complete verification from the repository root:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace/verify-practice.ps1 -IncludeRendererOutage
+```
+
+The outage option briefly interrupts only the experimental renderer and restores it without removing volumes. Omit it for ordinary verification. Unsubmitted edits are not saved; ownership currently belongs to the anonymous browser cookie rather than a Supabase account. Actual screen-reader listening remains a manual release check.
+
+Next, verify representative exercises and widget types across subjects, then build the database catalog and repeatable importer for the full OPL. The current single-exercise check does not establish compatibility for the whole library.
 
 Source is copied into Docker images: rebuild after edits. Saved sessions survive rebuilds in a named volume; `docker compose down --volumes` deletes them. Keep renderer/editor ports private; this development setup is not ready for public deployment.
 

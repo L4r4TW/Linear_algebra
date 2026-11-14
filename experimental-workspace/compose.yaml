@@ -23,6 +23,9 @@ services:
   renderer:
     build:
       context: https://github.com/openwebwork/renderer.git#1134ffbbf5e656148e579f424f70bcd9f1d15936
+    # A stopped/crashed container can retain Hypnotoad's PID file. PID reuse can
+    # otherwise trigger a hot-reload signal against the new startup process.
+    command: ["/bin/sh", "-c", "rm -f /usr/app/script/hypnotoad.pid && exec hypnotoad -f ./script/render_app"]
     init: true
     ports:
       - "127.0.0.1:3101:3000"

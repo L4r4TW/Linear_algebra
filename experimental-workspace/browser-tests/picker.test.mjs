@@ -733,3 +733,133 @@ test('narrow screens retain readable mathematics, touch targets, contrast and vi
   await page.evaluate(()=>{document.documentElement.style.zoom='2';});
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth),true);
 });
+
+async function solveVerifiedDotProduct(page) {
+  // Derive answers from the public question, never an instructor response.
+  const vectors = await page.frameLocator('.exercise-frame').locator('body').evaluate(() =>
+    [...MathJax.startup.document.math].slice(0, 3).map(item => {
+      const match = item.math.match(/\\left<([^>]+)\\right>/);
+      if (!match) throw new Error('Unexpected verified exercise statement.');
+      return match[1].split(',').map(Number);
+    }));
+  const [u, v, w] = vectors;
+  const dot = (a, b) => a.reduce((sum, value, index) => sum + value * b[index], 0);
+  return [
+    ' ' + dot(u, w) + ' ',
+    ' <' + u.map(value => value * dot(u, v)).join(', ') + '> ',
+    String(dot(w, w) * dot(u, u)),
+    String(dot(u, v) + dot(v, w)),
+  ];
+}
+
+async function ownedSnapshot(page, id = sessionId(page)) {
+  return page.evaluate(async id => {
+    const response = await fetch('/api/sessions/' + id, { credentials: 'same-origin' });
+    if (!response.ok) throw new Error('Owned session could not be retrieved.');
+    return response.json();
+  }, id);
+}
+
+test('complete real practice flow preserves partial credit through failures and recovers a lost successful response on refresh', {timeout:120_000}, async (t) => {
+  const page = await pageFor(t, {width:390, height:844});
+  await page.goto(baseUrl); await choices(page); await page.locator('.exercise-choice').click(); await ready(page);
+  const id = sessionId(page);
+  const values = await solveVerifiedDotProduct(page);
+  const fields = page.frameLocator('.exercise-frame').locator('input[name^=AnSwEr]');
+  assert.equal(await fields.count(), 4);
+  await fields.nth(0).fill(values[0]);
+  const partialResponse = page.waitForResponse(response => response.url().endsWith('/answers') && response.request().method() === 'POST');
+  await page.getByRole('button', {name:'Check answer', exact:true}).click();
+  assert.equal((await partialResponse).status(), 200);
+  await page.getByRole('heading', {name:'Partially correct', exact:true}).waitFor();
+  const partial = await ownedSnapshot(page);
+  assert.equal(partial.submission.number, 1);
+  assert.equal(partial.submission.score, 0.25);
+  assert.equal(partial.submission.fieldFeedback.filter(field => field.status === 'unanswered').length, 3);
+  for (let index=0; index<values.length; index++) await fields.nth(index).fill(values[index]);
+  let attempts = 0;
+  let accepted;
+  await page.route('**/api/sessions/*/answers', async route => {
+    attempts++;
+    if (attempts === 1) {
+      await route.fulfill({status:503, json:{error:{code:'RENDERER_UNAVAILABLE',message:'The exercise service is temporarily unavailable.'}}});
+    } else if (attempts === 2) {
+      // The real backend grades and saves, but the browser never receives its response.
+      const response = await route.fetch({url:route.request().url().replace(baseUrl, backendUrl)});
+      assert.equal(response.status(), 200);
+      accepted = await response.json();
+      await route.abort('failed');
+    } else await route.fallback();
+  });
+  const check = page.getByRole('button', {name:'Check answer',exact:true});
+  await check.click();
+  await page.locator('#submission-error').getByText(/temporarily unavailable/).waitFor();
+  assert.deepEqual(await fields.evaluateAll(fields => fields.map(field => field.value)), values);
+  assert.deepEqual((await ownedSnapshot(page)).submission, partial.submission);
+  assert.equal(attempts, 1);
+  await check.click();
+  await page.locator('#submission-error').getByText(/confirm whether your answers were saved/).waitFor();
+  assert.deepEqual(await fields.evaluateAll(fields => fields.map(field => field.value)), values);
+  assert.equal(attempts, 2);
+  assert.equal(accepted.submission.number, 2);
+  assert.equal(accepted.submission.score, 1);
+  assert.deepEqual((await ownedSnapshot(page)).submission, accepted.submission);
+  await page.reload(); await ready(page);
+  await page.getByRole('heading', {name:'All answers correct',exact:true}).waitFor();
+  assert.equal(sessionId(page), id);
+  assert.deepEqual(await fields.evaluateAll(fields => fields.map(field => field.value)), values);
+  const restored = await ownedSnapshot(page);
+  assert.deepEqual(restored.submission, accepted.submission);
+  assert.equal(attempts, 2);
+  assert.doesNotMatch(JSON.stringify(restored), /sessionJWT|problemJWT|answerJWT|correct_value|ownerHash|rendererSessionToken/);
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+});
+
+test('real browser sessions enforce ownership across owned and anonymous contexts without changing either session', {timeout:120_000}, async (t) => {
+  const owner = await pageFor(t);
+  await owner.goto(baseUrl); await choices(owner); await owner.locator('.exercise-choice').click(); await ready(owner);
+  const id = sessionId(owner);
+  const values = await solveVerifiedDotProduct(owner);
+  const fields = owner.frameLocator('.exercise-frame').locator('input[name^=AnSwEr]');
+  for (let index=0;index<values.length;index++) await fields.nth(index).fill(values[index]);
+  await owner.getByRole('button',{name:'Check answer',exact:true}).click();
+  await owner.getByRole('heading',{name:'All answers correct',exact:true}).waitFor();
+  const saved = await ownedSnapshot(owner);
+  const identity = (await owner.context().cookies(baseUrl+'/api/sessions')).find(cookie=>cookie.name==='la_experiment_owner');
+  assert.ok(identity);
+  assert.equal(identity.httpOnly,true);
+  assert.equal(identity.sameSite,'Strict');
+
+  const other = await pageFor(t);
+  await other.goto(baseUrl); await choices(other); await other.locator('.exercise-choice').click(); await ready(other);
+  const otherId = sessionId(other);
+  assert.notEqual(otherId,id);
+  const anonymous = await pageFor(t);
+  await anonymous.goto(baseUrl); await choices(anonymous);
+  for (const page of [other,anonymous]) {
+    const statuses = await page.evaluate(async id => {
+      const read = await fetch('/api/sessions/'+id);
+      const grade = await fetch('/api/sessions/'+id+'/answers',{
+        method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({answers:[['AnSwEr0001','tampered']]}),
+      });
+      return {read:read.status,grade:grade.status,readBody:await read.json(),gradeBody:await grade.json()};
+    },id);
+    assert.equal(statuses.read,404);
+    assert.equal(statuses.grade,404);
+    assert.deepEqual(Object.keys(statuses.readBody),['error']);
+    assert.deepEqual(Object.keys(statuses.gradeBody),['error']);
+    let replacements = 0;
+    page.on('request',request=>{if(new URL(request.url()).pathname==='/api/sessions'&&request.method()==='POST')replacements++;});
+    await page.goto(baseUrl+'/?session='+id);
+    await page.locator('#exercise-content').getByText('Session was not found.').waitFor();
+    assert.equal(await page.locator('.exercise-frame').count(),0);
+    assert.equal(replacements,0);
+  }
+  await owner.reload(); await ready(owner);
+  await owner.getByRole('heading',{name:'All answers correct',exact:true}).waitFor();
+  assert.deepEqual((await ownedSnapshot(owner)).submission,saved.submission);
+  assert.deepEqual(await fields.evaluateAll(fields=>fields.map(field=>field.value)),values);
+  await other.goto(baseUrl+'/?session='+otherId); await ready(other);
+  assert.equal((await ownedSnapshot(other)).submission,null);
+  assert.ok((await other.frameLocator('.exercise-frame').locator('input[name^=AnSwEr]').evaluateAll(fields=>fields.map(field=>field.value))).every(value=>value===''));
+});

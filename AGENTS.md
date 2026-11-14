@@ -9,6 +9,8 @@ There are two independent applications:
 - Repository root: existing Next.js/React/TypeScript/Supabase app, port 3000. Root npm scripts apply here.
 - `experimental-workspace/`: active Node/WeBWorK Docker experiment, practice UI on port 3100 and private renderer editor on port 3101. Read its [AGENTS.md](experimental-workspace/AGENTS.md) before changes in that directory and its [README.md](experimental-workspace/README.md) for exact commands and API contracts.
 
+The current product direction includes all OPL subjects. The verified student flow currently covers one catalog exercise; read the [acceptance report](experimental-workspace/PRACTICE_VERIFICATION.md) before claiming broader compatibility. PROJECT_CONTEXT.md records the latest scope and next work.
+
 Keep PG experiments in the experimental workspace unless integration into the main app is explicitly requested. Do not replace the existing app's exercise or Supabase flows as part of sandbox work.
 
 ## Local environment and data
@@ -17,6 +19,7 @@ Keep PG experiments in the experimental workspace unless integration into the ma
 - Never clone the full OPL or renderer source into this synced directory. Renderer builds use the pinned upstream Git context; OPL is in the external `linear-algebra-experimental_opl` Docker volume.
 - Sandbox source is copied into its image. Rebuild after edits; do not assume host hot reload or working Google Drive bind mounts.
 - Private session JSON lives in `/data/sessions` on `linear-algebra-experimental_sessions`. Normal restart/rebuild preserves it. `docker compose down --volumes` deletes sessions; avoid destructive cleanup.
+- Preserve the renderer startup PID cleanup and `exec` command in Compose. A stale Hypnotoad PID file caused a verified restart failure; do not remove data volumes to fix it.
 - Do not expose renderer/editor services publicly or mount repository secrets or the Docker socket into the sandbox.
 
 ## PG integration invariants
@@ -38,6 +41,14 @@ docker compose config --quiet
 docker compose up --build -d --wait --wait-timeout 240
 docker compose exec -T workspace npm test
 ```
+
+For the complete real-exercise acceptance check, run from the repository root:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace/verify-practice.ps1 -IncludeRendererOutage
+```
+
+The outage option briefly force-stops only the experimental renderer, then restores it without removing volumes. Omit the option for ordinary checks; use `-RendererOutageOnly` for focused recovery checks. A failed normal restart must still fail verification even if fallback container replacement recovers service. Keep private cookies and renderer data in memory. Actual screen-reader listening remains a separate manual release check.
 
 Run the focused smoke checks and browser suite required by the nested guide for the area changed. Do not substitute root app lint for sandbox tests. Documentation-only edits need link/command checks and `git diff --check`; historical test results must be labelled as such.
 

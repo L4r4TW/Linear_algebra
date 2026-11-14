@@ -2,7 +2,7 @@
 
 Session handoff and next steps: [PROJECT_CONTEXT.md](../PROJECT_CONTEXT.md). Repository-wide guidance: [AGENTS.md](../AGENTS.md).
 
-Independent sandbox for the official WeBWorK standalone renderer and PG integration. The existing Next.js application and Supabase configuration are separate.
+Independent sandbox for the official WeBWorK standalone renderer and PG integration. The existing Next.js application and Supabase configuration are separate. The project direction covers all OPL subjects; the current verified catalog contains one exercise. Start with the [practice acceptance report](PRACTICE_VERIFICATION.md) for current coverage and limits.
 
 ## Start
 
@@ -77,7 +77,7 @@ A fresh collection reads the DOM even if a widget changed a value without firing
 
 Collected data remains untrusted browser input. The grading endpoint verifies ownership and derives permitted fields from restored trusted problem HTML; it never treats the client field manifest as an allowlist. No answers are sent to the renderer or persisted by this collection step. Specialized PG widgets still require individual compatibility checks; file uploads are not supported.
 
-Verified in Chromium with the real four-field OPL exercise, plus native-control fixtures for repeated names, selection semantics, hidden-field filtering, request timeouts, forged messages, and frame replacement. The browser suite now has 21 checks, including submitted-state restoration, native keyboard checking, duplicate protection, server/network error preservation, mobile controls, and navigation during grading.
+Verified in Chromium with the real four-field OPL exercise, plus native-control fixtures for repeated names, selection semantics, hidden-field filtering, request timeouts, forged messages, and frame replacement. The browser suite now has 23 checks, including submitted-state restoration, native keyboard checking, duplicate protection, server/network error preservation, mobile controls, and navigation during grading.
 ## Exercise catalog
 
 The server-side allowlist lives in `workspace/server/exercise-catalog.json`. It starts with the verified `dot-product-01` exercise, titled **Dot products and vector operations**, in the **Dot product** topic.
@@ -283,7 +283,7 @@ Run the operator-only live grading diagnostic:
 docker compose exec -T workspace npm run smoke:grading
 ```
 
-It obtains expected answers directly from the renderer in instructor mode solely for testing; instructor responses never pass through the student API and are not logged. Verified against the installed PG engine: incorrect score 0, partial score 0.25, correct score 1, restored correct score 1, and cleared-answer score 0. The current regression suite passes 68 server tests and 21 browser checks.
+It obtains expected answers directly from the renderer in instructor mode solely for testing; instructor responses never pass through the student API and are not logged. Verified against the installed PG engine: incorrect score 0, partial score 0.25, correct score 1, restored correct score 1, and cleared-answer score 0. The current regression suite passes 68 server tests and 23 browser checks.
 
 Implementation: `renderer-client.mjs`, `answer-contract.mjs`, `exercise-sessions.mjs`, and `http-app.mjs` in `workspace/server/`.
 ## Saved submission state
@@ -322,7 +322,7 @@ Run the focused live state check:
 docker compose exec -T workspace npm run smoke:submission-state
 ```
 
-Verified on 2026-11-14: exact answers (including spaces and vector syntax), submission identity/count/time, score, and feedback survive browser refresh and full container replacement. Refresh makes no additional grading request. The full suite passes 68 server tests and 21 browser checks.
+Verified on 2026-11-14: exact answers (including spaces and vector syntax), submission identity/count/time, score, and feedback survive browser refresh and full container replacement. Refresh makes no additional grading request. The full suite passes 68 server tests and 23 browser checks.
 ## Student grading feedback
 
 The practice screen shows feedback directly beneath each answer field and an overall result with a percentage score. Status labels distinguish **Correct**, **Incorrect**, **Partially correct**, **Invalid input**, **Not answered**, and **Not graded**. A failed HTTP request remains a service error rather than a mathematical result.
@@ -353,6 +353,20 @@ Mathematics retains self-hosted MathJax assistive MathML. Expressions that overf
 The layout is verified at 320 pixels and with 200% CSS zoom. Answer text is at least 16px, ordinary answer controls and primary/mobile action buttons are at least 48px high, secondary actions are at least 44px, and native choice labels have comfortable targets. Focus indicators remain visible across the frame boundary and in forced colors. Muted text contrast is stronger and reduced-motion preferences remain supported.
 
 Automated Chromium checks cover keyboard-only selection/check/review, native and IME exceptions, forged shortcut messages, focus preservation, errors, assistive mathematics, conditional descriptions, nonrepeating announcements, contrast, forced colors, and mobile/reflow dimensions. **An actual NVDA/VoiceOver listening session has not been run.** Before public release, manually check reading order, spoken mathematical expressions, checking/error announcements, and focus recovery with a screen reader on the target browser/device.
+
+## Complete experience verification
+
+The real four-field `dot-product-01` exercise is verified from selection through grading and restoration. Coverage includes vector notation and whitespace, partial credit, explicit retries, a lost response after saving, refresh/history, browser ownership isolation, keyboard/mobile use, and an actual abrupt renderer outage. See [PRACTICE_VERIFICATION.md](PRACTICE_VERIFICATION.md) for results and scope.
+
+Run the complete acceptance checks from this directory:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./verify-practice.ps1 -IncludeRendererOutage
+```
+
+The outage option briefly interrupts only the experimental renderer and restores it in `finally`; no volumes are removed. Omit it for ordinary checks, or use `-RendererOutageOnly` for focused recovery verification. An explicit retry after an ambiguous lost response is a new submission; refreshing restores the last accepted result without grading again.
+
+The outage check found and fixed stale Hypnotoad PID-file handling. Compose now removes only `/usr/app/script/hypnotoad.pid` before starting the renderer with `exec`, preventing PID reuse from triggering a false hot reload after a stop or crash. Keep this startup wrapper when updating the pinned renderer.
 
 ## Render a real exercise
 
