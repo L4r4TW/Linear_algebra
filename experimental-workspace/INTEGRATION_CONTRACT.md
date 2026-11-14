@@ -87,10 +87,10 @@ The parent sizes the frame from authenticated messages, with a height range of 2
 
 ## 4. Answer contract and serialization
 
-Implementation: [answer-fields.js](workspace/public/answer-fields.js) and [answer-contract.mjs](workspace/server/answer-contract.mjs).
+Implementation: [answer-fields.js](workspace/public/answer-fields.js), [widget-answers.js](workspace/public/widget-answers.js), and [answer-contract.mjs](workspace/server/answer-contract.mjs). See [WIDGET_VERIFICATION.md](WIDGET_VERIFICATION.md) for representation and acceptance evidence.
 
 - Collect named, enabled native `input`, `textarea`, and `select` controls inside `#problem_body`, retaining generated names, exact values/whitespace, DOM order, and valid duplicate-name pairs.
-- Include eligible hidden controls. A visual graph is usable only when its required scripts actually update the corresponding hidden answer state.
+- Include eligible hidden controls. The pinned GraphTool adapter observes only its mapped hidden input value to update cached snapshots/stale feedback. Fresh collection still reads the native value; it does not synthesize graph answers. Hidden graph feedback/focus target the visible widget. Other scripted models need individual evidence.
 - Blank text fields remain explicit empty strings. Only checked radio/checkbox controls contribute entries. Selected enabled options contribute one pair each; a group can have a field name but no selected entries.
 - Disabled controls, disabled fieldset descendants outside the first legend exception, nameless controls, file uploads, submit/reset/image/button inputs, renderer parameter names, `MaThQuIlL_` helpers, and `previous_` fields are excluded. Read-only controls remain collectable.
 - Browser snapshots are untrusted. The server derives its field-name/cardinality contract from restored renderer HTML, rejects unknown/reserved names and duplicate scalar values, preserves supported groups, and adds explicit blanks for omitted allowed fields.

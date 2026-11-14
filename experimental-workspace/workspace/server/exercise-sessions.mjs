@@ -56,7 +56,8 @@ function present(record, rendered) {
 /** Local persistent sessions. Accounts and attempt-history storage are separate layers. */
 export function createExerciseSessions({
   directory = env.EXERCISE_SESSION_DIR,
-  rendererClient = createRendererClient(),
+  exerciseLookup = getExerciseById,
+  rendererClient = createRendererClient({exerciseLookup}),
 } = {}) {
   if (!isText(directory) || !isAbsolute(directory)) {
     throw new ExerciseSessionError('INVALID_CONFIGURATION', 'Set EXERCISE_SESSION_DIR to an absolute storage directory.');
@@ -102,7 +103,7 @@ export function createExerciseSessions({
     } else if (ownerToken !== undefined) {
       throw new ExerciseSessionError('SESSION_NOT_FOUND', 'Exercise session was not found.');
     }
-    if (!getExerciseById(record.exerciseId)) {
+    if (!exerciseLookup(record.exerciseId)) {
       throw new ExerciseSessionError('UNKNOWN_EXERCISE', 'Stored exercise is no longer in the approved catalog.');
     }
     return record;
@@ -111,7 +112,7 @@ export function createExerciseSessions({
   return {
     async startSession(input) {
       if (!input || !isText(input.exerciseId)) throw new ExerciseSessionError('INVALID_INPUT', 'An exercise ID is required.');
-      if (!getExerciseById(input.exerciseId)) throw new ExerciseSessionError('UNKNOWN_EXERCISE', 'Exercise is not in the approved catalog.');
+      if (!exerciseLookup(input.exerciseId)) throw new ExerciseSessionError('UNKNOWN_EXERCISE', 'Exercise is not in the approved catalog.');
       if (input.ownerToken !== undefined && !isOwnerToken(input.ownerToken)) {
         throw new ExerciseSessionError('INVALID_INPUT', 'A valid owner token is required.');
       }

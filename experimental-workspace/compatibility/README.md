@@ -35,3 +35,15 @@ docker run --rm --network linear-algebra-experimental_default --mount "type=bind
 `results.json`, `scaffold-transition.json`, and paired `*-reference.png` / `*-app.png` screenshots are written to the temporary artifact directory. Screenshots are captured before entering test answers. Review/sanitize observations before replacing checked-in evidence. Do not copy raw renderer HTML or private responses into Git. Unsupported behavior is reported as evidence; probe completion does not certify every fixture as compatible.
 
 The QA image pins Playwright 1.65.1 and parse5 8.1.1 and copies the actual application modules. The original boundary study added only a named `problemHtml` export. The subsequent controlled loader adds private asset registration, reviewed dependencies, and the opaque asset endpoint documented in [ASSET_LOADING.md](../ASSET_LOADING.md). Do not rebuild the workspace while a probe is running; container replacement interrupts its imports and invalidates the run.
+
+## Full widget answer acceptance
+
+[widget-acceptance.mjs](widget-acceptance.mjs) exercises real owned HTTP sessions and the actual picker for all eleven fixtures. It runs its own temporary server inside the QA container; the normal workspace catalog remains unchanged. See [WIDGET_VERIFICATION.md](../WIDGET_VERIFICATION.md) and sanitized [widget-observations.json](widget-observations.json).
+
+After building the same QA image and creating the temporary artifact directory above, run:
+
+```powershell
+docker run --rm --network linear-algebra-experimental_default --shm-size=1g --mount type=volume,source=linear-algebra-experimental_opl,target=/opl,readonly --mount "type=bind,source=$compatibilityArtifacts,target=/artifacts" linear-algebra-compatibility-qa node compatibility/widget-acceptance.mjs
+```
+
+Optional `-e WIDGET_FIXTURES=compat-algebra-graphtool-01` selects a focused fixture. The full run writes `widget-results.json` containing scores, statuses, counts, and verification booleans only. Review the results/privacy scan before replacing checked-in evidence. Expected values, choice calibration, private tokens, and session files stay in the operator process/temp storage and are never logged. Unlike the paired probe, this runner uses fresh random session seeds and positive correctness cases. Scaffold stage changes explicitly require refresh; its report records that limitation.

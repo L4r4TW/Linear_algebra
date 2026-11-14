@@ -12,6 +12,12 @@ The [asset-loading mechanism](ASSET_LOADING.md) supports approved problem images
 
 The [matrix follow-up](COMPATIBILITY_MATRIX.md#controlled-loader-follow-up) records working static/generated images, scaffold toggles, GraphTool boards/icons, and matching sampled hidden answers. Newly revealed scaffold content still needs post-grade reconciliation. No new fixtures are enabled for students. Current validation: 76 server tests, 24 browser checks, live smoke checks, and eleven paired fixture comparisons across two generation seeds.
 
+## Widget answers and feedback
+
+[WIDGET_VERIFICATION.md](WIDGET_VERIFICATION.md) records the answer representation and collection/grading/feedback/restoration proof for each tested interaction. The GraphTool adapter observes direct hidden-value changes and connects feedback/focus to the visible graph; native numeric/formula/vector fields, nine-field matrix, choice groups, and dropdowns retain the original ordered-pair collector. All eleven operator fixtures reach full correctness and restore saved answers/feedback; cleared values remain cleared. Scaffold stage advancement/relocking explicitly requires refresh and is not automatic support.
+
+Current checks pass 77 server tests, 26 browser checks, the live smoke checks, and the real HTTP widget acceptance runner. The normal student allowlist still contains only `dot-product-01`.
+
 ## Start
 
 Start Docker Desktop with its Linux engine ready. From the repository root:

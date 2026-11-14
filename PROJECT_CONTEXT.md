@@ -8,7 +8,7 @@ The active work is the independent **experimental-workspace/** WeBWorK integrati
 
 The goal has expanded to a multi-subject practice platform covering the whole OPL, using PG mathematical grading. Design the future catalog for all subjects, while validating playable exercises in batches. Build one complete, reliable exercise flow before broadly enabling large numbers of exercises.
 
-This handoff accompanies the controlled asset-loading commit on `main`. Its preceding pushed baseline is `de7f1fd` (renderer integration contract and compatibility study). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
+This handoff accompanies the widget answer/feedback verification commit on `main`. Its preceding pushed baseline is `832fbf9` (controlled asset loading). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
 
 ## Implemented in the sandbox
 
@@ -49,6 +49,16 @@ Capabilities expire after one hour; the registry is process-local and bounded. M
 Post-loader comparisons are in [asset-loading-observations.json](experimental-workspace/compatibility/asset-loading-observations.json), with capabilities redacted. All eleven paired cases match sampled native names, answers, and grading/restoration scores without page errors. Static GIF (1/1), generated PNGs (2/2), scaffold collapse, GraphTool boards, both toolbar icons, and point interaction work. The initial observations remain the historical baseline. Operator fixture IDs remain outside the student allowlist.
 
 Verification: **76 server tests**, **24 browser checks** including resource failure/deadline/retry, API smoke, renderer-client/session/grading/submission-state smoke checks, and eleven paired fixture cases with generation at two seeds. The prior renderer crash/outage proof was not repeated because Compose startup behavior is unchanged. Dynamic scaffold content returned after grading is still not applied to the live frame; full owned-session/mobile/correct-answer widget acceptance remains before promotion.
+
+## Widget answer verification
+
+Read [WIDGET_VERIFICATION.md](experimental-workspace/WIDGET_VERIFICATION.md) and sanitized [widget-observations.json](experimental-workspace/compatibility/widget-observations.json). The existing native collector handles numeric/formula/vector strings, nine independent matrix fields, radio groups, ordered repeated checkbox pairs, dropdowns, and eligible hidden fields. `workspace/public/widget-answers.js` adds only the pinned GraphTool association: observe its direct hidden-value assignments, put feedback beside the graph, and focus visible controls. Feedback now preserves choice labels/group layout. No graph syntax is synthesized and no backend answer allowlist comes from the browser.
+
+The new `compatibility/widget-acceptance.mjs` runs the actual picker/owned API/client/session/feedback stack in a temporary container-local HTTP app. Server-only `exerciseLookup` and `exerciseList` factory hooks supply the operator catalog; normal defaults still expose one approved exercise. Fresh random session seeds remain stable. All eleven fixtures pass blank, wrong/invalid, correct (score 1), saved-answer/feedback restoration without regrading, clearing (score 0), cleared restoration, and owner rejection. GraphTool also passes real wrong/partial/correct point plotting, stale feedback after clear, hidden-change notification, and Return to answers focus. The matrix is nine scalar inputs, not a compound editor.
+
+Scaffold Part 1 scores 0.5; explicit refresh exposes Part 2 and permits score 1. Clearing Part 1 relocks two fields on refresh. The report compares still-available cleared fields and records removed blank fields. Automatic stage advancement/relocking is still outstanding; do not claim a seamless staged UI or enable all fixtures yet.
+
+Current validation: **77 server tests**, **26 browser checks**, all five live Node smoke checks, and eleven real owned HTTP widget cases. Prior fixed-seed comparisons and outage verification remain separate historical evidence. No private answers, session files, JWTs, cookies, or instructor maps are committed in the observations. Next work remains post-grade reconciliation and per-widget keyboard/mobile acceptance before catalog promotion.
 
 ## Start or resume locally
 
@@ -174,8 +184,9 @@ preserve the renderer PID cleanup and outage/recovery checks. Actual screen-read
 listening is still a manual release check. Read INTEGRATION_CONTRACT.md and
 COMPATIBILITY_MATRIX.md in experimental-workspace, then reproduce the operator
 compatibility probes. Read ASSET_LOADING.md: approved asset delivery and dependency
-initialization are implemented. Continue with scaffold content updates and full
-widget acceptance before enabling the candidate exercises.
+initialization are implemented. Read WIDGET_VERIFICATION.md: answer collection, grading, feedback and restoration
+are verified in operator sessions. Continue with automatic stage updates and
+per-widget mobile/keyboard acceptance before enabling the candidate exercises.
 Keep the original Next.js/Supabase application separate.
 ```
 

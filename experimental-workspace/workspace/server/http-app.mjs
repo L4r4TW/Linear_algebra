@@ -163,6 +163,7 @@ const publicFiles = new Map([
   ['/assets/picker.js', ['picker.js', 'text/javascript; charset=utf-8']],
   ['/assets/picker.css', ['picker.css', 'text/css; charset=utf-8']],
   ['/assets/exercise-frame.js', ['exercise-frame.js', 'text/javascript; charset=utf-8']],
+  ['/assets/widget-answers.js', ['widget-answers.js', 'text/javascript; charset=utf-8']],
   ['/assets/field-feedback.js', ['field-feedback.js', 'text/javascript; charset=utf-8']],
   ['/assets/answer-fields.js', ['answer-fields.js', 'text/javascript; charset=utf-8']],
   ['/assets/answer-bridge.js', ['answer-bridge.js', 'text/javascript; charset=utf-8']],
@@ -172,6 +173,7 @@ const publicFiles = new Map([
 /** Local prototype with anonymous browser ownership; account authentication comes later. */
 export function createApp({
   sessions = createExerciseSessions(),
+  exerciseList = listExercises,
   origin = env.APP_ORIGIN ?? 'http://localhost:3100',
   rendererBaseUrl = env.RENDERER_URL,
 } = {}) {
@@ -201,7 +203,7 @@ export function createApp({
           response.setHeader('Allow', 'GET');
           throw new ApiError(405, 'METHOD_NOT_ALLOWED', 'Use GET for this endpoint.');
         }
-        json(response, 200, { exercises: listExercises() });
+        json(response, 200, { exercises: exerciseList() });
         return;
       }
       if (url.pathname === '/api/sessions') {

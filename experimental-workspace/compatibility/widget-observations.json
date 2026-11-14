@@ -1,0 +1,825 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-14T22:44:38.915Z",
+  "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+  "rendererRevision": "1134ffbbf5e656148e579f424f70bcd9f1d15936",
+  "scope": "Operator-only temporary HTTP application using injected server catalogs and the real renderer client, owned sessions, picker, sandbox, answer bridge, grading, feedback and persistence. Production defaults are unchanged. Positive fixtures use expected values only in operator memory.",
+  "exercises": [
+    {
+      "id": "dot-product-01",
+      "interaction": "text",
+      "seedPolicy": "fresh random seed preserved in private session",
+      "sourceVerified": true,
+      "phase": "complete",
+      "initialFieldCount": 4,
+      "blank": {
+        "score": 0,
+        "statuses": [
+          "unanswered",
+          "unanswered",
+          "unanswered",
+          "unanswered"
+        ],
+        "feedbackCount": 4
+      },
+      "incorrectOrInvalid": {
+        "score": 0.75,
+        "statuses": [
+          "invalid",
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "feedbackCount": 4
+      },
+      "correct": {
+        "score": 1,
+        "statuses": [
+          "correct",
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "feedbackCount": 4
+      },
+      "fieldCount": 4,
+      "collection": {
+        "fieldCount": 4,
+        "pairCount": 4,
+        "repeatedPairs": 0,
+        "helperFieldsExcluded": true
+      },
+      "privateRendererDataOmitted": true,
+      "restoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 4
+      },
+      "cleared": {
+        "score": 0,
+        "statuses": [
+          "unanswered",
+          "unanswered",
+          "unanswered",
+          "unanswered"
+        ],
+        "feedbackCount": 4
+      },
+      "clearedRestoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 4
+      },
+      "ownershipProtected": true,
+      "seedPreserved": true,
+      "pageErrors": 0,
+      "passed": true
+    },
+    {
+      "id": "compat-calculus-numeric-01",
+      "interaction": "text",
+      "seedPolicy": "fresh random seed preserved in private session",
+      "sourceVerified": true,
+      "phase": "complete",
+      "initialFieldCount": 1,
+      "blank": {
+        "score": 0,
+        "statuses": [
+          "unanswered"
+        ],
+        "feedbackCount": 1
+      },
+      "incorrectOrInvalid": {
+        "score": 0,
+        "statuses": [
+          "invalid"
+        ],
+        "feedbackCount": 1
+      },
+      "correct": {
+        "score": 1,
+        "statuses": [
+          "correct"
+        ],
+        "feedbackCount": 1
+      },
+      "fieldCount": 1,
+      "collection": {
+        "fieldCount": 1,
+        "pairCount": 1,
+        "repeatedPairs": 0,
+        "helperFieldsExcluded": true
+      },
+      "privateRendererDataOmitted": true,
+      "restoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 1
+      },
+      "cleared": {
+        "score": 0,
+        "statuses": [
+          "unanswered"
+        ],
+        "feedbackCount": 1
+      },
+      "clearedRestoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 1
+      },
+      "ownershipProtected": true,
+      "seedPreserved": true,
+      "pageErrors": 0,
+      "passed": true
+    },
+    {
+      "id": "compat-calculus-formula-01",
+      "interaction": "text",
+      "seedPolicy": "fresh random seed preserved in private session",
+      "sourceVerified": true,
+      "phase": "complete",
+      "initialFieldCount": 1,
+      "blank": {
+        "score": 0,
+        "statuses": [
+          "unanswered"
+        ],
+        "feedbackCount": 1
+      },
+      "incorrectOrInvalid": {
+        "score": 0,
+        "statuses": [
+          "invalid"
+        ],
+        "feedbackCount": 1
+      },
+      "correct": {
+        "score": 1,
+        "statuses": [
+          "correct"
+        ],
+        "feedbackCount": 1
+      },
+      "fieldCount": 1,
+      "collection": {
+        "fieldCount": 1,
+        "pairCount": 1,
+        "repeatedPairs": 0,
+        "helperFieldsExcluded": true
+      },
+      "privateRendererDataOmitted": true,
+      "restoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 1
+      },
+      "cleared": {
+        "score": 0,
+        "statuses": [
+          "unanswered"
+        ],
+        "feedbackCount": 1
+      },
+      "clearedRestoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 1
+      },
+      "ownershipProtected": true,
+      "seedPreserved": true,
+      "pageErrors": 0,
+      "passed": true
+    },
+    {
+      "id": "compat-matrix-grid-01",
+      "interaction": "text",
+      "seedPolicy": "fresh random seed preserved in private session",
+      "sourceVerified": true,
+      "phase": "complete",
+      "initialFieldCount": 9,
+      "blank": {
+        "score": 0,
+        "statuses": [
+          "unanswered",
+          "unanswered",
+          "unanswered",
+          "unanswered",
+          "unanswered",
+          "unanswered",
+          "unanswered",
+          "unanswered",
+          "unanswered"
+        ],
+        "feedbackCount": 9
+      },
+      "incorrectOrInvalid": {
+        "score": 0.888888888888889,
+        "statuses": [
+          "invalid",
+          "correct",
+          "correct",
+          "correct",
+          "correct",
+          "correct",
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "feedbackCount": 9
+      },
+      "correct": {
+        "score": 1,
+        "statuses": [
+          "correct",
+          "correct",
+          "correct",
+          "correct",
+          "correct",
+          "correct",
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "feedbackCount": 9
+      },
+      "fieldCount": 9,
+      "collection": {
+        "fieldCount": 9,
+        "pairCount": 9,
+        "repeatedPairs": 0,
+        "helperFieldsExcluded": true
+      },
+      "privateRendererDataOmitted": true,
+      "restoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 9
+      },
+      "cleared": {
+        "score": 0,
+        "statuses": [
+          "unanswered",
+          "unanswered",
+          "unanswered",
+          "unanswered",
+          "unanswered",
+          "unanswered",
+          "unanswered",
+          "unanswered",
+          "unanswered"
+        ],
+        "feedbackCount": 9
+      },
+      "clearedRestoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 9
+      },
+      "ownershipProtected": true,
+      "seedPreserved": true,
+      "pageErrors": 0,
+      "passed": true
+    },
+    {
+      "id": "compat-statistics-radio-01",
+      "interaction": "radio",
+      "seedPolicy": "fresh random seed preserved in private session",
+      "sourceVerified": true,
+      "phase": "complete",
+      "initialFieldCount": 4,
+      "blank": {
+        "score": 0,
+        "statuses": [
+          "unanswered",
+          "unanswered",
+          "unanswered",
+          "unanswered"
+        ],
+        "feedbackCount": 4
+      },
+      "incorrectOrInvalid": {
+        "score": 0.75,
+        "statuses": [
+          "incorrect",
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "feedbackCount": 4
+      },
+      "correct": {
+        "score": 1,
+        "statuses": [
+          "correct",
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "feedbackCount": 4
+      },
+      "fieldCount": 4,
+      "collection": {
+        "fieldCount": 4,
+        "pairCount": 4,
+        "repeatedPairs": 0,
+        "helperFieldsExcluded": true
+      },
+      "privateRendererDataOmitted": true,
+      "restoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 4
+      },
+      "cleared": {
+        "score": 0,
+        "statuses": [
+          "unanswered",
+          "unanswered",
+          "unanswered",
+          "unanswered"
+        ],
+        "feedbackCount": 4
+      },
+      "clearedRestoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 4
+      },
+      "ownershipProtected": true,
+      "seedPreserved": true,
+      "pageErrors": 0,
+      "passed": true
+    },
+    {
+      "id": "compat-algebra-checkbox-01",
+      "interaction": "checkbox",
+      "seedPolicy": "fresh random seed preserved in private session",
+      "sourceVerified": true,
+      "phase": "complete",
+      "initialFieldCount": 3,
+      "blank": {
+        "score": 0,
+        "statuses": [
+          "unanswered",
+          "unanswered",
+          "unanswered"
+        ],
+        "feedbackCount": 3
+      },
+      "incorrectOrInvalid": {
+        "score": 0.666666666666667,
+        "statuses": [
+          "invalid",
+          "correct",
+          "correct"
+        ],
+        "feedbackCount": 3
+      },
+      "correct": {
+        "score": 1,
+        "statuses": [
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "feedbackCount": 3
+      },
+      "fieldCount": 3,
+      "collection": {
+        "fieldCount": 3,
+        "pairCount": 4,
+        "repeatedPairs": 1,
+        "helperFieldsExcluded": true
+      },
+      "privateRendererDataOmitted": true,
+      "restoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 3
+      },
+      "cleared": {
+        "score": 0,
+        "statuses": [
+          "unanswered",
+          "unanswered",
+          "unanswered"
+        ],
+        "feedbackCount": 3
+      },
+      "clearedRestoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 3
+      },
+      "ownershipProtected": true,
+      "seedPreserved": true,
+      "pageErrors": 0,
+      "passed": true
+    },
+    {
+      "id": "compat-economics-popup-01",
+      "interaction": "select",
+      "seedPolicy": "fresh random seed preserved in private session",
+      "sourceVerified": true,
+      "phase": "complete",
+      "initialFieldCount": 4,
+      "blank": {
+        "score": 0,
+        "statuses": [
+          "unanswered",
+          "incorrect",
+          "unanswered",
+          "unanswered"
+        ],
+        "feedbackCount": 4
+      },
+      "incorrectOrInvalid": {
+        "score": 0.75,
+        "statuses": [
+          "invalid",
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "feedbackCount": 4
+      },
+      "correct": {
+        "score": 1,
+        "statuses": [
+          "correct",
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "feedbackCount": 4
+      },
+      "fieldCount": 4,
+      "collection": {
+        "fieldCount": 4,
+        "pairCount": 4,
+        "repeatedPairs": 0,
+        "helperFieldsExcluded": true
+      },
+      "privateRendererDataOmitted": true,
+      "restoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 4
+      },
+      "cleared": {
+        "score": 0,
+        "statuses": [
+          "unanswered",
+          "incorrect",
+          "unanswered",
+          "unanswered"
+        ],
+        "feedbackCount": 4
+      },
+      "clearedRestoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 4
+      },
+      "ownershipProtected": true,
+      "seedPreserved": true,
+      "pageErrors": 0,
+      "passed": true
+    },
+    {
+      "id": "compat-calculus-scaffold-01",
+      "interaction": "scaffold",
+      "seedPolicy": "fresh random seed preserved in private session",
+      "sourceVerified": true,
+      "phase": "complete",
+      "initialFieldCount": 2,
+      "blank": {
+        "score": 0,
+        "statuses": [
+          "unanswered",
+          "unanswered"
+        ],
+        "feedbackCount": 2
+      },
+      "incorrectOrInvalid": {
+        "score": 0.25,
+        "statuses": [
+          "invalid",
+          "correct"
+        ],
+        "feedbackCount": 2
+      },
+      "firstStage": {
+        "score": 0.5,
+        "statuses": [
+          "correct",
+          "correct"
+        ],
+        "feedbackCount": 2
+      },
+      "stageLifecycle": {
+        "requiresReload": true,
+        "beforeFields": 2,
+        "afterFields": 4
+      },
+      "correct": {
+        "score": 1,
+        "statuses": [
+          "correct",
+          "correct",
+          "correct",
+          "correct"
+        ],
+        "feedbackCount": 4
+      },
+      "fieldCount": 4,
+      "collection": {
+        "fieldCount": 4,
+        "pairCount": 5,
+        "repeatedPairs": 1,
+        "helperFieldsExcluded": true
+      },
+      "privateRendererDataOmitted": true,
+      "restoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 4
+      },
+      "cleared": {
+        "score": 0,
+        "statuses": [
+          "unanswered",
+          "unanswered",
+          "unanswered",
+          "unanswered"
+        ],
+        "feedbackCount": 4
+      },
+      "clearedRestoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 2,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 2
+      },
+      "ownershipProtected": true,
+      "seedPreserved": true,
+      "pageErrors": 0,
+      "passed": true
+    },
+    {
+      "id": "compat-algebra-image-01",
+      "interaction": "image",
+      "seedPolicy": "fresh random seed preserved in private session",
+      "sourceVerified": true,
+      "phase": "complete",
+      "initialFieldCount": 2,
+      "blank": {
+        "score": 0,
+        "statuses": [
+          "unanswered",
+          "unanswered"
+        ],
+        "feedbackCount": 2
+      },
+      "incorrectOrInvalid": {
+        "score": 0.5,
+        "statuses": [
+          "invalid",
+          "correct"
+        ],
+        "feedbackCount": 2
+      },
+      "correct": {
+        "score": 1,
+        "statuses": [
+          "correct",
+          "correct"
+        ],
+        "feedbackCount": 2
+      },
+      "fieldCount": 2,
+      "collection": {
+        "fieldCount": 2,
+        "pairCount": 2,
+        "repeatedPairs": 0,
+        "helperFieldsExcluded": true
+      },
+      "privateRendererDataOmitted": true,
+      "restoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 2
+      },
+      "cleared": {
+        "score": 0,
+        "statuses": [
+          "unanswered",
+          "unanswered"
+        ],
+        "feedbackCount": 2
+      },
+      "clearedRestoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 2
+      },
+      "ownershipProtected": true,
+      "seedPreserved": true,
+      "pageErrors": 0,
+      "passed": true
+    },
+    {
+      "id": "compat-calculus-graph-01",
+      "interaction": "image",
+      "seedPolicy": "fresh random seed preserved in private session",
+      "sourceVerified": true,
+      "phase": "complete",
+      "initialFieldCount": 1,
+      "blank": {
+        "score": 0,
+        "statuses": [
+          "unanswered"
+        ],
+        "feedbackCount": 1
+      },
+      "incorrectOrInvalid": {
+        "score": 0,
+        "statuses": [
+          "invalid"
+        ],
+        "feedbackCount": 1
+      },
+      "correct": {
+        "score": 1,
+        "statuses": [
+          "correct"
+        ],
+        "feedbackCount": 1
+      },
+      "fieldCount": 1,
+      "collection": {
+        "fieldCount": 1,
+        "pairCount": 1,
+        "repeatedPairs": 0,
+        "helperFieldsExcluded": true
+      },
+      "privateRendererDataOmitted": true,
+      "restoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 1
+      },
+      "cleared": {
+        "score": 0,
+        "statuses": [
+          "unanswered"
+        ],
+        "feedbackCount": 1
+      },
+      "clearedRestoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 1
+      },
+      "ownershipProtected": true,
+      "seedPreserved": true,
+      "pageErrors": 0,
+      "passed": true
+    },
+    {
+      "id": "compat-algebra-graphtool-01",
+      "interaction": "graph-tool",
+      "seedPolicy": "fresh random seed preserved in private session",
+      "sourceVerified": true,
+      "phase": "complete",
+      "initialFieldCount": 1,
+      "blank": {
+        "score": 0,
+        "statuses": [
+          "unanswered"
+        ],
+        "feedbackCount": 1
+      },
+      "hiddenChangeNotified": true,
+      "incorrect": {
+        "score": 0,
+        "statuses": [
+          "incorrect"
+        ],
+        "feedbackCount": 1
+      },
+      "staleFeedbackOnClear": true,
+      "partial": {
+        "score": 0.166666666666667,
+        "statuses": [
+          "partial"
+        ],
+        "feedbackCount": 1
+      },
+      "correct": {
+        "score": 1,
+        "statuses": [
+          "correct"
+        ],
+        "feedbackCount": 1
+      },
+      "fieldCount": 1,
+      "collection": {
+        "fieldCount": 1,
+        "pairCount": 1,
+        "repeatedPairs": 0,
+        "helperFieldsExcluded": true
+      },
+      "privateRendererDataOmitted": true,
+      "restoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 1
+      },
+      "graphFocus": true,
+      "cleared": {
+        "score": 0,
+        "statuses": [
+          "unanswered"
+        ],
+        "feedbackCount": 1
+      },
+      "clearedRestoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 1
+      },
+      "ownershipProtected": true,
+      "seedPreserved": true,
+      "pageErrors": 0,
+      "passed": true
+    }
+  ],
+  "complete": true
+}

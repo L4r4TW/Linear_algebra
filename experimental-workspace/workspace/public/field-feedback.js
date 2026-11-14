@@ -1,3 +1,5 @@
+import { collectAnswerFields } from './answer-fields.js';
+import { answerPresentation } from './widget-answers.js';
 /** Compare values by field, retaining duplicate order and treating omitted groups as blank. */
 export function matchesSubmittedAnswers(entries, submitted, names) {
   const values = (pairs, name) => {
@@ -11,9 +13,8 @@ export function matchesSubmittedAnswers(entries, submitted, names) {
 export function renderFieldFeedback(root, fields, submitted) {
   if (!root || !Array.isArray(fields) || !Array.isArray(submitted)) return;
   const entries = collectAnswerFields(root).entries;
-  const controls = [...root.querySelectorAll('input,textarea,select')];
   for (const node of root.querySelectorAll('[data-practice-feedback]')) node.remove();
-  for (const control of controls) {
+  for (const control of root.querySelectorAll('[data-practice-description]')) {
     const id = control.getAttribute('data-practice-description');
     if (!id) continue;
     const described = (control.getAttribute('aria-describedby') ?? '').split(/\s+/).filter((part) => part && part !== id);
@@ -33,8 +34,9 @@ export function renderFieldFeedback(root, fields, submitted) {
   };
   for (const [index, field] of fields.entries()) {
     if (!field || typeof field.name !== 'string' || !descriptions[field.status] || typeof field.message !== 'string') continue;
-    const related = controls.filter((control) => control.name === field.name && control.type !== 'hidden' && !control.disabled);
-    if (!related.length) continue;
+    const presentation=answerPresentation(root,field.name);
+    if(!presentation)continue;
+    const related=presentation.targets;
     const changed = !matchesSubmittedAnswers(entries, submitted, [field.name]);
     const status = changed ? 'changed' : field.status;
     const [label, fallback] = descriptions[status];
@@ -48,7 +50,7 @@ export function renderFieldFeedback(root, fields, submitted) {
     const message = document.createElement('span');
     message.textContent = !changed && field.message ? field.message : fallback;
     box.append(heading, message);
-    related.at(-1).insertAdjacentElement('afterend', box);
+    presentation.anchor.insertAdjacentElement('afterend', box);
     for (const control of related) {
       const previous = control.getAttribute('aria-describedby');
       control.setAttribute('aria-describedby', (previous ? previous + ' ' : '') + box.id);

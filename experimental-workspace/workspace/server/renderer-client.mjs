@@ -69,11 +69,11 @@ function validateResponse(data, exerciseId, seed) {
   };
 }
 
-function validateExerciseInput(input) {
+function validateExerciseInput(input, exerciseLookup) {
   if (!isRecord(input) || !isText(input.exerciseId)) {
     throw new RendererClientError('INVALID_INPUT', 'An exercise ID is required.');
   }
-  const exercise = getExerciseById(input.exerciseId);
+  const exercise = exerciseLookup(input.exerciseId);
   if (!exercise) throw new RendererClientError('UNKNOWN_EXERCISE', 'Exercise is not in the approved catalog.');
   if (!Number.isInteger(input.seed) || input.seed < 1 || input.seed > 2_147_483_647) {
     throw new RendererClientError('INVALID_INPUT', 'Seed must be an integer between 1 and 2147483647.');
@@ -82,7 +82,7 @@ function validateExerciseInput(input) {
 }
 
 /** Node-only client. Configuration and persisted session tokens are trusted server data. */
-export function createRendererClient({ baseUrl = env.RENDERER_URL, timeoutMs = 30_000 } = {}) {
+export function createRendererClient({ baseUrl = env.RENDERER_URL, timeoutMs = 30_000, exerciseLookup = getExerciseById } = {}) {
   let endpoint;
   try {
     if (!isText(baseUrl)) throw new Error('Missing URL');
@@ -151,7 +151,7 @@ export function createRendererClient({ baseUrl = env.RENDERER_URL, timeoutMs = 3
 
   return {
     async loadExercise(input) {
-      const exercise = validateExerciseInput(input);
+      const exercise = validateExerciseInput(input, exerciseLookup);
       return request({
         sourceFilePath: exercise.renderer.sourceFilePath,
         problemSeed: String(input.seed),
@@ -164,7 +164,7 @@ export function createRendererClient({ baseUrl = env.RENDERER_URL, timeoutMs = 3
     },
 
     async submitAnswers(input) {
-      validateExerciseInput(input);
+      validateExerciseInput(input, exerciseLookup);
       if (!isText(input.sessionToken)) {
         throw new RendererClientError('INVALID_INPUT', 'A stored renderer session token is required.');
       }
@@ -183,7 +183,7 @@ export function createRendererClient({ baseUrl = env.RENDERER_URL, timeoutMs = 3
       ], input.exerciseId, input.seed, input.answers);
     },
     async restoreSession(input) {
-      validateExerciseInput(input);
+      validateExerciseInput(input, exerciseLookup);
       if (!isText(input.sessionToken)) {
         throw new RendererClientError('INVALID_INPUT', 'A stored renderer session token is required.');
       }

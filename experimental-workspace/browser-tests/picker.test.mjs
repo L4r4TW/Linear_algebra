@@ -881,3 +881,40 @@ test('a failed dependency keeps grading disabled after the deadline and retry re
  assert.equal(await page.locator('#check-answer').isEnabled(),true);
  assert.equal(await page.locator('.exercise-frame').getAttribute('sandbox'),'allow-scripts');
 });
+test('GraphTool observation is limited to the mapped answer, preserves native values, and cleans up',async(t)=>{
+ const page=await pageFor(t);await page.goto(baseUrl);
+ const result=await page.evaluate(async()=>{
+  const {installGraphAnswerAdapters}=await import('/assets/widget-answers.js');
+  const {collectAnswerFields}=await import('/assets/answer-fields.js');
+  const root=document.createElement('div');
+  root.innerHTML='<div class="graphtool-outer-container"><input type="hidden" id="AnSwEr0001" name="AnSwEr0001"><input type="hidden" id="MaThQuIlL_AnSwEr0001" name="MaThQuIlL_AnSwEr0001"><div class="graphtool-container" id="AnSwEr0001_graphbox"></div></div><input type="hidden" id="other" name="other">';
+  let changes=0;const dispose=installGraphAnswerAdapters(root,()=>changes++);
+  const answer=root.querySelector('#AnSwEr0001');answer.value='{point,(1,2)}';answer.value='{point,(1,2)}';
+  root.querySelector('#MaThQuIlL_AnSwEr0001').value='helper';root.querySelector('#other').value='unrelated';
+  const observed=changes,snapshot=collectAnswerFields(root);
+  dispose();answer.value='';
+  return {observed,afterCleanup:changes,snapshot,cleared:answer.value};
+ });
+ assert.equal(result.observed,1);assert.equal(result.afterCleanup,1);assert.equal(result.cleared,'');
+ assert.deepEqual(result.snapshot,{fieldNames:['AnSwEr0001','other'],entries:[['AnSwEr0001','{point,(1,2)}'],['other','unrelated']]});
+});
+
+test('widget feedback describes the visible graph and keeps choice labels together using plain text',async(t)=>{
+ const page=await pageFor(t);await page.goto(baseUrl);
+ const result=await page.evaluate(async()=>{
+  const {renderFieldFeedback}=await import('/assets/field-feedback.js');
+  const root=document.createElement('div');document.body.append(root);
+  root.innerHTML='<div class="graphtool-outer-container"><input type="hidden" id="AnSwEr0001" name="AnSwEr0001" value="graph"><div class="graphtool-container" id="AnSwEr0001_graphbox"><button>Plot point</button></div></div><div class="checkboxes-container"><label><input type="checkbox" name="choices" value="a" checked>Choice A</label><label><input type="checkbox" name="choices" value="b" checked>Choice B</label></div>';
+  const fields=[{name:'AnSwEr0001',status:'partial',message:'<img src=x> Hint'},{name:'choices',status:'correct',message:'Good choices'}];
+  const submitted=[['AnSwEr0001','graph'],['choices','a'],['choices','b']];
+  renderFieldFeedback(root,fields,submitted);
+  const graph=root.querySelector('.graphtool-container'),button=graph.querySelector('button');
+  const described=button.getAttribute('aria-describedby');
+  const initial={count:root.querySelectorAll('[data-practice-feedback]').length,graphDescribed:graph.getAttribute('aria-describedby')===described&&Boolean(root.querySelector('#'+described)),groupFeedback:root.querySelector('.checkboxes-container').nextElementSibling.dataset.status,labelIntact:root.querySelectorAll('label [data-practice-feedback]').length===0,plainText:root.querySelector('.field-feedback span').textContent,executable:root.querySelectorAll('img').length};
+  root.querySelector('input[name="AnSwEr0001"]').value='edited';renderFieldFeedback(root,fields,submitted);
+  const changed=root.querySelector('.graphtool-outer-container').nextElementSibling.dataset.status;
+  renderFieldFeedback(root,[],[]);const cleaned=!button.hasAttribute('aria-describedby')&&!graph.hasAttribute('aria-describedby');root.remove();
+  return {initial,changed,cleaned};
+ });
+ assert.equal(result.initial.count,2);assert.equal(result.initial.graphDescribed,true);assert.equal(result.initial.groupFeedback,'correct');assert.equal(result.initial.labelIntact,true);assert.equal(result.initial.executable,0);assert.equal(result.initial.plainText,'<img src=x> Hint');assert.equal(result.changed,'changed');assert.equal(result.cleaned,true);
+});

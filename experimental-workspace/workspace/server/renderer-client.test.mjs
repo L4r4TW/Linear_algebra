@@ -266,3 +266,14 @@ test('does not accept missing or malformed private grading tokens as complete gr
     await assert.rejects(client.submitAnswers({...input,sessionToken:'stored',answers:[['AnSwEr0001','1']]}), hasCode('INVALID_RESPONSE'));
   }
 });
+
+test('operator catalog injection is server configuration and never forwards browser renderer parameters', async(t)=>{
+ let fields;
+ const baseUrl=await serve(t,async(req,res)=>{let body='';for await(const chunk of req)body+=chunk;fields=new URLSearchParams(body);res.setHeader('Content-Type','application/json');res.end(JSON.stringify(valid()));});
+ const client=createRendererClient({baseUrl,exerciseLookup:id=>id==='operator-fixture'?{renderer:{sourceFilePath:'Library/operator-approved.pg'}}:undefined});
+ await client.loadExercise({exerciseId:'operator-fixture',seed:1234,isInstructor:1,sourceFilePath:'Library/untrusted.pg'});
+ assert.equal(fields.get('sourceFilePath'),'Library/operator-approved.pg');
+ assert.equal(fields.get('isInstructor'),'0');
+ await assert.rejects(client.loadExercise({exerciseId:'Library/untrusted.pg',seed:1234}),hasCode('UNKNOWN_EXERCISE'));
+ await assert.rejects(createRendererClient({baseUrl}).loadExercise({exerciseId:'operator-fixture',seed:1234}),hasCode('UNKNOWN_EXERCISE'));
+});

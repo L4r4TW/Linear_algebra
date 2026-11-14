@@ -73,3 +73,9 @@ The matrix above preserves the pre-loader baseline. [ASSET_LOADING.md](ASSET_LOA
 | GraphTool | Initializes three SVG boards (including auxiliary boards), displays both toolbar icons, and the tested point action updates the hidden answer. Sampled pairs match the official renderer. | Correct-answer, retry/refresh, keyboard, and mobile acceptance for this widget. |
 
 All eleven paired cases finished without application page errors; native field names, sampled pairs, and sampled grading/restoration scores match the reference. These are operator comparisons, not approval of eleven student exercises. The public allowlist still contains only `dot-product-01`. Original form submission helpers, MathQuill enhancement, and arbitrary widget dependencies are still excluded.
+
+## Widget collection, grading, feedback, and restoration follow-up
+
+[WIDGET_VERIFICATION.md](WIDGET_VERIFICATION.md) and [widget-observations.json](compatibility/widget-observations.json) add positive real-owned-HTTP acceptance for all eleven operator fixtures. All reach score 1, restore saved answers and per-field feedback without regrading, then clear to 0 and restore cleared state. The tested vector is one MathObjects vector string; the matrix is nine scalar names. Radio, modern/legacy checkbox, and dropdown values retain generated names and ordered repeated pairs.
+
+GraphTool now has a narrow direct-hidden-value observer, visible field feedback, stale feedback on edits/clear, and focus routing. Real point placements verify wrong, partial, and correct grades plus restoration. The scaffold flow is conditional: refresh reveals newly unlocked fields or relocks cleared stages; automatic in-place reconciliation remains outstanding. These results do not enable the fixtures in the production-default picker or establish every widget's mobile/keyboard behavior.

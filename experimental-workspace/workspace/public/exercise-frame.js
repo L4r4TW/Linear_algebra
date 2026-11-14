@@ -1,5 +1,6 @@
 import { renderFieldFeedback, matchesSubmittedAnswers } from './field-feedback.js';
 import { collectAnswerFields, isAnswerFieldName } from './answer-fields.js';
+import { graphAnswerControl, answerPresentation, installGraphAnswerAdapters } from './widget-answers.js';
 
 function escapeAttribute(value) {
   return value.replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
@@ -70,6 +71,9 @@ const parentOrigin=${JSON.stringify(scriptUrl.origin)};
 const isAnswerFieldName=${isAnswerFieldName.toString()};
 const collectAnswerFields=${collectAnswerFields.toString()};
 const matchesSubmittedAnswers=${matchesSubmittedAnswers.toString()};
+const graphAnswerControl=${graphAnswerControl.toString()};
+const answerPresentation=${answerPresentation.toString()};
+const installGraphAnswerAdapters=${installGraphAnswerAdapters.toString()};
 const renderFieldFeedback=${renderFieldFeedback.toString()};
 const shouldSubmitOnEnter=${shouldSubmitOnEnter.toString()};
 let feedbackFields=[];
@@ -98,9 +102,8 @@ window.addEventListener('message',event=>{
     resize();
   }else if(event.data.type==='focus-answer'&&typeof event.data.name==='string'){
     const root=document.getElementById('problem_body');
-    const fields=[...root.querySelectorAll('input,textarea,select')].filter(field=>
-      field.name===event.data.name&&field.type!=='hidden'&&!field.disabled);
-    const field=fields.find(field=>field.checked)||fields[0];
+    const field=answerPresentation(root,event.data.name)?.focus;
+
     if(field){field.focus();field.scrollIntoView({block:'center',inline:'nearest'});}
   }
 });
@@ -112,6 +115,8 @@ function answersChanged(){
 window.addEventListener('DOMContentLoaded',()=>{
   document.querySelectorAll('.ww-feedback-btn').forEach(node=>node.remove());
   document.querySelectorAll('input,textarea,select').forEach(node=>node.classList.remove('correct','incorrect','partially-correct'));
+  const dispose=installGraphAnswerAdapters(document.getElementById('problem_body'),answersChanged);
+  window.addEventListener('pagehide',dispose,{once:true});
   applyFeedback();
   for(const type of ['focusin','pointerdown','keydown','input','change','wheel','touchstart'])document.addEventListener(type,()=>{
     parent.postMessage({channel,type:'exercise-interaction'},parentOrigin);
