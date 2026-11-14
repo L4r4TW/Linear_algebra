@@ -43,7 +43,7 @@ The outage option briefly interrupts only the experimental renderer and restores
 
 A new [integration contract](experimental-workspace/INTEGRATION_CONTRACT.md) and [compatibility matrix](experimental-workspace/COMPATIBILITY_MATRIX.md) document eleven real OPL fixtures at two seeds. Seven native-answer paths include the existing baseline; four fixtures expose gaps in static/generated images, staged content, and GraphTool. The [operator test catalog](experimental-workspace/compatibility/catalog.json) does not expand the student catalog. This study passed 69 server tests and the live API smoke check; the earlier 23-check acceptance suite was not rerun for it.
 
-Next, address asset delivery, PG dependencies, and post-grade content updates, then validate candidates through full owned sessions before enabling them. Build the multi-subject database catalog and repeatable importer around explicit verification status.
+The [controlled asset loader](experimental-workspace/ASSET_LOADING.md) now supports the tested images, ordered PG scripts/styles, GraphTool toolbar/state, and scaffold toggles while keeping renderer paths and tokens private. The follow-up passes 76 server tests, 24 browser checks, and all eleven paired fixture comparisons. Next, address post-grade content updates and validate candidates through full owned sessions before enabling them. Build the multi-subject database catalog and repeatable importer around explicit verification status.
 
 Source is copied into Docker images: rebuild after edits. Saved sessions survive rebuilds in a named volume; `docker compose down --volumes` deletes them. Keep renderer/editor ports private; this development setup is not ready for public deployment.
 

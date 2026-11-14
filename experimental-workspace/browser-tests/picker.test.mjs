@@ -863,3 +863,21 @@ test('real browser sessions enforce ownership across owned and anonymous context
   assert.equal((await ownedSnapshot(other)).submission,null);
   assert.ok((await other.frameLocator('.exercise-frame').locator('input[name^=AnSwEr]').evaluateAll(fields=>fields.map(field=>field.value))).every(value=>value===''));
 });
+
+test('a failed dependency keeps grading disabled after the deadline and retry restores the same session', {timeout:90_000}, async(t)=>{
+ const page=await pageFor(t);
+ await page.route(baseUrl+'/assets/exercise/**',route=>route.abort('failed'));
+ await page.goto(baseUrl);await choices(page);
+ await page.locator('.exercise-choice').first().click();
+ await page.getByText('Exercise resources could not load. Retry before checking answers.').waitFor();
+ const id=sessionId(page);
+ assert.equal(await page.locator('#check-answer').isEnabled(),false);
+ await page.waitForTimeout(21_000);
+ assert.equal(await page.locator('#check-answer').isEnabled(),false);
+ await page.unroute(baseUrl+'/assets/exercise/**');
+ await page.getByRole('button',{name:'Retry exercise',exact:true}).click();
+ await ready(page);
+ assert.equal(sessionId(page),id);
+ assert.equal(await page.locator('#check-answer').isEnabled(),true);
+ assert.equal(await page.locator('.exercise-frame').getAttribute('sandbox'),'allow-scripts');
+});

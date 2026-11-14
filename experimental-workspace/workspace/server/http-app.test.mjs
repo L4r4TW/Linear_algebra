@@ -420,3 +420,33 @@ test('operator compatibility fixture IDs do not expand the student exercise allo
   assert.equal((await response.json()).error.code,'UNKNOWN_EXERCISE');
   assert.equal(f.calls.load.length,0);
 });
+
+test('serves only opaque registered assets without exposing paths, tokens, or fetch parameters', async(t)=>{
+ const upstream=createServer((req,res)=>{
+   if(req.url==='/pg_files/tmp/images/aa___bb.png'){res.writeHead(200,{'Content-Type':'image/png'});res.end('image');}
+   else{res.writeHead(404);res.end();}
+ });
+ upstream.listen(0,'127.0.0.1');await once(upstream,'listening');
+ t.after(()=>new Promise(resolve=>upstream.close(resolve)));
+ const f=await fixture(t,{rendererBaseUrl:'http://127.0.0.1:'+upstream.address().port});
+ const load=f.rendererClient.loadExercise;
+ f.rendererClient.loadExercise=async input=>{
+  const result=await load(input);
+  result.html=result.html.replace('<p>Vectors</p>','<p>Vectors</p><img src="plot.png">');
+  result.resources.alias={'plot.png':'pg_files/tmp/images/aa___bb.png'};
+  return result;
+ };
+ const response=await start(f);const session=await response.json();
+ const url=session.exercise.html.match(/<img src="([^"]+)/)[1];
+ assert.match(url,/^\/assets\/exercise\/[\w-]{43}\/0$/);
+ assert.doesNotMatch(JSON.stringify(session),/plot.png|tmp\/images|PRIVATE_|alias/);
+ const asset=await fetch(f.baseUrl+url,{headers:{Origin:'null'}});
+ assert.equal(asset.status,200);assert.equal(await asset.text(),'image');
+ assert.equal(asset.headers.get('cache-control'),'private, no-store');
+ assert.equal(asset.headers.get('x-content-type-options'),'nosniff');
+ assert.match(asset.headers.get('content-security-policy'),/sandbox/);
+ assert.equal((await fetch(f.baseUrl+url+'?url=https://evil.test')).status,404);
+ assert.equal((await fetch(f.baseUrl+url.replace(/\/0$/,'/100'))).status,404);
+ assert.equal((await fetch(f.baseUrl+'/assets/exercise/'+'x'.repeat(43)+'/0')).status,404);
+ assert.equal((await fetch(f.baseUrl+url,{method:'POST'})).status,404);
+});

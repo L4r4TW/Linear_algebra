@@ -6,6 +6,7 @@ import { parse, serializeOuter } from 'parse5';
 import { listExercises } from './exercise-catalog.mjs';
 import { createExerciseSessions, ExerciseSessionError } from './exercise-sessions.mjs';
 import { RendererClientError } from './renderer-client.mjs';
+import { createExerciseAssets } from './exercise-assets.mjs';
 
 const COOKIE = 'la_experiment_owner';
 const OWNER_PATTERN = /^[A-Za-z0-9_-]{43}$/;
@@ -105,7 +106,12 @@ export function problemHtml(html) {
   return serializeOuter(matches[0]);
 }
 
-function publicSession(result) {
+function publicSession(result, assets) {
+  let prepared, html;
+  try {
+    prepared = assets.prepare({html:result.exercise.html, resources:result.exercise.resources, identity:result.session.id});
+    html = prepared.project(problemHtml(result.exercise.html));
+  } catch { throw new ApiError(502,'UNSUPPORTED_EXERCISE_RESOURCE','The exercise requires a resource that is not supported yet.'); }
   return {
     session: {
       id: result.session.id,
@@ -125,10 +131,10 @@ function publicSession(result) {
       })),
     } : null,
     exercise: {
-      html: problemHtml(result.exercise.html),
+      html,
       score: result.exercise.score,
       resources: {
-        assets: (result.exercise.resources.assets ?? []).filter((asset) => typeof asset === 'string'),
+        assets: [], dependencies: prepared.dependencies,
       },
     },
   };
@@ -175,6 +181,7 @@ export function createApp({
     throw new Error('APP_ORIGIN must be the application HTTP origin.');
   }
   const allowedOrigin = originUrl.origin;
+  const assets = createExerciseAssets({rendererBaseUrl});
   const cookieSecure = originUrl.protocol === 'https:' ? '; Secure' : '';
 
   async function handle(request, response) {
@@ -206,7 +213,7 @@ export function createApp({
         const existingOwner = ownerFromCookie(request);
         const ownerToken = existingOwner ?? randomBytes(32).toString('base64url');
         const result = await sessions.startSession({ ...input, ownerToken });
-        const output = publicSession(result);
+        const output = publicSession(result, assets);
         json(response, 201, output, {
           Location: '/api/sessions/' + result.session.id,
           ...(!existingOwner ? {
@@ -229,7 +236,7 @@ export function createApp({
           throw new ApiError(400, 'INVALID_INPUT', 'Provide only an answers array of name/value pairs.');
         }
         const result = await sessions.submitAnswers(answerMatch[1], input.answers, { ownerToken });
-        json(response, 200, publicSession(result));
+        json(response, 200, publicSession(result, assets));
         return;
       }
       const match = url.pathname.match(/^\/api\/sessions\/([^/]+)$/);
@@ -240,8 +247,24 @@ export function createApp({
         }
         const ownerToken = ownerFromCookie(request);
         if (!ownerToken) throw new ApiError(404, 'SESSION_NOT_FOUND', 'Session was not found.');
-        json(response, 200, publicSession(await sessions.resumeSession(match[1], { ownerToken })));
+        json(response, 200, publicSession(await sessions.resumeSession(match[1], { ownerToken }), assets));
         return;
+      }
+      const exerciseAsset = url.pathname.match(/^\/assets\/exercise\/([A-Za-z0-9_-]{43})\/(0|[1-9]\d*)$/);
+      if (exerciseAsset && request.method === 'GET' && !url.search) {
+        let asset;
+        try { asset = await assets.read(exerciseAsset[1],exerciseAsset[2]); }
+        catch { throw new ApiError(502,'EXERCISE_RESOURCE_ERROR','An exercise resource could not load.'); }
+        if (!asset) throw new ApiError(404,'NOT_FOUND','Resource was not found.');
+        response.writeHead(200,{
+          'Content-Type':asset.contentType,
+          'Cache-Control':'private, no-store',
+          'X-Content-Type-Options':'nosniff',
+          'Access-Control-Allow-Origin':'*',
+          'Referrer-Policy':'no-referrer',
+          'Content-Security-Policy':"sandbox; default-src 'none'; style-src 'unsafe-inline'",
+        });
+        response.end(asset.body); return;
       }
       if (url.pathname === '/health' && request.method === 'GET') {
         json(response, 200, { status: 'ok', workspace: 'experimental' });

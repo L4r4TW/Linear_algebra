@@ -17,15 +17,41 @@ export function shouldSubmitOnEnter(event, root) {
 }
 
 /** Render only the trusted API problem fragment in an opaque, sandboxed frame. */
-export function buildExerciseDocument({ html, channel, mathjaxUrl }) {
+export function buildExerciseDocument({ html, channel, mathjaxUrl, dependencies = [] }) {
   const scriptUrl = new URL(mathjaxUrl);
   if (!['http:', 'https:'].includes(scriptUrl.protocol)) throw new Error('Invalid math asset URL.');
+  const dependencyHtml = dependencies.map(dependency => {
+    if (!['script','style'].includes(dependency.kind) || !/^\/assets\/exercise\/[A-Za-z0-9_-]{43}\/\d+$/.test(dependency.url)) throw new Error('Invalid exercise dependency.');
+    const url = escapeAttribute(new URL(dependency.url,scriptUrl.origin).href);
+    return dependency.kind === 'style'
+      ? `<link rel="stylesheet" href="${url}" onerror="resourceFailed()">`
+      : `<script src="${url}"${dependency.defer ? ' defer' : ''} onerror="resourceFailed()"></script>`;
+  }).join('\n');
   const escapedUrl = escapeAttribute(scriptUrl.href);
   const csp = "default-src 'none'; script-src 'unsafe-inline' " + scriptUrl.origin +
-    "; style-src 'unsafe-inline'; img-src data: " + scriptUrl.origin +
+    "; style-src 'unsafe-inline' " + scriptUrl.origin + "; img-src data: " + scriptUrl.origin +
     "; connect-src 'none'; form-action 'none'; base-uri 'none';";
   return `<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta http-equiv="Content-Security-Policy" content="${escapeAttribute(csp)}">
+<script>
+// GraphTool stores only its help preference. Opaque frames get an ephemeral,
+// key-scoped adapter; no access to application storage or persistent cookies.
+try { void window.localStorage; } catch {
+  let graphHelp=null;
+  Object.defineProperty(window,'localStorage',{value:Object.freeze({
+    getItem:key=>key==='GraphToolHelpEnabled'?graphHelp:null,
+    setItem:(key,value)=>{if(key==='GraphToolHelpEnabled')graphHelp=String(value)==='false'?'false':'true';},
+    removeItem:key=>{if(key==='GraphToolHelpEnabled')graphHelp=null;},
+    clear:()=>{graphHelp=null;},
+    key:index=>index===0&&graphHelp!==null?'GraphToolHelpEnabled':null,
+    get length(){return graphHelp===null?0:1;}
+  })});
+}
+let resourceFailure=false;
+function resourceFailed(){resourceFailure=true;parent.postMessage({channel:${JSON.stringify(channel)},type:'resource-error'},${JSON.stringify(scriptUrl.origin)});}
+window.addEventListener('error',event=>{if(event.error||event.target?.tagName==='IMG')resourceFailed();},true);
+</script>
+${dependencyHtml}
 <style>
 body{margin:0;padding:18px 8px 24px;font:16px/1.8 system-ui,sans-serif;color:#243e34;overflow-wrap:break-word}
 input:not([type=hidden]),textarea,select{max-width:100%;box-sizing:border-box;font:inherit;border:1px solid #b8cebd;border-radius:7px;padding:8px 11px;background:#fafcf8;color:#203b32;margin:6px 0}
@@ -132,8 +158,12 @@ window.addEventListener('DOMContentLoaded',()=>{
   new ResizeObserver(resize).observe(document.body);
   resize();
 });
+function mathFailed(){
+  const report=()=>notify(resourceFailure?'resource-error':'math-error');
+  if(document.readyState==='complete')report();else window.addEventListener('load',report,{once:true});
+}
 function mathLoaded(){
-  if(!window.MathJax?.startup?.promise){notify('math-error');return;}
+  if(!window.MathJax?.startup?.promise){mathFailed();return;}
   MathJax.startup.promise.then(()=>{
     function mathScrollTargets(){
       document.querySelectorAll('mjx-container').forEach(node=>{
@@ -143,10 +173,11 @@ function mathLoaded(){
     }
     mathScrollTargets();
     window.addEventListener('resize',mathScrollTargets);
-    notify('ready');
-  }).catch(()=>notify('math-error'));
+    const ready=()=>{if(!resourceFailure)notify('ready');};
+    if(document.readyState==='complete')ready();else window.addEventListener('load',ready,{once:true});
+  }).catch(()=>mathFailed());
 }
 </script></head><body><p id="practice-keyboard-help" class="sr-only">Press Enter to check a single-line answer. Use Tab or Shift+Tab to move between answers and controls.</p>${html}
-<script src="${escapedUrl}" onload="mathLoaded()" onerror="notify('math-error')"></script>
+<script src="${escapedUrl}" onload="mathLoaded()" onerror="mathFailed()"></script>
 </body></html>`;
 }

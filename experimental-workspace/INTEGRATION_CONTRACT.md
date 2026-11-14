@@ -1,6 +1,6 @@
 # Renderer integration contract
 
-Scope: the experimental workspace as implemented on 2026-11-14. This describes current behavior, including limitations. It does not promise compatibility for every PG problem. The student allowlist remains [exercise-catalog.json](workspace/server/exercise-catalog.json); the separate [compatibility catalog](compatibility/catalog.json) is operator-only.
+Scope: the experimental workspace as implemented on 2026-11-14, including the [controlled asset loader](ASSET_LOADING.md). This describes current behavior, including limitations. It does not promise compatibility for every PG problem. The student allowlist remains [exercise-catalog.json](workspace/server/exercise-catalog.json); the separate [compatibility catalog](compatibility/catalog.json) is operator-only.
 
 ## Data and trust boundaries
 
@@ -31,7 +31,7 @@ Implementation: [renderer-client.mjs](workspace/server/renderer-client.mjs), [ex
 - PG `error_message` may contain mathematical hints. For the verified MathObjects flow, explicit PG error flags or an error with an explicitly absent parsed `student_value` identify invalid input. Parsed coordinate hints remain mathematical errors. Other evaluators need separate verification.
 - Ownership is checked before PG calls. The file service atomically saves updated tokens with the latest accepted submission. It retains one snapshot, not full history. The overlap guard supports one Node process.
 
-Public session responses contain friendly session metadata, projected exercise HTML/score, string asset URLs, and an optional saved submission with exact pairs and safe feedback. They expose no seed, JWT, source path, owner hash, debug payload, or resource alias/regex mapping.
+Public session responses contain friendly session metadata, projected exercise HTML/score, opaque approved dependency URLs, and an optional saved submission with exact pairs and safe feedback. They expose no seed, JWT, source path, owner hash, debug payload, or resource alias/regex mapping.
 
 ## 2. HTML projection
 
@@ -46,8 +46,8 @@ The server parses the full renderer document with parse5, requires exactly one e
 | Inline styles, style elements, inline scripts, event attributes inside the wrapper | Preserved. Inline executable content can run in the frame; it may fail when required header dependencies are missing. |
 | `sessionJWT`, `problemJWT`, `answerJWT`, `sourceFilePath`, `problemSeed` named controls inside the wrapper | Removed recursively. Other reserved/helper names can remain in HTML but are excluded by answer collection. |
 | Renderer outer form, submit/preview/correct-answer buttons, hidden management fields outside the wrapper | Excluded with the surrounding document. |
-| Renderer head, header/post-header scripts/styles, asset tags, base element, footer/debug panels, overall result outside the wrapper | Excluded. Current application code does not reconstruct their dependency order or initialization lifecycle. |
-| Image/script/style/link URLs | Not rebased, proxied generally, or rewritten by this projection. |
+| Renderer head, header/post-header scripts/styles, asset tags, base element, footer/debug panels, overall result outside the wrapper | Excluded. A separate asset preparation step extracts reviewed external script/stylesheet tags in order, preserving defer; unreviewed header content remains excluded. |
+| Image/script/style/link URLs | Unchanged by `problemHtml` alone; the following resource stage rewrites approved images, body script URLs, and dependencies to opaque capabilities. |
 
 The grading API returns a newly rendered problem fragment, but the picker currently keeps its existing frame and applies only the saved result/feedback. This preserves live edits; it does not apply newly revealed fields, stage-specific content, or new dependency initialization. The positive scaffold transition in [COMPATIBILITY_MATRIX.md](COMPATIBILITY_MATRIX.md) demonstrates that limitation.
 
@@ -64,7 +64,7 @@ The frame policy is:
 ```text
 default-src 'none';
 script-src 'unsafe-inline' <configured parent origin>;
-style-src 'unsafe-inline';
+style-src 'unsafe-inline' <configured parent origin>;
 img-src data: <configured parent origin>;
 connect-src 'none';
 form-action 'none';
@@ -75,12 +75,12 @@ base-uri 'none';
 | --- | --- |
 | Self-hosted MathJax JavaScript | Explicit `/assets/mathjax/` proxy accepts safe `.js` paths under the configured renderer's MathJax directory. It rejects redirects, has a 15-second timeout, and caches successful responses for one hour. |
 | Legacy PG `script[type^="math/tex"]` | Converted to text delimiters before MathJax typesetting; SVG math and assistive MathML are retained. Overflowing expressions receive keyboard scrolling targets. |
-| Renderer `resources.assets` strings | Passed through as metadata. The picker does not load that list or use it as permission to fetch arbitrary assets. |
-| Renderer resource aliases/regex maps | Not exposed by the student response or implemented as an asset resolver. |
-| PG header JavaScript/CSS, jQuery/Bootstrap/JSXGraph/widget initialization | Not loaded by the current frame. Preserved body scripts can therefore reference missing globals. |
-| Relative library/generated image URLs | Left unchanged; they resolve against the srcdoc base inherited from the parent. The app has no general image endpoint, so these can return 404. Absolute renderer-origin image URLs can instead be blocked by `img-src`. |
+| Renderer `resources.assets` strings | Kept private. Public resources contain an empty legacy assets list and ordered reviewed dependency records. |
+| Renderer resource aliases/regex maps | Exact image aliases are resolved on the server. Regex maps remain unused; neither mapping is exposed. |
+| Reviewed PG header JavaScript/CSS | Ordered jQuery, Bootstrap, GraphTool, Scaffold/details dependencies and pinned JSXGraph are supported through opaque URLs. Original body initializers remain inside the frame. Upstream editor/submit helpers and MathQuill initialization are excluded. |
+| Library/generated image URLs | Approved `/pg_files/tmp/images/` references and exact aliases are rewritten to expiring opaque resources. Reviewed GraphTool stylesheet icons use the same resolver. No arbitrary renderer image endpoint is exposed. |
 | Data images and inline SVG | Permitted by the relevant current policy/HTML handling; each exercise still needs observation. |
-| External stylesheets, fonts, media, nested frames, network fetch/XHR/WebSocket | Not generally supported by the current policy/routes. Inline author CSS may still override application frame CSS. |
+| Other external dependencies, fonts, media, nested frames, network fetch/XHR/WebSocket | Remain unsupported. Unapproved stylesheet URLs/imports are blocked; inline author CSS may still override application frame CSS. |
 | Popups and original native form submission | Blocked; the parent performs grading through its own API. |
 
 The parent sizes the frame from authenticated messages, with a height range of 280–3000px. Large problems can require scrolling within the frame. These limits and the current global input styles are part of the compatibility surface.
@@ -110,7 +110,7 @@ Implementation: [answer-bridge.js](workspace/public/answer-bridge.js), [field-fe
 
 ## 6. Compatibility gates and next implementation work
 
-The operator [catalog](compatibility/catalog.json) and [observations](compatibility/observations.json) do not enable new student exercises. Only the existing dot-product entry has the complete owned-session acceptance proof.
+The operator [catalog](compatibility/catalog.json) and [observations](compatibility/observations.json) do not enable new student exercises. Only the existing dot-product entry has the complete owned-session acceptance proof. Asset capability expiry, cache bounds, hashes, direct-navigation policy, GraphTool storage adaptation, and failure/retry behavior are specified in [ASSET_LOADING.md](ASSET_LOADING.md).
 
 For another exercise, record separately: upstream PG generation, official browser behavior, required assets/scripts, projected-frame appearance, native/hidden answer collection, sample grading/restoration, and any missing behavior. A successful PG response or a zero score alone is not proof that an interactive widget works.
 

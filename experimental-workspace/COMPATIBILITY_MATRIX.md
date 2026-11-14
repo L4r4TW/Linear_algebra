@@ -61,3 +61,15 @@ Our current picker saves the returned token/result but keeps the live frame and 
 4. Promote native candidates only after real owned-session correct/incorrect grading, feedback, refresh, keyboard, and narrow-screen tests. Keep unsupported fixtures out of the student catalog.
 
 This is an initial compatibility sample. File upload, custom editors, compound matrix evaluators, every PG macro, all subjects, multiple browsers, and full mobile behavior for these eleven fixtures are not established by this study.
+## Controlled-loader follow-up
+
+The matrix above preserves the pre-loader baseline. [ASSET_LOADING.md](ASSET_LOADING.md) describes the implemented mechanism; [asset-loading-observations.json](compatibility/asset-loading-observations.json) records the new run with the same eleven sources/seeds and paired-browser method.
+
+| Previously blocked capability | Result with the controlled loader | Remaining acceptance gate |
+| --- | --- | --- |
+| Static library image | Required GIF loads (1/1). | Full owned-session exercise acceptance. |
+| Generated graph images | Both PNGs load (2/2). | Full owned-session exercise acceptance. |
+| Scaffold collapse | The tested section toggle changes state with approved Bootstrap/Scaffold dependencies. | Applying newly revealed fields after grading remains unimplemented. |
+| GraphTool | Initializes three SVG boards (including auxiliary boards), displays both toolbar icons, and the tested point action updates the hidden answer. Sampled pairs match the official renderer. | Correct-answer, retry/refresh, keyboard, and mobile acceptance for this widget. |
+
+All eleven paired cases finished without application page errors; native field names, sampled pairs, and sampled grading/restoration scores match the reference. These are operator comparisons, not approval of eleven student exercises. The public allowlist still contains only `dot-product-01`. Original form submission helpers, MathQuill enhancement, and arbitrary widget dependencies are still excluded.

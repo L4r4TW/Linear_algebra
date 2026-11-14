@@ -1,0 +1,3785 @@
+{
+  "schemaVersion": 1,
+  "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+  "rendererRevision": "1134ffbbf5e656148e579f424f70bcd9f1d15936",
+  "observedAt": "2026-11-14T22:18:02.845Z",
+  "scope": "Operator-only official renderer document in an editor-like same-origin iframe versus actual application projection/frame/bridge; fixtures are not enabled in the student API.",
+  "exercises": [
+    {
+      "id": "dot-product-01",
+      "subject": "Linear algebra",
+      "requiredCapabilities": [
+        "mathjax",
+        "native-text",
+        "vector-syntax",
+        "multiple-answers"
+      ],
+      "sourceVerified": true,
+      "seeds": [
+        {
+          "seed": 1234,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001",
+              "AnSwEr0002",
+              "AnSwEr0003",
+              "AnSwEr0004"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 17,
+            "headerStyles": 8,
+            "bodyBytes": 2131
+          },
+          "browser": {
+            "reference": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0002",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0002",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0003",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0003",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0004",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0004",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0004",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  }
+                ],
+                "images": [],
+                "mathCount": 7,
+                "assistiveMathCount": 7,
+                "inlineScripts": 0,
+                "externalScripts": [],
+                "graphIconCount": 0,
+                "mathQuillEditors": 4,
+                "graphBoards": 0,
+                "scaffoldToggles": 0,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 0,
+                "mathQuillEdits": 4,
+                "radioSelections": 0,
+                "checkboxSelections": 0,
+                "selectChanges": 0
+              },
+              "answerNames": [
+                "AnSwEr0001",
+                "AnSwEr0002",
+                "AnSwEr0003",
+                "AnSwEr0004"
+              ],
+              "entryCount": 4,
+              "score": 0,
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "application": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0002",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0002",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0003",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0003",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0004",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0004",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0004",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  }
+                ],
+                "images": [],
+                "mathCount": 7,
+                "assistiveMathCount": 7,
+                "inlineScripts": 0,
+                "externalScripts": [],
+                "graphIconCount": 0,
+                "mathQuillEditors": 0,
+                "graphBoards": 0,
+                "scaffoldToggles": 0,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 4,
+                "mathQuillEdits": 0,
+                "radioSelections": 0,
+                "checkboxSelections": 0,
+                "selectChanges": 0
+              },
+              "answerNames": [
+                "AnSwEr0001",
+                "AnSwEr0002",
+                "AnSwEr0003",
+                "AnSwEr0004"
+              ],
+              "entryCount": 4,
+              "nonemptyHiddenAnswers": 0,
+              "grade": {
+                "accepted": true,
+                "score": 0,
+                "restoredScore": 0,
+                "restorationReturnedProblem": true
+              },
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "sameCollectedNames": true,
+            "sameSampleAnswers": true
+          }
+        },
+        {
+          "seed": 4321,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001",
+              "AnSwEr0002",
+              "AnSwEr0003",
+              "AnSwEr0004"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 17,
+            "headerStyles": 8,
+            "bodyBytes": 2129
+          },
+          "blankSubmission": {
+            "score": 0,
+            "restoredScore": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "compat-calculus-numeric-01",
+      "subject": "Calculus - single variable",
+      "requiredCapabilities": [
+        "mathjax",
+        "native-text",
+        "numeric-evaluator"
+      ],
+      "sourceVerified": true,
+      "seeds": [
+        {
+          "seed": 1234,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 17,
+            "headerStyles": 8,
+            "bodyBytes": 690
+          },
+          "browser": {
+            "reference": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  }
+                ],
+                "images": [],
+                "mathCount": 3,
+                "assistiveMathCount": 3,
+                "inlineScripts": 0,
+                "externalScripts": [],
+                "graphIconCount": 0,
+                "mathQuillEditors": 1,
+                "graphBoards": 0,
+                "scaffoldToggles": 0,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 0,
+                "mathQuillEdits": 1,
+                "radioSelections": 0,
+                "checkboxSelections": 0,
+                "selectChanges": 0
+              },
+              "answerNames": [
+                "AnSwEr0001"
+              ],
+              "entryCount": 1,
+              "score": 0,
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "application": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  }
+                ],
+                "images": [],
+                "mathCount": 3,
+                "assistiveMathCount": 3,
+                "inlineScripts": 0,
+                "externalScripts": [],
+                "graphIconCount": 0,
+                "mathQuillEditors": 0,
+                "graphBoards": 0,
+                "scaffoldToggles": 0,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 1,
+                "mathQuillEdits": 0,
+                "radioSelections": 0,
+                "checkboxSelections": 0,
+                "selectChanges": 0
+              },
+              "answerNames": [
+                "AnSwEr0001"
+              ],
+              "entryCount": 1,
+              "nonemptyHiddenAnswers": 0,
+              "grade": {
+                "accepted": true,
+                "score": 0,
+                "restoredScore": 0,
+                "restorationReturnedProblem": true
+              },
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "sameCollectedNames": true,
+            "sameSampleAnswers": true
+          }
+        },
+        {
+          "seed": 4321,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 17,
+            "headerStyles": 8,
+            "bodyBytes": 665
+          },
+          "blankSubmission": {
+            "score": 0,
+            "restoredScore": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "compat-calculus-formula-01",
+      "subject": "Calculus - single variable",
+      "requiredCapabilities": [
+        "mathjax",
+        "native-text",
+        "formula-evaluator"
+      ],
+      "sourceVerified": true,
+      "seeds": [
+        {
+          "seed": 1234,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "pg_files/js/UnionTables/union-tables.5c4bd2e3.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 17,
+            "headerStyles": 9,
+            "bodyBytes": 657
+          },
+          "browser": {
+            "reference": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  }
+                ],
+                "images": [],
+                "mathCount": 3,
+                "assistiveMathCount": 3,
+                "inlineScripts": 0,
+                "externalScripts": [],
+                "graphIconCount": 0,
+                "mathQuillEditors": 1,
+                "graphBoards": 0,
+                "scaffoldToggles": 0,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 0,
+                "mathQuillEdits": 1,
+                "radioSelections": 0,
+                "checkboxSelections": 0,
+                "selectChanges": 0
+              },
+              "answerNames": [
+                "AnSwEr0001"
+              ],
+              "entryCount": 1,
+              "score": 0,
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "application": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  }
+                ],
+                "images": [],
+                "mathCount": 3,
+                "assistiveMathCount": 3,
+                "inlineScripts": 0,
+                "externalScripts": [],
+                "graphIconCount": 0,
+                "mathQuillEditors": 0,
+                "graphBoards": 0,
+                "scaffoldToggles": 0,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 1,
+                "mathQuillEdits": 0,
+                "radioSelections": 0,
+                "checkboxSelections": 0,
+                "selectChanges": 0
+              },
+              "answerNames": [
+                "AnSwEr0001"
+              ],
+              "entryCount": 1,
+              "nonemptyHiddenAnswers": 0,
+              "grade": {
+                "accepted": true,
+                "score": 0,
+                "restoredScore": 0,
+                "restorationReturnedProblem": true
+              },
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "sameCollectedNames": true,
+            "sameSampleAnswers": true
+          }
+        },
+        {
+          "seed": 4321,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "pg_files/js/UnionTables/union-tables.5c4bd2e3.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 17,
+            "headerStyles": 9,
+            "bodyBytes": 657
+          },
+          "blankSubmission": {
+            "score": 0,
+            "restoredScore": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "compat-matrix-grid-01",
+      "subject": "Linear algebra",
+      "requiredCapabilities": [
+        "mathjax",
+        "matrix-grid",
+        "native-text",
+        "multiple-answers",
+        "layout-tables"
+      ],
+      "sourceVerified": true,
+      "seeds": [
+        {
+          "seed": 1234,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001",
+              "AnSwEr0002",
+              "AnSwEr0003",
+              "AnSwEr0004",
+              "AnSwEr0005",
+              "AnSwEr0006",
+              "AnSwEr0007",
+              "AnSwEr0008",
+              "AnSwEr0009"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 17,
+            "headerStyles": 8,
+            "bodyBytes": 4741
+          },
+          "browser": {
+            "reference": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0002",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0002",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0003",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0003",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0004",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0004",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0004",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0005",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0005",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0005",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0006",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0006",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0006",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0007",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0007",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0007",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0008",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0008",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0008",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0009",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0009",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0009",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  }
+                ],
+                "images": [],
+                "mathCount": 4,
+                "assistiveMathCount": 4,
+                "inlineScripts": 0,
+                "externalScripts": [],
+                "graphIconCount": 0,
+                "mathQuillEditors": 9,
+                "graphBoards": 0,
+                "scaffoldToggles": 0,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 0,
+                "mathQuillEdits": 9,
+                "radioSelections": 0,
+                "checkboxSelections": 0,
+                "selectChanges": 0
+              },
+              "answerNames": [
+                "AnSwEr0001",
+                "AnSwEr0002",
+                "AnSwEr0003",
+                "AnSwEr0004",
+                "AnSwEr0005",
+                "AnSwEr0006",
+                "AnSwEr0007",
+                "AnSwEr0008",
+                "AnSwEr0009"
+              ],
+              "entryCount": 9,
+              "score": 0,
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "application": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0002",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0002",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0003",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0003",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0004",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0004",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0004",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0005",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0005",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0005",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0006",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0006",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0006",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0007",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0007",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0007",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0008",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0008",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0008",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0009",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0009",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0009",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  }
+                ],
+                "images": [],
+                "mathCount": 4,
+                "assistiveMathCount": 4,
+                "inlineScripts": 0,
+                "externalScripts": [],
+                "graphIconCount": 0,
+                "mathQuillEditors": 0,
+                "graphBoards": 0,
+                "scaffoldToggles": 0,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 9,
+                "mathQuillEdits": 0,
+                "radioSelections": 0,
+                "checkboxSelections": 0,
+                "selectChanges": 0
+              },
+              "answerNames": [
+                "AnSwEr0001",
+                "AnSwEr0002",
+                "AnSwEr0003",
+                "AnSwEr0004",
+                "AnSwEr0005",
+                "AnSwEr0006",
+                "AnSwEr0007",
+                "AnSwEr0008",
+                "AnSwEr0009"
+              ],
+              "entryCount": 9,
+              "nonemptyHiddenAnswers": 0,
+              "grade": {
+                "accepted": true,
+                "score": 0,
+                "restoredScore": 0,
+                "restorationReturnedProblem": true
+              },
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "sameCollectedNames": true,
+            "sameSampleAnswers": true
+          }
+        },
+        {
+          "seed": 4321,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001",
+              "AnSwEr0002",
+              "AnSwEr0003",
+              "AnSwEr0004",
+              "AnSwEr0005",
+              "AnSwEr0006",
+              "AnSwEr0007",
+              "AnSwEr0008",
+              "AnSwEr0009"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 17,
+            "headerStyles": 8,
+            "bodyBytes": 4738
+          },
+          "blankSubmission": {
+            "score": 0,
+            "restoredScore": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "compat-statistics-radio-01",
+      "subject": "Statistics",
+      "requiredCapabilities": [
+        "radio-groups",
+        "multiple-answers",
+        "native-labels"
+      ],
+      "sourceVerified": true,
+      "seeds": [
+        {
+          "seed": 1234,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001",
+              "AnSwEr0002",
+              "AnSwEr0003",
+              "AnSwEr0004"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 17,
+            "headerStyles": 8,
+            "bodyBytes": 4046
+          },
+          "browser": {
+            "reference": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0004",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0004",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0004",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  }
+                ],
+                "images": [],
+                "mathCount": 0,
+                "assistiveMathCount": 0,
+                "inlineScripts": 0,
+                "externalScripts": [],
+                "graphIconCount": 0,
+                "mathQuillEditors": 0,
+                "graphBoards": 0,
+                "scaffoldToggles": 0,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 0,
+                "mathQuillEdits": 0,
+                "radioSelections": 4,
+                "checkboxSelections": 0,
+                "selectChanges": 0
+              },
+              "answerNames": [
+                "AnSwEr0001",
+                "AnSwEr0002",
+                "AnSwEr0003",
+                "AnSwEr0004"
+              ],
+              "entryCount": 4,
+              "score": 0.25,
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "application": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0004",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0004",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0004",
+                    "tag": "input",
+                    "type": "radio",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  }
+                ],
+                "images": [],
+                "mathCount": 0,
+                "assistiveMathCount": 0,
+                "inlineScripts": 0,
+                "externalScripts": [],
+                "graphIconCount": 0,
+                "mathQuillEditors": 0,
+                "graphBoards": 0,
+                "scaffoldToggles": 0,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 0,
+                "mathQuillEdits": 0,
+                "radioSelections": 4,
+                "checkboxSelections": 0,
+                "selectChanges": 0
+              },
+              "answerNames": [
+                "AnSwEr0001",
+                "AnSwEr0002",
+                "AnSwEr0003",
+                "AnSwEr0004"
+              ],
+              "entryCount": 4,
+              "nonemptyHiddenAnswers": 0,
+              "grade": {
+                "accepted": true,
+                "score": 0.25,
+                "restoredScore": 0.25,
+                "restorationReturnedProblem": true
+              },
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "sameCollectedNames": true,
+            "sameSampleAnswers": true
+          }
+        },
+        {
+          "seed": 4321,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001",
+              "AnSwEr0002",
+              "AnSwEr0003",
+              "AnSwEr0004"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 17,
+            "headerStyles": 8,
+            "bodyBytes": 4046
+          },
+          "blankSubmission": {
+            "score": 0,
+            "restoredScore": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "compat-algebra-checkbox-01",
+      "subject": "Algebra",
+      "requiredCapabilities": [
+        "mathjax",
+        "native-text",
+        "checkbox-groups",
+        "repeated-names",
+        "multiple-answers"
+      ],
+      "sourceVerified": true,
+      "seeds": [
+        {
+          "seed": 1234,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001",
+              "AnSwEr0002",
+              "AnSwEr0003"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 17,
+            "headerStyles": 8,
+            "bodyBytes": 3796
+          },
+          "browser": {
+            "reference": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0002",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0002",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "checkbox",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "checkbox",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "checkbox",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "checkbox",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "checkbox",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "checkbox",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  }
+                ],
+                "images": [],
+                "mathCount": 0,
+                "assistiveMathCount": 0,
+                "inlineScripts": 0,
+                "externalScripts": [],
+                "graphIconCount": 0,
+                "mathQuillEditors": 2,
+                "graphBoards": 0,
+                "scaffoldToggles": 0,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 0,
+                "mathQuillEdits": 2,
+                "radioSelections": 0,
+                "checkboxSelections": 2,
+                "selectChanges": 0
+              },
+              "answerNames": [
+                "AnSwEr0001",
+                "AnSwEr0002",
+                "AnSwEr0003"
+              ],
+              "entryCount": 4,
+              "score": 0.333333333333333,
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "application": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0002",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0002",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "checkbox",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "checkbox",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "checkbox",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "checkbox",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "checkbox",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "checkbox",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  }
+                ],
+                "images": [],
+                "mathCount": 0,
+                "assistiveMathCount": 0,
+                "inlineScripts": 0,
+                "externalScripts": [],
+                "graphIconCount": 0,
+                "mathQuillEditors": 0,
+                "graphBoards": 0,
+                "scaffoldToggles": 0,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 2,
+                "mathQuillEdits": 0,
+                "radioSelections": 0,
+                "checkboxSelections": 2,
+                "selectChanges": 0
+              },
+              "answerNames": [
+                "AnSwEr0001",
+                "AnSwEr0002",
+                "AnSwEr0003"
+              ],
+              "entryCount": 4,
+              "nonemptyHiddenAnswers": 0,
+              "grade": {
+                "accepted": true,
+                "score": 0.333333333333333,
+                "restoredScore": 0.333333333333333,
+                "restorationReturnedProblem": true
+              },
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "sameCollectedNames": true,
+            "sameSampleAnswers": true
+          }
+        },
+        {
+          "seed": 4321,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001",
+              "AnSwEr0002",
+              "AnSwEr0003"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 17,
+            "headerStyles": 8,
+            "bodyBytes": 3796
+          },
+          "blankSubmission": {
+            "score": 0,
+            "restoredScore": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "compat-economics-popup-01",
+      "subject": "Calculus - single variable",
+      "requiredCapabilities": [
+        "mathjax",
+        "native-text",
+        "native-select",
+        "multiple-answers"
+      ],
+      "sourceVerified": true,
+      "seeds": [
+        {
+          "seed": 1234,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001",
+              "AnSwEr0002",
+              "AnSwEr0003",
+              "AnSwEr0004"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 17,
+            "headerStyles": 8,
+            "bodyBytes": 2744
+          },
+          "browser": {
+            "reference": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "select",
+                    "type": "select-one",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 3
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0003",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0003",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0004",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0004",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0004",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  }
+                ],
+                "images": [],
+                "mathCount": 10,
+                "assistiveMathCount": 10,
+                "inlineScripts": 0,
+                "externalScripts": [],
+                "graphIconCount": 0,
+                "mathQuillEditors": 3,
+                "graphBoards": 0,
+                "scaffoldToggles": 0,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 0,
+                "mathQuillEdits": 3,
+                "radioSelections": 0,
+                "checkboxSelections": 0,
+                "selectChanges": 1
+              },
+              "answerNames": [
+                "AnSwEr0001",
+                "AnSwEr0002",
+                "AnSwEr0003",
+                "AnSwEr0004"
+              ],
+              "entryCount": 4,
+              "score": 0,
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "application": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "select",
+                    "type": "select-one",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 3
+                  },
+                  {
+                    "name": "AnSwEr0003",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0003",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0003",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0004",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0004",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0004",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  }
+                ],
+                "images": [],
+                "mathCount": 10,
+                "assistiveMathCount": 10,
+                "inlineScripts": 0,
+                "externalScripts": [],
+                "graphIconCount": 0,
+                "mathQuillEditors": 0,
+                "graphBoards": 0,
+                "scaffoldToggles": 0,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 3,
+                "mathQuillEdits": 0,
+                "radioSelections": 0,
+                "checkboxSelections": 0,
+                "selectChanges": 1
+              },
+              "answerNames": [
+                "AnSwEr0001",
+                "AnSwEr0002",
+                "AnSwEr0003",
+                "AnSwEr0004"
+              ],
+              "entryCount": 4,
+              "nonemptyHiddenAnswers": 0,
+              "grade": {
+                "accepted": true,
+                "score": 0,
+                "restoredScore": 0,
+                "restorationReturnedProblem": true
+              },
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "sameCollectedNames": true,
+            "sameSampleAnswers": true
+          }
+        },
+        {
+          "seed": 4321,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001",
+              "AnSwEr0002",
+              "AnSwEr0003",
+              "AnSwEr0004"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 17,
+            "headerStyles": 8,
+            "bodyBytes": 2744
+          },
+          "blankSubmission": {
+            "score": 0,
+            "restoredScore": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "compat-calculus-scaffold-01",
+      "subject": "Calculus - single variable",
+      "requiredCapabilities": [
+        "mathjax",
+        "native-text",
+        "checkbox-groups",
+        "scaffold",
+        "bootstrap-collapse",
+        "header-scripts",
+        "header-styles"
+      ],
+      "sourceVerified": true,
+      "seeds": [
+        {
+          "seed": 1234,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001",
+              "AnSwEr0002"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "pg_files/js/Scaffold/scaffold.c297ebec.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "pg_files/js/Scaffold/scaffold.1496caab.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 18,
+            "headerStyles": 9,
+            "bodyBytes": 2954
+          },
+          "browser": {
+            "reference": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "checkbox",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "checkbox",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "checkbox",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "checkbox",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  }
+                ],
+                "images": [],
+                "mathCount": 6,
+                "assistiveMathCount": 6,
+                "inlineScripts": 0,
+                "externalScripts": [],
+                "graphIconCount": 0,
+                "mathQuillEditors": 1,
+                "graphBoards": 0,
+                "scaffoldToggles": 1,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 0,
+                "mathQuillEdits": 1,
+                "radioSelections": 0,
+                "checkboxSelections": 2,
+                "selectChanges": 0,
+                "scaffold": {
+                  "present": true,
+                  "changed": true
+                }
+              },
+              "answerNames": [
+                "AnSwEr0001",
+                "AnSwEr0002"
+              ],
+              "entryCount": 3,
+              "score": 0,
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "application": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "checkbox",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "checkbox",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "checkbox",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "checkbox",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  }
+                ],
+                "images": [],
+                "mathCount": 6,
+                "assistiveMathCount": 6,
+                "inlineScripts": 0,
+                "externalScripts": [],
+                "graphIconCount": 0,
+                "mathQuillEditors": 0,
+                "graphBoards": 0,
+                "scaffoldToggles": 1,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 1,
+                "mathQuillEdits": 0,
+                "radioSelections": 0,
+                "checkboxSelections": 2,
+                "selectChanges": 0,
+                "scaffold": {
+                  "present": true,
+                  "changed": true
+                }
+              },
+              "answerNames": [
+                "AnSwEr0001",
+                "AnSwEr0002"
+              ],
+              "entryCount": 3,
+              "nonemptyHiddenAnswers": 0,
+              "grade": {
+                "accepted": true,
+                "score": 0,
+                "restoredScore": 0,
+                "restorationReturnedProblem": true
+              },
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "sameCollectedNames": true,
+            "sameSampleAnswers": true
+          }
+        },
+        {
+          "seed": 4321,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001",
+              "AnSwEr0002"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "pg_files/js/Scaffold/scaffold.c297ebec.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "pg_files/js/Scaffold/scaffold.1496caab.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 18,
+            "headerStyles": 9,
+            "bodyBytes": 2954
+          },
+          "blankSubmission": {
+            "score": 0,
+            "restoredScore": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "compat-algebra-image-01",
+      "subject": "Algebra",
+      "requiredCapabilities": [
+        "mathjax",
+        "native-text",
+        "static-library-image",
+        "multiple-answers"
+      ],
+      "sourceVerified": true,
+      "seeds": [
+        {
+          "seed": 1234,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001",
+              "AnSwEr0002"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 17,
+            "headerStyles": 8,
+            "bodyBytes": 1419
+          },
+          "browser": {
+            "reference": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0002",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0002",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  }
+                ],
+                "images": [
+                  {
+                    "src": "/pg_files/tmp/images/1078844c-d283-3a8a-ae9c-b9b7489160b4___6b9deecd-c5e3-38ab-acc0-9372c452ee31.gif",
+                    "loaded": true
+                  }
+                ],
+                "mathCount": 4,
+                "assistiveMathCount": 4,
+                "inlineScripts": 0,
+                "externalScripts": [],
+                "graphIconCount": 0,
+                "mathQuillEditors": 2,
+                "graphBoards": 0,
+                "scaffoldToggles": 0,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 0,
+                "mathQuillEdits": 2,
+                "radioSelections": 0,
+                "checkboxSelections": 0,
+                "selectChanges": 0
+              },
+              "answerNames": [
+                "AnSwEr0001",
+                "AnSwEr0002"
+              ],
+              "entryCount": 2,
+              "score": 0,
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "application": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "AnSwEr0002",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0002",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0002",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  }
+                ],
+                "images": [
+                  {
+                    "src": "/assets/exercise/[capability]/5",
+                    "loaded": true
+                  }
+                ],
+                "mathCount": 4,
+                "assistiveMathCount": 4,
+                "inlineScripts": 0,
+                "externalScripts": [],
+                "graphIconCount": 0,
+                "mathQuillEditors": 0,
+                "graphBoards": 0,
+                "scaffoldToggles": 0,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 2,
+                "mathQuillEdits": 0,
+                "radioSelections": 0,
+                "checkboxSelections": 0,
+                "selectChanges": 0
+              },
+              "answerNames": [
+                "AnSwEr0001",
+                "AnSwEr0002"
+              ],
+              "entryCount": 2,
+              "nonemptyHiddenAnswers": 0,
+              "grade": {
+                "accepted": true,
+                "score": 0,
+                "restoredScore": 0,
+                "restorationReturnedProblem": true
+              },
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "sameCollectedNames": true,
+            "sameSampleAnswers": true
+          }
+        },
+        {
+          "seed": 4321,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001",
+              "AnSwEr0002"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 17,
+            "headerStyles": 8,
+            "bodyBytes": 1418
+          },
+          "blankSubmission": {
+            "score": 0,
+            "restoredScore": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "compat-calculus-graph-01",
+      "subject": "Calculus - single variable",
+      "requiredCapabilities": [
+        "mathjax",
+        "native-text",
+        "generated-graph-image"
+      ],
+      "sourceVerified": true,
+      "seeds": [
+        {
+          "seed": 1234,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 17,
+            "headerStyles": 8,
+            "bodyBytes": 1229
+          },
+          "browser": {
+            "reference": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "",
+                    "tag": "textarea",
+                    "type": "textarea",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  }
+                ],
+                "images": [
+                  {
+                    "src": "/pg_files/tmp/images/cfd6bc5a-97b1-3369-b614-6f91cd059f58___9f0e9297-d41e-3a67-bc08-7de58dab2afc.png",
+                    "loaded": true
+                  },
+                  {
+                    "src": "/pg_files/tmp/images/cfd6bc5a-97b1-3369-b614-6f91cd059f58___d35b2d23-efd6-361a-826a-768e759b6702.png",
+                    "loaded": true
+                  }
+                ],
+                "mathCount": 7,
+                "assistiveMathCount": 7,
+                "inlineScripts": 0,
+                "externalScripts": [],
+                "graphIconCount": 0,
+                "mathQuillEditors": 1,
+                "graphBoards": 0,
+                "scaffoldToggles": 0,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 0,
+                "mathQuillEdits": 1,
+                "radioSelections": 0,
+                "checkboxSelections": 0,
+                "selectChanges": 0
+              },
+              "answerNames": [
+                "AnSwEr0001"
+              ],
+              "entryCount": 1,
+              "score": 0,
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "application": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "text",
+                    "disabled": false,
+                    "visible": true,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  }
+                ],
+                "images": [
+                  {
+                    "src": "/assets/exercise/[capability]/5",
+                    "loaded": true
+                  },
+                  {
+                    "src": "/assets/exercise/[capability]/6",
+                    "loaded": true
+                  }
+                ],
+                "mathCount": 7,
+                "assistiveMathCount": 7,
+                "inlineScripts": 0,
+                "externalScripts": [],
+                "graphIconCount": 0,
+                "mathQuillEditors": 0,
+                "graphBoards": 0,
+                "scaffoldToggles": 0,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 1,
+                "mathQuillEdits": 0,
+                "radioSelections": 0,
+                "checkboxSelections": 0,
+                "selectChanges": 0
+              },
+              "answerNames": [
+                "AnSwEr0001"
+              ],
+              "entryCount": 1,
+              "nonemptyHiddenAnswers": 0,
+              "grade": {
+                "accepted": true,
+                "score": 0,
+                "restoredScore": 0,
+                "restorationReturnedProblem": true
+              },
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "sameCollectedNames": true,
+            "sameSampleAnswers": true
+          }
+        },
+        {
+          "seed": 4321,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 17,
+            "headerStyles": 8,
+            "bodyBytes": 1227
+          },
+          "blankSubmission": {
+            "score": 0,
+            "restoredScore": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "compat-algebra-graphtool-01",
+      "subject": "Algebra",
+      "requiredCapabilities": [
+        "mathjax",
+        "graph-tool",
+        "jsxgraph",
+        "header-scripts",
+        "header-styles",
+        "script-initialization",
+        "hidden-answer-state"
+      ],
+      "sourceVerified": true,
+      "seeds": [
+        {
+          "seed": 1234,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "https://cdn.jsdelivr.net/npm/jsxgraph@1.7.0/distrib/jsxgraph.min.css",
+              "pg_files/js/GraphTool/graphtool.19919d77.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "https://cdn.jsdelivr.net/npm/jsxgraph@1.7.0/distrib/jsxgraphcore.min.js",
+              "pg_files/js/GraphTool/graphtool.c763eac0.min.js",
+              "pg_files/js/GraphTool/pointtool.f4eec368.min.js",
+              "pg_files/js/GraphTool/quadratictool.b31e993f.min.js",
+              "pg_files/js/GraphTool/cubictool.99505993.min.js",
+              "pg_files/js/GraphTool/intervaltools.18eff61f.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 23,
+            "headerStyles": 10,
+            "bodyBytes": 1854
+          },
+          "browser": {
+            "reference": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  }
+                ],
+                "images": [],
+                "mathCount": 3,
+                "assistiveMathCount": 3,
+                "inlineScripts": 1,
+                "externalScripts": [],
+                "graphIconCount": 2,
+                "mathQuillEditors": 0,
+                "graphBoards": 3,
+                "scaffoldToggles": 0,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 0,
+                "mathQuillEdits": 0,
+                "radioSelections": 0,
+                "checkboxSelections": 0,
+                "selectChanges": 0,
+                "graph": {
+                  "boardPresent": true,
+                  "svgPresent": true,
+                  "pointAction": true
+                }
+              },
+              "answerNames": [
+                "AnSwEr0001"
+              ],
+              "entryCount": 1,
+              "score": 0,
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "application": {
+              "initial": {
+                "fields": [
+                  {
+                    "name": "AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "MaThQuIlL_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  },
+                  {
+                    "name": "previous_AnSwEr0001",
+                    "tag": "input",
+                    "type": "hidden",
+                    "disabled": false,
+                    "visible": false,
+                    "options": 0
+                  }
+                ],
+                "images": [],
+                "mathCount": 3,
+                "assistiveMathCount": 3,
+                "inlineScripts": 1,
+                "externalScripts": [],
+                "graphIconCount": 2,
+                "mathQuillEditors": 0,
+                "graphBoards": 3,
+                "scaffoldToggles": 0,
+                "popupLinks": 0,
+                "pageOverflow": false
+              },
+              "interaction": {
+                "textEdits": 0,
+                "mathQuillEdits": 0,
+                "radioSelections": 0,
+                "checkboxSelections": 0,
+                "selectChanges": 0,
+                "graph": {
+                  "boardPresent": true,
+                  "svgPresent": true,
+                  "pointAction": true
+                }
+              },
+              "answerNames": [
+                "AnSwEr0001"
+              ],
+              "entryCount": 1,
+              "nonemptyHiddenAnswers": 1,
+              "grade": {
+                "accepted": true,
+                "score": 0,
+                "restoredScore": 0,
+                "restorationReturnedProblem": true
+              },
+              "errors": [],
+              "failedRequests": [],
+              "httpErrors": []
+            },
+            "sameCollectedNames": true,
+            "sameSampleAnswers": true
+          }
+        },
+        {
+          "seed": 4321,
+          "renderer": {
+            "rendered": true,
+            "answerNames": [
+              "AnSwEr0001"
+            ],
+            "assets": [
+              "pg_files/js/Problem/problem.ba2d1495.min.css",
+              "pg_files/js/Knowls/knowl.4c1a9011.min.css",
+              "pg_files/js/ImageView/imageview.a928ea73.min.css",
+              "pg_files/node_modules/mathquill/dist/mathquill.css",
+              "pg_files/js/MathQuill/mqeditor.ad211705.min.css",
+              "https://cdn.jsdelivr.net/npm/jsxgraph@1.7.0/distrib/jsxgraph.min.css",
+              "pg_files/js/GraphTool/graphtool.19919d77.min.css",
+              "css/bootstrap.8fd0bc9a.min.css",
+              "node_modules/jquery-ui-dist/jquery-ui.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "pg_files/js/Feedback/feedback.6472e266.min.js",
+              "pg_files/js/Base64/Base64.40f8ebee.min.js",
+              "pg_files/js/Knowls/knowl.a585a7a0.min.js",
+              "pg_files/js/Problem/details-accordion.349202cd.min.js",
+              "pg_files/js/ImageView/imageview.29b8afd5.min.js",
+              "pg_files/js/Essay/essay.f2167a92.min.js",
+              "pg_files/node_modules/mathquill/dist/mathquill.js",
+              "pg_files/js/MathQuill/mqeditor.8ad94a78.min.js",
+              "https://cdn.jsdelivr.net/npm/jsxgraph@1.7.0/distrib/jsxgraphcore.min.js",
+              "pg_files/js/GraphTool/graphtool.c763eac0.min.js",
+              "pg_files/js/GraphTool/pointtool.f4eec368.min.js",
+              "pg_files/js/GraphTool/quadratictool.b31e993f.min.js",
+              "pg_files/js/GraphTool/cubictool.99505993.min.js",
+              "pg_files/js/GraphTool/intervaltools.18eff61f.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/jquery-ui-dist/jquery-ui.min.js",
+              "node_modules/iframe-resizer/js/iframeResizer.contentWindow.min.js",
+              "js/apps/MathJaxConfig/mathjax-config.b8d7d472.min.js",
+              "node_modules/mathjax/es5/tex-svg.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "js/apps/Problem/problem.282d34fb.min.js",
+              "js/apps/Problem/submithelper.384c1f79.min.js",
+              "js/apps/CSSMessage/css-message.f1da4668.min.js"
+            ],
+            "headerScripts": 23,
+            "headerStyles": 10,
+            "bodyBytes": 1855
+          },
+          "blankSubmission": {
+            "score": 0,
+            "restoredScore": 0
+          }
+        }
+      ]
+    }
+  ],
+  "complete": true
+}

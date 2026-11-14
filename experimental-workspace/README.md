@@ -6,6 +6,12 @@ Independent sandbox for the official WeBWorK standalone renderer and PG integrat
 
 The compatibility study found six additional native-answer candidates and four blocked fixtures: static images, generated graphs, scaffolds, and GraphTool. These fixtures remain outside the student allowlist. The latest focused run passed 69 server tests and the live API smoke check; the study also ran eleven paired browser comparisons and twenty-two seed probes. The existing 23-check full acceptance suite is prior evidence, not a rerun for this study.
 
+## Controlled renderer assets
+
+The [asset-loading mechanism](ASSET_LOADING.md) supports approved problem images, ordered stylesheets/scripts, and initialization inside the existing opaque frame. Source paths, seeds, renderer tokens, alias maps, and upstream query strings remain on the server; public resource URLs are short-lived capabilities. Grading stays disabled after resource failures, and Retry exercise restores the same session.
+
+The [matrix follow-up](COMPATIBILITY_MATRIX.md#controlled-loader-follow-up) records working static/generated images, scaffold toggles, GraphTool boards/icons, and matching sampled hidden answers. Newly revealed scaffold content still needs post-grade reconciliation. No new fixtures are enabled for students. Current validation: 76 server tests, 24 browser checks, live smoke checks, and eleven paired fixture comparisons across two generation seeds.
+
 ## Start
 
 Start Docker Desktop with its Linux engine ready. From the repository root:
@@ -41,7 +47,7 @@ Unsubmitted edits are not saved. Checked answers restore after refresh from the 
 
 The UI lives in `workspace/public/`: `index.html`, `picker.css`, `picker.js`, and `exercise-frame.js`. The server exposes only explicitly listed static files. Catalog text is inserted as text, and API problem HTML is displayed in an iframe with `sandbox="allow-scripts"`, without same-origin access or form submission permissions. A restrictive frame content policy blocks API connections, forms, and unapproved resources; the sandbox blocks top navigation. Self-frame navigation is not comprehensively prevented. Parent messages are checked against the frame window and a per-frame channel.
 
-The backend proxies only JavaScript under the pinned renderer's MathJax directory through `/assets/mathjax/`. Math stays self-hosted, and the frame converts PG's legacy `script[type="math/tex"]` tags before MathJax typesetting. It does not load the renderer editor, form controls, or general submit scripts. This path is verified for the current catalog exercise; exercises with graphs or other PG widgets need their own compatibility checks.
+The backend proxies only JavaScript under the pinned renderer's MathJax directory through `/assets/mathjax/`. Math stays self-hosted, and the frame converts PG's legacy `script[type="math/tex"]` tags before MathJax typesetting. It does not load the renderer editor, outer form controls, or general submit scripts. Reviewed widget dependencies use the separate opaque asset registry; new widgets still need individual compatibility checks.
 
 Browser checks run in a separate Docker image, with no browser packages added to the application:
 

@@ -246,7 +246,7 @@ function resetPanel() {
 }
 
 function finishFrame(error = false) {
-  if (!frameState) return;
+  if (!frameState || frameState.resourceFailed) return;
   clearTimeout(frameTimer);
   const firstReady = !frameState.ready;
   frameState.ready = true;
@@ -286,6 +286,7 @@ function displaySession(data, { focusAt = interaction } = {}) {
   frame.style.visibility = 'hidden';
   frame.srcdoc = buildExerciseDocument({
     html: data.exercise.html,
+    dependencies: data.exercise.resources?.dependencies ?? [],
     channel,
     mathjaxUrl: new URL('/assets/mathjax/tex-svg.js', location.origin).href,
   });
@@ -293,7 +294,7 @@ function displaySession(data, { focusAt = interaction } = {}) {
   const warning = element('div', undefined, 'notice');
   warning.setAttribute('role', 'alert');
   warning.hidden = true;
-  warning.append(element('span', 'Math formatting could not load.'), action('Retry formatting', () => displaySession(data)));
+  warning.append(element('span', 'Math formatting could not load.'), action('Retry formatting', () => frameState?.resourceFailed ? void openExercise({sessionId:data.session.id}) : displaySession(data)));
   content.replaceChildren(progress, warning, frame);
   const answerBridge = createAnswerBridge({
     frame,
@@ -310,7 +311,19 @@ function displaySession(data, { focusAt = interaction } = {}) {
     },
   });
   frameState = { frame, channel, progress, warning, answerBridge, sessionId: data.session.id, lastSubmission: data.submission ?? null, focusAt };
-  frameTimer = setTimeout(() => finishFrame(true), 20_000);
+  frameTimer = setTimeout(() => {
+    if (data.exercise.resources?.dependencies?.length) {
+      frameState.resourceFailed=true;
+      frameState.ready=false;
+      progress.hidden=true;
+      warning.hidden=false;
+      warning.querySelector('span').textContent='Exercise resources took too long to load. Retry before checking answers.';
+      warning.querySelector('button').textContent='Retry exercise';
+      frame.style.visibility='visible';
+      setBusy(false);
+      announce('Exercise resources took too long to load. Retry loading the exercise.');
+    } else finishFrame(true);
+  }, 20_000);
 }
 
 async function openExercise({ exerciseId, sessionId }) {
@@ -453,6 +466,19 @@ window.addEventListener('message', (event) => {
   if (!frameState || event.origin !== 'null' || event.source !== frameState.frame.contentWindow || event.data?.channel !== frameState.channel) return;
   const height = event.data.height;
   if (Number.isFinite(height) && height > 0) frameState.frame.style.height = Math.max(280, Math.min(3000, height)) + 'px';
+  if (event.data.type === 'resource-error') {
+    clearTimeout(frameTimer);
+    frameState.resourceFailed=true;
+    frameState.warning.querySelector('span').textContent='Exercise resources could not load. Retry before checking answers.';
+    frameState.warning.querySelector('button').textContent='Retry exercise';
+    frameState.warning.hidden=false;
+    frameState.progress.hidden=true;
+    frameState.frame.style.visibility='visible';
+    frameState.ready=false;
+    setBusy(false);
+    announce('Exercise resources could not load. Retry loading the exercise.');
+    return;
+  }
   if (event.data.type === 'ready') finishFrame();
   if (event.data.type === 'math-error') finishFrame(true);
 });

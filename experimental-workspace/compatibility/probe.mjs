@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { createHash, randomUUID } from 'node:crypto';
 import { chromium } from 'playwright';
+import { createExerciseAssets } from '../application/server/exercise-assets.mjs';
 import { problemHtml } from '../application/server/http-app.mjs';
 import { getAnswerContract, completeAnswerEntries } from '../application/server/answer-contract.mjs';
 import { collectAnswerFields, isAnswerFieldName } from '../application/public/answer-fields.js';
@@ -10,12 +11,13 @@ import { buildExerciseDocument } from '../application/public/exercise-frame.js';
 const catalog = JSON.parse(await readFile(new URL('./catalog.json', import.meta.url), 'utf8'));
 const renderer = process.env.RENDERER_URL ?? 'http://renderer:3000';
 const workspace = process.env.WORKSPACE_URL ?? 'http://workspace:3000';
+const exerciseAssets = createExerciseAssets({rendererBaseUrl:renderer});
 const output = process.env.COMPATIBILITY_OUTPUT ?? '/artifacts';
 await mkdir(output, { recursive:true });
 const browser = await chromium.launch();
 const results = { schemaVersion:1, sourceRevision:catalog.sourceRevision, rendererRevision:catalog.rendererRevision,
   observedAt:new Date().toISOString(), scope:'Operator-only official renderer document in an editor-like same-origin iframe versus actual application projection/frame/bridge; fixtures are not enabled in the student API.', exercises:[] };
-function safeUrl(value) { try { const u=new URL(value); return u.origin+u.pathname; } catch { return value?.split('?')[0]; } }
+function safeUrl(value) { try { const u=new URL(value); return (u.origin+u.pathname).replace(/\/assets\/exercise\/[A-Za-z0-9_-]{43}\//g,'/assets/exercise/[capability]/'); } catch { return value?.split('?')[0]; } }
 function safeError(error) { return String(error?.message ?? error).replace(/eyJ[A-Za-z0-9_.-]+/g,'[private token]').slice(0,220); }
 async function render(fields) {
   const response=await fetch(renderer+'/render-api',{method:'POST',body:new URLSearchParams(fields),signal:AbortSignal.timeout(30_000)});
@@ -35,6 +37,11 @@ async function setupContext() {
     await route.fulfill({response});
   });
   await context.route('http://localhost:3100/**',async route=>{
+    const local=new URL(route.request().url()).pathname.match(/^\/assets\/exercise\/([\w-]{43})\/(\d+)$/);
+    if(local){
+      try {const asset=await exerciseAssets.read(local[1],local[2]);if(!asset)return route.fulfill({status:404,body:'Unavailable'});return route.fulfill({contentType:asset.contentType,body:asset.body});}
+      catch{return route.fulfill({status:502,body:'Unavailable'});}
+    }
     const response=await route.fetch({url:route.request().url().replace('http://localhost:3100',workspace)});
     await route.fulfill({response});
   });
@@ -53,9 +60,10 @@ async function inspect(root){return root.evaluate(root=>{
     visible:field.type!=='hidden'&&Boolean(field.getClientRects().length)&&getComputedStyle(field).visibility!=='hidden',
     options:field.options?.length??0,
   }));
-  return {fields,images:[...root.querySelectorAll('img')].map(image=>({src:(image.currentSrc||image.src).startsWith('data:')?'data:[inline]':new URL(image.currentSrc||image.src,document.baseURI).pathname,loaded:image.complete&&image.naturalWidth>0})),
+  return {fields,images:[...root.querySelectorAll('img')].map(image=>({src:(image.currentSrc||image.src).startsWith('data:')?'data:[inline]':new URL(image.currentSrc||image.src,document.baseURI).pathname.replace(/\/assets\/exercise\/[A-Za-z0-9_-]{43}\//g,'/assets/exercise/[capability]/'),loaded:image.complete&&image.naturalWidth>0})),
     mathCount:root.querySelectorAll('mjx-container').length,assistiveMathCount:root.querySelectorAll('mjx-assistive-mml math').length,
     inlineScripts:root.querySelectorAll('script:not([src])').length,externalScripts:[...root.querySelectorAll('script[src]')].map(script=>script.src.split('?')[0]),
+    graphIconCount:[...root.querySelectorAll('.gt-tool-button')].filter(node=>{const bg=getComputedStyle(node).backgroundImage;return bg!=='none'&&!bg.includes('data:,');}).length,
     mathQuillEditors:root.querySelectorAll('.mq-editable-field').length,graphBoards:root.querySelectorAll('.jxgbox svg').length,scaffoldToggles:root.querySelectorAll('[data-bs-toggle="collapse"],[data-toggle="collapse"]').length,
     popupLinks:root.querySelectorAll('a[target="_blank"]').length,
     pageOverflow:document.documentElement.scrollWidth>innerWidth+1,
@@ -118,6 +126,8 @@ async function interact(root,fixture){
   return evidence;
 }
 async function browserProbe(fixture,seed,data,projection){
+  const prepared=exerciseAssets.prepare({html:data.renderedHTML,resources:data.resources,identity:fixture.id+':'+seed});
+  projection=prepared.project(projection);
   const refContext=await setupContext(),appContext=await setupContext();
   try{
     const reference=await refContext.newPage(),app=await appContext.newPage();
@@ -130,14 +140,14 @@ async function browserProbe(fixture,seed,data,projection){
     if(!refDocument)throw new Error('Missing official reference frame');
     await refDocument.addScriptTag({content:`window.isAnswerFieldName=${isAnswerFieldName.toString()};window.collectAnswerFields=${collectAnswerFields.toString()};`});
     const channel=randomUUID();
-    const frameDocument=buildExerciseDocument({html:projection,channel,mathjaxUrl:'http://localhost:3100/assets/mathjax/tex-svg.js'});
+    const frameDocument=buildExerciseDocument({html:projection,channel,dependencies:prepared.dependencies,mathjaxUrl:'http://localhost:3100/assets/mathjax/tex-svg.js'});
     await app.route('http://localhost:3100/__compatibility',route=>route.fulfill({contentType:'text/html',body:'<!doctype html><html lang="en"><title>Compatibility probe</title><body style="margin:0"><iframe title="Compatibility exercise" sandbox="allow-scripts" style="display:block;width:100%;height:360px;border:0"></iframe></body></html>'}));
     await app.goto('http://localhost:3100/__compatibility');
     await app.evaluate(async({frameDocument,channel})=>{
       const {createAnswerBridge}=await import('/assets/answer-bridge.js');
       const frame=document.querySelector('iframe');
       window.compatibilityBridge=createAnswerBridge({frame,channel});
-      window.addEventListener('message',event=>{if(event.source!==frame.contentWindow||event.origin!=='null'||event.data?.channel!==channel)return;const height=event.data.height;if(Number.isFinite(height)&&height>0)frame.style.height=Math.max(280,Math.min(3000,height))+'px';if(['ready','math-error'].includes(event.data.type))window.compatibilityReady=event.data.type;});
+      window.addEventListener('message',event=>{if(event.source!==frame.contentWindow||event.origin!=='null'||event.data?.channel!==channel)return;const height=event.data.height;if(Number.isFinite(height)&&height>0)frame.style.height=Math.max(280,Math.min(3000,height))+'px';if(['ready','math-error','resource-error'].includes(event.data.type))window.compatibilityReady=event.data.type;});
       frame.srcdoc=frameDocument;
     },{frameDocument,channel});
     await app.waitForFunction(()=>window.compatibilityReady,{timeout:22_000});

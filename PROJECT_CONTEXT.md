@@ -8,7 +8,7 @@ The active work is the independent **experimental-workspace/** WeBWorK integrati
 
 The goal has expanded to a multi-subject practice platform covering the whole OPL, using PG mathematical grading. Design the future catalog for all subjects, while validating playable exercises in batches. Build one complete, reliable exercise flow before broadly enabling large numbers of exercises.
 
-This handoff accompanies the renderer compatibility study commit on `main`. Its preceding pushed baseline is `d3d1b1e5f7e3f4e361d6079980332d1ad7a658e3` (complete-flow verification and renderer restart fix). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
+This handoff accompanies the controlled asset-loading commit on `main`. Its preceding pushed baseline is `de7f1fd` (renderer integration contract and compatibility study). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
 
 ## Implemented in the sandbox
 
@@ -30,15 +30,25 @@ This handoff accompanies the renderer compatibility study commit on `main`. Its 
 
 **UI boundary:** Students can now select, edit, check answers, and read field/overall results. Checked values restore from PG tokens; unsubmitted edits are not autosaved. Inputs remain editable during checking, so later edits are not necessarily included in that submission. No account-based progress or attempt history yet.
 
-## Renderer compatibility study
+## Initial renderer compatibility study
 
 Read [INTEGRATION_CONTRACT.md](experimental-workspace/INTEGRATION_CONTRACT.md), [COMPATIBILITY_MATRIX.md](experimental-workspace/COMPATIBILITY_MATRIX.md), and [compatibility/README.md](experimental-workspace/compatibility/README.md). The separate operator catalog contains eleven real files with stable IDs, attribution, source hashes/revisions, required capabilities, and seeds 1234/4321. All eleven generated at both seeds; sampled browser answers at 1234 and blank answers at 4321 were graded and restored. Eleven paired Chromium comparisons at seed 1234 used the full official reference and the actual app projection/frame/bridge/answer contract.
 
 Seven native-answer paths include the existing dot-product baseline plus six candidates. Static GIF delivery, generated graph images, GraphTool dependencies/state, and scaffold behavior are blocked. A positive scaffold diagnostic confirmed two fields becoming four after a correct first part (score 0.5), retained on restoration. The current picker does not apply changed problem HTML after grading, so dependency loading alone cannot support staged problems.
 
-The only runtime code change exports the existing `problemHtml` function for reuse by operator QA; projection behavior and public routes are unchanged. New tests protect private compatibility files and reject fixture IDs at the student API. The current student allowlist still contains **one exercise**. No new fixtures are approved for students.
+In that initial study, the only runtime code change exported the existing `problemHtml` function for reuse by operator QA; projection behavior and public routes were unchanged. New tests protect private compatibility files and reject fixture IDs at the student API. The current student allowlist still contains **one exercise**. No new fixtures are approved for students.
 
-Latest verification: **69 server tests**, live API smoke (exercise count 1), eleven paired browser comparisons, twenty-two seed probes, and the standalone positive scaffold diagnostic passed. Sanitized observations are recorded in local files; screenshots remain under the host temporary directory. The previous 23-check browser acceptance and renderer outage results below are historical and were not rerun for this study. Full correct-answer, owned-session, mobile, and accessibility acceptance is still needed for each new candidate.
+Initial-study verification: **69 server tests**, live API smoke (exercise count 1), eleven paired browser comparisons, twenty-two seed probes, and the standalone positive scaffold diagnostic passed. Sanitized observations are recorded in local files; screenshots remain under the host temporary directory. The previous 23-check browser acceptance and renderer outage results below are historical and were not rerun for this study. Full correct-answer, owned-session, mobile, and accessibility acceptance is still needed for each new candidate.
+
+## Controlled asset loader
+
+[ASSET_LOADING.md](experimental-workspace/ASSET_LOADING.md) documents the new server-only registry in `workspace/server/exercise-assets.mjs`. Owned session responses mint opaque read capabilities and expose only ordered reviewed dependency URLs. Exact image aliases and generated images are supported. Approved jQuery/Bootstrap, PG GraphTool/Scaffold/details scripts/styles, pinned-and-hash-checked JSXGraph 1.7.0, and GraphTool stylesheet SVG icons run inside the existing opaque sandbox. Script order and defer semantics are preserved. A per-frame help-preference adapter resolves GraphTool's blocked localStorage access without granting same-origin privileges.
+
+Capabilities expire after one hour; the registry is process-local and bounded. Missing resources or initialization errors keep grading disabled even after the loading deadline. Retry restores the owned session and obtains fresh capabilities. Math fallback waits for other frame loads. Renderer tokens, paths, seeds, and upstream queries/aliases stay private. Existing session storage and grading semantics are unchanged.
+
+Post-loader comparisons are in [asset-loading-observations.json](experimental-workspace/compatibility/asset-loading-observations.json), with capabilities redacted. All eleven paired cases match sampled native names, answers, and grading/restoration scores without page errors. Static GIF (1/1), generated PNGs (2/2), scaffold collapse, GraphTool boards, both toolbar icons, and point interaction work. The initial observations remain the historical baseline. Operator fixture IDs remain outside the student allowlist.
+
+Verification: **76 server tests**, **24 browser checks** including resource failure/deadline/retry, API smoke, renderer-client/session/grading/submission-state smoke checks, and eleven paired fixture cases with generation at two seeds. The prior renderer crash/outage proof was not repeated because Compose startup behavior is unchanged. Dynamic scaffold content returned after grading is still not applied to the live frame; full owned-session/mobile/correct-answer widget acceptance remains before promotion.
 
 ## Start or resume locally
 
@@ -135,13 +145,13 @@ PG MathObjects uses `error_message` for coordinate hints as well as parser error
 
 The snapshot persists safe `fieldFeedback` with the updated tokens. Older snapshots without it remain valid and obtain field details on the next check. The iframe inserts plain text with accessible field descriptions and invalid-input markers. Editing a checked field marks it changed and flags the overall score as the last checked result. Parent messages remain authenticated by source/origin/channel; the frame stays opaque and live values are preserved.
 
-The keyboard/accessibility implementation is complete for the verified flow. Actual NVDA/VoiceOver listening has not been performed; run that manual review before public release. The initial representative study is complete; its matrix records six native candidates and four blocked fixtures. Next, implement approved asset delivery, ordered PG dependencies, and staged content updates. Compound answers and custom evaluators still need additional coverage.
+The keyboard/accessibility implementation is complete for the verified flow. Actual NVDA/VoiceOver listening has not been performed; run that manual review before public release. The initial representative study is complete; its matrix records six native candidates and four blocked fixtures. Approved asset delivery and ordered dependencies are implemented as described above; next implement staged content updates. Compound answers and custom evaluators still need additional coverage.
 
 Use the completed operator compatibility set as a regression fixture while resolving the recorded blockers. Verify each candidate through the real student session flow before enabling it or designing the importer around assumed support. Do not publish all 81k exercises in bulk: indexing, topic relevance, renderer compatibility, source attribution, and licenses still need review. Later integrate Supabase account ownership/progress and durable attempts, plus concurrency suitable for multiple server processes.
 
 ## Immediate continuation
 
-1. Address the compatibility matrix blockers: session-aware approved static/generated assets, ordered script/style dependencies, and post-grade problem-content reconciliation. Keep the isolation and edit-preservation contracts. Complete owned-session, positive grading, keyboard, and narrow-screen acceptance for each candidate before enabling it.
+1. Implement post-grade problem-content reconciliation for scaffolds and dynamic questions, using the completed asset loader for newly required resources. Keep the isolation and edit-preservation contracts. Complete owned-session, positive grading, keyboard, and narrow-screen acceptance for each candidate before enabling it.
 2. Design a database catalog for all OPL subjects, with stable IDs, source revisions, multiple topic assignments, licensing/attribution, and verification status. Build a repeatable importer that can index unverified problems without enabling them for students.
 3. Add paginated search/browsing and enable validated batches. Supabase account ownership, durable history, idempotency/concurrency, dependency hardening, and manual screen-reader review remain before broad public release.
 
@@ -163,8 +173,9 @@ Complete-flow acceptance is recorded in experimental-workspace/PRACTICE_VERIFICA
 preserve the renderer PID cleanup and outage/recovery checks. Actual screen-reader
 listening is still a manual release check. Read INTEGRATION_CONTRACT.md and
 COMPATIBILITY_MATRIX.md in experimental-workspace, then reproduce the operator
-compatibility probes. Resolve approved asset delivery, dependency initialization,
-and scaffold content updates before enabling the candidate exercises.
+compatibility probes. Read ASSET_LOADING.md: approved asset delivery and dependency
+initialization are implemented. Continue with scaffold content updates and full
+widget acceptance before enabling the candidate exercises.
 Keep the original Next.js/Supabase application separate.
 ```
 
