@@ -1,5 +1,6 @@
 // Called before entering any test answers. Reports measurements/booleans, never PG HTML or private state.
 export async function auditExerciseStyles(page){
+ const originalViewport=page.viewportSize();
  const frame=page.frames().find(f=>f.parentFrame());
  const boundary=await frame.evaluate(()=>{
   const link=document.querySelector('[data-practice-exercise-style]');
@@ -29,7 +30,7 @@ export async function auditExerciseStyles(page){
   },width));
   if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1))throw new Error('QA_STYLE_OUTER_OVERFLOW');
  }
- await page.setViewportSize({width:1100,height:1000});
+ await page.setViewportSize(originalViewport);
  await page.waitForTimeout(100);
  if(layouts.some(row=>!row.nativeTextTargets||!row.widgetMathUnmarked))throw new Error('QA_STYLE_TARGET_OR_WIDGET_MATH');
  return {boundary,layouts};

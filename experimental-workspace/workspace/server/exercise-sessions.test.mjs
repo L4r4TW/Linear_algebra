@@ -333,3 +333,22 @@ test('persists per-field PG feedback with the accepted token and restores it', a
   assert.deepEqual(restored.submission.fieldFeedback,checked.submission.fieldFeedback);
   assert.equal(restored.submission.fieldFeedback[0].status,'invalid');
 });
+
+test('a server-injected verification seed stays stable and browser seed parameters cannot override it',async(t)=>{
+ const f=await fixture(t);
+ const service=createExerciseSessions({directory:f.directory,rendererClient:f.rendererClient,seedGenerator:()=>1234});
+ const started=await service.startSession({exerciseId:'dot-product-01',seed:4321});
+ assert.equal(started.session.seed,1234);
+ const resumed=await service.resumeSession(started.session.id);
+ assert.equal(resumed.session.seed,1234);assert.equal(f.calls.restore[0].seed,1234);
+});
+
+test('invalid injected seeds fail before renderer calls or storage writes',async(t)=>{
+ const f=await fixture(t);
+ for(const seed of [0,-1,2147483648,1.5,NaN,'1234']){
+  const service=createExerciseSessions({directory:f.directory,rendererClient:f.rendererClient,seedGenerator:()=>seed});
+  await assert.rejects(service.startSession({exerciseId:'dot-product-01'}),hasCode('INVALID_CONFIGURATION'));
+ }
+ assert.equal(f.calls.load.length,0);
+ assert.equal(await stat(f.directory).then(()=>true,()=>false),false);
+});

@@ -56,3 +56,9 @@ docker run --rm --network linear-algebra-experimental_default --shm-size=1g -e S
 ```
 
 This writes `styling-results.json`; reviewed sanitized evidence is [styling-observations.json](styling-observations.json). No screenshots or answer values are written. Protected measurements compare the exercise stylesheet enabled/disabled without changing PG markup. The audit uses a short bounded layout wait because animation-frame callbacks can pause in offscreen mobile iframes. See [STYLING_CONTRACT.md](../STYLING_CONTRACT.md) for allowed selectors and observed narrow-frame scrolling limits.
+
+## Complete automated compatibility matrix
+
+The primary repeatable command is now [verify-compatibility.ps1](../verify-compatibility.ps1), documented in [COMPATIBILITY_REGRESSION.md](../COMPATIBILITY_REGRESSION.md). It runs both fixed catalog seeds across desktop and touch-mobile contexts, adds per-case loading/grade/lost-response retries, keyboard operations, authenticated owner rejection, and strict case/check assessment. The default matrix has 44 cases.
+
+Visible reviewed records: [REGRESSION_STATUS.md](REGRESSION_STATUS.md), [report.html](report.html), [regression-observations.json](regression-observations.json). [unsupported-capabilities.json](unsupported-capabilities.json) keeps capability gaps explicit. Failed required checks or unregistered observed limitations fail the command; known limits remain visible without enabling fixtures in the student catalog. Earlier widget/styling observations remain historical snapshots of their respective runs.

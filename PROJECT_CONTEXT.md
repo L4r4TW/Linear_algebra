@@ -8,7 +8,7 @@ The active work is the independent **experimental-workspace/** WeBWorK integrati
 
 The goal has expanded to a multi-subject practice platform covering the whole OPL, using PG mathematical grading. Design the future catalog for all subjects, while validating playable exercises in batches. Build one complete, reliable exercise flow before broadly enabling large numbers of exercises.
 
-This handoff accompanies the scoped exercise styling commit on `main`. Its preceding pushed baseline is `f9bb30f` (widget answer/feedback verification). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
+This handoff accompanies the automated compatibility regression commit on `main`. Its preceding pushed baseline is `58cd2f8` (scoped exercise styling). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
 
 ## Implemented in the sandbox
 
@@ -67,6 +67,16 @@ Read [STYLING_CONTRACT.md](experimental-workspace/STYLING_CONTRACT.md) and sanit
 `compatibility/style-audit.mjs`, enabled by `STYLE_AUDIT=1` in widget-acceptance.mjs, compares protected table/graph/button/board/SVG geometry and paint with exercise overrides enabled/disabled, measures 820px/320px layouts, then runs the full owned grading/restoration flow. All eleven fixtures pass; all reach score 1 and clear to 0. Narrow matrix/static-image/GraphTool frames require horizontal scrolling without making the parent page overflow; those candidates still need deliberate mobile treatment.
 
 Current validation: **77 server tests**, **28 browser checks**, live API smoke (one public exercise), and eleven style-audited owned widget cases. Earlier five-smoke and outage proofs remain historical for areas unchanged in this styling task. No fixtures were promoted. Next remains automatic scaffold content reconciliation, followed by per-widget mobile/keyboard/visual review before broad enablement.
+
+## Automated compatibility regression
+
+The repeatable command is `powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace/verify-compatibility.ps1` from the repository root. See [COMPATIBILITY_REGRESSION.md](experimental-workspace/COMPATIBILITY_REGRESSION.md), the [status record](experimental-workspace/compatibility/REGRESSION_STATUS.md), and [offline HTML report](experimental-workspace/compatibility/report.html). The matrix covers all eleven selected fixtures at seeds 1234/4321 in desktop and touch-mobile contexts (44 cases). Server-only seedGenerator injection supports deterministic operator sessions; the production cryptographic seed default and HTTP schema remain unchanged.
+
+New regression helpers test rendering/images/MathJax initialization, native and graph keyboard interaction, touch inputs, loading retry, renderer network failure without saved-state changes, explicit retry, accepted/lost response recovery, exact refresh state, clearing, stable seed and a second authenticated owner (both GET/POST rejected before renderer calls). Style audit preserves the original viewport so mobile flows stay mobile. Report assessment rejects missing/duplicate cases, missing checks and unregistered observed gaps. HTML/Markdown/JSON reports remain sanitized; artifacts stay in a fresh temporary directory each run.
+
+The automated gate exposes an unresolved mobile GraphTool touch-positive grading failure for both selected seeds. Those cases remain failed, while retries/refresh/clearing/ownership checks continue to collect evidence. The precise capability registry also lists refresh-required scaffold stages, horizontal scrolling (matrix/static image/graph and touch-mobile elasticity), manual screen-reader/device review and untested PG families. Do not waive failed grading to make the suite green or enable the operator fixtures in the student catalog.
+
+Baseline verification is 79 server tests, 28 browser checks, and four report-assessment tests. The final matrix completed 44/44 cases: 42 passed; both touch-mobile GraphTool positive cases failed grading and completed all other required categories. The command exits nonzero as intended; 18 cases carry observed capability limits. Full details are in the generated status record. Earlier one-seed desktop-positive and styling observations remain historical and do not prove touch-positive correctness. Next work is the mobile graph interaction failure and automatic staged-content reconciliation; the real daemon outage check remains separate.
 
 ## Start or resume locally
 

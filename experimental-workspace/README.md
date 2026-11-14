@@ -24,6 +24,18 @@ Current checks pass 77 server tests, 26 browser checks, the live smoke checks, a
 
 Validation passes 77 server tests, 28 browser checks, API smoke, and eleven style-audited widget cases. Matrix/GraphTool geometry matches upstream computed styles with overrides disabled. Narrow matrix/static-image/GraphTool frames still scroll horizontally; see the report before claiming mobile support.
 
+## Automated compatibility gate
+
+Run from the repository root:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace/verify-compatibility.ps1
+```
+
+This repeats server/browser/report tests and **44 cases**: eleven operator exercises, seeds 1234/4321, desktop and 390px touch-mobile. It includes loading/grade retries, a lost successful response, refresh, a different authenticated browser owner, native/graph keyboard operations, touch interaction and narrow layout. See [COMPATIBILITY_REGRESSION.md](COMPATIBILITY_REGRESSION.md), [the current status](compatibility/REGRESSION_STATUS.md), and the [offline HTML report](compatibility/report.html).
+
+The recorded run completes all 44 cases: 42 pass and 2 mobile GraphTool touch-positive cases fail grading. Baseline tests pass (79 server, 28 browser, 4 report tests). The gate retains these mobile failures and exits nonzero. Refresh-required scaffold transitions and narrow-frame scrolling are separately visible limitations. A passing subset does not approve the complete matrix or expand the default one-exercise catalog.
+
 ## Start
 
 Start Docker Desktop with its Linux engine ready. From the repository root:

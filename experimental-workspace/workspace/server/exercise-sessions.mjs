@@ -57,6 +57,7 @@ function present(record, rendered) {
 export function createExerciseSessions({
   directory = env.EXERCISE_SESSION_DIR,
   exerciseLookup = getExerciseById,
+  seedGenerator = () => randomInt(1, 2147483648),
   rendererClient = createRendererClient({exerciseLookup}),
 } = {}) {
   if (!isText(directory) || !isAbsolute(directory)) {
@@ -117,7 +118,10 @@ export function createExerciseSessions({
         throw new ExerciseSessionError('INVALID_INPUT', 'A valid owner token is required.');
       }
       const id = randomUUID();
-      const seed = randomInt(1, 2147483648);
+      const seed = seedGenerator();
+      if (!Number.isInteger(seed) || seed < 1 || seed > 2147483647) {
+        throw new ExerciseSessionError('INVALID_CONFIGURATION', 'The session seed generator returned an invalid seed.');
+      }
       const rendered = await rendererClient.loadExercise({ exerciseId: input.exerciseId, seed });
       const record = {
         version: 1,

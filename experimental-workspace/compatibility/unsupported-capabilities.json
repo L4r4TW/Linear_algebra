@@ -1,0 +1,52 @@
+{
+    "version":  1,
+    "limitations":  [
+                        {
+                            "code":  "STAGED_CONTENT_REQUIRES_REFRESH",
+                            "exerciseIds":  [
+                                                "compat-calculus-scaffold-01"
+                                            ],
+                            "capability":  "automatic-stage-reconciliation",
+                            "status":  "unsupported",
+                            "reason":  "Newly unlocked or relocked PG stages are applied only after an explicit refresh; the live frame is preserved after grading."
+                        },
+                        {
+                            "code":  "NARROW_FRAME_SCROLL",
+                            "exerciseIds":  [
+                                                "compat-matrix-grid-01",
+                                                "compat-algebra-image-01",
+                                                "compat-algebra-graphtool-01",
+                                                "compat-economics-popup-01"
+                                            ],
+                            "capability":  "mobile-layout",
+                            "status":  "limited",
+                            "reason":  "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
+                        },
+                        {
+                            "code":  "MOBILE_GRAPH_TOUCH_GRADING",
+                            "exerciseIds":  [
+                                                "compat-algebra-graphtool-01"
+                                            ],
+                            "capability":  "touch-graph-positive-answer",
+                            "status":  "unsupported",
+                            "reason":  "For fixture seeds 1234 and 4321, touch-mobile point placement does not reach the expected full score. Coordinate/interaction behavior needs investigation; these cases remain failed and are not waived by this policy."
+                        }
+                    ],
+    "unverified":  [
+                       {
+                           "capability":  "screen-reader-listening",
+                           "status":  "manual",
+                           "reason":  "Automated focus and semantics checks do not replace NVDA/VoiceOver listening."
+                       },
+                       {
+                           "capability":  "physical-mobile-devices",
+                           "status":  "manual",
+                           "reason":  "Touch and viewport emulation are tested in Chromium; physical device keyboards and browsers still need review."
+                       },
+                       {
+                           "capability":  "all-PG-widgets-and-macros",
+                           "status":  "unsupported",
+                           "reason":  "The selected fixtures do not cover file uploads, arbitrary custom editors, compound matrix editors or every GraphTool tool/evaluator."
+                       }
+                   ]
+}

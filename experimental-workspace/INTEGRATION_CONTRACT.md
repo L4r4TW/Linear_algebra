@@ -115,3 +115,6 @@ The operator [catalog](compatibility/catalog.json) and [observations](compatibil
 For another exercise, record separately: upstream PG generation, official browser behavior, required assets/scripts, projected-frame appearance, native/hidden answer collection, sample grading/restoration, and any missing behavior. A successful PG response or a zero score alone is not proof that an interactive widget works.
 
 Before changing internal controls, preserve field identities and evaluator semantics, establish an explicit resource/initialization model, verify script-driven state and staged visibility, and test the full owned student flow. Keep renderer configuration under server control and preserve isolation while addressing capability gaps. Do not resolve a failed widget by broadly exposing renderer files or enabling unrestricted frame network access.
+
+
+The [automated compatibility gate](COMPATIBILITY_REGRESSION.md) now covers both fixture seeds on desktop and touch-mobile. It preserves the default student catalog and private-parameter boundaries. Its explicit mobile GraphTool touch-positive failure demonstrates why desktop grading/style compatibility cannot establish every input mode. Read the current generated status before promoting fixtures.

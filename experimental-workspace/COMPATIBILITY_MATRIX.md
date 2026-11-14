@@ -85,3 +85,8 @@ GraphTool now has a narrow direct-hidden-value observer, visible field feedback,
 [STYLING_CONTRACT.md](STYLING_CONTRACT.md) and [styling-observations.json](compatibility/styling-observations.json) record the scoped override set and enabled/disabled stylesheet comparisons. All eleven fixtures retain grading/restoration behavior. Nine matrix fields and eleven protected GraphTool containers/buttons/boards/SVG nodes retain measured geometry (and SVG root viewport/paint). Ordinary prose/native controls and app-generated feedback are opt-in; renderer base typography and widget/table appearance stay upstream-owned.
 
 The parent page fits both measured viewports. At the 320px page viewport, the matrix, static GIF and GraphTool need horizontal scrolling within the frame. This remains a candidate layout limitation, not approval of every widget on mobile. Source IDs/fields/values, script order, asset policy and sandboxing are unchanged.
+
+
+## Automated seeded desktop/touch regression
+
+[COMPATIBILITY_REGRESSION.md](COMPATIBILITY_REGRESSION.md) defines the 44-case gate and strict assessment. Read [REGRESSION_STATUS.md](compatibility/REGRESSION_STATUS.md), [report.html](compatibility/report.html), and [unsupported-capabilities.json](compatibility/unsupported-capabilities.json) for current results. Earlier positive studies used different input coverage. The new touch-mobile GraphTool positive case remains failed for the selected seeds; narrow touch-mobile elasticity overflow is now recorded as well. Unsupported findings do not enable catalog entries or excuse failed required checks.
