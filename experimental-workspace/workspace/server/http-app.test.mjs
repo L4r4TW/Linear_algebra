@@ -232,7 +232,7 @@ test('serves picker assets without making server-side modules public', async (t)
     assert.equal(response.status, 200);
     assert.ok(response.headers.get('content-type').startsWith(type));
   }
-  for (const path of ['/server/exercise-catalog.json', '/server/exercise-sessions.mjs', '/assets/../server/renderer-client.mjs']) {
+  for (const path of ['/server/exercise-catalog.json', '/server/exercise-sessions.mjs', '/assets/../server/renderer-client.mjs', '/compatibility/catalog.json', '/compatibility/observations.json', '/compatibility/probe.mjs']) {
     assert.equal((await fetch(f.baseUrl + path)).status, 404);
   }
 });
@@ -411,4 +411,12 @@ test('exposes only allowlisted field feedback properties and restores them to th
   assert.doesNotMatch(JSON.stringify(checked),/PRIVATE_EXPECTED|PRIVATE_FEEDBACK_TOKEN|correct_value/);
   const restored = await (await fetch(f.baseUrl+'/api/sessions/'+initial.session.id,{headers:{Cookie:cookie}})).json();
   assert.deepEqual(restored.submission.fieldFeedback,checked.submission.fieldFeedback);
+});
+
+test('operator compatibility fixture IDs do not expand the student exercise allowlist', async (t) => {
+  const f = await fixture(t);
+  const response = await start(f, {exerciseId:'compat-algebra-graphtool-01'});
+  assert.equal(response.status,404);
+  assert.equal((await response.json()).error.code,'UNKNOWN_EXERCISE');
+  assert.equal(f.calls.load.length,0);
 });

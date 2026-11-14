@@ -31,7 +31,7 @@ This assumes the existing OPL Docker volume is available. For a new machine, fol
 
 The sandbox has one exercise verified from selection through real PG grading and restoration: **Dot products and vector operations** (`dot-product-01`). It includes isolated answer fields, Check answer controls, per-field feedback, partial credit, keyboard navigation, mobile layout, and saved session state.
 
-Verification passed **68 server tests and 23 browser checks**, all live smoke checks, and a real renderer failure/recovery test. That test found and fixed a stale PID-file restart bug. See the [acceptance report](experimental-workspace/PRACTICE_VERIFICATION.md) for evidence and limits.
+The previous complete-flow verification passed **68 server tests and 23 browser checks**, all live smoke checks, and a real renderer failure/recovery test. That test found and fixed a stale PID-file restart bug. See the [acceptance report](experimental-workspace/PRACTICE_VERIFICATION.md) for evidence and limits.
 
 Repeat the complete verification from the repository root:
 
@@ -41,7 +41,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace
 
 The outage option briefly interrupts only the experimental renderer and restores it without removing volumes. Omit it for ordinary verification. Unsubmitted edits are not saved; ownership currently belongs to the anonymous browser cookie rather than a Supabase account. Actual screen-reader listening remains a manual release check.
 
-Next, verify representative exercises and widget types across subjects, then build the database catalog and repeatable importer for the full OPL. The current single-exercise check does not establish compatibility for the whole library.
+A new [integration contract](experimental-workspace/INTEGRATION_CONTRACT.md) and [compatibility matrix](experimental-workspace/COMPATIBILITY_MATRIX.md) document eleven real OPL fixtures at two seeds. Seven native-answer paths include the existing baseline; four fixtures expose gaps in static/generated images, staged content, and GraphTool. The [operator test catalog](experimental-workspace/compatibility/catalog.json) does not expand the student catalog. This study passed 69 server tests and the live API smoke check; the earlier 23-check acceptance suite was not rerun for it.
+
+Next, address asset delivery, PG dependencies, and post-grade content updates, then validate candidates through full owned sessions before enabling them. Build the multi-subject database catalog and repeatable importer around explicit verification status.
 
 Source is copied into Docker images: rebuild after edits. Saved sessions survive rebuilds in a named volume; `docker compose down --volumes` deletes them. Keep renderer/editor ports private; this development setup is not ready for public deployment.
 

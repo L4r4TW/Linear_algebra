@@ -8,7 +8,7 @@ The active work is the independent **experimental-workspace/** WeBWorK integrati
 
 The goal has expanded to a multi-subject practice platform covering the whole OPL, using PG mathematical grading. Design the future catalog for all subjects, while validating playable exercises in batches. Build one complete, reliable exercise flow before broadly enabling large numbers of exercises.
 
-This handoff accompanies the complete-flow verification and renderer restart fix commit on `main`. Its preceding implementation baseline is `489aec1` (accessibility/layout refinements). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
+This handoff accompanies the renderer compatibility study commit on `main`. Its preceding pushed baseline is `d3d1b1e5f7e3f4e361d6079980332d1ad7a658e3` (complete-flow verification and renderer restart fix). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
 
 ## Implemented in the sandbox
 
@@ -29,6 +29,16 @@ This handoff accompanies the complete-flow verification and renderer restart fix
 12. Complete-experience verification: 68 server tests, 23 browser checks, all focused live smoke checks, and actual renderer crash/recovery. New browser tests verify ownership across independent contexts and recovery of an accepted submission whose response was lost. See [PRACTICE_VERIFICATION.md](experimental-workspace/PRACTICE_VERIFICATION.md).
 
 **UI boundary:** Students can now select, edit, check answers, and read field/overall results. Checked values restore from PG tokens; unsubmitted edits are not autosaved. Inputs remain editable during checking, so later edits are not necessarily included in that submission. No account-based progress or attempt history yet.
+
+## Renderer compatibility study
+
+Read [INTEGRATION_CONTRACT.md](experimental-workspace/INTEGRATION_CONTRACT.md), [COMPATIBILITY_MATRIX.md](experimental-workspace/COMPATIBILITY_MATRIX.md), and [compatibility/README.md](experimental-workspace/compatibility/README.md). The separate operator catalog contains eleven real files with stable IDs, attribution, source hashes/revisions, required capabilities, and seeds 1234/4321. All eleven generated at both seeds; sampled browser answers at 1234 and blank answers at 4321 were graded and restored. Eleven paired Chromium comparisons at seed 1234 used the full official reference and the actual app projection/frame/bridge/answer contract.
+
+Seven native-answer paths include the existing dot-product baseline plus six candidates. Static GIF delivery, generated graph images, GraphTool dependencies/state, and scaffold behavior are blocked. A positive scaffold diagnostic confirmed two fields becoming four after a correct first part (score 0.5), retained on restoration. The current picker does not apply changed problem HTML after grading, so dependency loading alone cannot support staged problems.
+
+The only runtime code change exports the existing `problemHtml` function for reuse by operator QA; projection behavior and public routes are unchanged. New tests protect private compatibility files and reject fixture IDs at the student API. The current student allowlist still contains **one exercise**. No new fixtures are approved for students.
+
+Latest verification: **69 server tests**, live API smoke (exercise count 1), eleven paired browser comparisons, twenty-two seed probes, and the standalone positive scaffold diagnostic passed. Sanitized observations are recorded in local files; screenshots remain under the host temporary directory. The previous 23-check browser acceptance and renderer outage results below are historical and were not rerun for this study. Full correct-answer, owned-session, mobile, and accessibility acceptance is still needed for each new candidate.
 
 ## Start or resume locally
 
@@ -125,13 +135,13 @@ PG MathObjects uses `error_message` for coordinate hints as well as parser error
 
 The snapshot persists safe `fieldFeedback` with the updated tokens. Older snapshots without it remain valid and obtain field details on the next check. The iframe inserts plain text with accessible field descriptions and invalid-input markers. Editing a checked field marks it changed and flags the overall score as the last checked result. Parent messages remain authenticated by source/origin/channel; the frame stays opaque and live values are preserved.
 
-The keyboard/accessibility implementation is complete for the verified flow. Actual NVDA/VoiceOver listening has not been performed; run that manual review before public release. Next, test a representative set of exercise types and subjects before designing the multi-subject catalog database/importer. In particular, graphs, images, choice groups, custom evaluators, and compound answers need individual compatibility checks; do not infer support from the current four-field exercise.
+The keyboard/accessibility implementation is complete for the verified flow. Actual NVDA/VoiceOver listening has not been performed; run that manual review before public release. The initial representative study is complete; its matrix records six native candidates and four blocked fixtures. Next, implement approved asset delivery, ordered PG dependencies, and staged content updates. Compound answers and custom evaluators still need additional coverage.
 
-With the one-exercise flow verified, the next development task is a representative compatibility set across OPL subjects and exercise types. Verify each entry and its specialized widgets individually before designing the catalog importer around assumed support. Do not publish all 81k exercises in bulk: indexing, topic relevance, renderer compatibility, source attribution, and licenses still need review. Later integrate Supabase account ownership/progress and durable attempts, plus concurrency suitable for multiple server processes.
+Use the completed operator compatibility set as a regression fixture while resolving the recorded blockers. Verify each candidate through the real student session flow before enabling it or designing the importer around assumed support. Do not publish all 81k exercises in bulk: indexing, topic relevance, renderer compatibility, source attribution, and licenses still need review. Later integrate Supabase account ownership/progress and durable attempts, plus concurrency suitable for multiple server processes.
 
 ## Immediate continuation
 
-1. Select a small representative set across subjects and answer/widget types. Verify real files, attribution, rendering/assets, collection, grading, and restoration. Record unsupported capabilities explicitly.
+1. Address the compatibility matrix blockers: session-aware approved static/generated assets, ordered script/style dependencies, and post-grade problem-content reconciliation. Keep the isolation and edit-preservation contracts. Complete owned-session, positive grading, keyboard, and narrow-screen acceptance for each candidate before enabling it.
 2. Design a database catalog for all OPL subjects, with stable IDs, source revisions, multiple topic assignments, licensing/attribution, and verification status. Build a repeatable importer that can index unverified problems without enabling them for students.
 3. Add paginated search/browsing and enable validated batches. Supabase account ownership, durable history, idempotency/concurrency, dependency hardening, and manual screen-reader review remain before broad public release.
 
@@ -151,8 +161,10 @@ the Check answer controls already submit to POST /api/sessions/:id/answers.
 Student-safe field/overall feedback is also implemented and restored.
 Complete-flow acceptance is recorded in experimental-workspace/PRACTICE_VERIFICATION.md;
 preserve the renderer PID cleanup and outage/recovery checks. Actual screen-reader
-listening is still a manual release check. Continue by testing representative OPL exercise
-types before expanding to a multi-subject catalog.
+listening is still a manual release check. Read INTEGRATION_CONTRACT.md and
+COMPATIBILITY_MATRIX.md in experimental-workspace, then reproduce the operator
+compatibility probes. Resolve approved asset delivery, dependency initialization,
+and scaffold content updates before enabling the candidate exercises.
 Keep the original Next.js/Supabase application separate.
 ```
 

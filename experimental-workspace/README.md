@@ -2,7 +2,9 @@
 
 Session handoff and next steps: [PROJECT_CONTEXT.md](../PROJECT_CONTEXT.md). Repository-wide guidance: [AGENTS.md](../AGENTS.md).
 
-Independent sandbox for the official WeBWorK standalone renderer and PG integration. The existing Next.js application and Supabase configuration are separate. The project direction covers all OPL subjects; the current verified catalog contains one exercise. Start with the [practice acceptance report](PRACTICE_VERIFICATION.md) for current coverage and limits.
+Independent sandbox for the official WeBWorK standalone renderer and PG integration. The existing Next.js application and Supabase configuration are separate. The project direction covers all OPL subjects; the current verified catalog contains one exercise. Start with the [practice acceptance report](PRACTICE_VERIFICATION.md) for the complete student-flow baseline. The [integration contract](INTEGRATION_CONTRACT.md) records the renderer/client/frame boundary; the [compatibility matrix](COMPATIBILITY_MATRIX.md) compares eleven real OPL fixtures with the official renderer. Reproduction commands and the separate operator catalog are in [compatibility/README.md](compatibility/README.md).
+
+The compatibility study found six additional native-answer candidates and four blocked fixtures: static images, generated graphs, scaffolds, and GraphTool. These fixtures remain outside the student allowlist. The latest focused run passed 69 server tests and the live API smoke check; the study also ran eleven paired browser comparisons and twenty-two seed probes. The existing 23-check full acceptance suite is prior evidence, not a rerun for this study.
 
 ## Start
 
@@ -37,7 +39,7 @@ Successful checks show **Submitted answers checked and saved.** The live exercis
 
 Unsubmitted edits are not saved. Checked answers restore after refresh from the saved renderer session. Each field now shows a result and plain-text PG feedback; an overall result and percentage score appear above Check answer. These results restore after refresh.
 
-The UI lives in `workspace/public/`: `index.html`, `picker.css`, `picker.js`, and `exercise-frame.js`. The server exposes only explicitly listed static files. Catalog text is inserted as text, and API problem HTML is displayed in an iframe with `sandbox="allow-scripts"`, without same-origin access or form submission permissions. A restrictive frame content policy blocks API/network connections and navigation. Parent messages are checked against the frame window and a per-frame channel.
+The UI lives in `workspace/public/`: `index.html`, `picker.css`, `picker.js`, and `exercise-frame.js`. The server exposes only explicitly listed static files. Catalog text is inserted as text, and API problem HTML is displayed in an iframe with `sandbox="allow-scripts"`, without same-origin access or form submission permissions. A restrictive frame content policy blocks API connections, forms, and unapproved resources; the sandbox blocks top navigation. Self-frame navigation is not comprehensively prevented. Parent messages are checked against the frame window and a per-frame channel.
 
 The backend proxies only JavaScript under the pinned renderer's MathJax directory through `/assets/mathjax/`. Math stays self-hosted, and the frame converts PG's legacy `script[type="math/tex"]` tags before MathJax typesetting. It does not load the renderer editor, form controls, or general submit scripts. This path is verified for the current catalog exercise; exercises with graphs or other PG widgets need their own compatibility checks.
 

@@ -1,0 +1,27 @@
+{
+  "id": "compat-calculus-scaffold-01",
+  "seed": 1234,
+  "operatorOnly": true,
+  "beforeAnswerNames": [
+    "AnSwEr0001",
+    "AnSwEr0002"
+  ],
+  "afterAnswerNames": [
+    "AnSwEr0001",
+    "AnSwEr0002",
+    "AnSwEr0003",
+    "AnSwEr0004"
+  ],
+  "restoredAnswerNames": [
+    "AnSwEr0001",
+    "AnSwEr0002",
+    "AnSwEr0003",
+    "AnSwEr0004"
+  ],
+  "score": 0.5,
+  "problemContentChanged": true,
+  "newFields": [
+    "AnSwEr0003",
+    "AnSwEr0004"
+  ]
+}

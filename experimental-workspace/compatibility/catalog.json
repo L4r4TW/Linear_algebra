@@ -1,0 +1,271 @@
+{
+    "version":  1,
+    "purpose":  "Operator-only renderer compatibility fixtures; not the student exercise allowlist",
+    "sourceRepository":  "https://github.com/openwebwork/webwork-open-problem-library",
+    "sourceRevision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+    "rendererRevision":  "1134ffbbf5e656148e579f424f70bcd9f1d15936",
+    "licenseEvidence":  "OPL_LICENSE supplies a conditional default; individual and parent-directory notices still require review before redistribution or commercial use.",
+    "verificationSeeds":  [
+                              1234,
+                              4321
+                          ],
+    "exercises":  [
+                      {
+                          "id":  "dot-product-01",
+                          "title":  "Dot products and vector operations",
+                          "subject":  "Linear algebra",
+                          "authors":  [
+                                          "Paul Pearson"
+                                      ],
+                          "institution":  "Fort Lewis College",
+                          "requiredCapabilities":  [
+                                                       "mathjax",
+                                                       "native-text",
+                                                       "vector-syntax",
+                                                       "multiple-answers"
+                                                   ],
+                          "interaction":  "text",
+                          "source":  {
+                                         "path":  "OpenProblemLibrary/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg",
+                                         "sha256":  "015a00eec3ad5bfd10568083fb0640a79c9f1ad1b59df740cca0d9832575460a",
+                                         "url":  "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg",
+                                         "attribution":  "As credited in source; textbook credits are not treated as problem authors."
+                                     },
+                          "rendererPath":  "Library/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg"
+                      },
+                      {
+                          "id":  "compat-calculus-numeric-01",
+                          "title":  "Evaluate a derivative at a point",
+                          "subject":  "Calculus - single variable",
+                          "authors":  [
+
+                                      ],
+                          "institution":  "Rochester",
+                          "requiredCapabilities":  [
+                                                       "mathjax",
+                                                       "native-text",
+                                                       "numeric-evaluator"
+                                                   ],
+                          "interaction":  "text",
+                          "source":  {
+                                         "path":  "OpenProblemLibrary/Rochester/setDerivatives2Formulas/c2s5p1.pg",
+                                         "sha256":  "224502a030bf255614ea83ef58708627546abde879ba595a580277b67476c677",
+                                         "url":  "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/Rochester/setDerivatives2Formulas/c2s5p1.pg",
+                                         "attribution":  "No problem author declared in inspected source header; retained institution/path attribution."
+                                     },
+                          "rendererPath":  "Library/Rochester/setDerivatives2Formulas/c2s5p1.pg"
+                      },
+                      {
+                          "id":  "compat-calculus-formula-01",
+                          "title":  "Differentiate a quotient",
+                          "subject":  "Calculus - single variable",
+                          "authors":  [
+
+                                      ],
+                          "institution":  "UCSB",
+                          "requiredCapabilities":  [
+                                                       "mathjax",
+                                                       "native-text",
+                                                       "formula-evaluator"
+                                                   ],
+                          "interaction":  "text",
+                          "source":  {
+                                         "path":  "OpenProblemLibrary/Union/setDervProductQuotientRule/ur_dr_2_1.pg",
+                                         "sha256":  "4bbd5597c07ee42bd3824ad4a3b2727edb4cc162fe45ce336350e7255af52dfc",
+                                         "url":  "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/Union/setDervProductQuotientRule/ur_dr_2_1.pg",
+                                         "attribution":  "No problem author declared in inspected source header; retained institution/path attribution."
+                                     },
+                          "rendererPath":  "Library/Union/setDervProductQuotientRule/ur_dr_2_1.pg"
+                      },
+                      {
+                          "id":  "compat-matrix-grid-01",
+                          "title":  "Add scaled matrices",
+                          "subject":  "Linear algebra",
+                          "authors":  [
+
+                                      ],
+                          "institution":  "ASU",
+                          "requiredCapabilities":  [
+                                                       "mathjax",
+                                                       "matrix-grid",
+                                                       "native-text",
+                                                       "multiple-answers",
+                                                       "layout-tables"
+                                                   ],
+                          "interaction":  "text",
+                          "source":  {
+                                         "path":  "OpenProblemLibrary/ASU-topics/set119MatrixAlgebra/p12.pg",
+                                         "sha256":  "67cfe0c86359294d3753818e72ddc39d5a4a4efae1b6e9e4057588f79dd71cf2",
+                                         "url":  "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/ASU-topics/set119MatrixAlgebra/p12.pg",
+                                         "attribution":  "No problem author declared in inspected source header; retained institution/path attribution."
+                                     },
+                          "rendererPath":  "Library/ASU-topics/set119MatrixAlgebra/p12.pg"
+                      },
+                      {
+                          "id":  "compat-statistics-radio-01",
+                          "title":  "Classify hypothesis-test decisions",
+                          "subject":  "Statistics",
+                          "authors":  [
+                                          "Rachael Norton (adaptation credit in source)"
+                                      ],
+                          "institution":  "ASU",
+                          "requiredCapabilities":  [
+                                                       "radio-groups",
+                                                       "multiple-answers",
+                                                       "native-labels"
+                                                   ],
+                          "interaction":  "radio",
+                          "source":  {
+                                         "path":  "OpenProblemLibrary/ASU-topics/setStat/di12.pg",
+                                         "sha256":  "ca848d241dda15054e1f675727344a5d8737b82512f02def4814d73f9ae62c91",
+                                         "url":  "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/ASU-topics/setStat/di12.pg",
+                                         "attribution":  "As credited in source; textbook credits are not treated as problem authors."
+                                     },
+                          "rendererPath":  "Library/ASU-topics/setStat/di12.pg"
+                      },
+                      {
+                          "id":  "compat-algebra-checkbox-01",
+                          "title":  "Compare population growth and explanations",
+                          "subject":  "Algebra",
+                          "authors":  [
+                                          "Adam Spiegler"
+                                      ],
+                          "institution":  "Loyola University Chicago",
+                          "requiredCapabilities":  [
+                                                       "mathjax",
+                                                       "native-text",
+                                                       "checkbox-groups",
+                                                       "repeated-names",
+                                                       "multiple-answers"
+                                                   ],
+                          "interaction":  "checkbox",
+                          "source":  {
+                                         "path":  "OpenProblemLibrary/LoyolaChicago/Precalc/Chap3Review/Q46.pg",
+                                         "sha256":  "784601fbfd5562a91b86882750ad38810464d2e1278cbbb731c0dfbf4046fbe8",
+                                         "url":  "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/LoyolaChicago/Precalc/Chap3Review/Q46.pg",
+                                         "attribution":  "As credited in source; textbook credits are not treated as problem authors."
+                                     },
+                          "rendererPath":  "Library/LoyolaChicago/Precalc/Chap3Review/Q46.pg"
+                      },
+                      {
+                          "id":  "compat-economics-popup-01",
+                          "title":  "Demand elasticity and revenue",
+                          "subject":  "Calculus - single variable",
+                          "authors":  [
+
+                                      ],
+                          "institution":  "ASU",
+                          "requiredCapabilities":  [
+                                                       "mathjax",
+                                                       "native-text",
+                                                       "native-select",
+                                                       "multiple-answers"
+                                                   ],
+                          "interaction":  "select",
+                          "source":  {
+                                         "path":  "OpenProblemLibrary/ASU-topics/setElasticity/p10.pg",
+                                         "sha256":  "7109d85872e2ed9c6cf93ed20dfcfbdbc9312f318218535d13c5c4b1f5dd003d",
+                                         "url":  "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/ASU-topics/setElasticity/p10.pg",
+                                         "attribution":  "No problem author declared in inspected source header; retained institution/path attribution."
+                                     },
+                          "rendererPath":  "Library/ASU-topics/setElasticity/p10.pg"
+                      },
+                      {
+                          "id":  "compat-calculus-scaffold-01",
+                          "title":  "Integral and derivative in stages",
+                          "subject":  "Calculus - single variable",
+                          "authors":  [
+                                          "Paul Pearson"
+                                      ],
+                          "institution":  "Hope College",
+                          "requiredCapabilities":  [
+                                                       "mathjax",
+                                                       "native-text",
+                                                       "checkbox-groups",
+                                                       "scaffold",
+                                                       "bootstrap-collapse",
+                                                       "header-scripts",
+                                                       "header-styles"
+                                                   ],
+                          "interaction":  "scaffold",
+                          "source":  {
+                                         "path":  "OpenProblemLibrary/Hope/Calc1/05-04-FTC/FTC_01.pg",
+                                         "sha256":  "399cf94d53291f2994d287ff6cda4ea39bd7045bb3a77a1f8a305d01305a7b8e",
+                                         "url":  "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/Hope/Calc1/05-04-FTC/FTC_01.pg",
+                                         "attribution":  "As credited in source; textbook credits are not treated as problem authors."
+                                     },
+                          "rendererPath":  "Library/Hope/Calc1/05-04-FTC/FTC_01.pg"
+                      },
+                      {
+                          "id":  "compat-algebra-image-01",
+                          "title":  "Combine functions from a supplied graph",
+                          "subject":  "Algebra",
+                          "authors":  [
+
+                                      ],
+                          "institution":  "ASU",
+                          "requiredCapabilities":  [
+                                                       "mathjax",
+                                                       "native-text",
+                                                       "static-library-image",
+                                                       "multiple-answers"
+                                                   ],
+                          "interaction":  "image",
+                          "source":  {
+                                         "path":  "OpenProblemLibrary/ASU-topics/setAlgebraFunctions/beth2algfun.pg",
+                                         "sha256":  "a6470e62683d0331d541a5df7f8fe8cc4eaa31fba7886fef1a8e5ea24f1984ae",
+                                         "url":  "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/ASU-topics/setAlgebraFunctions/beth2algfun.pg",
+                                         "attribution":  "No problem author declared in inspected source header; retained institution/path attribution."
+                                     },
+                          "rendererPath":  "Library/ASU-topics/setAlgebraFunctions/beth2algfun.pg"
+                      },
+                      {
+                          "id":  "compat-calculus-graph-01",
+                          "title":  "Read a function and derivative graph",
+                          "subject":  "Calculus - single variable",
+                          "authors":  [
+
+                                      ],
+                          "institution":  null,
+                          "requiredCapabilities":  [
+                                                       "mathjax",
+                                                       "native-text",
+                                                       "generated-graph-image"
+                                                   ],
+                          "interaction":  "image",
+                          "source":  {
+                                         "path":  "OpenProblemLibrary/270/setDerivatives1/ur_dr_1_7.pg",
+                                         "sha256":  "b91bc436c92c6d68434c522d5bac40087af07bf75019b058710173ea8d0ca053",
+                                         "url":  "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/270/setDerivatives1/ur_dr_1_7.pg",
+                                         "attribution":  "No problem author declared in inspected source header; retained institution/path attribution."
+                                     },
+                          "rendererPath":  "Library/270/setDerivatives1/ur_dr_1_7.pg"
+                      },
+                      {
+                          "id":  "compat-algebra-graphtool-01",
+                          "title":  "Plot points on a linear equation",
+                          "subject":  "Algebra",
+                          "authors":  [
+                                          "Alex Jordan"
+                                      ],
+                          "institution":  null,
+                          "requiredCapabilities":  [
+                                                       "mathjax",
+                                                       "graph-tool",
+                                                       "jsxgraph",
+                                                       "header-scripts",
+                                                       "header-styles",
+                                                       "script-initialization",
+                                                       "hidden-answer-state"
+                                                   ],
+                          "interaction":  "graph-tool",
+                          "source":  {
+                                         "path":  "OpenProblemLibrary/PCC/BasicAlgebra/EquationsAndInequalitiesInTwoVariables/PlotMXPlusB.pg",
+                                         "sha256":  "6c971d903bb786efb7869ed8f517a10f69646d9883e72c4d0e8e011cea4d8a4f",
+                                         "url":  "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/PCC/BasicAlgebra/EquationsAndInequalitiesInTwoVariables/PlotMXPlusB.pg",
+                                         "attribution":  "As credited in source; textbook credits are not treated as problem authors."
+                                     },
+                          "rendererPath":  "Library/PCC/BasicAlgebra/EquationsAndInequalitiesInTwoVariables/PlotMXPlusB.pg"
+                      }
+                  ]
+}

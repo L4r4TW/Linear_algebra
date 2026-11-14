@@ -79,7 +79,7 @@ async function readStartInput(request) {
 /** Extract the PG problem, excluding the renderer's form, hidden JWTs, and controls.
  * This is a template projection, not a sanitizer for arbitrary/untrusted HTML.
  */
-function problemHtml(html) {
+export function problemHtml(html) {
   const document = parse(html);
   const matches = [];
   function visit(node) {
