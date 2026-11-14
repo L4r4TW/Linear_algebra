@@ -1,4 +1,4 @@
-import { collectAnswerFields } from './answer-fields.js';
+import { collectAnswerFields, isAnswerFieldName } from './answer-fields.js';
 
 function escapeAttribute(value) {
   return value.replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
@@ -23,6 +23,7 @@ mjx-container{max-width:100%;overflow-x:auto;overflow-y:hidden}p{margin-top:0}a{
 <script>
 const channel=${JSON.stringify(channel)};
 const parentOrigin=${JSON.stringify(scriptUrl.origin)};
+const isAnswerFieldName=${isAnswerFieldName.toString()};
 const collectAnswerFields=${collectAnswerFields.toString()};
 let answerRevision=0;
 let changeQueued=false;

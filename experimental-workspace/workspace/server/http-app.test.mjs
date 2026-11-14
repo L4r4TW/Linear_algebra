@@ -13,7 +13,7 @@ import { RendererClientError } from './renderer-client.mjs';
 async function fixture(t, { origin = 'http://localhost:3100', rendererBaseUrl } = {}) {
   const root = await mkdtemp(join(tmpdir(), 'exercise-api-'));
   const directory = join(root, 'sessions');
-  const calls = { load: [], restore: [] };
+  const calls = { load: [], restore: [], grade: [] };
   const rendered = () => ({
     html: '<html><body><form action="http://renderer/render-api"><div id="problem_body"><p>Vectors</p><div><input name="AnSwEr0001"></div><input name="problemSeed" value="PRIVATE_SEED"><input name="problemJWT" value="PRIVATE_TOKEN"></div><input name="sessionJWT" value="PRIVATE_TOKEN"><button name="isInstructor">Private control</button></form></body></html>',
     score: 0,
@@ -24,6 +24,7 @@ async function fixture(t, { origin = 'http://localhost:3100', rendererBaseUrl } 
   const rendererClient = {
     async loadExercise(input) { calls.load.push(input); return rendered(); },
     async restoreSession(input) { calls.restore.push(input); return rendered(); },
+    async submitAnswers(input) { calls.grade.push(input); return { ...rendered(), score: 0.75, sessionToken: 'UPDATED_TOKEN', problemToken: 'UPDATED_PROBLEM_TOKEN' }; },
   };
   const sessions = createExerciseSessions({ directory, rendererClient });
   const app = createApp({ sessions, origin, rendererBaseUrl });
@@ -260,4 +261,135 @@ test('proxies only MathJax JavaScript files from the configured renderer', async
   const missing = await fetch(f.baseUrl + '/assets/mathjax/missing.js');
   assert.equal(missing.status, 502);
   assert.doesNotMatch(await missing.text(), /PRIVATE/);
+});
+function grade(f, id, cookie, body = { answers: [['AnSwEr0001', '2 + 3']] }, headers = {}) {
+  return fetch(f.baseUrl + '/api/sessions/' + id + '/answers', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...(cookie ? { Cookie: cookie } : {}), ...headers },
+    body: JSON.stringify(body),
+  });
+}
+
+test('grades an owned session with stored parameters and hides updated renderer tokens', async (t) => {
+  const f = await fixture(t);
+  const started = await start(f);
+  const cookie = cookieOf(started);
+  const { session } = await started.json();
+  const response = await grade(f, session.id, cookie);
+  assert.equal(response.status, 200);
+  const result = await response.json();
+  assert.equal(result.exercise.score, 0.75);
+  assert.deepEqual(result.session, session);
+  assert.doesNotMatch(JSON.stringify(result), /PRIVATE_|UPDATED_|sessionJWT|problemJWT|sourceFilePath/);
+  const record = JSON.parse(await readFile(join(f.directory, session.id + '.json'), 'utf8'));
+  assert.equal(f.calls.grade[0].sessionToken, 'PRIVATE_TOKEN');
+  assert.equal(f.calls.grade[0].seed, record.seed);
+  assert.deepEqual(f.calls.grade[0].answers, [['AnSwEr0001', '2 + 3']]);
+  assert.equal(record.rendererSessionToken, 'UPDATED_TOKEN');
+  await grade(f, session.id, cookie, { answers: [] });
+  assert.equal(f.calls.grade[1].sessionToken, 'UPDATED_TOKEN');
+  assert.deepEqual(f.calls.grade[1].answers, [['AnSwEr0001', '']]);
+});
+
+test('grading denies absent/different owners and legacy sessions before contacting the renderer', async (t) => {
+  const f = await fixture(t);
+  const started = await start(f);
+  const cookie = cookieOf(started);
+  const { session } = await started.json();
+  for (const owner of [undefined, 'la_experiment_owner=' + 'B'.repeat(43)]) {
+    const response = await grade(f, session.id, owner);
+    assert.equal(response.status, 404);
+    assert.equal((await response.json()).error.code, 'SESSION_NOT_FOUND');
+  }
+  const legacy = await f.sessions.startSession({ exerciseId: 'dot-product-01' });
+  assert.equal((await grade(f, legacy.session.id, cookie)).status, 404);
+  assert.equal(f.calls.grade.length, 0);
+  assert.equal(f.calls.restore.length, 0);
+});
+
+test('grading rejects forged scores, renderer parameters, client manifests, unknown fields, and duplicate scalar entries', async (t) => {
+  const f = await fixture(t);
+  const started = await start(f);
+  const cookie = cookieOf(started);
+  const { session } = await started.json();
+  for (const key of ['score', 'sessionJWT', 'sourceFilePath', 'problemSeed', 'isInstructor', 'fieldNames']) {
+    assert.equal((await grade(f, session.id, cookie, { answers: [], [key]: 'untrusted' })).status, 400);
+  }
+  for (const answers of [
+    [['sessionJWT', 'evil']], [['isInstructor', '1']], [['unknown', 'x']], [['__proto__', 'x']],
+    [['AnSwEr0001', 'x'], ['AnSwEr0001', 'y']], [['AnSwEr0001', 12]], {},
+  ]) {
+    assert.equal((await grade(f, session.id, cookie, { answers })).status, 400);
+  }
+  const wrongMethod = await fetch(f.baseUrl + '/api/sessions/' + session.id + '/answers');
+  assert.equal(wrongMethod.status, 405);
+  assert.equal(wrongMethod.headers.get('allow'), 'POST');
+  assert.equal((await grade(f, session.id, cookie, { answers: [] }, { Origin: 'https://evil.example' })).status, 403);
+  assert.equal(f.calls.grade.length, 0);
+});
+
+test('grading maps upstream failures without retrying or changing the stored record', async (t) => {
+  const f = await fixture(t);
+  const started = await start(f);
+  const cookie = cookieOf(started);
+  const { session } = await started.json();
+  const path = join(f.directory, session.id + '.json');
+  const original = await readFile(path, 'utf8');
+  let attempts = 0;
+  f.rendererClient.submitAnswers = async () => {
+    attempts++;
+    throw new RendererClientError('TIMEOUT', 'PRIVATE upstream failure');
+  };
+  const response = await grade(f, session.id, cookie);
+  assert.equal(response.status, 504);
+  assert.equal((await response.json()).error.code, 'RENDERER_TIMEOUT');
+  assert.equal(attempts, 1);
+  assert.equal(await readFile(path, 'utf8'), original);
+});
+
+test('overlapping HTTP grading requests return 409 and do not expose another owner session', async (t) => {
+  const f = await fixture(t);
+  const started = await start(f);
+  const cookie = cookieOf(started);
+  const { session } = await started.json();
+  let release;
+  let entered;
+  const gate = new Promise((resolve) => { release = resolve; });
+  const reached = new Promise((resolve) => { entered = resolve; });
+  const original = f.rendererClient.submitAnswers;
+  f.rendererClient.submitAnswers = async (input) => { entered(); await gate; return original(input); };
+  const first = grade(f, session.id, cookie);
+  await reached;
+  const second = await grade(f, session.id, cookie);
+  assert.equal(second.status, 409);
+  assert.equal((await second.json()).error.code, 'SESSION_BUSY');
+  assert.equal((await grade(f, session.id, 'la_experiment_owner=' + 'B'.repeat(43))).status, 404);
+  release();
+  assert.equal((await first).status, 200);
+  assert.equal(f.calls.grade.length, 1);
+});
+test('session retrieval returns the persisted last submission rather than a new or empty result', async (t) => {
+  const f = await fixture(t);
+  const original = f.rendererClient.submitAnswers;
+  f.rendererClient.submitAnswers = async (input) => ({
+    ...await original(input),
+    feedback: { message: 'You can earn partial credit.', summary: 'Some answers need attention.' },
+  });
+  const started = await start(f);
+  const cookie = cookieOf(started);
+  const initial = await started.json();
+  assert.equal(initial.submission, null);
+  const answers = [['AnSwEr0001', ' 2 + 3 ']];
+  const checked = await (await grade(f, initial.session.id, cookie, { answers })).json();
+  const restored = await (await fetch(f.baseUrl + '/api/sessions/' + initial.session.id, { headers: { Cookie: cookie } })).json();
+  assert.deepEqual(restored.submission, checked.submission);
+  assert.deepEqual(restored.submission.answers, answers);
+  assert.deepEqual(restored.submission.fieldNames, ['AnSwEr0001']);
+  assert.equal(restored.submission.number, 1);
+  assert.equal(restored.submission.score, 0.75);
+  assert.equal(restored.exercise.score, 0.75);
+  assert.equal(restored.submission.feedback.summary, 'Some answers need attention.');
+  assert.doesNotMatch(JSON.stringify(restored.submission), /PRIVATE_|UPDATED_|ownerHash|rendererSessionToken/);
+  const denied = await fetch(f.baseUrl + '/api/sessions/' + initial.session.id);
+  assert.equal(denied.status, 404);
 });

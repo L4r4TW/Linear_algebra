@@ -37,7 +37,7 @@ function ownerFromCookie(request) {
   return values.length === 1 && OWNER_PATTERN.test(values[0]) ? values[0] : undefined;
 }
 
-async function readStartInput(request) {
+async function readJsonInput(request) {
   if (request.headers['content-type']?.split(';')[0].trim().toLowerCase() !== 'application/json') {
     throw new ApiError(415, 'UNSUPPORTED_MEDIA_TYPE', 'Send an application/json request.');
   }
@@ -61,6 +61,11 @@ async function readStartInput(request) {
   } catch {
     throw new ApiError(400, 'INVALID_JSON', 'Send valid JSON.');
   }
+  return input;
+}
+
+async function readStartInput(request) {
+  const input = await readJsonInput(request);
   if (
     !input || Array.isArray(input) || typeof input !== 'object' ||
     Object.keys(input).length !== 1 ||
@@ -107,6 +112,15 @@ function publicSession(result) {
       exerciseId: result.session.exerciseId,
       createdAt: result.session.createdAt,
     },
+    submission: result.submission ? {
+      id: result.submission.id,
+      number: result.submission.number,
+      submittedAt: result.submission.submittedAt,
+      fieldNames: [...result.submission.fieldNames],
+      answers: result.submission.answers.map((entry) => [...entry]),
+      score: result.submission.score,
+      feedback: { ...result.submission.feedback },
+    } : null,
     exercise: {
       html: problemHtml(result.exercise.html),
       score: result.exercise.score,
@@ -120,6 +134,8 @@ function publicSession(result) {
 function failure(error) {
   if (error instanceof ApiError) return error;
   if (error instanceof ExerciseSessionError) {
+    if (error.code === 'SESSION_BUSY') return new ApiError(409, 'SESSION_BUSY', 'An answer is already being checked. Please wait.');
+    if (error.code === 'INVALID_ANSWERS') return new ApiError(400, 'INVALID_ANSWERS', 'Some answer fields are not valid for this exercise.');
     if (error.code === 'INVALID_INPUT') return new ApiError(400, 'INVALID_INPUT', 'The session request is invalid.');
     if (error.code === 'UNKNOWN_EXERCISE') return new ApiError(404, 'UNKNOWN_EXERCISE', 'Exercise is unavailable.');
     if (error.code === 'SESSION_NOT_FOUND') return new ApiError(404, 'SESSION_NOT_FOUND', 'Session was not found.');
@@ -193,6 +209,23 @@ export function createApp({
             'Set-Cookie': COOKIE + '=' + ownerToken + '; Path=/api/sessions; HttpOnly; SameSite=Strict; Max-Age=2592000' + cookieSecure,
           } : {}),
         });
+        return;
+      }
+      const answerMatch = url.pathname.match(/^\/api\/sessions\/([^/]+)\/answers$/);
+      if (answerMatch) {
+        if (request.method !== 'POST') {
+          response.setHeader('Allow', 'POST');
+          throw new ApiError(405, 'METHOD_NOT_ALLOWED', 'Use POST for this endpoint.');
+        }
+        const ownerToken = ownerFromCookie(request);
+        if (!ownerToken) throw new ApiError(404, 'SESSION_NOT_FOUND', 'Session was not found.');
+        const input = await readJsonInput(request);
+        if (!input || Array.isArray(input) || typeof input !== 'object' ||
+            Object.keys(input).length !== 1 || !Array.isArray(input.answers)) {
+          throw new ApiError(400, 'INVALID_INPUT', 'Provide only an answers array of name/value pairs.');
+        }
+        const result = await sessions.submitAnswers(answerMatch[1], input.answers, { ownerToken });
+        json(response, 200, publicSession(result));
         return;
       }
       const match = url.pathname.match(/^\/api\/sessions\/([^/]+)$/);

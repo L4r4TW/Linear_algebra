@@ -1,5 +1,7 @@
 # Experimental workspace conventions
 
+Session handoff and next steps: [PROJECT_CONTEXT.md](../PROJECT_CONTEXT.md). Repository-wide guidance: [AGENTS.md](../AGENTS.md).
+
 - Keep experiments inside this directory, separate from the existing Next.js application.
 - Run Compose commands from this directory or pass its compose.yaml explicitly.
 - The renderer is the official pinned upstream source with its PG submodule, built using Docker's Git context. Do not clone its source or OPL onto Google Drive.
@@ -23,3 +25,7 @@
 - The picker is in workspace/public. Preserve loading/empty/error states, URL-based session restoration, and cookie ownership. Keep PG HTML inside the sandboxed frame without allow-same-origin or form permissions. Only MathJax JavaScript may be proxied from the configured renderer. Verify new PG widget types separately. Browser checks: docker build -f browser-tests/Dockerfile -t linear-algebra-picker-qa . then docker run --rm --network linear-algebra-experimental_default --shm-size=1g linear-algebra-picker-qa.
 
 - Answer collection uses answer-fields.js and answer-bridge.js inside workspace/public. Preserve exact names/values and ordered duplicate-name pairs, exclude renderer/helper fields, and keep snapshots session-bound. Use collectCurrentAnswers for fresh values before future grading. Maintain source/origin/channel/request checks, revision ordering, timeout cleanup, and bridge destruction when replacing frames. Never treat client field names as a backend allowlist.
+
+- Grading uses POST /api/sessions/:id/answers with only an answers array of ordered string pairs. Verify ownership before PG requests. Derive the field contract from restored server-trusted HTML, never a client manifest. Preserve valid duplicate names, reject scalar duplicates/reserved fields, clear missing answers, and atomically advance saved tokens. The submission guard supports one Node process only. Validate changes with npm test and npm run smoke:grading inside the workspace container; instructor answers belong only to operator diagnostics.
+
+- Persist lastSubmission and submissionCount atomically with the updated renderer tokens. Keep exact submitted pairs, server-derived fieldNames, server timestamps, PG score, and plain-text PG feedback together. Preserve legacy token-only records; never invent historical submissions. API submission snapshots are owner-only and must not include renderer tokens. Validate state changes with smoke:submission-state, smoke:grading, and the grading/refresh browser check; retain the latest snapshot only until a dedicated history store is implemented.

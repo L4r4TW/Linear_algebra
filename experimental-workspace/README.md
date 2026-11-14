@@ -1,5 +1,7 @@
 # Experimental Docker workspace
 
+Session handoff and next steps: [PROJECT_CONTEXT.md](../PROJECT_CONTEXT.md). Repository-wide guidance: [AGENTS.md](../AGENTS.md).
+
 Independent sandbox for the official WeBWorK standalone renderer and PG integration. The existing Next.js application and Supabase configuration are separate.
 
 ## Start
@@ -29,7 +31,7 @@ Open **http://localhost:3100** to use the experimental picker.
 - Selecting the current exercise again starts a new version. Buttons are disabled during loading to avoid overlapping starts.
 - The layout supports narrow screens, keyboard navigation, accessible answer labels, and reduced-motion preferences.
 
-This is a practice preview: answer fields are usable, but answer checking and saving typed answers are not implemented yet. Refresh preserves the exercise instance, not unsaved input.
+This is a practice preview: answer fields are usable, but the visible Check answer controls are not implemented yet. Unsubmitted edits are not saved. Successful API submissions now preserve their answers and result for restoration.
 
 The UI lives in `workspace/public/`: `index.html`, `picker.css`, `picker.js`, and `exercise-frame.js`. The server exposes only explicitly listed static files. Catalog text is inserted as text, and API problem HTML is displayed in an iframe with `sandbox="allow-scripts"`, without same-origin access or form submission permissions. A restrictive frame content policy blocks API/network connections and navigation. Parent messages are checked against the frame window and a per-frame channel.
 
@@ -69,9 +71,9 @@ Names, whitespace, vector syntax, and empty text values are retained. Radio/chec
 
 A fresh collection reads the DOM even if a widget changed a value without firing input/change. Replies are matched to unique request IDs; snapshots have monotonic revisions. The parent checks the exact frame window, opaque origin, and channel. The child checks parent window/origin/channel. Replacement destroys the old bridge, clears snapshots, and rejects outstanding requests. Collection failures have `AnswerBridgeError.code` values `NO_FRAME`, `FRAME_REPLACED`, `TIMEOUT`, or `INVALID_RESPONSE`.
 
-Collected data remains untrusted browser input. A future grading endpoint must verify ownership and derive its permitted answer fields from the trusted exercise, rather than forwarding arbitrary submitted keys or trusting the client field manifest. No answers are sent to the renderer or persisted by this collection step. Specialized PG widgets still require individual compatibility checks; file uploads are not supported.
+Collected data remains untrusted browser input. The grading endpoint verifies ownership and derives permitted fields from restored trusted problem HTML; it never treats the client field manifest as an allowlist. No answers are sent to the renderer or persisted by this collection step. Specialized PG widgets still require individual compatibility checks; file uploads are not supported.
 
-Verified in Chromium with the real four-field OPL exercise, plus native-control fixtures for repeated names, selection semantics, hidden-field filtering, request timeouts, forged messages, and frame replacement. The browser suite now has 11 checks.
+Verified in Chromium with the real four-field OPL exercise, plus native-control fixtures for repeated names, selection semantics, hidden-field filtering, request timeouts, forged messages, and frame replacement. The browser suite now has 12 checks, including submitted-state restoration.
 ## Exercise catalog
 
 The server-side allowlist lives in `workspace/server/exercise-catalog.json`. It starts with the verified `dot-product-01` exercise, titled **Dot products and vector operations**, in the **Dot product** topic.
@@ -128,7 +130,7 @@ Failures are `RendererClientError` instances with a stable `code`:
 | INVALID_RESPONSE | Invalid JSON or unexpected student-response shape |
 | PG_ERROR | PG reported an exercise rendering error |
 
-Messages do not include upstream bodies or session tokens. Keep error causes on the server and map failures to friendly messages in future API routes. Keep the returned tokens in the server session layer rather than serializing the entire result to a browser. This module implements exercise loading; session storage is provided by exercise-sessions.mjs; answer-submission methods remain a separate step; backend routes use the client through the session service.
+Messages do not include upstream bodies or session tokens. Keep error causes on the server and map failures to friendly messages in future API routes. Keep the returned tokens in the server session layer rather than serializing the entire result to a browser. This module loads, restores, and grades exercises; backend routes use it through the ownership-checking session service.
 
 Run the client tests and live exercise-loading check after rebuilding:
 
@@ -161,7 +163,7 @@ Records live at `/data/sessions/<UUID>.json` in Docker volume `linear-algebra-ex
 
 The service returns session metadata and rendered exercise content, without separate token properties. Raw records and error causes must stay server-side. Renderer HTML may contain its own hidden state fields; the frontend still needs controlled rendering rather than exposing raw renderer forms as a public API.
 
-This is a prototype store for starting/resuming exercises. HTTP-created sessions have anonymous browser ownership, enforced before renderer restoration. CLI diagnostics can still create unowned records, which HTTP cannot retrieve. Account ownership, server-side session expiration, and graded-attempt updates remain separate work; Supabase can replace the local store at that stage. Future grading must persist the renderer's updated token after each accepted submission.
+This is a prototype store for starting/resuming exercises. HTTP-created sessions have anonymous browser ownership, enforced before renderer restoration. CLI diagnostics can still create unowned records, which HTTP cannot retrieve. Account ownership, server-side session expiration, and attempt-history storage remain separate work; Supabase can replace the local store at that stage. Successful grading now persists the renderer's updated token atomically.
 
 `ExerciseSessionError.code` is one of `INVALID_CONFIGURATION`, `INVALID_INPUT`, `UNKNOWN_EXERCISE`, `SESSION_NOT_FOUND`, or `STORAGE_ERROR`. Renderer failures retain their `RendererClientError` codes.
 
@@ -187,12 +189,14 @@ The experimental server exposes these endpoints at **http://localhost:3100**:
 | GET | /api/exercises | List friendly metadata for approved catalog exercises |
 | POST | /api/sessions | Start a session from JSON containing only `exerciseId`; returns 201 and a Location header |
 | GET | /api/sessions/:id | Restore a session owned by the same browser |
+| POST | /api/sessions/:id/answers | Grade validated name/value pairs using the stored renderer token |
 
 Start and retrieve responses have this shape:
 
 ```javascript
 {
   session: { id, exerciseId, createdAt },
+  submission: null, // Latest submitted answers/result after grading.
   exercise: { html, score, resources: { assets } }
 }
 ```
@@ -228,7 +232,92 @@ docker compose exec -T workspace npm run smoke:api
 
 The HTTP tests use isolated temporary storage and a fake renderer. The live API check creates and restores a real OPL session, checks that renderer tokens are absent from its HTML, and verifies retrieval without the owner cookie is denied. Tests and diagnostics do not log cookies or renderer tokens.
 
-Implementation: `workspace/server/http-app.mjs`, started by `workspace/server.mjs`. The picker now consumes these endpoints. Answer submission and account integration remain subsequent work.
+Implementation: `workspace/server/http-app.mjs`, started by `workspace/server.mjs`. The picker now consumes these endpoints. Answer submission is available through the grading endpoint; the practice controls, detailed feedback UI, and account integration remain subsequent work.
+## Server-side grading
+
+`POST /api/sessions/:id/answers` grades answers using the same anonymous ownership cookie as session retrieval. Its JSON body contains **only** an `answers` array:
+
+```json
+{
+  "answers": [
+    ["AnSwEr0001", "-16"],
+    ["AnSwEr0002", "<-12,48,36>"],
+    ["AnSwEr0003", "650"],
+    ["AnSwEr0004", "9"]
+  ]
+}
+```
+
+Those example values are illustrative; session seeds vary. For future practice-screen controls, send the fresh collection's ordered pairs:
+
+```javascript
+const { sessionId, answers } = await collectCurrentAnswers();
+const response = await fetch('/api/sessions/' + encodeURIComponent(sessionId) + '/answers', {
+  method: 'POST',
+  credentials: 'same-origin',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ answers: answers.entries }),
+});
+const result = await response.json();
+```
+
+The endpoint returns the usual public session/exercise shape, with PG's actual score in `exercise.score` and re-rendered problem content. It does not accept a score, seed, PG path, token, field manifest, or instructor settings. The visible Check answer button and detailed feedback presentation remain separate work.
+
+The session service verifies ownership before contacting PG. It restores the saved renderer token and derives an answer contract from that trusted problem's controls, using parse5 and the shared answer-name policy. Submitted names must match that contract exactly. Duplicate scalar values are rejected; real repeated controls and multi-select values are preserved. Missing fields are explicitly sent as empty strings so the renderer cannot silently reuse an older JWT answer.
+
+The renderer client's `submitAnswers` sends a form request with the server's token, `submitAnswers=1`, `answersSubmitted=1`, JSON response format, and student settings. User answer strings are not trimmed or mathematically interpreted by the application. PG performs the grading; malformed PG responses and execution errors are reported as service failures.
+
+On success, the updated renderer session/problem tokens, updatedAt timestamp, and latest submission snapshot replace the private JSON record atomically. Exercise identity, seed, and ownership remain unchanged. Subsequent submissions and restoration use the new token. Only the latest accepted submission is retained; a full attempt-history store is separate work.
+
+Overlapping submissions for a session return **409 SESSION_BUSY**. The guard is shared across service instances within the one local Node process and released on success or failure. Multiple backend processes/replicas need database transactions or a distributed lock before scaling this file-based prototype. No automatic retry is performed. Renderer or storage failures do not overwrite the previously saved record or produce a success response.
+
+The existing same-origin rules, 8 KiB JSON limit, private token handling, and friendly error responses apply. Invalid answer data returns 400; missing or different owners receive 404; timeouts/unavailable renderer responses retain the existing 502/503/504 mappings.
+
+Run the operator-only live grading diagnostic:
+
+```powershell
+docker compose exec -T workspace npm run smoke:grading
+```
+
+It obtains expected answers directly from the renderer in instructor mode solely for testing; instructor responses never pass through the student API and are not logged. Verified against the installed PG engine: incorrect score 0, partial score 0.25, correct score 1, restored correct score 1, and cleared-answer score 0. All 60 server tests and 12 browser regression checks passed.
+
+Implementation: `renderer-client.mjs`, `answer-contract.mjs`, `exercise-sessions.mjs`, and `http-app.mjs` in `workspace/server/`.
+## Saved submission state
+
+Each successful grading response now writes the latest submission in the **same atomic JSON replacement** as the new renderer tokens:
+
+```javascript
+{
+  submissionCount,
+  lastSubmission: {
+    id, number, submittedAt,
+    fieldNames,
+    answers,
+    score,
+    feedback: { message, summary }
+  }
+}
+```
+
+`answers` preserves the exact validated request pairs, including whitespace, empty values, and duplicate names. `fieldNames` comes from the restored trusted PG problem, so omitted selections can be distinguished from unknown fields. PG still receives explicit blanks for omitted answers. The timestamp and submission ID are generated by the server; the score and feedback come from PG.
+
+Feedback stores the student-facing PG message and result summary as plain text. HTML formatting is removed, block spacing/entities are normalized, and executable script/style contents are discarded. These strings should be displayed as text in the future feedback UI. This is the overall PG result, not a new per-field feedback interface.
+
+The private file keeps a count of successfully saved submissions and **only the latest snapshot**, rather than an attempt-history log. The snapshot ID stays stable across retrieval and changes on the next accepted submission. Failed grading or failed saving leaves the preceding snapshot and token unchanged.
+
+Start, grading, and retrieval API responses now include `submission`: null before the first recorded submission, otherwise the public snapshot above. Tokens and ownership hashes remain private. The last checked score/feedback come from this saved snapshot, while the renderer token reconstructs the original question and entered answer values. Restoring does not increment the submission count or call the grading endpoint.
+
+Older version-1 files containing only renderer tokens remain valid. Their explicit submission snapshot starts with the next successful grade; existing PG state is not reset or guessed. Corrupt or inconsistent count/snapshot metadata is rejected as a storage error.
+
+All state remains in the existing private Docker session volume, with the same file permissions, ownership checks, and single-process submission guard. Deleting that volume still deletes the sessions and their latest submissions. Unsubmitted edits remain in browser memory only; the visible Check answer controls and richer feedback presentation are still separate work.
+
+Run the focused live state check:
+
+```powershell
+docker compose exec -T workspace npm run smoke:submission-state
+```
+
+Verified on 2026-11-14: exact answers (including spaces and vector syntax), submission identity/count/time, score, and feedback survive browser refresh and full container replacement. Refresh makes no additional grading request. The full suite passes 60 server tests and 12 browser checks.
 ## Render a real exercise
 
 The following path was verified in the cloned library:

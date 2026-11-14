@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
-import { mkdtemp, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises';
+import { mkdtemp, readFile, readdir, rm, stat, writeFile, chmod } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
@@ -142,4 +142,180 @@ test('persists browser ownership across service instances and denies missing or 
   }
   assert.deepEqual((await fresh.resumeSession(started.session.id, { ownerToken })).session, started.session);
   await assert.rejects(f.service.startSession({ exerciseId: 'dot-product-01', ownerToken: 'bad' }), hasCode('INVALID_INPUT'));
+});
+async function gradingFixture(t) {
+  const f = await fixture(t);
+  const ownerToken = 'A'.repeat(43);
+  const started = await f.service.startSession({ exerciseId: 'dot-product-01', ownerToken });
+  const html = '<div id="problem_body"><input name="AnSwEr0001"><input name="AnSwEr0002"><input type="checkbox" name="choices"><input type="checkbox" name="choices"><input name="sessionJWT"><input name="previous_AnSwEr0001"></div>';
+  f.calls.grade = [];
+  f.rendererClient.restoreSession = async (input) => {
+    f.calls.restore.push(input);
+    return { html, score: input.sessionToken.startsWith('graded-') ? 0.5 : 0, resources: { assets: [] }, sessionToken: input.sessionToken, problemToken: 'problem' };
+  };
+  f.rendererClient.submitAnswers = async (input) => {
+    f.calls.grade.push(input);
+    return { html, score: 0.5, resources: { assets: [] }, sessionToken: 'graded-' + f.calls.grade.length, problemToken: 'updated-problem' };
+  };
+  return { ...f, ownerToken, started };
+}
+
+test('grades only trusted fields and atomically advances the stored renderer token', async (t) => {
+  const f = await gradingFixture(t);
+  const before = JSON.parse(await readFile(join(f.directory, f.started.session.id + '.json'), 'utf8'));
+  const answers = [['AnSwEr0001', ' 2 + 3 '], ['choices', 'a'], ['choices', 'b']];
+  const graded = await f.service.submitAnswers(f.started.session.id, answers, { ownerToken: f.ownerToken });
+  assert.equal(graded.exercise.score, 0.5);
+  assert.deepEqual(graded.session, f.started.session);
+  assert.deepEqual(f.calls.grade[0], {
+    exerciseId: before.exerciseId, seed: before.seed, sessionToken: before.rendererSessionToken,
+    answers: [...answers, ['AnSwEr0002', '']],
+  });
+  const after = JSON.parse(await readFile(join(f.directory, before.id + '.json'), 'utf8'));
+  assert.equal(after.rendererSessionToken, 'graded-1');
+  assert.equal(after.rendererProblemToken, 'updated-problem');
+  assert.equal(after.ownerHash, before.ownerHash);
+  assert.ok(after.updatedAt);
+  assert.equal((await stat(join(f.directory, before.id + '.json'))).mode & 0o777, 0o600);
+  assert.deepEqual(await readdir(f.directory), [before.id + '.json']);
+  const fresh = createExerciseSessions({ directory: f.directory, rendererClient: f.rendererClient });
+  assert.equal((await fresh.resumeSession(before.id, { ownerToken: f.ownerToken })).exercise.score, 0.5);
+  assert.equal(f.calls.restore.at(-1).sessionToken, 'graded-1');
+  await fresh.submitAnswers(before.id, [], { ownerToken: f.ownerToken });
+  assert.equal(f.calls.grade[1].sessionToken, 'graded-1');
+  assert.deepEqual(f.calls.grade[1].answers, [['AnSwEr0001', ''], ['AnSwEr0002', ''], ['choices', '']]);
+});
+
+test('denies unauthorized grading before restoring or submitting to PG', async (t) => {
+  const f = await gradingFixture(t);
+  for (const options of [{}, { ownerToken: 'B'.repeat(43) }]) {
+    await assert.rejects(f.service.submitAnswers(f.started.session.id, [], options), hasCode('SESSION_NOT_FOUND'));
+  }
+  const legacy = await f.service.startSession({ exerciseId: 'dot-product-01' });
+  await assert.rejects(f.service.submitAnswers(legacy.session.id, [], { ownerToken: f.ownerToken }), hasCode('SESSION_NOT_FOUND'));
+  assert.equal(f.calls.restore.length, 0);
+  assert.equal(f.calls.grade.length, 0);
+});
+
+test('rejects injected, unknown, duplicate scalar, and malformed answers without grading', async (t) => {
+  const f = await gradingFixture(t);
+  for (const answers of [
+    [['sessionJWT', 'evil']], [['isInstructor', '1']], [['sourceFilePath', 'evil']],
+    [['unknown', 'x']], [['AnSwEr0001', 'x'], ['AnSwEr0001', 'y']], [['AnSwEr0001', 2]], {},
+  ]) {
+    await assert.rejects(f.service.submitAnswers(f.started.session.id, answers, { ownerToken: f.ownerToken }), hasCode('INVALID_ANSWERS'));
+  }
+  assert.equal(f.calls.grade.length, 0);
+});
+
+test('rejects overlapping submissions across service instances and releases the lock afterward', async (t) => {
+  const f = await gradingFixture(t);
+  let release;
+  let entered;
+  const gate = new Promise((resolve) => { release = resolve; });
+  const reached = new Promise((resolve) => { entered = resolve; });
+  const original = f.rendererClient.submitAnswers;
+  f.rendererClient.submitAnswers = async (input) => { entered(); await gate; return original(input); };
+  const first = f.service.submitAnswers(f.started.session.id, [], { ownerToken: f.ownerToken });
+  await reached;
+  const fresh = createExerciseSessions({ directory: f.directory, rendererClient: f.rendererClient });
+  await assert.rejects(fresh.submitAnswers(f.started.session.id, [], { ownerToken: f.ownerToken }), hasCode('SESSION_BUSY'));
+  release();
+  await first;
+  await fresh.submitAnswers(f.started.session.id, [], { ownerToken: f.ownerToken });
+  assert.equal(f.calls.grade.length, 2);
+});
+
+test('failed grading leaves the saved token unchanged and allows a later explicit retry', async (t) => {
+  const f = await gradingFixture(t);
+  const path = join(f.directory, f.started.session.id + '.json');
+  const before = await readFile(path, 'utf8');
+  const original = f.rendererClient.submitAnswers;
+  const failure = new Error('PG unavailable');
+  f.rendererClient.submitAnswers = async () => { throw failure; };
+  await assert.rejects(f.service.submitAnswers(f.started.session.id, [], { ownerToken: f.ownerToken }), (error) => error === failure);
+  assert.equal(await readFile(path, 'utf8'), before);
+  f.rendererClient.submitAnswers = original;
+  await f.service.submitAnswers(f.started.session.id, [], { ownerToken: f.ownerToken });
+});
+
+test('storage failure after grading is reported without replacing the previous record', async (t) => {
+  if (process.getuid?.() === 0) { t.skip('Requires the non-root application user.'); return; }
+  const f = await gradingFixture(t);
+  const path = join(f.directory, f.started.session.id + '.json');
+  const before = await readFile(path, 'utf8');
+  await chmod(f.directory, 0o500);
+  try {
+    await assert.rejects(f.service.submitAnswers(f.started.session.id, [], { ownerToken: f.ownerToken }), hasCode('STORAGE_ERROR'));
+    assert.equal(await readFile(path, 'utf8'), before);
+    assert.equal(f.calls.grade.length, 1);
+  } finally { await chmod(f.directory, 0o700); }
+  await f.service.submitAnswers(f.started.session.id, [], { ownerToken: f.ownerToken });
+});
+test('latest submitted values, result, feedback, and count survive a fresh service instance', async (t) => {
+  const f = await gradingFixture(t);
+  const original = f.rendererClient.submitAnswers;
+  f.rendererClient.submitAnswers = async (input) => ({
+    ...await original(input),
+    feedback: { message: 'Try again.', summary: 'One answer needs attention.' },
+  });
+  const answers = [['AnSwEr0001', ' 2 + 3 '], ['choices', 'a'], ['choices', 'b']];
+  const first = await f.service.submitAnswers(f.started.session.id, answers, { ownerToken: f.ownerToken });
+  assert.equal(first.submission.number, 1);
+  assert.deepEqual(first.submission.answers, answers);
+  assert.deepEqual(first.submission.fieldNames, ['AnSwEr0001', 'AnSwEr0002', 'choices']);
+  assert.equal(first.submission.score, 0.5);
+  const expected = structuredClone(first.submission);
+  first.submission.answers[0][1] = 'mutated returned object';
+  const fresh = createExerciseSessions({ directory: f.directory, rendererClient: f.rendererClient });
+  const resumed = await fresh.resumeSession(f.started.session.id, { ownerToken: f.ownerToken });
+  assert.deepEqual(resumed.submission, expected);
+  assert.deepEqual(resumed.submission.feedback, { message: 'Try again.', summary: 'One answer needs attention.' });
+  const second = await fresh.submitAnswers(f.started.session.id, [], { ownerToken: f.ownerToken });
+  assert.equal(second.submission.number, 2);
+  assert.notEqual(second.submission.id, expected.id);
+  assert.deepEqual(second.submission.answers, []);
+  const disk = JSON.parse(await readFile(join(f.directory, f.started.session.id + '.json'), 'utf8'));
+  assert.equal(disk.submissionCount, 2);
+  assert.equal(disk.rendererSessionToken, 'graded-2');
+  assert.deepEqual(disk.lastSubmission, second.submission);
+  assert.equal(Object.hasOwn(disk, 'submissions'), false);
+});
+
+test('failed grading and saving keep the previously accepted snapshot and token together', async (t) => {
+  const f = await gradingFixture(t);
+  await f.service.submitAnswers(f.started.session.id, [['AnSwEr0001', 'first accepted value']], { ownerToken: f.ownerToken });
+  const path = join(f.directory, f.started.session.id + '.json');
+  const before = await readFile(path, 'utf8');
+  const original = f.rendererClient.submitAnswers;
+  f.rendererClient.submitAnswers = async () => { throw new Error('PG unavailable'); };
+  await assert.rejects(f.service.submitAnswers(f.started.session.id, [], { ownerToken: f.ownerToken }));
+  assert.equal(await readFile(path, 'utf8'), before);
+  f.rendererClient.submitAnswers = original;
+  if (process.getuid?.() !== 0) {
+    await chmod(f.directory, 0o500);
+    try {
+      await assert.rejects(f.service.submitAnswers(f.started.session.id, [], { ownerToken: f.ownerToken }), hasCode('STORAGE_ERROR'));
+      assert.equal(await readFile(path, 'utf8'), before);
+    } finally { await chmod(f.directory, 0o700); }
+  }
+});
+
+test('legacy token-only records remain usable and acquire explicit state on their next grade', async (t) => {
+  const f = await gradingFixture(t);
+  const path = join(f.directory, f.started.session.id + '.json');
+  const legacy = JSON.parse(await readFile(path, 'utf8'));
+  delete legacy.lastSubmission;
+  delete legacy.submissionCount;
+  await writeFile(path, JSON.stringify(legacy));
+  const resumed = await f.service.resumeSession(legacy.id, { ownerToken: f.ownerToken });
+  assert.equal(resumed.submission, null);
+  const graded = await f.service.submitAnswers(legacy.id, [], { ownerToken: f.ownerToken });
+  assert.equal(graded.submission.number, 1);
+  const bad = JSON.parse(await readFile(path, 'utf8'));
+  bad.submissionCount++;
+  await writeFile(path, JSON.stringify(bad));
+  const restores = f.calls.restore.length;
+  await assert.rejects(f.service.resumeSession(legacy.id, { ownerToken: f.ownerToken }), hasCode('STORAGE_ERROR'));
+  assert.equal(f.calls.restore.length, restores);
 });

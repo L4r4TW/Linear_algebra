@@ -1,5 +1,7 @@
 import { env } from 'node:process';
+import { parseFragment } from 'parse5';
 import { getExerciseById } from './exercise-catalog.mjs';
+import { validateAnswerEntries } from './answer-contract.mjs';
 
 const isRecord = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
 const isText = (value) => typeof value === 'string' && value.trim().length > 0;
@@ -14,6 +16,20 @@ export class RendererClientError extends Error {
   }
 }
 
+function feedbackText(value) {
+  if (value === undefined || value === null) return '';
+  if (typeof value !== 'string') {
+    throw new RendererClientError('INVALID_RESPONSE', 'Renderer returned invalid feedback.');
+  }
+  function text(node) {
+    if (node.nodeName === '#text') return node.value;
+    if (node.tagName === 'style' || (node.tagName === 'script' &&
+        !node.attrs?.some((attribute) => attribute.name === 'type' && attribute.value.startsWith('math/tex')))) return '';
+    const content = (node.childNodes ?? []).map(text).join('');
+    return ['div', 'p', 'br', 'li', 'ul', 'ol'].includes(node.tagName) ? ' ' + content + ' ' : content;
+  }
+  return text(parseFragment(value)).replace(/\s+/g, ' ').trim();
+}
 function validateResponse(data, exerciseId, seed) {
   if (!isRecord(data) || !isRecord(data.flags)) {
     throw new RendererClientError('INVALID_RESPONSE', 'Renderer returned an invalid response.');
@@ -45,6 +61,10 @@ function validateResponse(data, exerciseId, seed) {
     problemToken: data.JWT.problem,
     score: data.problem_result.score,
     resources: data.resources,
+    feedback: {
+      message: feedbackText(data.problem_result.msg),
+      summary: feedbackText(data.problem_result.summary),
+    },
   };
 }
 
@@ -132,6 +152,25 @@ export function createRendererClient({ baseUrl = env.RENDERER_URL, timeoutMs = 3
       }, input.exerciseId, input.seed);
     },
 
+    async submitAnswers(input) {
+      validateExerciseInput(input);
+      if (!isText(input.sessionToken)) {
+        throw new RendererClientError('INVALID_INPUT', 'A stored renderer session token is required.');
+      }
+      try { validateAnswerEntries(input.answers); } catch (cause) {
+        throw new RendererClientError('INVALID_INPUT', 'Provide answer name/value pairs only.', { cause });
+      }
+      return request([
+        ['sessionJWT', input.sessionToken],
+        ['_format', 'json'],
+        ['submitAnswers', '1'],
+        ['answersSubmitted', '1'],
+        ['isInstructor', '0'],
+        ['showSolutions', '0'],
+        ['showCorrectAnswersButton', '0'],
+        ...input.answers,
+      ], input.exerciseId, input.seed);
+    },
     async restoreSession(input) {
       validateExerciseInput(input);
       if (!isText(input.sessionToken)) {

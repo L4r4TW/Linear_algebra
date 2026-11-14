@@ -61,6 +61,7 @@ test('loads a catalog exercise as a student form request and normalizes the resp
     problemToken: 'test-problem',
     score: 0,
     resources: { assets: [] },
+    feedback: { message: '', summary: '' },
   });
 });
 
@@ -184,4 +185,65 @@ test('restores a saved session using its token rather than regenerating the prob
   ]);
   assert.equal(result.exerciseId, input.exerciseId);
   assert.equal(result.seed, input.seed);
+});
+test('submits stored-token grading as student form data with duplicate values preserved', async (t) => {
+  let fields;
+  const baseUrl = await serve(t, async (request, response) => {
+    let body = '';
+    for await (const chunk of request) body += chunk;
+    fields = new URLSearchParams(body);
+    response.end(JSON.stringify({ ...valid(), JWT: { session: 'updated-session', problem: 'test-problem' }, problem_result: { score: 0.75 } }));
+  });
+  const answers = [['AnSwEr0001', ' 1 + 2 '], ['choices', 'a+b'], ['choices', '<1,2>']];
+  const result = await createRendererClient({ baseUrl }).submitAnswers({
+    ...input, sessionToken: 'stored+token', answers, isInstructor: 1, score: 1, sourceFilePath: 'untrusted',
+  });
+  assert.equal(fields.get('sessionJWT'), 'stored+token');
+  assert.equal(fields.get('submitAnswers'), '1');
+  assert.equal(fields.get('answersSubmitted'), '1');
+  assert.equal(fields.get('isInstructor'), '0');
+  assert.equal(fields.get('showSolutions'), '0');
+  assert.equal(fields.get('showCorrectAnswersButton'), '0');
+  assert.equal(fields.has('sourceFilePath'), false);
+  assert.equal(fields.has('problemSeed'), false);
+  assert.equal(fields.has('score'), false);
+  assert.equal(fields.get('AnSwEr0001'), ' 1 + 2 ');
+  assert.deepEqual(fields.getAll('choices'), ['a+b', '<1,2>']);
+  assert.equal(result.score, 0.75);
+  assert.equal(result.sessionToken, 'updated-session');
+});
+
+test('does not send malformed entries or management parameters to the grader', async (t) => {
+  let requests = 0;
+  const baseUrl = await serve(t, (_request, response) => { requests++; response.end(JSON.stringify(valid())); });
+  const client = createRendererClient({ baseUrl });
+  for (const answers of [null, {}, [['sessionJWT', 'evil']], [['problemSource', 'evil']], [['submitAnswers', '0']], [['x', 12]], [['x']]]) {
+    await assert.rejects(client.submitAnswers({ ...input, sessionToken: 'stored', answers }), hasCode('INVALID_INPUT'));
+  }
+  await assert.rejects(client.submitAnswers({ ...input, sessionToken: '', answers: [] }), hasCode('INVALID_INPUT'));
+  assert.equal(requests, 0);
+});
+test('normalizes student feedback to text without returning executable HTML', async (t) => {
+  const baseUrl = await serve(t, (_request, response) => {
+    response.end(JSON.stringify({
+      ...valid(),
+      problem_result: {
+        score: 0.25,
+        msg: 'You can earn <b>partial credit</b>.',
+        summary: '<div>One answer is correct.</div><div>Three remain unanswered &amp; need work.</div><script>privateJavascript()</script><style>privateStyle</style>',
+      },
+    }));
+  });
+  const result = await createRendererClient({ baseUrl }).loadExercise(input);
+  assert.deepEqual(result.feedback, {
+    message: 'You can earn partial credit.',
+    summary: 'One answer is correct. Three remain unanswered & need work.',
+  });
+});
+
+test('rejects malformed renderer feedback instead of saving an invalid submission result', async (t) => {
+  const baseUrl = await serve(t, (_request, response) => {
+    response.end(JSON.stringify({ ...valid(), problem_result: { score: 0, msg: { private: 'unexpected' } } }));
+  });
+  await assert.rejects(createRendererClient({ baseUrl }).loadExercise(input), hasCode('INVALID_RESPONSE'));
 });

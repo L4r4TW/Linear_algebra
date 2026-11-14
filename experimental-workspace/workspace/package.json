@@ -9,7 +9,9 @@
                     "test":  "node --test server/*.test.mjs",
                     "smoke:renderer-client":  "node server/check-renderer-client.mjs",
                     "smoke:sessions":  "node server/check-exercise-sessions.mjs",
-                    "smoke:api":  "node server/check-api.mjs"
+                    "smoke:api":  "node server/check-api.mjs",
+                    "smoke:grading":  "node server/check-grading.mjs",
+                    "smoke:submission-state":  "node server/check-submission-state.mjs"
                 },
     "engines":  {
                     "node":  "\u003e=22"

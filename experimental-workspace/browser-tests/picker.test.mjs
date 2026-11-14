@@ -316,3 +316,43 @@ test('answer requests time out cleanly and pending requests reject when their fr
   });
   assert.deepEqual(result, { timeout: 'TIMEOUT', replaced: 'FRAME_REPLACED', closed: 'FRAME_REPLACED' });
 });
+test('submitted answers and feedback survive page refresh without another grading request', { timeout: 90_000 }, async (t) => {
+  const page = await pageFor(t);
+  await page.goto(baseUrl);
+  await choices(page);
+  await page.locator('.exercise-choice').click();
+  await ready(page);
+  const values = [' 2 + 3 ', '<1, 2, 3>', '', 'sqrt(9)'];
+  for (let index = 0; index < values.length; index++) {
+    await page.frameLocator('.exercise-frame').locator('[name="AnSwEr000' + (index + 1) + '"]').fill(values[index]);
+  }
+  let grades = 0;
+  page.on('request', (request) => {
+    if (/\/api\/sessions\/[^/]+\/answers$/.test(new URL(request.url()).pathname)) grades++;
+  });
+  const checked = await page.evaluate(async () => {
+    const { collectCurrentAnswers } = await import('/assets/picker.js');
+    const current = await collectCurrentAnswers();
+    const response = await fetch('/api/sessions/' + current.sessionId + '/answers', {
+      method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answers: current.answers.entries }),
+    });
+    if (!response.ok) throw new Error('Grading failed.');
+    return response.json();
+  });
+  const expected = values.map((value, index) => ['AnSwEr000' + (index + 1), value]);
+  assert.equal(checked.submission.number, 1);
+  assert.deepEqual(checked.submission.answers, expected);
+  assert.equal(typeof checked.submission.feedback.summary, 'string');
+  await page.reload();
+  await ready(page);
+  const restored = await page.evaluate(async () => {
+    const id = new URL(location.href).searchParams.get('session');
+    return (await fetch('/api/sessions/' + id)).json();
+  });
+  assert.deepEqual(restored.submission, checked.submission);
+  assert.equal(restored.exercise.score, checked.exercise.score);
+  const current = await page.evaluate(async () => (await import('/assets/picker.js')).collectCurrentAnswers());
+  assert.deepEqual(current.answers.entries, expected);
+  assert.equal(grades, 1);
+});

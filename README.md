@@ -10,7 +10,30 @@ Units -> Themes -> Subthemes -> Exercises
 
 Students can browse topics, solve exercises, and save progress. Admin users can manage the course structure and author exercises.
 
-## Tech Stack
+## Continue development here
+
+The current WeBWorK integration is in **[experimental-workspace/](experimental-workspace/README.md)**, separate from the original Next.js/Supabase application described below. Read **[PROJECT_CONTEXT.md](PROJECT_CONTEXT.md)** for the session handoff and **[AGENTS.md](AGENTS.md)** for development conventions.
+
+| Application | Address | Purpose |
+| --- | --- | --- |
+| Original Next.js app | http://localhost:3000 | Existing course, admin, and Supabase features |
+| Experimental practice UI | http://localhost:3100 | Current PG integration work |
+| WeBWorK renderer editor | http://localhost:3101 | Local operator diagnostics |
+
+Start Docker Desktop with its Linux engine ready, then run from the repository root:
+
+```powershell
+cd experimental-workspace
+docker compose up --build -d --wait --wait-timeout 240
+```
+
+This assumes the existing OPL Docker volume is available. For a new machine, follow the [OPL volume setup](experimental-workspace/README.md#open-problem-library-volume) first. Keep the large library in Docker's Linux volume; do not clone it into Google Drive.
+
+The sandbox has one verified exercise, a picker, isolated answer collection, server-side grading, and saved submission state. **The visible Check answer button and feedback UI are the next task.** Grading currently works through the API and diagnostics. Unsubmitted edits are not saved. The sandbox is not connected to Supabase accounts.
+
+Source is copied into Docker images: rebuild after edits. Saved sessions survive rebuilds in a named volume; `docker compose down --volumes` deletes them. Keep renderer/editor ports private; this development setup is not ready for public deployment.
+
+## Original application: tech stack
 
 - Next.js App Router
 - React
@@ -33,13 +56,7 @@ Install dependencies:
 npm install
 ```
 
-Create local environment variables:
-
-```bash
-cp .env.example .env.local
-```
-
-Fill in:
+Create `.env.local` at the repository root with:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=
