@@ -319,3 +319,17 @@ test('legacy token-only records remain usable and acquire explicit state on thei
   await assert.rejects(f.service.resumeSession(legacy.id, { ownerToken: f.ownerToken }), hasCode('STORAGE_ERROR'));
   assert.equal(f.calls.restore.length, restores);
 });
+test('persists per-field PG feedback with the accepted token and restores it', async (t) => {
+  const f = await gradingFixture(t);
+  const original = f.rendererClient.submitAnswers;
+  f.rendererClient.submitAnswers = async (input) => ({ ...await original(input), fieldFeedback: [
+    {name:'AnSwEr0001',status:'invalid',score:0,message:'Unknown variable.'},
+    {name:'AnSwEr0002',status:'unanswered',score:0,message:''},
+    {name:'choices',status:'correct',score:1,message:''},
+  ] });
+  const checked = await f.service.submitAnswers(f.started.session.id, [['AnSwEr0001','x(']], {ownerToken:f.ownerToken});
+  const fresh = createExerciseSessions({directory:f.directory,rendererClient:f.rendererClient});
+  const restored = await fresh.resumeSession(f.started.session.id,{ownerToken:f.ownerToken});
+  assert.deepEqual(restored.submission.fieldFeedback,checked.submission.fieldFeedback);
+  assert.equal(restored.submission.fieldFeedback[0].status,'invalid');
+});

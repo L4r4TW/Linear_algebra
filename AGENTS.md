@@ -2,7 +2,7 @@
 
 ## Read before continuing
 
-Read [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md) for the current handoff and [Project_goals.md](Project_goals.md) for product direction. Inspect `git status --short` before editing: the current grading and submission-persistence implementation may still be uncommitted. Preserve existing work.
+Read [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md) for the current handoff and [Project_goals.md](Project_goals.md) for product direction. Inspect `git status --short` before editing: newer implementation work may still be uncommitted. Preserve existing work.
 
 There are two independent applications:
 

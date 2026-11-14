@@ -393,3 +393,22 @@ test('session retrieval returns the persisted last submission rather than a new 
   const denied = await fetch(f.baseUrl + '/api/sessions/' + initial.session.id);
   assert.equal(denied.status, 404);
 });
+test('exposes only allowlisted field feedback properties and restores them to the owner', async (t) => {
+  const f = await fixture(t);
+  const original = f.rendererClient.submitAnswers;
+  f.rendererClient.submitAnswers = async (input) => ({ ...await original(input), fieldFeedback:[
+    {name:'AnSwEr0001',status:'invalid',score:0,message:'Use a number.',correct_value:'PRIVATE_EXPECTED',token:'PRIVATE_FEEDBACK_TOKEN'},
+  ] });
+  const startResponse = await start(f);
+  const cookie = cookieOf(startResponse);
+  const initial = await startResponse.json();
+  const response = await fetch(f.baseUrl+'/api/sessions/'+initial.session.id+'/answers', {
+    method:'POST',headers:{'Content-Type':'application/json',Cookie:cookie},body:JSON.stringify({answers:[['AnSwEr0001','x(']]}),
+  });
+  assert.equal(response.status,200);
+  const checked = await response.json();
+  assert.deepEqual(checked.submission.fieldFeedback,[{name:'AnSwEr0001',status:'invalid',score:0,message:'Use a number.'}]);
+  assert.doesNotMatch(JSON.stringify(checked),/PRIVATE_EXPECTED|PRIVATE_FEEDBACK_TOKEN|correct_value/);
+  const restored = await (await fetch(f.baseUrl+'/api/sessions/'+initial.session.id,{headers:{Cookie:cookie}})).json();
+  assert.deepEqual(restored.submission.fieldFeedback,checked.submission.fieldFeedback);
+});

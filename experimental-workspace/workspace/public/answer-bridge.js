@@ -55,6 +55,11 @@ export function createAnswerBridge({ frame, channel, onChange = () => {}, timeou
 
   window.addEventListener('message', receive);
   return {
+    showFeedback(fields, entries) {
+      if (closed) return;
+      frame.contentWindow?.postMessage({ channel, type: 'show-feedback', fields, entries }, '*');
+    },
+
     getSnapshot() { return latest ? copy(latest) : undefined; },
 
     collect() {

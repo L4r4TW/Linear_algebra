@@ -6,9 +6,9 @@ Updated 2026-11-14. Start with this handoff, [AGENTS.md](AGENTS.md), and the det
 
 The active work is the independent **experimental-workspace/** WeBWorK integration. The existing root Next.js/Supabase application remains separate. Its earlier context is retained below; do not confuse its grading, tests, or authentication with the sandbox.
 
-The goal is a polished student practice experience using OPL problems and PG mathematical grading. Build one complete, reliable exercise flow before importing large numbers of exercises.
+The goal has expanded to a multi-subject practice platform covering the whole OPL, using PG mathematical grading. Design the future catalog for all subjects, while validating playable exercises in batches. Build one complete, reliable exercise flow before broadly enabling large numbers of exercises.
 
-This handoff accompanies the commit adding server-side grading, saved submission state, tests, and updated documentation on `main`. Its preceding implementation baseline is `4b6248d` (`Collect PG answers through an isolated frame bridge`). Run `git log -1` and `git status --short` to confirm the current revision and any newer local work before continuing. These backend features are already implemented; do not rebuild them from scratch.
+This handoff accompanies the commit adding **practice controls and student grading feedback** on `main`. Its preceding implementation baseline is `ba4e7a1` (server-side grading and persistent submission state). Run `git log -1` and `git status --short` to confirm the current revision and preserve newer local work before continuing.
 
 ## Implemented in the sandbox
 
@@ -20,8 +20,11 @@ This handoff accompanies the commit adding server-side grading, saved submission
 6. Answer collection across an isolated iframe, preserving generated names, whitespace, and ordered duplicate pairs. Fresh collection works even without a widget firing input/change.
 7. Ownership-checked grading endpoint, trusted server-derived answer contract, missing-answer clearing, and per-session overlap protection.
 8. Atomic persistence of updated renderer tokens plus the latest successful submission snapshot: ID, number, server timestamp, allowed field names, exact submitted pairs, PG score, and plain-text PG feedback. Legacy token-only records still restore. Only the latest snapshot is retained.
+9. Practice controls: a prominent Check answer button beneath the frame submits fresh answer pairs, shows Checking… with a spinner, disables repeat submissions and exercise starts, and reports success or an inline error. The frame remains intact on success/failure, preserving edits made during the request. Browser history navigation cancels pending browser work and ignores late responses. No automatic grading retries.
 
-**UI boundary:** Students can select and view exercises and edit answers. There is still no visible **Check answer** button or result/feedback panel. Grading and persistence are available through the backend and diagnostics. Submitted values restore from PG tokens; unsubmitted edits are not autosaved. This does not yet implement account-based progress or submission history.
+10. Student feedback: per-field PG messages, separate invalid-input/mathematical-error states, overall result and percentage score, saved-result restoration, and changed-since-check markers without replacing inputs.
+
+**UI boundary:** Students can now select, edit, check answers, and read field/overall results. Checked values restore from PG tokens; unsubmitted edits are not autosaved. Inputs remain editable during checking, so later edits are not necessarily included in that submission. No account-based progress or attempt history yet.
 
 ## Start or resume locally
 
@@ -61,9 +64,10 @@ All paths below are relative to `experimental-workspace/`:
 | Ownership, tokens, persistence, grading | `workspace/server/exercise-sessions.mjs` |
 | Trusted answer fields and validation | `workspace/server/answer-contract.mjs` |
 | Saved submission schema/legacy compatibility | `workspace/server/submission-state.mjs` |
+| Safe PG field results | `workspace/server/grading-feedback.mjs` |
 | API, student HTML projection, static assets | `workspace/server/http-app.mjs` |
 | Picker and next UI work | `workspace/public/index.html`, `picker.css`, `picker.js` |
-| Isolated PG content and messages | `workspace/public/exercise-frame.js`, `answer-fields.js`, `answer-bridge.js` |
+| Isolated PG content and messages | `workspace/public/exercise-frame.js`, `answer-fields.js`, `answer-bridge.js`, `field-feedback.js` |
 | Browser integration tests | `browser-tests/picker.test.mjs` |
 
 Endpoints:
@@ -73,7 +77,7 @@ Endpoints:
 - `GET /api/sessions/:id`: restore the owned session.
 - `POST /api/sessions/:id/answers`: JSON `{ "answers": [["AnSwEr0001", "2 + 3"]] }`, using the actual collected field names. No client seed, path, token, settings, or field manifest.
 
-Session responses contain `session: {id, exerciseId, createdAt}`, `exercise: {html, score, resources}`, and `submission: null` or `{id, number, submittedAt, fieldNames, answers, score, feedback: {message, summary}}`. Tokens and seeds remain private. Score is a fraction from 0 to 1.
+Session responses contain `session: {id, exerciseId, createdAt}`, `exercise: {html, score, resources}`, and `submission: null` or `{id, number, submittedAt, fieldNames, answers, score, feedback: {message, summary}, fieldFeedback: [{name, status, score, message}]}`. Tokens and seeds remain private. Score is a fraction from 0 to 1.
 
 In `picker.js`, `collectCurrentAnswers()` returns `{sessionId, answers: {fieldNames, entries}}`; submit `answers.entries` as the API's `answers`. Do not convert pairs into an object, which would lose repeated names. Snapshots are browser input; only restored server-trusted HTML defines allowed fields.
 
@@ -81,9 +85,9 @@ Ownership uses `la_experiment_owner`, an HttpOnly/SameSite=Strict cookie, with o
 
 ## Verification recorded before this documentation update
 
-The implementation work passed **60 server tests and 12 Chromium browser checks**, plus renderer-client, sessions, API, grading, and submission-state smoke checks and the PowerShell renderer check. Live grading covered wrong/partial/correct results (0, 0.25, 1) and clearing previously saved answers.
+The latest feedback implementation passed **68 server tests and 16 Chromium browser checks**. The real exercise test includes invalid syntax, parsed incorrect coordinates, blank fields, partial/correct/incorrect scores, stale feedback on edits, and refresh without another grading request. New browser checks cover fresh values, keyboard activation, duplicate clicks, editing during a request, server/network failures, explicit retry, mobile sizing, and navigation during grading. Desktop/mobile previews were also inspected. Previous backend verification passed renderer-client, sessions, API, grading, and submission-state smoke checks and the PowerShell renderer check. Live grading covered wrong/partial/correct results (0, 0.25, 1) and clearing previously saved answers.
 
-A real forced workspace-container replacement also preserved the same owned session, latest submission metadata, score/feedback, and exact regenerated answer values, including whitespace and empty strings. These are historical results from the implementation work; rerun relevant checks after code changes.
+A real forced workspace-container replacement also preserved the same owned session, latest submission metadata, score/feedback, and exact regenerated answer values, including whitespace and empty strings. The container-replacement and focused backend smoke results are historical; server/browser suites and renderer-client, sessions, API, grading, and submission-state smoke checks were rerun during feedback implementation. Rerun relevant checks after code changes.
 
 Run from `experimental-workspace/` after rebuilding:
 
@@ -101,15 +105,15 @@ docker run --rm --network linear-algebra-experimental_default --shm-size=1g line
 
 The separate browser image keeps Playwright out of app dependencies. It forwards the actual localhost origin through the Docker network; preserve this setup for cookie/origin/secure-context behavior. Instructor answer maps are allowed only in operator diagnostics; never return or log them through student APIs.
 
-## Next task: connect grading to the practice UI
+## Feedback contract and next work
 
-1. Add a prominent accessible **Check answer** button. Collect fresh frame values, confirm they belong to the current session, and POST ordered pairs to the grading endpoint.
-2. Show a checking state and prevent duplicate submissions. Preserve inputs on errors, offer useful recovery, and avoid attaching an old response to a newly selected session. Do not silently retry a grade.
-3. Use the returned exercise content and submission snapshot to show the latest score and overall feedback. Restore that result after refresh without submitting again. Preserve frame isolation and answer bridge cleanup when replacing content.
-4. Support keyboard submission, focus management, screen-reader status, and mobile layout. Verify behavior for Enter/IME and multiline fields rather than intercepting all Enter presses.
-5. Add browser coverage for the real student flow: edit, check, result, retry after an error, refresh, and switch exercise during a request.
+The private renderer `JWT.answer` contains PG results at `score.answers`. `grading-feedback.mjs` reads that configured-server response and projects only field name, status, score, and plain-text PG message. It is not JWT authentication and never accepts a browser grading token. Correct answers and other private claims remain on the server. No instructor request is needed by the student flow.
 
-Current feedback is an overall PG plain-text message/summary. Per-field feedback needs a deliberate student-safe response contract after inspecting real PG responses; do not expose the instructor answer map.
+PG MathObjects uses `error_message` for coordinate hints as well as parser errors. A reported error plus an explicitly absent parsed `student_value`, or an explicit PG error flag, identifies invalid input. Successfully parsed incorrect coordinates remain mathematical errors. Never classify syntax validity from message wording. Per-field statuses are `correct`, `incorrect`, `partial`, `invalid`, `unanswered`, and `ungraded`; suppression of individual results is respected.
+
+The snapshot persists safe `fieldFeedback` with the updated tokens. Older snapshots without it remain valid and obtain field details on the next check. The iframe inserts plain text with accessible field descriptions and invalid-input markers. Editing a checked field marks it changed and flags the overall score as the last checked result. Parent messages remain authenticated by source/origin/channel; the frame stays opaque and live values are preserved.
+
+Next work is to finish accessibility/keyboard review of the complete practice flow, then test a representative set of exercise types and subjects before designing the multi-subject catalog database/importer. In particular, graphs, images, choice groups, custom evaluators, and compound answers need individual compatibility checks; do not infer support from the current four-field exercise.
 
 After this one-exercise flow is polished, verify more OPL entries and specialized widgets individually. Do not publish all 81k exercises in bulk: indexing, topic relevance, renderer compatibility, source attribution, and licenses still need review. Later integrate Supabase account ownership/progress and durable attempts, plus concurrency suitable for multiple server processes.
 
@@ -123,8 +127,10 @@ The renderer/editor supports raw PG execution and uses an older upstream depende
 Read AGENTS.md, PROJECT_CONTEXT.md, experimental-workspace/AGENTS.md, and
 experimental-workspace/README.md. Inspect git status and preserve any local
 changes. Grading and submission-state persistence already exist. Continue in the Docker sandbox:
-connect a prominent Check answer button to the existing answer collector and
-POST /api/sessions/:id/answers, then display and restore student-safe feedback.
+the Check answer controls already submit to POST /api/sessions/:id/answers.
+Student-safe field/overall feedback is also implemented and restored.
+Continue by reviewing accessibility and testing representative OPL exercise types
+before expanding to a multi-subject catalog.
 Keep the original Next.js/Supabase application separate.
 ```
 

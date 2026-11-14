@@ -38,3 +38,12 @@ test('rejects incomplete token/snapshot metadata and invalid result fields', () 
     { ...base, lastSubmission: { ...base.lastSubmission, fieldNames: ['choices', 'choices'] } },
   ]) assert.equal(hasValidSubmissionState(invalid), false);
 });
+test('preserves new field feedback and accepts legacy snapshots without it', () => {
+  const value = record();
+  value.lastSubmission.fieldFeedback = [{name:'AnSwEr0001',status:'invalid',score:0,message:'Use a number.'}];
+  assert.equal(hasValidSubmissionState(value), true);
+  value.lastSubmission.fieldFeedback[0].name = 'unknown';
+  assert.equal(hasValidSubmissionState(value), false);
+  delete value.lastSubmission.fieldFeedback;
+  assert.equal(hasValidSubmissionState(value), true);
+});

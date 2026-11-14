@@ -1,3 +1,4 @@
+import { renderFieldFeedback, matchesSubmittedAnswers } from './field-feedback.js';
 import { collectAnswerFields, isAnswerFieldName } from './answer-fields.js';
 
 function escapeAttribute(value) {
@@ -19,12 +20,18 @@ body{margin:0;padding:18px 4px 24px;font:15px/1.85 system-ui,sans-serif;color:#2
 input:not([type=hidden]),textarea,select{max-width:100%;box-sizing:border-box;font:inherit;border:1px solid #b8cebd;border-radius:7px;padding:8px 11px;background:#fafcf8;color:#203b32;margin:6px 0}
 input:focus,textarea:focus{outline:3px solid #d9b96a;outline-offset:2px}
 mjx-container{max-width:100%;overflow-x:auto;overflow-y:hidden}p{margin-top:0}a{color:#087b69}
+.field-feedback{display:block;max-width:100%;margin:4px 0 14px;padding:10px 12px;border-left:3px solid #6b7b70;border-radius:4px;background:#f3f5f1;font-size:13px;line-height:1.55}.field-feedback strong{display:block;font-weight:700}.field-feedback span{display:block;margin-top:3px}.field-feedback[data-status=correct]{border-color:#087b69;background:#edf7f0;color:#155c49}.field-feedback[data-status=incorrect]{border-color:#b34848;background:#fff1ef;color:#853b35}.field-feedback[data-status=invalid],.field-feedback[data-status=partial]{border-color:#ae7a22;background:#fff7e7;color:#775a26}.field-feedback[data-status=changed]{border-color:#80918a;color:#596c61}input[aria-invalid=true],textarea[aria-invalid=true],select[aria-invalid=true]{border-color:#ae7a22}
 </style>
 <script>
 const channel=${JSON.stringify(channel)};
 const parentOrigin=${JSON.stringify(scriptUrl.origin)};
 const isAnswerFieldName=${isAnswerFieldName.toString()};
 const collectAnswerFields=${collectAnswerFields.toString()};
+const matchesSubmittedAnswers=${matchesSubmittedAnswers.toString()};
+const renderFieldFeedback=${renderFieldFeedback.toString()};
+let feedbackFields=[];
+let submittedEntries=[];
+function applyFeedback(){renderFieldFeedback(document.getElementById('problem_body'),feedbackFields,submittedEntries);}
 let answerRevision=0;
 let changeQueued=false;
 function answerMessage(type,requestId){
@@ -36,16 +43,26 @@ function answerMessage(type,requestId){
   }
 }
 window.addEventListener('message',event=>{
-  if(event.source!==parent||event.origin!==parentOrigin||event.data?.channel!==channel||
-     event.data.type!=='collect-answers'||typeof event.data.requestId!=='string')return;
-  answerMessage('answers',event.data.requestId);
+  if(event.source!==parent||event.origin!==parentOrigin||event.data?.channel!==channel)return;
+  if(event.data.type==='collect-answers'&&typeof event.data.requestId==='string'){
+    applyFeedback();
+    answerMessage('answers',event.data.requestId);
+  }else if(event.data.type==='show-feedback'&&Array.isArray(event.data.fields)&&Array.isArray(event.data.entries)){
+    feedbackFields=event.data.fields;
+    submittedEntries=event.data.entries;
+    applyFeedback();
+    resize();
+  }
 });
 function answersChanged(){
   if(changeQueued)return;
   changeQueued=true;
-  queueMicrotask(()=>{changeQueued=false;answerMessage('answers-changed');});
+  queueMicrotask(()=>{changeQueued=false;applyFeedback();answerMessage('answers-changed');});
 }
 window.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.ww-feedback-btn').forEach(node=>node.remove());
+  document.querySelectorAll('input,textarea,select').forEach(node=>node.classList.remove('correct','incorrect','partially-correct'));
+  applyFeedback();
   document.addEventListener('input',answersChanged);
   document.addEventListener('change',answersChanged);
   answerMessage('answers-changed');

@@ -190,6 +190,7 @@ export function createExerciseSessions({
             answers: structuredClone(answers),
             score: graded.score,
             feedback: structuredClone(graded.feedback ?? { message: '', summary: '' }),
+            fieldFeedback: structuredClone(graded.fieldFeedback ?? []),
           },
         };
         validateRecord(updated, sessionId);

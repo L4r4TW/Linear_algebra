@@ -40,6 +40,8 @@ const wrong = await submit(correct.map(([name]) => [name, 'not_a_valid_answer'])
 assert.equal(wrong.status, 200);
 const wrongResult = await wrong.json();
 assert.equal(wrongResult.exercise.score, 0);
+assert.equal(wrongResult.submission.fieldFeedback.length,4);
+assert.ok(wrongResult.submission.fieldFeedback.every((field)=>field.status==='invalid'));
 const partial = await submit([correct[0]]);
 assert.equal(partial.status, 200);
 const partialResult = await partial.json();
@@ -48,6 +50,7 @@ const complete = await submit(correct);
 assert.equal(complete.status, 200);
 const completeResult = await complete.json();
 assert.equal(completeResult.exercise.score, 1);
+assert.ok(completeResult.submission.fieldFeedback.every((field)=>field.status==='correct'));
 assert.equal(completeResult.submission.number, 3);
 assert.deepEqual(completeResult.submission.answers, correct);
 assert.equal(JSON.stringify(completeResult).includes(before.rendererSessionToken), false);
@@ -63,6 +66,7 @@ const blank = await submit([]);
 assert.equal(blank.status, 200);
 const blankResult = await blank.json();
 assert.equal(blankResult.exercise.score, 0);
+assert.ok(blankResult.submission.fieldFeedback.every((field)=>field.status==='unanswered'));
 assert.equal(blankResult.submission.number, 4);
 assert.deepEqual(blankResult.submission.answers, []);
 

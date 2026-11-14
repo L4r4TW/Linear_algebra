@@ -192,7 +192,7 @@ test('submits stored-token grading as student form data with duplicate values pr
     let body = '';
     for await (const chunk of request) body += chunk;
     fields = new URLSearchParams(body);
-    response.end(JSON.stringify({ ...valid(), JWT: { session: 'updated-session', problem: 'test-problem' }, problem_result: { score: 0.75 } }));
+    response.end(JSON.stringify({ ...valid(), JWT: { session: 'updated-session', problem: 'test-problem', answer: 'e30.' + Buffer.from(JSON.stringify({ score:{answers:{}} })).toString('base64url') + '.c2ln' }, problem_result: { score: 0.75 } }));
   });
   const answers = [['AnSwEr0001', ' 1 + 2 '], ['choices', 'a+b'], ['choices', '<1,2>']];
   const result = await createRendererClient({ baseUrl }).submitAnswers({
@@ -246,4 +246,23 @@ test('rejects malformed renderer feedback instead of saving an invalid submissio
     response.end(JSON.stringify({ ...valid(), problem_result: { score: 0, msg: { private: 'unexpected' } } }));
   });
   await assert.rejects(createRendererClient({ baseUrl }).loadExercise(input), hasCode('INVALID_RESPONSE'));
+});
+test('projects only student-safe per-field feedback from the private renderer grading token', async (t) => {
+  const answer = 'e30.' + Buffer.from(JSON.stringify({ score:{answers: {
+    AnSwEr0001: { score:0, student_value:null, error_message:'Unknown <b>variable</b>.<script>privateScript()</script>', correct_value:'PRIVATE_EXPECTED' },
+  }} })).toString('base64url') + '.c2ln';
+  const baseUrl = await serve(t, (_request, response) => response.end(JSON.stringify({ ...valid(), JWT:{...valid().JWT,answer} })));
+  const result = await createRendererClient({baseUrl}).submitAnswers({...input,sessionToken:'stored',answers:[['AnSwEr0001','z(']]});
+  assert.deepEqual(result.fieldFeedback, [{ name:'AnSwEr0001',status:'invalid',score:0,message:'Unknown variable.' }]);
+  assert.doesNotMatch(JSON.stringify(result), /PRIVATE_EXPECTED|privateScript|correct_value/);
+  assert.equal(JSON.stringify(result).includes(answer), false);
+});
+
+test('does not accept missing or malformed private grading tokens as complete grading responses', async (t) => {
+  let answer;
+  const baseUrl = await serve(t, (_request, response) => response.end(JSON.stringify({ ...valid(), JWT:{...valid().JWT,answer} })));
+  const client = createRendererClient({baseUrl});
+  for (answer of [undefined,'invalid','e30.e30.c2ln']) {
+    await assert.rejects(client.submitAnswers({...input,sessionToken:'stored',answers:[['AnSwEr0001','1']]}), hasCode('INVALID_RESPONSE'));
+  }
 });

@@ -1,3 +1,4 @@
+import { hasValidFieldFeedback } from './grading-feedback.mjs';
 import { validateAnswerEntries } from './answer-contract.mjs';
 
 const isDate = (value) => typeof value === 'string' && Number.isFinite(Date.parse(value));
@@ -23,6 +24,7 @@ export function hasValidSubmissionState(record) {
     validateAnswerEntries(lastSubmission.answers);
     validateAnswerEntries(lastSubmission.fieldNames.map((name) => [name, '']));
   } catch { return false; }
+  if (lastSubmission.fieldFeedback !== undefined && !hasValidFieldFeedback(lastSubmission.fieldFeedback, lastSubmission.fieldNames)) return false;
   const allowed = new Set(lastSubmission.fieldNames);
   return lastSubmission.answers.every(([name]) => allowed.has(name));
 }

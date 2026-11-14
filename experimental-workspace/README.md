@@ -31,7 +31,11 @@ Open **http://localhost:3100** to use the experimental picker.
 - Selecting the current exercise again starts a new version. Buttons are disabled during loading to avoid overlapping starts.
 - The layout supports narrow screens, keyboard navigation, accessible answer labels, and reduced-motion preferences.
 
-This is a practice preview: answer fields are usable, but the visible Check answer controls are not implemented yet. Unsubmitted edits are not saved. Successful API submissions now preserve their answers and result for restoration.
+A prominent **Check answer** button sits beneath the exercise. It collects fresh answer pairs and submits them to the owned session grading endpoint. While checking, the button shows a spinner and **Checking…**, and exercise selection is disabled to prevent overlapping submissions. The button also works with native keyboard activation; on mobile it fills the available width.
+
+Successful checks show **Submitted answers checked and saved.** The live exercise frame stays in place, including any edits made while the request was in flight. Server, network, and answer-collection errors appear beneath the button, leave inputs intact, and re-enable an explicit retry. Requests are not retried automatically. Navigating away cancels the browser request and ignores late results; cancellation does not guarantee that an already-received server request was stopped.
+
+Unsubmitted edits are not saved. Checked answers restore after refresh from the saved renderer session. Each field now shows a result and plain-text PG feedback; an overall result and percentage score appear above Check answer. These results restore after refresh.
 
 The UI lives in `workspace/public/`: `index.html`, `picker.css`, `picker.js`, and `exercise-frame.js`. The server exposes only explicitly listed static files. Catalog text is inserted as text, and API problem HTML is displayed in an iframe with `sandbox="allow-scripts"`, without same-origin access or form submission permissions. A restrictive frame content policy blocks API/network connections and navigation. Parent messages are checked against the frame window and a per-frame channel.
 
@@ -53,7 +57,7 @@ The isolated exercise frame captures answer values without giving the parent acc
 - `workspace/public/answer-bridge.js` provides source/channel-checked, request/reply messaging with the opaque frame.
 - `picker.js` associates every snapshot with the current exercise session.
 
-For future Check answer handling, request fresh values from the frame:
+The Check answer handler requests fresh values from the frame:
 
 ```javascript
 import { collectCurrentAnswers, getCurrentAnswers } from '/assets/picker.js';
@@ -73,7 +77,7 @@ A fresh collection reads the DOM even if a widget changed a value without firing
 
 Collected data remains untrusted browser input. The grading endpoint verifies ownership and derives permitted fields from restored trusted problem HTML; it never treats the client field manifest as an allowlist. No answers are sent to the renderer or persisted by this collection step. Specialized PG widgets still require individual compatibility checks; file uploads are not supported.
 
-Verified in Chromium with the real four-field OPL exercise, plus native-control fixtures for repeated names, selection semantics, hidden-field filtering, request timeouts, forged messages, and frame replacement. The browser suite now has 12 checks, including submitted-state restoration.
+Verified in Chromium with the real four-field OPL exercise, plus native-control fixtures for repeated names, selection semantics, hidden-field filtering, request timeouts, forged messages, and frame replacement. The browser suite now has 16 checks, including submitted-state restoration, native keyboard checking, duplicate protection, server/network error preservation, mobile controls, and navigation during grading.
 ## Exercise catalog
 
 The server-side allowlist lives in `workspace/server/exercise-catalog.json`. It starts with the verified `dot-product-01` exercise, titled **Dot products and vector operations**, in the **Dot product** topic.
@@ -232,7 +236,7 @@ docker compose exec -T workspace npm run smoke:api
 
 The HTTP tests use isolated temporary storage and a fake renderer. The live API check creates and restores a real OPL session, checks that renderer tokens are absent from its HTML, and verifies retrieval without the owner cookie is denied. Tests and diagnostics do not log cookies or renderer tokens.
 
-Implementation: `workspace/server/http-app.mjs`, started by `workspace/server.mjs`. The picker now consumes these endpoints. Answer submission is available through the grading endpoint; the practice controls, detailed feedback UI, and account integration remain subsequent work.
+Implementation: `workspace/server/http-app.mjs`, started by `workspace/server.mjs`. The picker now consumes these endpoints. Answer submission is available through the grading endpoint; the practice controls and feedback UI consume it. Account integration remains future work.
 ## Server-side grading
 
 `POST /api/sessions/:id/answers` grades answers using the same anonymous ownership cookie as session retrieval. Its JSON body contains **only** an `answers` array:
@@ -261,7 +265,7 @@ const response = await fetch('/api/sessions/' + encodeURIComponent(sessionId) + 
 const result = await response.json();
 ```
 
-The endpoint returns the usual public session/exercise shape, with PG's actual score in `exercise.score` and re-rendered problem content. It does not accept a score, seed, PG path, token, field manifest, or instructor settings. The visible Check answer button and detailed feedback presentation remain separate work.
+The endpoint returns the usual public session/exercise shape, with PG's actual score in `exercise.score` and re-rendered problem content. It does not accept a score, seed, PG path, token, field manifest, or instructor settings. The visible Check answer button presents the normalized overall and per-field results without replacing live inputs.
 
 The session service verifies ownership before contacting PG. It restores the saved renderer token and derives an answer contract from that trusted problem's controls, using parse5 and the shared answer-name policy. Submitted names must match that contract exactly. Duplicate scalar values are rejected; real repeated controls and multi-select values are preserved. Missing fields are explicitly sent as empty strings so the renderer cannot silently reuse an older JWT answer.
 
@@ -279,7 +283,7 @@ Run the operator-only live grading diagnostic:
 docker compose exec -T workspace npm run smoke:grading
 ```
 
-It obtains expected answers directly from the renderer in instructor mode solely for testing; instructor responses never pass through the student API and are not logged. Verified against the installed PG engine: incorrect score 0, partial score 0.25, correct score 1, restored correct score 1, and cleared-answer score 0. All 60 server tests and 12 browser regression checks passed.
+It obtains expected answers directly from the renderer in instructor mode solely for testing; instructor responses never pass through the student API and are not logged. Verified against the installed PG engine: incorrect score 0, partial score 0.25, correct score 1, restored correct score 1, and cleared-answer score 0. The current regression suite passes 68 server tests and 16 browser checks.
 
 Implementation: `renderer-client.mjs`, `answer-contract.mjs`, `exercise-sessions.mjs`, and `http-app.mjs` in `workspace/server/`.
 ## Saved submission state
@@ -294,14 +298,15 @@ Each successful grading response now writes the latest submission in the **same 
     fieldNames,
     answers,
     score,
-    feedback: { message, summary }
+    feedback: { message, summary },
+    fieldFeedback: [{ name, status, score, message }]
   }
 }
 ```
 
 `answers` preserves the exact validated request pairs, including whitespace, empty values, and duplicate names. `fieldNames` comes from the restored trusted PG problem, so omitted selections can be distinguished from unknown fields. PG still receives explicit blanks for omitted answers. The timestamp and submission ID are generated by the server; the score and feedback come from PG.
 
-Feedback stores the student-facing PG message and result summary as plain text. HTML formatting is removed, block spacing/entities are normalized, and executable script/style contents are discarded. These strings should be displayed as text in the future feedback UI. This is the overall PG result, not a new per-field feedback interface.
+Feedback stores the student-facing PG message and result summary as plain text. HTML formatting is removed, block spacing/entities are normalized, and executable script/style contents are discarded. The practice screen displays these strings as text. `fieldFeedback` adds a separate safe per-field result, also rendered as text.
 
 The private file keeps a count of successfully saved submissions and **only the latest snapshot**, rather than an attempt-history log. The snapshot ID stays stable across retrieval and changes on the next accepted submission. Failed grading or failed saving leaves the preceding snapshot and token unchanged.
 
@@ -309,7 +314,7 @@ Start, grading, and retrieval API responses now include `submission`: null befor
 
 Older version-1 files containing only renderer tokens remain valid. Their explicit submission snapshot starts with the next successful grade; existing PG state is not reset or guessed. Corrupt or inconsistent count/snapshot metadata is rejected as a storage error.
 
-All state remains in the existing private Docker session volume, with the same file permissions, ownership checks, and single-process submission guard. Deleting that volume still deletes the sessions and their latest submissions. Unsubmitted edits remain in browser memory only; the visible Check answer controls and richer feedback presentation are still separate work.
+All state remains in the existing private Docker session volume, with the same file permissions, ownership checks, and single-process submission guard. Deleting that volume still deletes the sessions and their latest submissions. Unsubmitted edits remain in browser memory only; the visible controls and feedback use the saved snapshot; editing an answer marks its old feedback as stale.
 
 Run the focused live state check:
 
@@ -317,7 +322,21 @@ Run the focused live state check:
 docker compose exec -T workspace npm run smoke:submission-state
 ```
 
-Verified on 2026-11-14: exact answers (including spaces and vector syntax), submission identity/count/time, score, and feedback survive browser refresh and full container replacement. Refresh makes no additional grading request. The full suite passes 60 server tests and 12 browser checks.
+Verified on 2026-11-14: exact answers (including spaces and vector syntax), submission identity/count/time, score, and feedback survive browser refresh and full container replacement. Refresh makes no additional grading request. The full suite passes 68 server tests and 16 browser checks.
+## Student grading feedback
+
+The practice screen shows feedback directly beneath each answer field and an overall result with a percentage score. Status labels distinguish **Correct**, **Incorrect**, **Partially correct**, **Invalid input**, **Not answered**, and **Not graded**. A failed HTTP request remains a service error rather than a mathematical result.
+
+`workspace/server/grading-feedback.mjs` reads only the private `JWT.answer` returned directly by the configured renderer, whose PG results are at `score.answers`. It projects only `{name, status, score, message}` for submitted trusted field names. The token, correct answers, previews, debug information, and other claims are never returned to students or saved in the public snapshot. No instructor-mode request is used for student feedback. This decoding treats the token as trusted upstream response data; it does not authenticate browser-supplied JWTs.
+
+PG MathObjects can put both parse errors and mathematical hints into `error_message`. Classify invalid input from an explicit PG error flag, or a reported error with an explicitly missing parsed `student_value`. A parsed vector with incorrect coordinates remains **Incorrect**, with the coordinate hints displayed. Do not infer validity from message wording. Ordinary mathematical expressions of the wrong type can still be parsed; their PG message explains the mismatch.
+
+The API snapshot includes optional `fieldFeedback` entries with `status` in `correct`, `incorrect`, `partial`, `invalid`, `unanswered`, or `ungraded`; score is a fraction or null when no individual result is available. PG settings that suppress individual grades are respected. Older snapshots without this array still restore; checking again obtains individual feedback.
+
+`workspace/public/field-feedback.js` inserts only text into the opaque iframe through source/origin/channel-checked bridge messages. Each visible field links to its message with `aria-describedby`; invalid input uses `aria-invalid`. Editing a field changes its message to **Changed since last check**, removes the old invalid marker, and marks the overall result as describing the last submission. The live inputs remain intact, including edits made while grading was in flight. PG popover controls are removed from the isolated view because the custom messages replace them.
+
+The real Chromium exercise flow covers mixed invalid/wrong/blank/correct fields, coordinate hints, partial credit, all-correct and all-incorrect results, edits, and restoration without another grading request. Unsupported PG widgets and custom evaluators still need separate verification before catalog expansion.
+
 ## Render a real exercise
 
 The following path was verified in the cloned library:

@@ -33,7 +33,21 @@
             <h3>A small step toward understanding.</h3><p>Choose an exercise from the topic list to get started.</p>
           </div>
         </div>
-        <p id="exercise-notice" class="exercise-notice" hidden>Practice preview · You can try the answer fields. Answer checking and saving your answers will come next.</p>
+        <div id="practice-result" class="practice-result" role="status" aria-atomic="true" hidden>
+          <h3 id="result-title" tabindex="-1"></h3>
+          <p id="result-score" class="result-score"></p>
+          <p id="result-detail"></p>
+          <p id="result-message"></p>
+          <p id="result-stale" class="result-stale" hidden>You have unsubmitted changes. These results describe your last check.</p>
+        </div>
+        <div id="practice-controls" class="practice-controls" hidden>
+          <button id="check-answer" class="check-answer" type="button" aria-describedby="submission-status submission-error">
+            <span class="spinner" aria-hidden="true" hidden></span><span id="check-answer-label">Check answer</span>
+          </button>
+          <p id="submission-status" class="submission-status" role="status" aria-atomic="true"></p>
+          <p id="submission-error" class="submission-error" role="alert" aria-atomic="true" hidden></p>
+        </div>
+        <p id="exercise-notice" class="exercise-notice" hidden>Only checked answers are saved. Unsubmitted edits stay on this page.</p>
       </section>
     </div>
     <p class="page-footer">Take your time. Understanding grows with practice.</p>

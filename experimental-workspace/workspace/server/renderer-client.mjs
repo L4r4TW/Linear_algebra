@@ -1,3 +1,4 @@
+import { projectFieldFeedback } from './grading-feedback.mjs';
 import { env } from 'node:process';
 import { parseFragment } from 'parse5';
 import { getExerciseById } from './exercise-catalog.mjs';
@@ -97,7 +98,7 @@ export function createRendererClient({ baseUrl = env.RENDERER_URL, timeoutMs = 3
     throw new RendererClientError('INVALID_CONFIGURATION', 'Renderer timeout must be a positive integer in milliseconds.');
   }
 
-  async function request(fields, exerciseId, seed) {
+  async function request(fields, exerciseId, seed, answers) {
     const controller = new AbortController();
     let timedOut = false;
     const timer = setTimeout(() => {
@@ -127,7 +128,17 @@ export function createRendererClient({ baseUrl = env.RENDERER_URL, timeoutMs = 3
       } catch {
         throw new RendererClientError('INVALID_RESPONSE', 'Renderer returned invalid JSON.');
       }
-      return validateResponse(data, exerciseId, seed);
+      const result = validateResponse(data, exerciseId, seed);
+      if (answers) {
+        try {
+          result.fieldFeedback = projectFieldFeedback(data.JWT.answer, answers, feedbackText, {
+            individualResults: ![false, 0, '0'].includes(data.flags.showPartialCorrectAnswers),
+          });
+        } catch {
+          throw new RendererClientError('INVALID_RESPONSE', 'Renderer returned invalid answer feedback.');
+        }
+      }
+      return result;
     } catch (error) {
       if (timedOut) throw new RendererClientError('TIMEOUT', 'Renderer request timed out.', { cause: error });
       if (error instanceof RendererClientError) throw error;
@@ -169,7 +180,7 @@ export function createRendererClient({ baseUrl = env.RENDERER_URL, timeoutMs = 3
         ['showSolutions', '0'],
         ['showCorrectAnswersButton', '0'],
         ...input.answers,
-      ], input.exerciseId, input.seed);
+      ], input.exerciseId, input.seed, input.answers);
     },
     async restoreSession(input) {
       validateExerciseInput(input);

@@ -1,3 +1,4 @@
+import { matchesSubmittedAnswers } from '/assets/field-feedback.js';
 import { createAnswerBridge, AnswerBridgeError } from '/assets/answer-bridge.js';
 import { buildExerciseDocument } from '/assets/exercise-frame.js';
 
@@ -9,6 +10,17 @@ const panel = document.querySelector('#practice');
 const count = document.querySelector('#exercise-count');
 const savedLabel = document.querySelector('#session-status');
 const notice = document.querySelector('#exercise-notice');
+const controls = document.querySelector('#practice-controls');
+const checkButton = document.querySelector('#check-answer');
+const checkLabel = document.querySelector('#check-answer-label');
+const submissionStatus = document.querySelector('#submission-status');
+const submissionError = document.querySelector('#submission-error');
+const resultPanel = document.querySelector('#practice-result');
+const resultTitle = document.querySelector('#result-title');
+const resultScore = document.querySelector('#result-score');
+const resultDetail = document.querySelector('#result-detail');
+const resultMessage = document.querySelector('#result-message');
+const resultStale = document.querySelector('#result-stale');
 const welcome = content.firstElementChild.cloneNode(true);
 
 let exercises = [];
@@ -20,6 +32,7 @@ let operation = 0;
 let frameState;
 let frameTimer;
 let lastAction;
+let submission;
 
 function element(tag, text, className) {
   const node = document.createElement(tag);
@@ -51,10 +64,46 @@ function loading(message) {
   return box;
 }
 
+function updateControls() {
+  const submitting = Boolean(submission);
+  controls.hidden = !frameState?.ready;
+  checkButton.disabled = busy || submitting || !frameState?.ready;
+  checkButton.setAttribute('aria-busy', String(submitting));
+  checkLabel.textContent = submitting ? 'Checking…' : 'Check answer';
+  checkButton.querySelector('.spinner').hidden = !submitting;
+  panel.setAttribute('aria-busy', String(busy));
+  for (const button of catalog.querySelectorAll('.exercise-choice')) button.disabled = busy || submitting;
+  for (const button of frameState?.warning.querySelectorAll('button') ?? []) button.disabled = submitting;
+}
+
+function displayResult(checked, entries) {
+  resultPanel.hidden = !checked;
+  if (!checked) return;
+  const fields = checked.fieldFeedback ?? [];
+  const invalid = fields.filter((field) => field.status === 'invalid').length;
+  const unanswered = fields.filter((field) => field.status === 'unanswered').length;
+  const score = checked.score;
+  const outcome = invalid ? 'invalid' : score === 1 ? 'correct' : score > 0 ? 'partial' : unanswered ? 'unanswered' : 'incorrect';
+  resultPanel.dataset.outcome = outcome;
+  resultTitle.textContent = {
+    invalid: 'Check your input', correct: 'All answers correct', partial: 'Partially correct',
+    unanswered: 'Some answers are missing', incorrect: 'Not correct yet',
+  }[outcome];
+  resultScore.textContent = 'Score: ' + new Intl.NumberFormat(undefined, { style: 'percent', maximumFractionDigits: 1 }).format(score);
+  resultDetail.textContent = invalid
+    ? `${invalid} ${invalid === 1 ? 'answer could' : 'answers could'} not be interpreted. Fix the input format, then check again.`
+    : outcome === 'correct' ? 'Your submitted answers are correct. Well done.'
+      : unanswered ? 'Complete the unanswered fields and review the feedback beside your answers.'
+        : 'Review the feedback beside each answer, then try again.';
+  if (!fields.length) resultDetail.textContent += ' Check again to see individual field feedback for this saved result.';
+  resultMessage.textContent = [checked.feedback?.summary, checked.feedback?.message].filter(Boolean).join(' ');
+  resultMessage.hidden = !resultMessage.textContent;
+  resultStale.hidden = !entries || matchesSubmittedAnswers(entries, checked.answers, checked.fieldNames);
+}
+
 function setBusy(value) {
   busy = value;
-  panel.setAttribute('aria-busy', String(value));
-  for (const button of catalog.querySelectorAll('.exercise-choice')) button.disabled = value;
+  updateControls();
 }
 
 function selectCurrent() {
@@ -100,7 +149,7 @@ function renderCatalog() {
       const button = element('button', undefined, 'exercise-choice');
       button.type = 'button';
       button.dataset.exerciseId = exercise.id;
-      button.disabled = busy;
+      button.disabled = busy || Boolean(submission);
       button.append(
         element('span', exercise.title, 'choice-title'),
         element('span', exercise.description, 'choice-description'),
@@ -140,12 +189,19 @@ async function loadCatalog() {
 }
 
 function clearFrame() {
+  submission?.controller.abort();
+  submission = undefined;
+  submissionStatus.textContent = '';
+  resultPanel.hidden = true;
+  submissionError.textContent = '';
+  submissionError.hidden = true;
   clearTimeout(frameTimer);
   if (frameState) {
     frameState.answerBridge.destroy();
     panel.dispatchEvent(new CustomEvent('exercise-answers-change', { bubbles: true, detail: null }));
   }
   frameState = undefined;
+  updateControls();
 }
 
 function resetPanel() {
@@ -164,12 +220,15 @@ function resetPanel() {
 function finishFrame(error = false) {
   if (!frameState) return;
   clearTimeout(frameTimer);
+  frameState.ready = true;
   const { frame, progress, warning } = frameState;
   progress.remove();
   frame.style.visibility = 'visible';
   warning.hidden = !error;
   savedLabel.hidden = notice.hidden = false;
   setBusy(false);
+  frameState.answerBridge.showFeedback(frameState.lastSubmission?.fieldFeedback ?? [], frameState.lastSubmission?.answers ?? []);
+  displayResult(frameState.lastSubmission, frameState.answerBridge.getSnapshot()?.entries);
   title.focus({ preventScroll: true });
 }
 
@@ -206,13 +265,14 @@ function displaySession(data) {
     channel,
     onChange(answers) {
       if (frameState?.frame !== frame) return;
+      displayResult(frameState.lastSubmission, answers.entries);
       panel.dispatchEvent(new CustomEvent('exercise-answers-change', {
         bubbles: true,
         detail: { sessionId: data.session.id, answers },
       }));
     },
   });
-  frameState = { frame, channel, progress, warning, answerBridge, sessionId: data.session.id };
+  frameState = { frame, channel, progress, warning, answerBridge, sessionId: data.session.id, lastSubmission: data.submission ?? null };
   frameTimer = setTimeout(() => finishFrame(true), 20_000);
 }
 
@@ -257,8 +317,55 @@ async function openExercise({ exerciseId, sessionId }) {
 }
 
 function startExercise(exerciseId) {
-  if (!busy) void openExercise({ exerciseId });
+  if (!busy && !submission) void openExercise({ exerciseId });
 }
+
+/** Check one fresh snapshot. Keep the live frame intact on both success and failure. */
+async function submitCurrentAnswers() {
+  if (busy || submission || !frameState?.ready) return;
+  const current = frameState;
+  const attempt = { controller: new AbortController() };
+  submission = attempt;
+  submissionError.hidden = true;
+  submissionError.textContent = '';
+  submissionStatus.textContent = 'Checking your answers…';
+  updateControls();
+  try {
+    const snapshot = await collectCurrentAnswers();
+    if (submission !== attempt || frameState !== current) return;
+    const data = await request('/api/sessions/' + encodeURIComponent(current.sessionId) + '/answers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answers: snapshot.answers.entries }),
+    }, attempt.controller.signal);
+    if (submission !== attempt || frameState !== current) return;
+    if (data.session?.id !== current.sessionId || data.session?.exerciseId !== selectedId ||
+        !Number.isSafeInteger(data.submission?.number) || data.submission.number < 1) {
+      throw new Error('The checking response could not be confirmed.');
+    }
+    current.lastSubmission = data.submission;
+    current.answerBridge.showFeedback(data.submission.fieldFeedback ?? [], data.submission.answers);
+    displayResult(data.submission, current.answerBridge.getSnapshot()?.entries);
+    submissionStatus.textContent = 'Submitted answers checked and saved.';
+  } catch (error) {
+    if (attempt.controller.signal.aborted || submission !== attempt || frameState !== current) return;
+    submissionStatus.textContent = '';
+    const detail = error instanceof AnswerBridgeError
+      ? 'We couldn’t read the answer fields. Please try Check answer again.'
+      : error.name === 'TimeoutError' || error instanceof TypeError
+        ? 'We couldn’t confirm whether your answers were saved. Please try Check answer again when you’re ready.'
+        : error.message;
+    submissionError.textContent = detail + ' Your inputs are still here.';
+    submissionError.hidden = false;
+  } finally {
+    if (submission === attempt && frameState === current) {
+      submission = undefined;
+      updateControls();
+    }
+  }
+}
+
+checkButton.addEventListener('click', () => { void submitCurrentAnswers(); });
 
 function followUrl() {
   const sessionId = new URL(location.href).searchParams.get('session');
@@ -272,7 +379,7 @@ export function getCurrentAnswers() {
   return answers ? { sessionId: frameState.sessionId, answers } : undefined;
 }
 
-/** Ask the frame for fresh DOM values immediately before a future submission. */
+/** Ask the frame for fresh DOM values immediately before a submission. */
 export async function collectCurrentAnswers() {
   const current = frameState;
   if (!current) throw new AnswerBridgeError('NO_FRAME', 'No exercise is open.');

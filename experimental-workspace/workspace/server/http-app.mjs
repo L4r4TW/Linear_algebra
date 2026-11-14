@@ -120,6 +120,9 @@ function publicSession(result) {
       answers: result.submission.answers.map((entry) => [...entry]),
       score: result.submission.score,
       feedback: { ...result.submission.feedback },
+      fieldFeedback: (result.submission.fieldFeedback ?? []).map((field) => ({
+        name: field.name, status: field.status, score: field.score, message: field.message,
+      })),
     } : null,
     exercise: {
       html: problemHtml(result.exercise.html),
@@ -154,6 +157,7 @@ const publicFiles = new Map([
   ['/assets/picker.js', ['picker.js', 'text/javascript; charset=utf-8']],
   ['/assets/picker.css', ['picker.css', 'text/css; charset=utf-8']],
   ['/assets/exercise-frame.js', ['exercise-frame.js', 'text/javascript; charset=utf-8']],
+  ['/assets/field-feedback.js', ['field-feedback.js', 'text/javascript; charset=utf-8']],
   ['/assets/answer-fields.js', ['answer-fields.js', 'text/javascript; charset=utf-8']],
   ['/assets/answer-bridge.js', ['answer-bridge.js', 'text/javascript; charset=utf-8']],
 ].map(([path, [file, contentType]]) => [path, {
