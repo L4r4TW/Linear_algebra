@@ -1,3 +1,5 @@
+import { collectAnswerFields } from './answer-fields.js';
+
 function escapeAttribute(value) {
   return value.replace(/[&<>"']/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
 }
@@ -20,6 +22,33 @@ mjx-container{max-width:100%;overflow-x:auto;overflow-y:hidden}p{margin-top:0}a{
 </style>
 <script>
 const channel=${JSON.stringify(channel)};
+const parentOrigin=${JSON.stringify(scriptUrl.origin)};
+const collectAnswerFields=${collectAnswerFields.toString()};
+let answerRevision=0;
+let changeQueued=false;
+function answerMessage(type,requestId){
+  try{
+    const answers=collectAnswerFields(document.getElementById('problem_body'));
+    parent.postMessage({channel,type,requestId,revision:answerRevision++,...answers},parentOrigin);
+  }catch{
+    if(requestId)parent.postMessage({channel,type:'answer-collection-error',requestId},parentOrigin);
+  }
+}
+window.addEventListener('message',event=>{
+  if(event.source!==parent||event.origin!==parentOrigin||event.data?.channel!==channel||
+     event.data.type!=='collect-answers'||typeof event.data.requestId!=='string')return;
+  answerMessage('answers',event.data.requestId);
+});
+function answersChanged(){
+  if(changeQueued)return;
+  changeQueued=true;
+  queueMicrotask(()=>{changeQueued=false;answerMessage('answers-changed');});
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  document.addEventListener('input',answersChanged);
+  document.addEventListener('change',answersChanged);
+  answerMessage('answers-changed');
+});
 function notify(type){parent.postMessage({channel,type,height:Math.ceil(document.body.scrollHeight)},'*');}
 function resize(){notify('resize');}
 window.MathJax={

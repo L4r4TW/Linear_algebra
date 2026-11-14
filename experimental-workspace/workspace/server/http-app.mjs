@@ -138,6 +138,8 @@ const publicFiles = new Map([
   ['/assets/picker.js', ['picker.js', 'text/javascript; charset=utf-8']],
   ['/assets/picker.css', ['picker.css', 'text/css; charset=utf-8']],
   ['/assets/exercise-frame.js', ['exercise-frame.js', 'text/javascript; charset=utf-8']],
+  ['/assets/answer-fields.js', ['answer-fields.js', 'text/javascript; charset=utf-8']],
+  ['/assets/answer-bridge.js', ['answer-bridge.js', 'text/javascript; charset=utf-8']],
 ].map(([path, [file, contentType]]) => [path, {
   body: readFileSync(new URL('../public/' + file, import.meta.url)), contentType,
 }]));

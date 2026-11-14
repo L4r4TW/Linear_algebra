@@ -42,7 +42,36 @@ docker build -f browser-tests/Dockerfile -t linear-algebra-picker-qa .
 docker run --rm --network linear-algebra-experimental_default --shm-size=1g linear-algebra-picker-qa
 ```
 
-The browser uses the actual localhost origin, forwarding test HTTP traffic over Docker's service network. The seven checks cover real math rendering and sandbox isolation, mobile layout, refresh/history restoration, loading/empty/error states, and formatting retries. Server checks also cover private asset boundaries and the MathJax proxy.
+The browser uses the actual localhost origin, forwarding test HTTP traffic over Docker's service network. The original seven picker checks cover real math rendering and sandbox isolation, mobile layout, refresh/history restoration, loading/empty/error states, and formatting retries. Server checks also cover private asset boundaries and the MathJax proxy.
+## Answer collection
+
+The isolated exercise frame captures answer values without giving the parent access to its DOM.
+
+- `workspace/public/answer-fields.js` collects named, enabled input/textarea/select controls within `#problem_body`.
+- `workspace/public/answer-bridge.js` provides source/channel-checked, request/reply messaging with the opaque frame.
+- `picker.js` associates every snapshot with the current exercise session.
+
+For future Check answer handling, request fresh values from the frame:
+
+```javascript
+import { collectCurrentAnswers, getCurrentAnswers } from '/assets/picker.js';
+
+const { sessionId, answers } = await collectCurrentAnswers();
+// answers.fieldNames: unique eligible field names in DOM order
+// answers.entries: ordered [name, value] pairs, including repeated names
+
+const cached = getCurrentAnswers(); // Copy of the last snapshot, or undefined.
+```
+
+The frame also reports input/change events. The practice panel emits a bubbling `exercise-answers-change` CustomEvent with `{ sessionId, answers }`, or null when the frame is cleared. These snapshots are in memory only.
+
+Names, whitespace, vector syntax, and empty text values are retained. Radio/checkbox values are included only when checked; multi-selects produce one pair per selected enabled option. Unchecked groups remain in `fieldNames` with no entry, so consumers can distinguish an empty selection from a missing field. Eligible hidden answer fields are included. Disabled/nameless fields, upload/button controls, renderer parameters/tokens, and PG's `MaThQuIlL_`/`previous_` helper fields are excluded. Do not use Object.fromEntries on the pairs: it would discard repeated-name values.
+
+A fresh collection reads the DOM even if a widget changed a value without firing input/change. Replies are matched to unique request IDs; snapshots have monotonic revisions. The parent checks the exact frame window, opaque origin, and channel. The child checks parent window/origin/channel. Replacement destroys the old bridge, clears snapshots, and rejects outstanding requests. Collection failures have `AnswerBridgeError.code` values `NO_FRAME`, `FRAME_REPLACED`, `TIMEOUT`, or `INVALID_RESPONSE`.
+
+Collected data remains untrusted browser input. A future grading endpoint must verify ownership and derive its permitted answer fields from the trusted exercise, rather than forwarding arbitrary submitted keys or trusting the client field manifest. No answers are sent to the renderer or persisted by this collection step. Specialized PG widgets still require individual compatibility checks; file uploads are not supported.
+
+Verified in Chromium with the real four-field OPL exercise, plus native-control fixtures for repeated names, selection semantics, hidden-field filtering, request timeouts, forged messages, and frame replacement. The browser suite now has 11 checks.
 ## Exercise catalog
 
 The server-side allowlist lives in `workspace/server/exercise-catalog.json`. It starts with the verified `dot-product-01` exercise, titled **Dot products and vector operations**, in the **Dot product** topic.

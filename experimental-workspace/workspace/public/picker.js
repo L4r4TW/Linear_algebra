@@ -1,3 +1,4 @@
+import { createAnswerBridge, AnswerBridgeError } from '/assets/answer-bridge.js';
 import { buildExerciseDocument } from '/assets/exercise-frame.js';
 
 const catalog = document.querySelector('#catalog');
@@ -140,6 +141,10 @@ async function loadCatalog() {
 
 function clearFrame() {
   clearTimeout(frameTimer);
+  if (frameState) {
+    frameState.answerBridge.destroy();
+    panel.dispatchEvent(new CustomEvent('exercise-answers-change', { bubbles: true, detail: null }));
+  }
   frameState = undefined;
 }
 
@@ -196,7 +201,18 @@ function displaySession(data) {
   warning.hidden = true;
   warning.append(element('span', 'Math formatting could not load.'), action('Retry formatting', () => displaySession(data)));
   content.replaceChildren(progress, warning, frame);
-  frameState = { frame, channel, progress, warning };
+  const answerBridge = createAnswerBridge({
+    frame,
+    channel,
+    onChange(answers) {
+      if (frameState?.frame !== frame) return;
+      panel.dispatchEvent(new CustomEvent('exercise-answers-change', {
+        bubbles: true,
+        detail: { sessionId: data.session.id, answers },
+      }));
+    },
+  });
+  frameState = { frame, channel, progress, warning, answerBridge, sessionId: data.session.id };
   frameTimer = setTimeout(() => finishFrame(true), 20_000);
 }
 
@@ -250,6 +266,20 @@ function followUrl() {
   else resetPanel();
 }
 
+/** Current in-memory snapshot for this session; undefined until the frame reports. */
+export function getCurrentAnswers() {
+  const answers = frameState?.answerBridge.getSnapshot();
+  return answers ? { sessionId: frameState.sessionId, answers } : undefined;
+}
+
+/** Ask the frame for fresh DOM values immediately before a future submission. */
+export async function collectCurrentAnswers() {
+  const current = frameState;
+  if (!current) throw new AnswerBridgeError('NO_FRAME', 'No exercise is open.');
+  const answers = await current.answerBridge.collect();
+  if (frameState !== current) throw new AnswerBridgeError('FRAME_REPLACED', 'The exercise has changed.');
+  return { sessionId: current.sessionId, answers };
+}
 window.addEventListener('popstate', followUrl);
 window.addEventListener('message', (event) => {
   if (!frameState || event.source !== frameState.frame.contentWindow || event.data?.channel !== frameState.channel) return;
