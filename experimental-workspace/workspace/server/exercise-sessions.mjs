@@ -1,4 +1,4 @@
-import { randomInt, randomUUID } from 'node:crypto';
+import { randomInt, randomUUID, createHash, timingSafeEqual } from 'node:crypto';
 import { mkdir, open, readFile, link, unlink } from 'node:fs/promises';
 import { isAbsolute, join } from 'node:path';
 import { env } from 'node:process';
@@ -7,6 +7,9 @@ import { createRendererClient } from './renderer-client.mjs';
 
 const isText = (value) => typeof value === 'string' && value.trim().length > 0;
 const isSessionId = (value) => typeof value === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(value);
+
+const isOwnerToken = (value) => typeof value === 'string' && /^[A-Za-z0-9_-]{43}$/.test(value);
+const ownerHash = (token) => createHash('sha256').update(token).digest('hex');
 
 export class ExerciseSessionError extends Error {
   constructor(code, message, { cause } = {}) {
@@ -22,6 +25,7 @@ function validateRecord(record, id) {
     !isText(record.exerciseId) ||
     !Number.isInteger(record.seed) || record.seed < 1 || record.seed > 2147483647 ||
     !isText(record.rendererSessionToken) || !isText(record.rendererProblemToken) ||
+    (record.ownerHash !== undefined && (typeof record.ownerHash !== 'string' || !/^[0-9a-f]{64}$/.test(record.ownerHash))) ||
     !isText(record.createdAt) || !Number.isFinite(Date.parse(record.createdAt))
   ) {
     throw new ExerciseSessionError('STORAGE_ERROR', 'Stored exercise session is invalid.');
@@ -85,11 +89,15 @@ export function createExerciseSessions({
       if (!getExerciseById(input.exerciseId)) {
         throw new ExerciseSessionError('UNKNOWN_EXERCISE', 'Exercise is not in the approved catalog.');
       }
+      if (input.ownerToken !== undefined && !isOwnerToken(input.ownerToken)) {
+        throw new ExerciseSessionError('INVALID_INPUT', 'A valid owner token is required.');
+      }
       const id = randomUUID();
       const seed = randomInt(1, 2147483648);
       const rendered = await rendererClient.loadExercise({ exerciseId: input.exerciseId, seed });
       const record = {
         version: 1,
+        ...(input.ownerToken !== undefined ? { ownerHash: ownerHash(input.ownerToken) } : {}),
         id,
         exerciseId: input.exerciseId,
         seed,
@@ -102,7 +110,7 @@ export function createExerciseSessions({
       return present(record, rendered);
     },
 
-    async resumeSession(sessionId) {
+    async resumeSession(sessionId, { ownerToken } = {}) {
       if (!isSessionId(sessionId)) {
         throw new ExerciseSessionError('INVALID_INPUT', 'A valid exercise session ID is required.');
       }
@@ -116,6 +124,14 @@ export function createExerciseSessions({
         throw new ExerciseSessionError('STORAGE_ERROR', 'Could not read exercise session.', { cause });
       }
       validateRecord(record, sessionId);
+      if (record.ownerHash !== undefined) {
+        if (!isOwnerToken(ownerToken) || !timingSafeEqual(Buffer.from(record.ownerHash, 'hex'), Buffer.from(ownerHash(ownerToken), 'hex'))) {
+          throw new ExerciseSessionError('SESSION_NOT_FOUND', 'Exercise session was not found.');
+        }
+      } else if (ownerToken !== undefined) {
+        // Legacy/unowned CLI diagnostic records are never available through the browser API.
+        throw new ExerciseSessionError('SESSION_NOT_FOUND', 'Exercise session was not found.');
+      }
       if (!getExerciseById(record.exerciseId)) {
         throw new ExerciseSessionError('UNKNOWN_EXERCISE', 'Stored exercise is no longer in the approved catalog.');
       }

@@ -8,9 +8,13 @@
                     "start":  "node server.mjs",
                     "test":  "node --test server/*.test.mjs",
                     "smoke:renderer-client":  "node server/check-renderer-client.mjs",
-                    "smoke:sessions":  "node server/check-exercise-sessions.mjs"
+                    "smoke:sessions":  "node server/check-exercise-sessions.mjs",
+                    "smoke:api":  "node server/check-api.mjs"
                 },
     "engines":  {
                     "node":  "\u003e=22"
-                }
+                },
+    "dependencies":  {
+                         "parse5":  "8.1.1"
+                     }
 }

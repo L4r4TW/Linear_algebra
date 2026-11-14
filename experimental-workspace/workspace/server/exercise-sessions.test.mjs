@@ -131,3 +131,15 @@ test('requires an absolute private storage directory', async (t) => {
   const f = await fixture(t);
   assert.throws(() => createExerciseSessions({ directory: 'relative', rendererClient: f.rendererClient }), hasCode('INVALID_CONFIGURATION'));
 });
+
+test('persists browser ownership across service instances and denies missing or different owners', async (t) => {
+  const f = await fixture(t);
+  const ownerToken = 'A'.repeat(43);
+  const started = await f.service.startSession({ exerciseId: 'dot-product-01', ownerToken });
+  const fresh = createExerciseSessions({ directory: f.directory, rendererClient: f.rendererClient });
+  for (const options of [{}, { ownerToken: 'B'.repeat(43) }, { ownerToken: 'invalid' }]) {
+    await assert.rejects(fresh.resumeSession(started.session.id, options), hasCode('SESSION_NOT_FOUND'));
+  }
+  assert.deepEqual((await fresh.resumeSession(started.session.id, { ownerToken })).session, started.session);
+  await assert.rejects(f.service.startSession({ exerciseId: 'dot-product-01', ownerToken: 'bad' }), hasCode('INVALID_INPUT'));
+});

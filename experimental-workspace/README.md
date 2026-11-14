@@ -13,17 +13,41 @@ docker compose up --build -d --wait --wait-timeout 240
 
 The first build downloads the official renderer, its PG submodule, and system, Perl, and JavaScript dependencies. Later builds reuse Docker's cache.
 
-- Sandbox starter: http://localhost:3100
+- Exercise picker: http://localhost:3100
 - Renderer editor: http://localhost:3101
 - Renderer health: http://localhost:3101/health
 
 The renderer is configured for local development. Its editor and raw PG execution API must stay private; this is not a production deployment. The OPL mount is read-only, so editor operations cannot save changes to library files.
 
+## Exercise picker
+
+Open **http://localhost:3100** to use the experimental picker.
+
+- Exercises are grouped by their real catalog topic. Choose **Dot products and vector operations** to start.
+- Catalog and exercise loading have separate progress states. Empty catalogs, failed requests, and unavailable saved sessions have clear messages and retry actions.
+- Starting an exercise puts its session ID in the page URL. Refresh and browser back/forward restore that same session using the ownership cookie.
+- Selecting the current exercise again starts a new version. Buttons are disabled during loading to avoid overlapping starts.
+- The layout supports narrow screens, keyboard navigation, accessible answer labels, and reduced-motion preferences.
+
+This is a practice preview: answer fields are usable, but answer checking and saving typed answers are not implemented yet. Refresh preserves the exercise instance, not unsaved input.
+
+The UI lives in `workspace/public/`: `index.html`, `picker.css`, `picker.js`, and `exercise-frame.js`. The server exposes only explicitly listed static files. Catalog text is inserted as text, and API problem HTML is displayed in an iframe with `sandbox="allow-scripts"`, without same-origin access or form submission permissions. A restrictive frame content policy blocks API/network connections and navigation. Parent messages are checked against the frame window and a per-frame channel.
+
+The backend proxies only JavaScript under the pinned renderer's MathJax directory through `/assets/mathjax/`. Math stays self-hosted, and the frame converts PG's legacy `script[type="math/tex"]` tags before MathJax typesetting. It does not load the renderer editor, form controls, or general submit scripts. This path is verified for the current catalog exercise; exercises with graphs or other PG widgets need their own compatibility checks.
+
+Browser checks run in a separate Docker image, with no browser packages added to the application:
+
+```powershell
+docker build -f browser-tests/Dockerfile -t linear-algebra-picker-qa .
+docker run --rm --network linear-algebra-experimental_default --shm-size=1g linear-algebra-picker-qa
+```
+
+The browser uses the actual localhost origin, forwarding test HTTP traffic over Docker's service network. The seven checks cover real math rendering and sandbox isolation, mobile layout, refresh/history restoration, loading/empty/error states, and formatting retries. Server checks also cover private asset boundaries and the MathJax proxy.
 ## Exercise catalog
 
 The server-side allowlist lives in `workspace/server/exercise-catalog.json`. It starts with the verified `dot-product-01` exercise, titled **Dot products and vector operations**, in the **Dot product** topic.
 
-Each entry records its stable ID, friendly metadata, renderer path, OPL source revision and attribution, and verification fixture. The verification seed is for repeatable checks; future exercise sessions should create and preserve their own seeds.
+Each entry records its stable ID, friendly metadata, renderer path, OPL source revision and attribution, and verification fixture. The verification seed is for repeatable checks; new exercise sessions create and preserve their own seeds.
 
 Backend code can import the helpers from `workspace/server/exercise-catalog.mjs`:
 
@@ -35,7 +59,7 @@ const exercise = getExerciseById('dot-product-01'); // Full server configuration
 const unknown = getExerciseById('not-in-catalog'); // undefined
 ```
 
-Use IDs at the client/backend boundary and reject unknown IDs before calling the renderer. Keep both catalog files on the server; do not bundle the JSON into a browser application. The helpers do not add HTTP endpoints or exercise sessions.
+Use IDs at the client/backend boundary and reject unknown IDs before calling the renderer. Keep both catalog files on the server; do not bundle the JSON into a browser application. The HTTP endpoints use these helpers; the catalog itself does not create sessions.
 
 The renderer smoke check reads its path, seed, and expected field count from this catalog. To add an entry, choose a unique ID, inspect the real OPL file and applicable license, record its source revision, then verify rendering, grading, and restoration with:
 
@@ -60,7 +84,7 @@ The default client reads the server's `RENDERER_URL` (already configured in Comp
 
 Only exact catalog IDs and integer seeds from 1 through 2147483647 are accepted. The request supplies the approved PG path and fixes student mode, JSON response format, and hidden solutions/correct-answer controls. Arbitrary caller fields cannot override those settings.
 
-The timeout covers connection, response headers, and response-body reading. Requests are not retried or redirected. Responses must contain exercise HTML, session/problem tokens, valid score/flags/resources, and no instructor answer map. The returned HTML and resources still need an appropriate rendering strategy in the future frontend; the client does not sanitize or display them.
+The timeout covers connection, response headers, and response-body reading. Requests are not retried or redirected. Responses must contain exercise HTML, session/problem tokens, valid score/flags/resources, and no instructor answer map. The picker uses projected problem content in an isolated frame; this low-level client does not sanitize or display HTML.
 
 Failures are `RendererClientError` instances with a stable `code`:
 
@@ -75,7 +99,7 @@ Failures are `RendererClientError` instances with a stable `code`:
 | INVALID_RESPONSE | Invalid JSON or unexpected student-response shape |
 | PG_ERROR | PG reported an exercise rendering error |
 
-Messages do not include upstream bodies or session tokens. Keep error causes on the server and map failures to friendly messages in future API routes. Keep the returned tokens in the server session layer rather than serializing the entire result to a browser. This module implements exercise loading; session storage is provided by exercise-sessions.mjs; answer-submission methods and backend endpoints are separate steps.
+Messages do not include upstream bodies or session tokens. Keep error causes on the server and map failures to friendly messages in future API routes. Keep the returned tokens in the server session layer rather than serializing the entire result to a browser. This module implements exercise loading; session storage is provided by exercise-sessions.mjs; answer-submission methods remain a separate step; backend routes use the client through the session service.
 
 Run the client tests and live exercise-loading check after rebuilding:
 
@@ -108,7 +132,7 @@ Records live at `/data/sessions/<UUID>.json` in Docker volume `linear-algebra-ex
 
 The service returns session metadata and rendered exercise content, without separate token properties. Raw records and error causes must stay server-side. Renderer HTML may contain its own hidden state fields; the frontend still needs controlled rendering rather than exposing raw renderer forms as a public API.
 
-This is a prototype store for starting/resuming exercises. It does not yet assign user ownership, expire sessions, save graded-attempt updates, or expose HTTP endpoints. Before adding a multi-user API, attach sessions to authenticated users and enforce ownership; Supabase can replace the local store at that stage. Future grading must persist the renderer's updated token after each accepted submission.
+This is a prototype store for starting/resuming exercises. HTTP-created sessions have anonymous browser ownership, enforced before renderer restoration. CLI diagnostics can still create unowned records, which HTTP cannot retrieve. Account ownership, server-side session expiration, and graded-attempt updates remain separate work; Supabase can replace the local store at that stage. Future grading must persist the renderer's updated token after each accepted submission.
 
 `ExerciseSessionError.code` is one of `INVALID_CONFIGURATION`, `INVALID_INPUT`, `UNKNOWN_EXERCISE`, `SESSION_NOT_FOUND`, or `STORAGE_ERROR`. Renderer failures retain their `RendererClientError` codes.
 
@@ -125,6 +149,57 @@ docker compose exec -T workspace npm run smoke:sessions -- <session-id>
 ```
 
 Verified on 2026-11-14: a live OPL session retained its identity and seed after both container restart and full container recreation. The automated tests additionally cover concurrent starts, private file permissions, invalid/corrupt records, renderer failures, and storage failures.
+## Backend API
+
+The experimental server exposes these endpoints at **http://localhost:3100**:
+
+| Method | Path | Behavior |
+|---|---|---|
+| GET | /api/exercises | List friendly metadata for approved catalog exercises |
+| POST | /api/sessions | Start a session from JSON containing only `exerciseId`; returns 201 and a Location header |
+| GET | /api/sessions/:id | Restore a session owned by the same browser |
+
+Start and retrieve responses have this shape:
+
+```javascript
+{
+  session: { id, exerciseId, createdAt },
+  exercise: { html, score, resources: { assets } }
+}
+```
+
+Paths, seeds, raw renderer tokens, source metadata, and renderer settings are not included as API fields. Seeds remain in the private session records. POST rejects extra properties instead of forwarding them. API routes do not accept query parameters. Requests require JSON and are limited to 8 KiB.
+
+Try it from PowerShell:
+
+```powershell
+Invoke-RestMethod http://localhost:3100/api/exercises
+
+$started = Invoke-RestMethod http://localhost:3100/api/sessions -Method Post -ContentType application/json -Body '{"exerciseId":"dot-product-01"}' -SessionVariable browser
+
+Invoke-RestMethod "http://localhost:3100/api/sessions/$($started.session.id)" -WebSession $browser
+```
+
+A browser on this origin automatically retains the `la_experiment_owner` cookie. The API issues a random bearer identity in a HttpOnly, SameSite=Strict cookie scoped to `/api/sessions`, with a 30-day lifetime. Only its SHA-256 hash is stored in each owned session. Missing/different owners receive the same 404 response as a missing session. Ownership persists across server/container restarts. Deleting or losing the cookie removes browser access to those sessions. Existing unowned CLI diagnostic records cannot be retrieved through HTTP.
+
+This is anonymous browser ownership, not Supabase account login. Keep the sandbox local. Before account-based deployment, associate sessions with authenticated users and apply their access policies.
+
+Cross-origin/cross-site API requests are rejected, and CORS is not enabled. `APP_ORIGIN` is configured as `http://localhost:3100`; change it if the browser uses a different origin. HTTPS configurations add Secure to the owner cookie. Command-line clients without Origin headers can use the API but must retain their cookie when retrieving sessions.
+
+The API parses the verified renderer template and returns only `#problem_body`, preserving answer fields and nested markup. It excludes the outer renderer form, hidden JWTs, submit/instructor controls, and debug output. A changed/missing problem wrapper produces 502 rather than exposing the full renderer page. The HTML parser is pinned in the sandbox package lockfile and installed with npm ci inside Docker. This projection is not a general HTML sanitizer. The picker displays the current trusted PG exercise in a sandboxed frame and loads its math through the constrained backend asset proxy.
+
+Errors use `{ error: { code, message } }` and never return causes, stack traces, or upstream bodies. Invalid input/JSON returns 400, unavailable exercises or sessions 404, unsupported methods 405, oversized bodies 413, unsupported media types 415, renderer failures 502/503/504, and storage failures 500. API responses use Cache-Control: no-store.
+
+Run the endpoint checks after rebuilding:
+
+```powershell
+docker compose exec -T workspace npm test
+docker compose exec -T workspace npm run smoke:api
+```
+
+The HTTP tests use isolated temporary storage and a fake renderer. The live API check creates and restores a real OPL session, checks that renderer tokens are absent from its HTML, and verifies retrieval without the owner cookie is denied. Tests and diagnostics do not log cookies or renderer tokens.
+
+Implementation: `workspace/server/http-app.mjs`, started by `workspace/server.mjs`. The picker now consumes these endpoints. Answer submission and account integration remain subsequent work.
 ## Render a real exercise
 
 The following path was verified in the cloned library:
@@ -159,7 +234,7 @@ The execution-policy override applies only to this PowerShell process. Verified 
 
 This local diagnostic uses instructor mode only to obtain expected answers for checking the grader. It verifies student responses omit the instructor answer map. Do not expose instructor responses or forward arbitrary renderer parameters through a student-facing API.
 
-The starter container can reach the renderer at `http://renderer:3000`, available as `RENDERER_URL`. The renderer client and session service use that environment variable; the starter page does not yet proxy exercises. The main Next.js application has not been connected.
+The starter container can reach the renderer at `http://renderer:3000`, available as `RENDERER_URL`. The renderer client and session service use that environment variable; the backend API now loads and restores exercises, and the picker displays them on the home page. The main Next.js application has not been connected.
 
 ## Pinned upstream sources
 
