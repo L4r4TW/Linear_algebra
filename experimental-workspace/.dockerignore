@@ -1,0 +1,11 @@
+.git
+.env*
+**/.env*
+**/node_modules
+**/.next
+**/dist
+**/coverage
+**/*.log
+README.md
+AGENTS.md
+compose.yaml

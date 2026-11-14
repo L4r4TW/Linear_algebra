@@ -1,0 +1,6 @@
+.env*
+workspace/node_modules/
+workspace/.next/
+workspace/dist/
+workspace/coverage/
+*.log

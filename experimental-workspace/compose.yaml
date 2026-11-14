@@ -1,0 +1,16 @@
+name: linear-algebra-experimental
+services:
+  workspace:
+    build: .
+    init: true
+    working_dir: /workspace
+    ports:
+      - "127.0.0.1:3100:3000"
+    environment:
+      NODE_ENV: development
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/health').then(r => { if (!r.ok) process.exit(1); }).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
