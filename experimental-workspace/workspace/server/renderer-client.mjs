@@ -48,10 +48,19 @@ function validateResponse(data, exerciseId, seed) {
   };
 }
 
-/**
- * Node-only renderer client. Configuration is trusted server configuration.
- * No retries: later state-changing requests must not be duplicated implicitly.
- */
+function validateExerciseInput(input) {
+  if (!isRecord(input) || !isText(input.exerciseId)) {
+    throw new RendererClientError('INVALID_INPUT', 'An exercise ID is required.');
+  }
+  const exercise = getExerciseById(input.exerciseId);
+  if (!exercise) throw new RendererClientError('UNKNOWN_EXERCISE', 'Exercise is not in the approved catalog.');
+  if (!Number.isInteger(input.seed) || input.seed < 1 || input.seed > 2_147_483_647) {
+    throw new RendererClientError('INVALID_INPUT', 'Seed must be an integer between 1 and 2147483647.');
+  }
+  return exercise;
+}
+
+/** Node-only client. Configuration and persisted session tokens are trusted server data. */
 export function createRendererClient({ baseUrl = env.RENDERER_URL, timeoutMs = 30_000 } = {}) {
   let endpoint;
   try {
@@ -68,71 +77,72 @@ export function createRendererClient({ baseUrl = env.RENDERER_URL, timeoutMs = 3
     throw new RendererClientError('INVALID_CONFIGURATION', 'Renderer timeout must be a positive integer in milliseconds.');
   }
 
+  async function request(fields, exerciseId, seed) {
+    const controller = new AbortController();
+    let timedOut = false;
+    const timer = setTimeout(() => {
+      timedOut = true;
+      controller.abort();
+    }, timeoutMs);
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        },
+        body: new URLSearchParams(fields),
+        signal: controller.signal,
+        redirect: 'error',
+      });
+      if (!response.ok) {
+        throw new RendererClientError('HTTP_ERROR', 'Renderer returned an unsuccessful HTTP status.', {
+          status: response.status,
+        });
+      }
+      const text = await response.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new RendererClientError('INVALID_RESPONSE', 'Renderer returned invalid JSON.');
+      }
+      return validateResponse(data, exerciseId, seed);
+    } catch (error) {
+      if (timedOut) throw new RendererClientError('TIMEOUT', 'Renderer request timed out.', { cause: error });
+      if (error instanceof RendererClientError) throw error;
+      throw new RendererClientError('NETWORK_ERROR', 'Could not communicate with the renderer.', { cause: error });
+    } finally {
+      clearTimeout(timer);
+      controller.abort();
+    }
+  }
+
   return {
     async loadExercise(input) {
-      if (!isRecord(input) || !isText(input.exerciseId)) {
-        throw new RendererClientError('INVALID_INPUT', 'An exercise ID is required.');
-      }
-      const { exerciseId, seed } = input;
-      const exercise = getExerciseById(exerciseId);
-      if (!exercise) {
-        throw new RendererClientError('UNKNOWN_EXERCISE', 'Exercise is not in the approved catalog.');
-      }
-      // Application seed range; generation and persistence belong to the session layer.
-      if (!Number.isInteger(seed) || seed < 1 || seed > 2_147_483_647) {
-        throw new RendererClientError('INVALID_INPUT', 'Seed must be an integer between 1 and 2147483647.');
-      }
-
-      const body = new URLSearchParams({
+      const exercise = validateExerciseInput(input);
+      return request({
         sourceFilePath: exercise.renderer.sourceFilePath,
-        problemSeed: String(seed),
+        problemSeed: String(input.seed),
         _format: 'json',
         outputFormat: 'default',
         isInstructor: '0',
         showSolutions: '0',
         showCorrectAnswersButton: '0',
-      });
-      const controller = new AbortController();
-      let timedOut = false;
-      const timer = setTimeout(() => {
-        timedOut = true;
-        controller.abort();
-      }, timeoutMs);
+      }, input.exerciseId, input.seed);
+    },
 
-      try {
-        const response = await fetch(endpoint, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-          },
-          body,
-          signal: controller.signal,
-          redirect: 'error',
-        });
-        if (!response.ok) {
-          throw new RendererClientError('HTTP_ERROR', 'Renderer returned an unsuccessful HTTP status.', {
-            status: response.status,
-          });
-        }
-        const text = await response.text();
-        let data;
-        try {
-          data = JSON.parse(text);
-        } catch {
-          throw new RendererClientError('INVALID_RESPONSE', 'Renderer returned invalid JSON.');
-        }
-        return validateResponse(data, exerciseId, seed);
-      } catch (error) {
-        if (timedOut) {
-          throw new RendererClientError('TIMEOUT', 'Renderer request timed out.', { cause: error });
-        }
-        if (error instanceof RendererClientError) throw error;
-        throw new RendererClientError('NETWORK_ERROR', 'Could not communicate with the renderer.', { cause: error });
-      } finally {
-        clearTimeout(timer);
-        controller.abort(); // Also releases unread error or redirect response bodies.
+    async restoreSession(input) {
+      validateExerciseInput(input);
+      if (!isText(input.sessionToken)) {
+        throw new RendererClientError('INVALID_INPUT', 'A stored renderer session token is required.');
       }
+      // The renderer token preserves the original problem, seed, and student settings.
+      // Do not fall back to loadExercise: that would silently discard session state.
+      return request({
+        sessionJWT: input.sessionToken,
+        _format: 'json',
+      }, input.exerciseId, input.seed);
     },
   };
 }

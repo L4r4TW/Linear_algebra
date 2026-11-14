@@ -15,3 +15,5 @@
 - Maintain workspace/server/exercise-catalog.json as the exercise allowlist. Use stable unique IDs; keep PG paths in server code and return only friendly summaries to clients. Add only real verified OPL entries with source attribution. Verification seeds are fixtures, not the future session seed policy.
 
 - Use workspace/server/renderer-client.mjs for exercise loading. Keep renderer configuration, catalog paths, error causes, and session tokens server-side. Validate client changes with docker compose exec -T workspace npm test and npm run smoke:renderer-client inside that container.
+
+- Use exercise-sessions.mjs to generate and persist session IDs, seeds, and renderer tokens. Resume through the stored token; never silently regenerate a failed session. Session JSON belongs only in /data/sessions on the named Docker volume. Run npm run smoke:sessions inside the workspace container for persistence changes. This local prototype has no ownership checks; add authentication/ownership before exposing multi-user routes.

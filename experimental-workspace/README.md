@@ -75,7 +75,7 @@ Failures are `RendererClientError` instances with a stable `code`:
 | INVALID_RESPONSE | Invalid JSON or unexpected student-response shape |
 | PG_ERROR | PG reported an exercise rendering error |
 
-Messages do not include upstream bodies or session tokens. Keep error causes on the server and map failures to friendly messages in future API routes. Keep the returned tokens in the future session layer rather than serializing the entire result to a browser. This module implements exercise loading; session storage, answer-submission methods, and backend endpoints are separate steps.
+Messages do not include upstream bodies or session tokens. Keep error causes on the server and map failures to friendly messages in future API routes. Keep the returned tokens in the server session layer rather than serializing the entire result to a browser. This module implements exercise loading; session storage is provided by exercise-sessions.mjs; answer-submission methods and backend endpoints are separate steps.
 
 Run the client tests and live exercise-loading check after rebuilding:
 
@@ -83,6 +83,48 @@ Run the client tests and live exercise-loading check after rebuilding:
 docker compose exec -T workspace npm test
 docker compose exec -T workspace npm run smoke:renderer-client
 ```
+## Exercise sessions
+
+`workspace/server/exercise-sessions.mjs` manages local persistent sessions:
+
+```javascript
+import { createExerciseSessions } from './server/exercise-sessions.mjs';
+
+const sessions = createExerciseSessions();
+const started = await sessions.startSession({ exerciseId: 'dot-product-01' });
+// started.session: id, exerciseId, seed, createdAt
+// started.exercise: html, score, resources
+
+const restored = await sessions.resumeSession(started.session.id);
+```
+
+Starting generates a UUID and cryptographically random integer seed in the renderer client's supported range. It renders the approved catalog exercise and saves its exercise ID, seed, renderer session token, renderer problem token, and creation time. A start succeeds only after the record is saved. Callers cannot supply their own seed or session ID.
+
+Resuming reads the record and calls the renderer client's `restoreSession` with the saved renderer token. It does not generate a seed or silently replace a failed/expired session. The renderer token is authoritative for problem state. Records are validated before reuse; missing sessions, invalid IDs, corrupt storage, and removed catalog entries have explicit errors.
+
+Records live at `/data/sessions/<UUID>.json` in Docker volume `linear-algebra-experimental_sessions`, configured through `EXERCISE_SESSION_DIR`. The directory is owned by the non-root Node user with mode 700; files use mode 600. Complete records are published atomically with exclusive creation so concurrent starts do not overwrite each other. Storage is local to this Docker installation and survives restarts, container replacement, rebuilds, and ordinary `docker compose down`.
+
+**Deleting this volume, including with `docker compose down --volumes`, deletes saved sessions.** The external OPL volume is separate and is not removed by that command.
+
+The service returns session metadata and rendered exercise content, without separate token properties. Raw records and error causes must stay server-side. Renderer HTML may contain its own hidden state fields; the frontend still needs controlled rendering rather than exposing raw renderer forms as a public API.
+
+This is a prototype store for starting/resuming exercises. It does not yet assign user ownership, expire sessions, save graded-attempt updates, or expose HTTP endpoints. Before adding a multi-user API, attach sessions to authenticated users and enforce ownership; Supabase can replace the local store at that stage. Future grading must persist the renderer's updated token after each accepted submission.
+
+`ExerciseSessionError.code` is one of `INVALID_CONFIGURATION`, `INVALID_INPUT`, `UNKNOWN_EXERCISE`, `SESSION_NOT_FOUND`, or `STORAGE_ERROR`. Renderer failures retain their `RendererClientError` codes.
+
+Run the live session check:
+
+```powershell
+docker compose exec -T workspace npm run smoke:sessions
+```
+
+It creates a real session and resumes it through a fresh service instance. Its output contains a session ID but no raw tokens. To resume that same session after restarting/replacing the container:
+
+```powershell
+docker compose exec -T workspace npm run smoke:sessions -- <session-id>
+```
+
+Verified on 2026-11-14: a live OPL session retained its identity and seed after both container restart and full container recreation. The automated tests additionally cover concurrent starts, private file permissions, invalid/corrupt records, renderer failures, and storage failures.
 ## Render a real exercise
 
 The following path was verified in the cloned library:
@@ -117,7 +159,7 @@ The execution-policy override applies only to this PowerShell process. Verified 
 
 This local diagnostic uses instructor mode only to obtain expected answers for checking the grader. It verifies student responses omit the instructor answer map. Do not expose instructor responses or forward arbitrary renderer parameters through a student-facing API.
 
-The starter container can reach the renderer at `http://renderer:3000`, available as `RENDERER_URL`. That environment variable prepares future integration; the starter page does not yet proxy exercises. The main Next.js application has not been connected.
+The starter container can reach the renderer at `http://renderer:3000`, available as `RENDERER_URL`. The renderer client and session service use that environment variable; the starter page does not yet proxy exercises. The main Next.js application has not been connected.
 
 ## Pinned upstream sources
 

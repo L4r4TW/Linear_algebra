@@ -166,3 +166,22 @@ test('does not follow renderer redirects', async (t) => {
   await assert.rejects(createRendererClient({ baseUrl }).loadExercise(input), hasCode('NETWORK_ERROR'));
   assert.equal(targetRequests, 0);
 });
+
+test('restores a saved session using its token rather than regenerating the problem', async (t) => {
+  let fields;
+  const baseUrl = await serve(t, async (request, response) => {
+    let body = '';
+    for await (const chunk of request) body += chunk;
+    fields = new URLSearchParams(body);
+    response.end(JSON.stringify(valid()));
+  });
+  const client = createRendererClient({ baseUrl });
+  await assert.rejects(client.restoreSession({ ...input, sessionToken: '' }), hasCode('INVALID_INPUT'));
+  const result = await client.restoreSession({ ...input, sessionToken: 'stored+token/with=symbols' });
+  assert.deepEqual([...fields], [
+    ['sessionJWT', 'stored+token/with=symbols'],
+    ['_format', 'json'],
+  ]);
+  assert.equal(result.exerciseId, input.exerciseId);
+  assert.equal(result.seed, input.seed);
+});

@@ -9,6 +9,9 @@ services:
     environment:
       NODE_ENV: development
       RENDERER_URL: http://renderer:3000
+      EXERCISE_SESSION_DIR: /data/sessions
+    volumes:
+      - sessions:/data/sessions
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/health').then(r => { if (!r.ok) process.exit(1); }).catch(() => process.exit(1))"]
       interval: 10s
@@ -41,6 +44,7 @@ services:
       retries: 12
 
 volumes:
+  sessions:
   opl:
     external: true
     name: linear-algebra-experimental_opl
