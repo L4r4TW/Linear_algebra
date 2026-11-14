@@ -8,9 +8,39 @@ services:
       - "127.0.0.1:3100:3000"
     environment:
       NODE_ENV: development
+      RENDERER_URL: http://renderer:3000
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/health').then(r => { if (!r.ok) process.exit(1); }).catch(() => process.exit(1))"]
       interval: 10s
       timeout: 5s
       start_period: 10s
       retries: 3
+
+  renderer:
+    build:
+      context: https://github.com/openwebwork/renderer.git#1134ffbbf5e656148e579f424f70bcd9f1d15936
+    init: true
+    ports:
+      - "127.0.0.1:3101:3000"
+    environment:
+      MOJO_MODE: development
+      SITE_HOST: http://localhost:3101
+    volumes:
+      - type: volume
+        source: opl
+        target: /usr/app/webwork-open-problem-library
+        read_only: true
+        volume:
+          nocopy: true
+          subpath: webwork-open-problem-library
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1:3000/health"]
+      interval: 10s
+      timeout: 5s
+      start_period: 60s
+      retries: 12
+
+volumes:
+  opl:
+    external: true
+    name: linear-algebra-experimental_opl
