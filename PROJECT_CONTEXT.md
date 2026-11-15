@@ -8,8 +8,26 @@ The active work is the independent **experimental-workspace/** WeBWorK integrati
 
 The goal has expanded to a multi-subject practice platform covering the whole OPL, using PG mathematical grading. Design the future catalog for all subjects, while validating playable exercises in batches. Build one complete, reliable exercise flow before broadly enabling large numbers of exercises.
 
-This handoff accompanies the automated compatibility regression commit on `main`. Its preceding pushed baseline is `58cd2f8` (scoped exercise styling). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
+This handoff accompanies the capability-gated catalog activation changes on `main`, following `c5d3fba` (automated compatibility regression). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
 
+
+## Resume checklist
+
+1. Inspect `git log -1` and `git status --short`, then read [CATALOG_COMPATIBILITY.md](experimental-workspace/CATALOG_COMPATIBILITY.md) and [CATALOG_STATUS.md](experimental-workspace/compatibility/CATALOG_STATUS.md).
+2. Start Docker Desktop's Linux engine. From `experimental-workspace/`, run `docker compose up --build -d --wait --wait-timeout 240`. Open http://localhost:3100; six exercises should be available.
+3. Run `docker compose exec -T workspace npm test` and `docker compose exec -T workspace node server/check-catalog.mjs` for the ordinary catalog checks. The latest completed validation is 100 server tests, 29 browser checks and 14 publisher/report tests, plus live catalog and renderer/API smoke checks.
+4. Full `verify-compatibility.ps1` remains a deliberately failing gate: 42/44 cases pass; both mobile GraphTool cases fail. Keep those failures and the five disabled candidates visible. Do not treat a nonzero full gate as permission to weaken required checks.
+5. Finish runtime/profile edits before regenerating evidence. Fingerprints include source bytes and line endings, so a checkout that changes those bytes requires reverification. Use the documented publisher to produce reviewed metadata/evidence; do not manually rewrite evidence fingerprints to restore eligibility.
+
+The whole OPL remains in its Docker Linux volume. This change does not import the whole library, migrate catalog data into Supabase, or expose the renderer publicly. Continue with the blockers and importer steps below; preserve existing sessions and attribution.
+
+## Capability-based exercise enablement (2026-11-15)
+
+The current catalog uses [capability and evidence rules](experimental-workspace/CATALOG_COMPATIBILITY.md). Eleven exercises are indexed; the first local batch enables six verified entries across linear algebra, calculus, statistics and algebra. The [eligibility record](experimental-workspace/compatibility/CATALOG_STATUS.md) retains disabled matrix/static-image/dropdown/scaffold/GraphTool candidates and their reasons. Earlier one-exercise counts and operator-only scope below are historical.
+
+`workspace/server/exercise-catalog.json` holds compatibility status, explicit capability requirements, provenance and activation state. The shared list/lookup gate requires complete matching source/runtime/profile evidence and membership in an active batch. Status flags or supported macros alone cannot approve imported files. Source/runtime changes make old evidence stale; new imports default to unverified and disabled. Batch withdrawal blocks start/restore/grade while preserving saved sessions.
+
+Verification: 100 server tests, 29 browser checks and 14 publisher/report tests pass, plus live default API checks for all six enabled exercises and rejection of all five disabled IDs. The fresh 44-case regression has 42 passes and two mobile GraphTool failures (seed 1234 positive grading; seed 4321 keyboard Tab reachability). The full gate remains nonzero and those entries stay disabled. The importer/publisher workflow is in CATALOG_COMPATIBILITY.md. The runtime hashes include the asset loader, server/frontend files, profile and lockfile; finish runtime changes before regenerating evidence. Keep the normal catalog and operator fixture manifest separate; deliberate promotion copies reviewed metadata/evidence, not privileged test inputs. All five disabled candidates remain private. The whole-library database importer remains future work. Next work: resolve mobile GraphTool touch grading, automatic scaffold stage reconciliation and narrow-layout limits; broaden source/seed coverage; then implement volume-backed indexing, database storage and reviewed activation batches using this contract. Public deployment still needs account ownership, isolation hardening and release checks.
 ## Implemented in the sandbox
 
 1. Official pinned standalone renderer and PG submodule, built in Docker. OPL is cloned into an external Linux volume, outside Google Drive.

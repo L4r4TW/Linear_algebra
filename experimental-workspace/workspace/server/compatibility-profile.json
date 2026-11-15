@@ -1,0 +1,98 @@
+{
+    "version":  "local-practice-v1",
+    "scope":  "localhost experimental workspace",
+    "rendererRevision":  "1134ffbbf5e656148e579f424f70bcd9f1d15936",
+    "sourceRevision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+    "seeds":  [
+                  1234,
+                  4321
+              ],
+    "viewports":  [
+                      "desktop",
+                      "mobile"
+                  ],
+    "checks":  [
+                   "rendering",
+                   "interaction",
+                   "answerCapture",
+                   "grading",
+                   "retries",
+                   "refresh",
+                   "ownership",
+                   "keyboard",
+                   "mobile"
+               ],
+    "capabilities":  {
+                         "bootstrap-collapse":  {
+                                                    "status":  "verified"
+                                                },
+                         "checkbox-groups":  {
+                                                 "status":  "verified"
+                                             },
+                         "formula-evaluator":  {
+                                                   "status":  "verified"
+                                               },
+                         "generated-graph-image":  {
+                                                       "status":  "verified"
+                                                   },
+                         "graph-tool":  {
+                                            "status":  "limited",
+                                            "reason":  "The selected touch-mobile positive graph cases fail full-score verification."
+                                        },
+                         "header-scripts":  {
+                                                "status":  "verified"
+                                            },
+                         "header-styles":  {
+                                               "status":  "verified"
+                                           },
+                         "hidden-answer-state":  {
+                                                     "status":  "verified"
+                                                 },
+                         "jsxgraph":  {
+                                          "status":  "verified"
+                                      },
+                         "layout-tables":  {
+                                               "status":  "verified"
+                                           },
+                         "mathjax":  {
+                                         "status":  "verified"
+                                     },
+                         "matrix-grid":  {
+                                             "status":  "verified"
+                                         },
+                         "multiple-answers":  {
+                                                  "status":  "verified"
+                                              },
+                         "native-labels":  {
+                                               "status":  "verified"
+                                           },
+                         "native-select":  {
+                                               "status":  "verified"
+                                           },
+                         "native-text":  {
+                                             "status":  "verified"
+                                         },
+                         "numeric-evaluator":  {
+                                                   "status":  "verified"
+                                               },
+                         "radio-groups":  {
+                                              "status":  "verified"
+                                          },
+                         "repeated-names":  {
+                                                "status":  "verified"
+                                            },
+                         "scaffold":  {
+                                          "status":  "unsupported",
+                                          "reason":  "Automatic stage advancement/relocking is not implemented."
+                                      },
+                         "script-initialization":  {
+                                                       "status":  "verified"
+                                                   },
+                         "static-library-image":  {
+                                                      "status":  "verified"
+                                                  },
+                         "vector-syntax":  {
+                                               "status":  "verified"
+                                           }
+                     }
+}

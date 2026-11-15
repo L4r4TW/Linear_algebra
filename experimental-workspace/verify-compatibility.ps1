@@ -23,10 +23,11 @@ try {
     Invoke-DockerCheck @('compose','config','--quiet')
     Invoke-DockerCheck @('compose','up','--build','-d','--wait','--wait-timeout','240')
     Invoke-DockerCheck @('compose','exec','-T','workspace','npm','test')
+    Invoke-DockerCheck @('compose','exec','-T','workspace','node','server/check-catalog.mjs')
     Invoke-DockerCheck @('build','-f','browser-tests/Dockerfile','-t','linear-algebra-picker-qa','.')
     Invoke-DockerCheck @('run','--rm','--network','linear-algebra-experimental_default','--shm-size=1g','linear-algebra-picker-qa')
     Invoke-DockerCheck @('build','-f','compatibility/Dockerfile','-t','linear-algebra-compatibility-qa','.')
-    Invoke-DockerCheck @('run','--rm','linear-algebra-compatibility-qa','node','--test','compatibility/regression-report.test.mjs')
+    Invoke-DockerCheck @('run','--rm','linear-algebra-compatibility-qa','node','--test','compatibility/regression-report.test.mjs','compatibility/build-catalog.test.mjs')
     $arguments = @('run','--rm','--network','linear-algebra-experimental_default','--shm-size=1g','-e','COMPATIBILITY_REGRESSION=1')
     if ($ExerciseId) { $arguments += @('-e', ('WIDGET_FIXTURES=' + ($ExerciseId -join ','))) }
     if ($PSBoundParameters.ContainsKey('Seeds')) { $arguments += @('-e', ('COMPATIBILITY_SEEDS=' + (ConvertTo-Json -InputObject @($Seeds) -Compress))) }

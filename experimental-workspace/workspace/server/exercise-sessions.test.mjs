@@ -352,3 +352,15 @@ test('invalid injected seeds fail before renderer calls or storage writes',async
  assert.equal(f.calls.load.length,0);
  assert.equal(await stat(f.directory).then(()=>true,()=>false),false);
 });
+test('withdrawn exercises block start, restore and grading without changing saved sessions', async t=>{
+ const f=await fixture(t);
+ const ownerToken='a'.repeat(43);
+ const started=await f.service.startSession({exerciseId:'dot-product-01',ownerToken});
+ const path=join(f.directory,started.session.id+'.json'),before=await readFile(path,'utf8');
+ const withdrawn=createExerciseSessions({directory:f.directory,exerciseLookup:()=>undefined,rendererClient:f.rendererClient});
+ await assert.rejects(withdrawn.startSession({exerciseId:'dot-product-01',ownerToken}),hasCode('UNKNOWN_EXERCISE'));
+ await assert.rejects(withdrawn.resumeSession(started.session.id,{ownerToken}),hasCode('UNKNOWN_EXERCISE'));
+ await assert.rejects(withdrawn.submitAnswers(started.session.id,[],{ownerToken}),hasCode('UNKNOWN_EXERCISE'));
+ assert.equal(await readFile(path,'utf8'),before);
+ assert.equal(f.calls.load.length,1);assert.equal(f.calls.restore.length,0);
+});

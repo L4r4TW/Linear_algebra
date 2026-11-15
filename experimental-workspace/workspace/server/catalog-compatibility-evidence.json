@@ -1,0 +1,1254 @@
+{
+  "version": 1,
+  "complete": true,
+  "observedAt": "2026-11-15T00:07:55.633Z",
+  "profileVersion": "local-practice-v1",
+  "runtimeFingerprint": "b51e21e3f7766b26501b16f057cbf3f23b78a9ddc035e31b83d5bbd41cb8e6ed",
+  "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+  "rendererRevision": "1134ffbbf5e656148e579f424f70bcd9f1d15936",
+  "entries": {
+    "dot-product-01": {
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg",
+        "sha256": "015a00eec3ad5bfd10568083fb0640a79c9f1ad1b59df740cca0d9832575460a"
+      },
+      "rendererPath": "Library/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg",
+      "requiredCapabilities": [
+        "mathjax",
+        "native-text",
+        "vector-syntax",
+        "multiple-answers"
+      ],
+      "cases": [
+        {
+          "verificationSeed": 1234,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        },
+        {
+          "verificationSeed": 1234,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        }
+      ]
+    },
+    "compat-calculus-numeric-01": {
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/Rochester/setDerivatives2Formulas/c2s5p1.pg",
+        "sha256": "224502a030bf255614ea83ef58708627546abde879ba595a580277b67476c677"
+      },
+      "rendererPath": "Library/Rochester/setDerivatives2Formulas/c2s5p1.pg",
+      "requiredCapabilities": [
+        "mathjax",
+        "native-text",
+        "numeric-evaluator"
+      ],
+      "cases": [
+        {
+          "verificationSeed": 1234,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        },
+        {
+          "verificationSeed": 1234,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        }
+      ]
+    },
+    "compat-calculus-formula-01": {
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/Union/setDervProductQuotientRule/ur_dr_2_1.pg",
+        "sha256": "4bbd5597c07ee42bd3824ad4a3b2727edb4cc162fe45ce336350e7255af52dfc"
+      },
+      "rendererPath": "Library/Union/setDervProductQuotientRule/ur_dr_2_1.pg",
+      "requiredCapabilities": [
+        "mathjax",
+        "native-text",
+        "formula-evaluator"
+      ],
+      "cases": [
+        {
+          "verificationSeed": 1234,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        },
+        {
+          "verificationSeed": 1234,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        }
+      ]
+    },
+    "compat-matrix-grid-01": {
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/ASU-topics/set119MatrixAlgebra/p12.pg",
+        "sha256": "67cfe0c86359294d3753818e72ddc39d5a4a4efae1b6e9e4057588f79dd71cf2"
+      },
+      "rendererPath": "Library/ASU-topics/set119MatrixAlgebra/p12.pg",
+      "requiredCapabilities": [
+        "mathjax",
+        "matrix-grid",
+        "native-text",
+        "multiple-answers",
+        "layout-tables"
+      ],
+      "cases": [
+        {
+          "verificationSeed": 1234,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": [
+            {
+              "code": "NARROW_FRAME_SCROLL",
+              "capability": "mobile-layout",
+              "status": "limited",
+              "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
+            }
+          ]
+        },
+        {
+          "verificationSeed": 1234,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": [
+            {
+              "code": "NARROW_FRAME_SCROLL",
+              "capability": "mobile-layout",
+              "status": "limited",
+              "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
+            }
+          ]
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": [
+            {
+              "code": "NARROW_FRAME_SCROLL",
+              "capability": "mobile-layout",
+              "status": "limited",
+              "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
+            }
+          ]
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": [
+            {
+              "code": "NARROW_FRAME_SCROLL",
+              "capability": "mobile-layout",
+              "status": "limited",
+              "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
+            }
+          ]
+        }
+      ]
+    },
+    "compat-statistics-radio-01": {
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/ASU-topics/setStat/di12.pg",
+        "sha256": "ca848d241dda15054e1f675727344a5d8737b82512f02def4814d73f9ae62c91"
+      },
+      "rendererPath": "Library/ASU-topics/setStat/di12.pg",
+      "requiredCapabilities": [
+        "radio-groups",
+        "multiple-answers",
+        "native-labels"
+      ],
+      "cases": [
+        {
+          "verificationSeed": 1234,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        },
+        {
+          "verificationSeed": 1234,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        }
+      ]
+    },
+    "compat-algebra-checkbox-01": {
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/LoyolaChicago/Precalc/Chap3Review/Q46.pg",
+        "sha256": "784601fbfd5562a91b86882750ad38810464d2e1278cbbb731c0dfbf4046fbe8"
+      },
+      "rendererPath": "Library/LoyolaChicago/Precalc/Chap3Review/Q46.pg",
+      "requiredCapabilities": [
+        "mathjax",
+        "native-text",
+        "checkbox-groups",
+        "repeated-names",
+        "multiple-answers"
+      ],
+      "cases": [
+        {
+          "verificationSeed": 1234,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        },
+        {
+          "verificationSeed": 1234,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        }
+      ]
+    },
+    "compat-economics-popup-01": {
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/ASU-topics/setElasticity/p10.pg",
+        "sha256": "7109d85872e2ed9c6cf93ed20dfcfbdbc9312f318218535d13c5c4b1f5dd003d"
+      },
+      "rendererPath": "Library/ASU-topics/setElasticity/p10.pg",
+      "requiredCapabilities": [
+        "mathjax",
+        "native-text",
+        "native-select",
+        "multiple-answers"
+      ],
+      "cases": [
+        {
+          "verificationSeed": 1234,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        },
+        {
+          "verificationSeed": 1234,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": [
+            {
+              "code": "NARROW_FRAME_SCROLL",
+              "capability": "mobile-layout",
+              "status": "limited",
+              "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
+            }
+          ]
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": [
+            {
+              "code": "NARROW_FRAME_SCROLL",
+              "capability": "mobile-layout",
+              "status": "limited",
+              "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
+            }
+          ]
+        }
+      ]
+    },
+    "compat-calculus-scaffold-01": {
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/Hope/Calc1/05-04-FTC/FTC_01.pg",
+        "sha256": "399cf94d53291f2994d287ff6cda4ea39bd7045bb3a77a1f8a305d01305a7b8e"
+      },
+      "rendererPath": "Library/Hope/Calc1/05-04-FTC/FTC_01.pg",
+      "requiredCapabilities": [
+        "mathjax",
+        "native-text",
+        "checkbox-groups",
+        "scaffold",
+        "bootstrap-collapse",
+        "header-scripts",
+        "header-styles"
+      ],
+      "cases": [
+        {
+          "verificationSeed": 1234,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": [
+            {
+              "code": "STAGED_CONTENT_REQUIRES_REFRESH",
+              "capability": "automatic-stage-reconciliation",
+              "status": "unsupported",
+              "reason": "Newly unlocked or relocked PG stages are applied only after an explicit refresh; the live frame is preserved after grading."
+            }
+          ]
+        },
+        {
+          "verificationSeed": 1234,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": [
+            {
+              "code": "STAGED_CONTENT_REQUIRES_REFRESH",
+              "capability": "automatic-stage-reconciliation",
+              "status": "unsupported",
+              "reason": "Newly unlocked or relocked PG stages are applied only after an explicit refresh; the live frame is preserved after grading."
+            }
+          ]
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": [
+            {
+              "code": "STAGED_CONTENT_REQUIRES_REFRESH",
+              "capability": "automatic-stage-reconciliation",
+              "status": "unsupported",
+              "reason": "Newly unlocked or relocked PG stages are applied only after an explicit refresh; the live frame is preserved after grading."
+            }
+          ]
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": [
+            {
+              "code": "STAGED_CONTENT_REQUIRES_REFRESH",
+              "capability": "automatic-stage-reconciliation",
+              "status": "unsupported",
+              "reason": "Newly unlocked or relocked PG stages are applied only after an explicit refresh; the live frame is preserved after grading."
+            }
+          ]
+        }
+      ]
+    },
+    "compat-algebra-image-01": {
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/ASU-topics/setAlgebraFunctions/beth2algfun.pg",
+        "sha256": "a6470e62683d0331d541a5df7f8fe8cc4eaa31fba7886fef1a8e5ea24f1984ae"
+      },
+      "rendererPath": "Library/ASU-topics/setAlgebraFunctions/beth2algfun.pg",
+      "requiredCapabilities": [
+        "mathjax",
+        "native-text",
+        "static-library-image",
+        "multiple-answers"
+      ],
+      "cases": [
+        {
+          "verificationSeed": 1234,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": [
+            {
+              "code": "NARROW_FRAME_SCROLL",
+              "capability": "mobile-layout",
+              "status": "limited",
+              "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
+            }
+          ]
+        },
+        {
+          "verificationSeed": 1234,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": [
+            {
+              "code": "NARROW_FRAME_SCROLL",
+              "capability": "mobile-layout",
+              "status": "limited",
+              "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
+            }
+          ]
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": [
+            {
+              "code": "NARROW_FRAME_SCROLL",
+              "capability": "mobile-layout",
+              "status": "limited",
+              "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
+            }
+          ]
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": [
+            {
+              "code": "NARROW_FRAME_SCROLL",
+              "capability": "mobile-layout",
+              "status": "limited",
+              "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
+            }
+          ]
+        }
+      ]
+    },
+    "compat-calculus-graph-01": {
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/270/setDerivatives1/ur_dr_1_7.pg",
+        "sha256": "b91bc436c92c6d68434c522d5bac40087af07bf75019b058710173ea8d0ca053"
+      },
+      "rendererPath": "Library/270/setDerivatives1/ur_dr_1_7.pg",
+      "requiredCapabilities": [
+        "mathjax",
+        "native-text",
+        "generated-graph-image"
+      ],
+      "cases": [
+        {
+          "verificationSeed": 1234,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        },
+        {
+          "verificationSeed": 1234,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": []
+        }
+      ]
+    },
+    "compat-algebra-graphtool-01": {
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/PCC/BasicAlgebra/EquationsAndInequalitiesInTwoVariables/PlotMXPlusB.pg",
+        "sha256": "6c971d903bb786efb7869ed8f517a10f69646d9883e72c4d0e8e011cea4d8a4f"
+      },
+      "rendererPath": "Library/PCC/BasicAlgebra/EquationsAndInequalitiesInTwoVariables/PlotMXPlusB.pg",
+      "requiredCapabilities": [
+        "mathjax",
+        "graph-tool",
+        "jsxgraph",
+        "header-scripts",
+        "header-styles",
+        "script-initialization",
+        "hidden-answer-state"
+      ],
+      "cases": [
+        {
+          "verificationSeed": 1234,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": [
+            {
+              "code": "NARROW_FRAME_SCROLL",
+              "capability": "mobile-layout",
+              "status": "limited",
+              "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
+            }
+          ]
+        },
+        {
+          "verificationSeed": 1234,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": false,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": false,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 0.444444444444444,
+          "clearedScore": 0,
+          "limitations": [
+            {
+              "code": "MOBILE_GRAPH_TOUCH_GRADING",
+              "capability": "touch-graph-positive-answer",
+              "status": "unsupported",
+              "reason": "For fixture seeds 1234 and 4321, touch-mobile point placement does not reach the expected full score. Coordinate/interaction behavior needs investigation; these cases remain failed and are not waived by this policy."
+            },
+            {
+              "code": "NARROW_FRAME_SCROLL",
+              "capability": "mobile-layout",
+              "status": "limited",
+              "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
+            }
+          ],
+          "error": "QA_MOBILE_GRAPH_TOUCH_GRADING",
+          "capabilityFailures": [
+            {
+              "code": "MOBILE_GRAPH_TOUCH_GRADING",
+              "expectedScore": 1,
+              "actualScore": 0.444444444444444
+            }
+          ]
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "desktop",
+          "sourceVerified": true,
+          "passed": true,
+          "phase": "complete",
+          "checks": {
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
+            "mobile": true
+          },
+          "correctScore": 1,
+          "clearedScore": 0,
+          "limitations": [
+            {
+              "code": "NARROW_FRAME_SCROLL",
+              "capability": "mobile-layout",
+              "status": "limited",
+              "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
+            }
+          ]
+        },
+        {
+          "verificationSeed": 4321,
+          "viewport": "mobile",
+          "sourceVerified": true,
+          "passed": false,
+          "phase": "blank",
+          "checks": {
+            "rendering": true,
+            "interaction": false,
+            "answerCapture": false,
+            "grading": false,
+            "retries": false,
+            "refresh": false,
+            "ownership": false,
+            "keyboard": false,
+            "mobile": true
+          },
+          "limitations": [
+            {
+              "code": "NARROW_FRAME_SCROLL",
+              "capability": "mobile-layout",
+              "status": "limited",
+              "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
+            }
+          ],
+          "error": "QA_GRAPH_TOOL_TAB_REACHABILITY"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+    "version":  1,
+    "batches":  [
+                    {
+                        "id":  "native-practice-2026-11-15",
+                        "state":  "active",
+                        "profileVersion":  "local-practice-v1",
+                        "exerciseIds":  [
+                                            "dot-product-01",
+                                            "compat-calculus-numeric-01",
+                                            "compat-calculus-formula-01",
+                                            "compat-statistics-radio-01",
+                                            "compat-algebra-checkbox-01",
+                                            "compat-calculus-graph-01"
+                                        ]
+                    }
+                ]
+}

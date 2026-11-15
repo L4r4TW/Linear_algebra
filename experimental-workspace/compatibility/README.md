@@ -1,6 +1,6 @@
 # Operator compatibility fixtures
 
-This directory contains an **operator-only** representative catalog and browser probe. It does not extend `workspace/server/exercise-catalog.json`, add a student endpoint, or enable unverified problems.
+This directory contains an **operator-only** representative catalog and browser probe. The operator manifest remains separate from the student catalog. Six verified entries are now deliberately promoted through [capability-based rules](../CATALOG_COMPATIBILITY.md); the other five remain disabled. Operator test injection and private diagnostics remain unavailable through student endpoints.
 
 - [catalog.json](catalog.json): eleven stable IDs, friendly topics, source/attribution evidence, exact source URLs/revision/SHA-256 fingerprints, two verification seeds, and required capabilities. Empty author lists mean no problem author was declared in the inspected header; textbook authors are not substituted.
 - [observations.json](observations.json): sanitized pre-loader browser/PG observations. No HTML, cookies, JWTs, or expected-answer maps are stored.

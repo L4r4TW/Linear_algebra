@@ -2,7 +2,17 @@
 
 Session handoff and next steps: [PROJECT_CONTEXT.md](../PROJECT_CONTEXT.md). Repository-wide guidance: [AGENTS.md](../AGENTS.md).
 
-Independent sandbox for the official WeBWorK standalone renderer and PG integration. The existing Next.js application and Supabase configuration are separate. The project direction covers all OPL subjects; the current verified catalog contains one exercise. Start with the [practice acceptance report](PRACTICE_VERIFICATION.md) for the complete student-flow baseline. The [integration contract](INTEGRATION_CONTRACT.md) records the renderer/client/frame boundary; the [compatibility matrix](COMPATIBILITY_MATRIX.md) compares eleven real OPL fixtures with the official renderer. Reproduction commands and the separate operator catalog are in [compatibility/README.md](compatibility/README.md).
+## Current catalog scope
+
+Six exercises are enabled in the first local verified batch; five more candidates remain indexed and disabled. See [catalog compatibility rules](CATALOG_COMPATIBILITY.md), [eligibility record](compatibility/CATALOG_STATUS.md), and [server catalog](workspace/server/exercise-catalog.json). Source/runtime evidence and explicit batch membership govern availability. Current validation: 100 server tests, 29 browser checks, 14 publisher/report tests and the live six-entry API check pass. The full operator regression retains two failed mobile GraphTool cases. Earlier one-exercise counts below describe historical verification stages.
+
+To verify the enabled batch after rebuilding, run `docker compose exec -T workspace node server/check-catalog.mjs` from this directory. It checks listing, start, blank grading, restoration, ownership and rejection of disabled IDs. For the future full-library importer, start with [CATALOG_COMPATIBILITY.md](CATALOG_COMPATIBILITY.md); indexed exercises remain disabled until verified and included in an active batch.
+
+## Historical integration milestones
+
+The following paragraphs record earlier verification stages; current availability is governed by the catalog scope above.
+
+Independent sandbox for the official WeBWorK standalone renderer and PG integration. The existing Next.js application and Supabase configuration are separate. The project direction covers all OPL subjects; the original verified catalog contained one exercise. Start with the [practice acceptance report](PRACTICE_VERIFICATION.md) for the complete student-flow baseline. The [integration contract](INTEGRATION_CONTRACT.md) records the renderer/client/frame boundary; the [compatibility matrix](COMPATIBILITY_MATRIX.md) compares eleven real OPL fixtures with the official renderer. Reproduction commands and the separate operator catalog are in [compatibility/README.md](compatibility/README.md).
 
 The compatibility study found six additional native-answer candidates and four blocked fixtures: static images, generated graphs, scaffolds, and GraphTool. These fixtures remain outside the student allowlist. The latest focused run passed 69 server tests and the live API smoke check; the study also ran eleven paired browser comparisons and twenty-two seed probes. The existing 23-check full acceptance suite is prior evidence, not a rerun for this study.
 

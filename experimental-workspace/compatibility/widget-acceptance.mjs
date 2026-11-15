@@ -6,6 +6,7 @@ import {once} from 'node:events';
 import {createHash} from 'node:crypto';
 import {chromium} from 'playwright';
 import {auditExerciseStyles} from './style-audit.mjs';
+import {runtimeFingerprint} from '../application/server/catalog-compatibility.mjs';
 import {createApp} from '../application/server/http-app.mjs';
 import {createRendererClient,RendererClientError} from '../application/server/renderer-client.mjs';
 import {renderingAudit,keyboardAudit,mobileAudit,retryAudit} from './regression-checks.mjs';
@@ -39,7 +40,7 @@ const app=createApp({sessions,rendererBaseUrl:renderer,exerciseList:()=>catalog.
 app.listen(0,'127.0.0.1');await once(app,'listening');
 const backend='http://127.0.0.1:'+app.address().port;
 const browser=await chromium.launch();
-const report={schemaVersion:1,observedAt:new Date().toISOString(),sourceRevision:catalog.sourceRevision,rendererRevision:catalog.rendererRevision,
+const report={fixtureCatalogFingerprint:createHash('sha256').update(await readFile(new URL('./catalog.json',import.meta.url))).digest('hex'),runtimeFingerprint:runtimeFingerprint(),profileVersion:JSON.parse(await readFile(new URL('../application/server/compatibility-profile.json',import.meta.url),'utf8')).version,schemaVersion:1,observedAt:new Date().toISOString(),sourceRevision:catalog.sourceRevision,rendererRevision:catalog.rendererRevision,
  scope:'Operator-only temporary HTTP application using injected server catalogs and the real renderer client, owned sessions, picker, sandbox, answer bridge, grading, feedback and persistence. Production defaults are unchanged. Positive fixtures use expected values only in operator memory.',exercises:[]};
 if(regression){
  report.expectedCases=selected.flatMap(f=>seeds.flatMap(verificationSeed=>viewports.map(viewport=>({id:f.id,verificationSeed,viewport}))));

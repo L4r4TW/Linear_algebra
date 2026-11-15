@@ -24,7 +24,7 @@ async function pageFor(t, viewport = { width: 1360, height: 1000 }) {
   return context.newPage();
 }
 async function choices(page) {
-  await page.locator('.exercise-choice').first().waitFor();
+  await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).first().waitFor();
 }
 async function ready(page) {
   await page.locator('#session-status').waitFor({ state: 'visible' });
@@ -43,7 +43,7 @@ test('selects a real exercise, renders mathematics, restores on refresh and brow
   });
   await page.goto(baseUrl);
   await choices(page);
-  await page.locator('.exercise-choice').click();
+  await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();
   await ready(page);
   const originalId = sessionId(page);
   assert.ok(originalId);
@@ -72,7 +72,7 @@ test('fits a narrow mobile viewport and keeps exercise inputs usable', { timeout
   const page = await pageFor(t, { width: 390, height: 844 });
   await page.goto(baseUrl);
   await choices(page);
-  await page.locator('.exercise-choice').click();
+  await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();
   await ready(page);
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
   const input = page.frameLocator('.exercise-frame').getByRole('textbox', { name: /^answer 2$/i });
@@ -127,9 +127,9 @@ test('shows session loading and errors, and retries the selected exercise', { ti
   });
   await page.goto(baseUrl);
   await choices(page);
-  await page.locator('.exercise-choice').click();
+  await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();
   await page.locator('#exercise-content').getByText('Opening your exercise…').waitFor();
-  assert.equal(await page.locator('.exercise-choice').isDisabled(), true);
+  assert.equal(await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).isDisabled(), true);
   release();
   await page.locator('#exercise-content [role=alert]').waitFor();
   await page.locator('#exercise-content').getByRole('button', { name: 'Try again' }).click();
@@ -148,7 +148,7 @@ test('a missing saved session shows an error without starting a replacement', { 
   await page.locator('#exercise-content').getByRole('button', { name: 'Try again' }).click();
   await page.locator('#exercise-content').getByText('Session was not found.').waitFor();
   assert.equal(starts, 0);
-  assert.equal(await page.locator('.exercise-choice').isEnabled(), true);
+  assert.equal(await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).isEnabled(), true);
 });
 
 test('math resource failures can be retried without creating another session', { timeout: 90_000 }, async (t) => {
@@ -164,7 +164,7 @@ test('math resource failures can be retried without creating another session', {
   });
   await page.goto(baseUrl);
   await choices(page);
-  await page.locator('.exercise-choice').click();
+  await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();
   await page.getByText('Math formatting could not load.').waitFor();
   const originalId = sessionId(page);
   await page.getByRole('button', { name: 'Retry formatting' }).click();
@@ -177,7 +177,7 @@ test('collects all four real PG fields exactly and publishes session-bound chang
   const page = await pageFor(t);
   await page.goto(baseUrl);
   await choices(page);
-  await page.locator('.exercise-choice').click();
+  await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();
   await ready(page);
   await page.evaluate(() => {
     window.answerChanges = [];
@@ -218,7 +218,7 @@ test('preserves repeated names and successful-control semantics without renderer
   const page = await pageFor(t);
   await page.goto(baseUrl);
   await choices(page);
-  await page.locator('.exercise-choice').click();
+  await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();
   await ready(page);
   await page.frameLocator('.exercise-frame').locator('#problem_body').evaluate((root) => {
     root.innerHTML = `
@@ -265,7 +265,7 @@ test('ignores forged frame messages and clears snapshots when changing exercises
   const page = await pageFor(t);
   await page.goto(baseUrl);
   await choices(page);
-  await page.locator('.exercise-choice').click();
+  await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();
   await ready(page);
   const originalId = sessionId(page);
   await page.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').fill('original answer');
@@ -287,7 +287,7 @@ test('ignores forged frame messages and clears snapshots when changing exercises
   await page.evaluate(() => new Promise((resolve) => setTimeout(resolve, 50)));
   const unchanged = await page.evaluate(async () => (await import('/assets/picker.js')).getCurrentAnswers());
   assert.deepEqual(unchanged, original);
-  await page.locator('.exercise-choice').click();
+  await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();
   await ready(page);
   const next = await page.evaluate(async () => (await import('/assets/picker.js')).collectCurrentAnswers());
   assert.notEqual(next.sessionId, originalId);
@@ -320,7 +320,7 @@ test('submitted answers and feedback survive page refresh without another gradin
   const page = await pageFor(t);
   await page.goto(baseUrl);
   await choices(page);
-  await page.locator('.exercise-choice').click();
+  await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();
   await ready(page);
   const values = [' 2 + 3 ', '<1, 2, 3>', '', 'sqrt(9)'];
   for (let index = 0; index < values.length; index++) {
@@ -361,7 +361,7 @@ test('Check answer sends fresh values once, shows submitting state, and keeps th
   await page.goto(baseUrl);
   await choices(page);
   assert.equal(await page.locator('#practice-controls').isHidden(), true);
-  await page.locator('.exercise-choice').click();
+  await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();
   await ready(page);
   const button = page.getByRole('button', { name: 'Check answer', exact: true });
   assert.equal(await button.isEnabled(), true);
@@ -387,7 +387,7 @@ test('Check answer sends fresh values once, shows submitting state, and keeps th
   await checking.waitFor();
   await page.waitForFunction(() => document.querySelector('#check-answer').disabled);
   assert.equal(await checking.getAttribute('aria-busy'), 'true');
-  assert.equal(await page.locator('.exercise-choice').isDisabled(), true);
+  assert.equal(await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).isDisabled(), true);
   // Dispatching extra events bypasses native disabled-button handling, testing the handler guard too.
   await checking.evaluate((button) => { button.dispatchEvent(new MouseEvent('click')); button.dispatchEvent(new MouseEvent('click')); });
   await field.fill('edits made while checking');
@@ -400,14 +400,14 @@ test('Check answer sends fresh values once, shows submitting state, and keeps th
   await page.locator('#result-stale').waitFor();
   assert.equal(await page.locator('.exercise-frame').evaluate((frame) => frame === window.originalExerciseFrame), true);
   assert.equal(await button.isEnabled(), true);
-  assert.equal(await page.locator('.exercise-choice').isEnabled(), true);
+  assert.equal(await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).isEnabled(), true);
 });
 
 test('grading server and network failures preserve all inputs and allow an explicit retry', { timeout: 90_000 }, async (t) => {
   const page = await pageFor(t, { width: 390, height: 844 });
   await page.goto(baseUrl);
   await choices(page);
-  await page.locator('.exercise-choice').click();
+  await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();
   await ready(page);
   const values = [' 2 + 3 ', '<1, 2, 3>', '', 'sqrt(9)'];
   const fields = page.frameLocator('.exercise-frame').locator('input[name^=AnSwEr]');
@@ -445,7 +445,7 @@ test('leaving during grading clears the controls and ignores a late response', {
   const page = await pageFor(t);
   await page.goto(baseUrl);
   await choices(page);
-  await page.locator('.exercise-choice').click();
+  await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();
   await ready(page);
   let release;
   const gate = new Promise((resolve) => { release = resolve; });
@@ -463,7 +463,7 @@ test('leaving during grading clears the controls and ignores a late response', {
   await page.getByText('A small step toward understanding.').waitFor();
   assert.equal(await page.locator('#practice-controls').isHidden(), true);
   release();
-  await page.locator('.exercise-choice').click();
+  await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();
   await ready(page);
   assert.equal(await page.locator('#submission-error').isHidden(), true);
   assert.equal(await page.locator('#submission-status').textContent(), '');
@@ -472,7 +472,7 @@ test('leaving during grading clears the controls and ignores a late response', {
 
 test('real PG feedback distinguishes invalid input, incorrect answers, blanks and correctness, then restores results', {timeout:120_000}, async (t) => {
   const page=await pageFor(t);
-  await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice').click();await ready(page);
+  await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();await ready(page);
   const id=sessionId(page);
   const frame=page.frameLocator('.exercise-frame');
   // Solve this verified exercise from its visible mathematical statement, without privileged APIs.
@@ -553,6 +553,8 @@ test('keyboard flow supports skip navigation, Enter checking, result focus, and 
   await page.locator('#practice:focus').waitFor();
   await page.keyboard.press('Shift+Tab');
   await page.locator('.exercise-choice:focus').waitFor();
+  for(let index=1;index<await page.locator('.exercise-choice').count();index++)await page.keyboard.press('Shift+Tab');
+  await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).and(page.locator(':focus')).waitFor();
   await page.keyboard.press('Enter');
   await ready(page);
   await page.locator('#exercise-title:focus').waitFor();
@@ -594,7 +596,7 @@ test('keyboard flow supports skip navigation, Enter checking, result focus, and 
 
 test('Enter preserves textarea, selection, widget, modifier, composition, and repeat-key behavior', {timeout:90_000}, async (t) => {
   const page = await pageFor(t);
-  await page.goto(baseUrl); await choices(page); await page.locator('.exercise-choice').click(); await ready(page);
+  await page.goto(baseUrl); await choices(page); await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click(); await ready(page);
   let grades = 0;
   page.on('request', request => { if (/\/api\/sessions\/[^/]+\/answers$/.test(new URL(request.url()).pathname)) grades++; });
   const frame = page.frameLocator('.exercise-frame');
@@ -654,7 +656,7 @@ test('slow loads and grading do not steal focus after the student moves elsewher
   const loadGate = new Promise(resolve => { releaseLoad = resolve; });
   t.after(() => releaseLoad());
   await page.route('**/api/sessions', async route => { await loadGate; await route.fallback(); });
-  await page.locator('.exercise-choice').click();
+  await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();
   await page.locator('#exercise-content').getByText('Opening your exercise…').waitFor();
   await page.locator('.brand').focus();
   releaseLoad(); await ready(page);
@@ -678,7 +680,7 @@ test('slow loads and grading do not steal focus after the student moves elsewher
 
 test('service errors announce the failure and leave keyboard focus on the retry control', {timeout:90_000}, async (t) => {
   const page = await pageFor(t);
-  await page.goto(baseUrl); await choices(page); await page.locator('.exercise-choice').click(); await ready(page);
+  await page.goto(baseUrl); await choices(page); await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click(); await ready(page);
   await page.route('**/api/sessions/*/answers', route => route.fulfill({status:503,json:{error:{message:'Checking is temporarily unavailable.'}}}));
   const frame = page.frameLocator('.exercise-frame');
   await frame.locator('[name=AnSwEr0001]').fill(' 2 + 3 ');
@@ -695,7 +697,7 @@ test('service errors announce the failure and leave keyboard focus on the retry 
 test('narrow screens retain readable mathematics, touch targets, contrast and visible focus', {timeout:90_000}, async (t) => {
   const page = await pageFor(t,{width:320,height:740});
   await page.emulateMedia({reducedMotion:'reduce'});
-  await page.goto(baseUrl); await choices(page); await page.locator('.exercise-choice').click(); await ready(page);
+  await page.goto(baseUrl); await choices(page); await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click(); await ready(page);
   const frame = page.frameLocator('.exercise-frame');
   const input = frame.locator('[name=AnSwEr0001]');
   await input.fill('gibberish('); await input.press('Enter');
@@ -710,13 +712,13 @@ test('narrow screens retain readable mathematics, touch targets, contrast and vi
   const inputStyle=await input.evaluate(node=>({size:parseFloat(getComputedStyle(node).fontSize),height:node.getBoundingClientRect().height}));
   assert.ok(inputStyle.size>=16 && inputStyle.height>=48);
   assert.equal(await page.locator('.spinner').evaluate(node=>getComputedStyle(node).animationName),'none');
-  const contrast=await page.locator('.choice-description').evaluate(node=>{
+  const contrast=await page.locator('.choice-description').evaluateAll(nodes=>nodes.map(node=>{
     const channels=color=>color.match(/[\d.]+/g).slice(0,3).map(Number).map(value=>{value/=255;return value<=.04045?value/12.92:((value+.055)/1.055)**2.4;});
     const luminance=color=>channels(color).reduce((sum,value,index)=>sum+value*[.2126,.7152,.0722][index],0);
     const a=luminance(getComputedStyle(node).color),b=luminance(getComputedStyle(node.closest('button')).backgroundColor);
     return (Math.max(a,b)+.05)/(Math.min(a,b)+.05);
-  });
-  assert.ok(contrast>=4.5);
+  }));
+  assert.ok(contrast.every(value=>value>=4.5));
   await page.locator('#review-answers').click();
   await frame.locator('[name=AnSwEr0001]:focus').waitFor();
   const focusFits=await input.evaluate(node=>{
@@ -762,7 +764,7 @@ async function ownedSnapshot(page, id = sessionId(page)) {
 
 test('complete real practice flow preserves partial credit through failures and recovers a lost successful response on refresh', {timeout:120_000}, async (t) => {
   const page = await pageFor(t, {width:390, height:844});
-  await page.goto(baseUrl); await choices(page); await page.locator('.exercise-choice').click(); await ready(page);
+  await page.goto(baseUrl); await choices(page); await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click(); await ready(page);
   const id = sessionId(page);
   const values = await solveVerifiedDotProduct(page);
   const fields = page.frameLocator('.exercise-frame').locator('input[name^=AnSwEr]');
@@ -817,7 +819,7 @@ test('complete real practice flow preserves partial credit through failures and 
 
 test('real browser sessions enforce ownership across owned and anonymous contexts without changing either session', {timeout:120_000}, async (t) => {
   const owner = await pageFor(t);
-  await owner.goto(baseUrl); await choices(owner); await owner.locator('.exercise-choice').click(); await ready(owner);
+  await owner.goto(baseUrl); await choices(owner); await owner.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click(); await ready(owner);
   const id = sessionId(owner);
   const values = await solveVerifiedDotProduct(owner);
   const fields = owner.frameLocator('.exercise-frame').locator('input[name^=AnSwEr]');
@@ -831,7 +833,7 @@ test('real browser sessions enforce ownership across owned and anonymous context
   assert.equal(identity.sameSite,'Strict');
 
   const other = await pageFor(t);
-  await other.goto(baseUrl); await choices(other); await other.locator('.exercise-choice').click(); await ready(other);
+  await other.goto(baseUrl); await choices(other); await other.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click(); await ready(other);
   const otherId = sessionId(other);
   assert.notEqual(otherId,id);
   const anonymous = await pageFor(t);
@@ -868,7 +870,7 @@ test('a failed dependency keeps grading disabled after the deadline and retry re
  const page=await pageFor(t);
  await page.route(baseUrl+'/assets/exercise/**',route=>route.abort('failed'));
  await page.goto(baseUrl);await choices(page);
- await page.locator('.exercise-choice').first().click();
+ await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).first().click();
  await page.getByText('Exercise resources could not load. Retry before checking answers.').waitFor();
  const id=sessionId(page);
  assert.equal(await page.locator('#check-answer').isEnabled(),false);
@@ -933,7 +935,7 @@ test('exercise styles opt in native answers while preserving table, graph, edito
 });
 
 test('application shell styles cannot reach the exercise and widget geometry survives exercise override removal',async(t)=>{
- const page=await pageFor(t);await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice').first().click();await ready(page);
+ const page=await pageFor(t);await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).first().click();await ready(page);
  const frame=page.frameLocator('.exercise-frame');
  const before=await frame.locator('[name=AnSwEr0001]').evaluate(n=>({height:n.getBoundingClientRect().height,font:getComputedStyle(n).fontSize}));
  await page.addStyleTag({content:'body{font-size:42px!important;color:red!important}input{height:100px!important}'});
@@ -945,4 +947,18 @@ test('application shell styles cannot reach the exercise and widget geometry sur
   const styled=signature();document.querySelector('[data-practice-exercise-style]').sheet.disabled=true;const upstream=signature();document.querySelector('[data-practice-exercise-style]').sheet.disabled=false;widget.remove();return {styled,upstream};
  });
  assert.deepEqual(preserved.styled,preserved.upstream);
+});
+test('approved multi-subject batch is selectable and disabled candidates stay private', {timeout:180_000}, async t=>{
+ const page=await pageFor(t);await page.goto(baseUrl);await choices(page);
+ const {exercises}=await page.evaluate(async()=> (await fetch('/api/exercises')).json());
+ assert.equal(exercises.length,6);assert.equal(await page.locator('.exercise-choice').count(),6);
+ for(const exercise of exercises){
+  await page.locator('.exercise-choice').filter({hasText:exercise.title}).click();
+  await page.waitForFunction(()=>{const button=document.querySelector('#check-answer');return button&&!button.disabled&&!button.closest('[hidden]');});
+  assert.ok(await page.frameLocator('.exercise-frame').locator('input[name],select[name],textarea[name]').count()>0);
+  assert.ok(new URL(page.url()).searchParams.get('session'));
+ }
+ for(const id of ['compat-matrix-grid-01','compat-algebra-image-01','compat-economics-popup-01','compat-calculus-scaffold-01','compat-algebra-graphtool-01']){
+  const status=await page.evaluate(async exerciseId=>(await fetch('/api/sessions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({exerciseId})})).status,id);assert.equal(status,404);
+ }
 });

@@ -1,6 +1,6 @@
 # Automated compatibility regression
 
-The repeatable entry point is [verify-compatibility.ps1](verify-compatibility.ps1). It tests the selected [operator catalog](compatibility/catalog.json) without expanding the default student allowlist or integrating the root Next.js application.
+The repeatable entry point is [verify-compatibility.ps1](verify-compatibility.ps1). It tests the selected [operator catalog](compatibility/catalog.json) separately from the default student catalog and the root Next.js application. Deliberate promotion now uses the [catalog compatibility contract](CATALOG_COMPATIBILITY.md); running tests alone never activates entries.
 
 From the repository root:
 
@@ -70,4 +70,8 @@ The operator runner uses the actual API/client/session/picker/frame/asset/bridge
 
 ## Recorded run
 
-The complete 2026-11-15 run completed all 44 cases: **42 passed and 2 failed**. Both failures are touch-mobile GraphTool positive grading (seeds 1234 and 4321); all eight other required check categories completed in those cases. The command correctly returned nonzero. Eighteen cases carry observed capability limits, including the two failed cases. Baseline validation passed **79 server tests, 28 browser checks, and 4 report-assessment tests**. The normal API smoke check still exposes only the approved student exercise.
+The preceding 2026-11-15 baseline run completed all 44 cases: **42 passed and 2 failed**. Both failures are touch-mobile GraphTool positive grading (seeds 1234 and 4321); all eight other required check categories completed in those cases. The command correctly returned nonzero. Eighteen cases carry observed capability limits, including the two failed cases. Baseline validation passed **79 server tests, 28 browser checks, and 4 report-assessment tests**. The normal API smoke check still exposes only the approved student exercise.
+
+## Catalog activation verification
+
+The latest fingerprinted run attempted all 44 cases: 42 passed and both touch-mobile GraphTool cases failed. Seed 1234 failed positive grading; seed 4321 failed earlier at keyboard Tab reachability. The full sanitized report and per-case phases/checks retain those exact failures; the strict command still exits nonzero. Six individually verified exercises are now enabled through the reviewed local batch, while all five candidates with limits or failures remain disabled. See [CATALOG_STATUS.md](compatibility/CATALOG_STATUS.md). The publisher verifies both runtime and exact fixture-manifest fingerprints before producing reviewable evidence. Existing manual release checks and the separate real renderer-outage check still apply.

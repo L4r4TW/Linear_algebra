@@ -233,7 +233,7 @@ test('serves picker assets without making server-side modules public', async (t)
     assert.equal(response.status, 200);
     assert.ok(response.headers.get('content-type').startsWith(type));
   }
-  for (const path of ['/server/exercise-catalog.json', '/server/exercise-sessions.mjs', '/assets/../server/renderer-client.mjs', '/compatibility/catalog.json', '/compatibility/observations.json', '/compatibility/probe.mjs']) {
+  for (const path of ['/server/exercise-catalog.json', '/server/catalog-compatibility-evidence.json', '/server/activation-batches.json', '/server/compatibility-profile.json', '/compatibility/CATALOG_STATUS.md', '/server/exercise-sessions.mjs', '/assets/../server/renderer-client.mjs', '/compatibility/catalog.json', '/compatibility/observations.json', '/compatibility/probe.mjs']) {
     assert.equal((await fetch(f.baseUrl + path)).status, 404);
   }
 });
@@ -414,7 +414,7 @@ test('exposes only allowlisted field feedback properties and restores them to th
   assert.deepEqual(restored.submission.fieldFeedback,checked.submission.fieldFeedback);
 });
 
-test('operator compatibility fixture IDs do not expand the student exercise allowlist', async (t) => {
+test('disabled compatibility fixture IDs remain outside the approved activation batch', async (t) => {
   const f = await fixture(t);
   const response = await start(f, {exerciseId:'compat-algebra-graphtool-01'});
   assert.equal(response.status,404);
