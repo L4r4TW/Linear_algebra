@@ -145,8 +145,9 @@ test('a missing saved session shows an error without starting a replacement', { 
   });
   await page.goto(baseUrl + '/?session=00000000-0000-4000-8000-000000000000');
   await page.locator('#exercise-content').getByText('Session was not found.').waitFor();
-  await page.locator('#exercise-content').getByRole('button', { name: 'Try again' }).click();
-  await page.locator('#exercise-content').getByText('Session was not found.').waitFor();
+  assert.equal(await page.locator('#exercise-content').getByRole('button', { name: 'Try again' }).count(),0);
+  await page.locator('#exercise-content').getByRole('button', { name: 'Choose another exercise' }).click();
+  await page.locator('.exercise-choice:focus').waitFor();
   assert.equal(starts, 0);
   assert.equal(await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).isEnabled(), true);
 });
@@ -427,10 +428,13 @@ test('grading server and network failures preserve all inputs and allow an expli
   assert.equal(await button.isEnabled(), true);
   assert.equal(calls, 1);
   await button.click();
-  await page.locator('#submission-error').getByText(/couldn’t confirm whether your answers were saved/).waitFor();
+  await page.locator('#submission-error').getByText(/could not confirm whether your answers were saved/).waitFor();
   assert.deepEqual(await fields.evaluateAll((fields) => fields.map((field) => field.value)), values);
   assert.equal(calls, 2);
   assert.equal(await page.locator('.exercise-frame').evaluate((frame) => frame === window.originalExerciseFrame), true);
+  assert.equal(await button.isDisabled(),true);
+  await page.locator('#submission-error').getByRole('button',{name:'Reload saved session'}).click();await ready(page);
+  assert.deepEqual(await fields.evaluateAll(fields=>fields.map(field=>field.value)),values);
   await button.click();
   await page.locator('#submission-status').getByText('Submitted answers checked and saved.').waitFor();
   assert.equal(await page.locator('#submission-error').isHidden(), true);
@@ -1055,4 +1059,64 @@ test('native input events autosave without requesting collection or grading', {t
   const record=JSON.parse(sessionStorage.getItem('practice-draft:v1:'+id)||'null');return record?.answers.entries.some(([name,value])=>name===textName&&value==='  preserve this exactly  ')&&record.answers.entries.some(([name,value])=>name===boxName&&value===boxValue);
  },{id,textName,boxName,boxValue});
  await page.reload();await draftReady(page);assert.equal(await text.inputValue(),'  preserve this exactly  ');assert.equal(await box.isChecked(),true);assert.equal(grades,0);
+});
+
+for(const [code,status,title] of [['SESSION_EXPIRED',410,'This saved session has expired'],['SESSION_REJECTED',409,'This saved session cannot be resumed'],['EXERCISE_WITHDRAWN',410,'This exercise is currently unavailable'],['SESSION_NOT_FOUND',404,'Session unavailable in this browser']])test('terminal recovery '+code+' keeps the session link and draft without retrying or starting another', {timeout:90_000},async t=>{
+ const page=await pageFor(t);await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();await draftReady(page);
+ const id=sessionId(page);await page.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').fill('retained unfinished work');await draftAnswers(page);
+ const record=await page.evaluate(id=>sessionStorage.getItem('practice-draft:v1:'+id),id);let starts=0,gets=0;
+ page.on('request',r=>{if(r.method()==='POST'&&r.url().endsWith('/api/sessions'))starts++;});const pattern='**/api/sessions/'+id;
+ await page.route(pattern,async route=>{gets++;await route.fulfill({status,json:{error:{code,message:'PRIVATE upstream details must not be displayed'}}});});
+ await page.reload();await page.locator('#exercise-content').getByRole('heading',{name:title,exact:true}).waitFor();
+ assert.equal(await page.locator('#exercise-content').getByRole('button',{name:'Try again',exact:true}).count(),0);assert.doesNotMatch(await page.locator('#exercise-content').textContent(),/PRIVATE/);
+ await page.waitForTimeout(150);assert.equal(gets,1);assert.equal(starts,0);assert.equal(sessionId(page),id);assert.equal(await page.evaluate(id=>sessionStorage.getItem('practice-draft:v1:'+id),id),record);
+ await page.locator('#exercise-content').getByRole('button',{name:'Choose another exercise'}).press('Enter');await page.locator('.exercise-choice:focus').waitFor();assert.equal(starts,0);
+ await page.unroute(pattern);await page.reload();await draftReady(page);assert.equal(await page.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').inputValue(),'retained unfinished work');
+});
+
+for(const [code,status] of [['RENDERER_UNAVAILABLE',503],['RENDERER_TIMEOUT',504]])test('transient recovery '+code+' retries only the same saved session on request', {timeout:90_000},async t=>{
+ const page=await pageFor(t,{width:390,height:844});await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();await draftReady(page);
+ const id=sessionId(page);await page.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').fill('retry same draft');await draftAnswers(page);let gets=0,starts=0;
+ page.on('request',r=>{if(r.method()==='POST'&&r.url().endsWith('/api/sessions'))starts++;});
+ await page.route('**/api/sessions/'+id,async route=>{gets++;if(gets===1)await route.fulfill({status,json:{error:{code,message:'temporary'}}});else await route.fallback();});
+ await page.reload();await page.locator('#exercise-content [role=alert]').waitFor();await page.waitForTimeout(150);assert.equal(gets,1);
+ await page.locator('#exercise-content').getByRole('button',{name:'Try again',exact:true}).press('Enter');await draftReady(page);assert.equal(gets,2);assert.equal(starts,0);assert.equal(sessionId(page),id);assert.equal(await page.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').inputValue(),'retry same draft');
+});
+
+test('terminal grading failure keeps the live frame editable, blocks repeated checks and offers a deliberate choice', {timeout:90_000},async t=>{
+ const page=await pageFor(t);await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();await draftReady(page);
+ const input=page.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]');await input.fill('first draft');await draftAnswers(page);const id=sessionId(page),before=await ownedSnapshot(page);let checks=0;
+ await page.route('**/api/sessions/*/answers',async route=>{checks++;await route.fulfill({status:410,json:{error:{code:'SESSION_EXPIRED',message:'expired'}}});});
+ await page.locator('#check-answer').click();await page.locator('#submission-error').getByText(/confirmed.*expired/).waitFor();assert.equal(await page.locator('#check-answer').isDisabled(),true);
+ await page.locator('#check-answer').evaluate(n=>n.dispatchEvent(new MouseEvent('click')));await input.fill('still editable');await draftAnswers(page);assert.equal(checks,1);assert.equal(sessionId(page),id);assert.deepEqual((await ownedSnapshot(page)).submission,before.submission);
+ await page.locator('#submission-error').getByRole('button',{name:'Choose another exercise'}).press('Enter');await page.locator('.exercise-choice:focus').waitFor();assert.equal(await input.inputValue(),'still editable');
+});
+
+test('lost grading response reload action uses GET, restores saved result and preserves newer draft edits', {timeout:90_000},async t=>{
+ const page=await pageFor(t);await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();await draftReady(page);
+ const id=sessionId(page),input=page.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]');await input.fill('1');let grades=0,starts=0;
+ page.on('request',r=>{if(r.method()==='POST'&&r.url().endsWith('/api/sessions'))starts++;});
+ let accept,release;const accepted=new Promise(resolve=>{accept=resolve;}),gate=new Promise(resolve=>{release=resolve;});t.after(()=>release());
+ await page.route('**/api/sessions/*/answers',async route=>{grades++;const response=await route.fetch({url:route.request().url().replace(baseUrl,backendUrl)});assert.equal(response.status(),200);accept();await gate;await route.abort('failed');});
+ await page.locator('#check-answer').click();await accepted;await input.fill('newer unchecked edit');const newer=await draftAnswers(page);release();await page.locator('#submission-error').waitFor();assert.equal(await page.locator('#check-answer').isDisabled(),true);
+ const saved=await ownedSnapshot(page);await page.locator('#submission-error').getByRole('button',{name:'Reload saved session'}).press('Enter');await draftReady(page);
+ assert.equal(sessionId(page),id);assert.equal(grades,1);assert.equal(starts,0);assert.deepEqual((await ownedSnapshot(page)).submission,saved.submission);assert.deepEqual(await draftAnswers(page),newer);await page.locator('#result-stale').waitFor();
+});
+
+test('failed GET recovery and blocked draft storage keep live edits until a successful restore', {timeout:90_000},async t=>{
+ const page=await pageFor(t);await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();await draftReady(page);
+ const id=sessionId(page),input=page.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]');await page.evaluate(()=>{Storage.prototype.setItem=function(){throw new DOMException('blocked','QuotaExceededError');};});await input.fill('1');
+ let release,accept;const gate=new Promise(resolve=>{release=resolve;}),accepted=new Promise(resolve=>{accept=resolve;});t.after(()=>release());
+ await page.route('**/api/sessions/*/answers',async route=>{const response=await route.fetch({url:route.request().url().replace(baseUrl,backendUrl)});assert.equal(response.status(),200);accept();await gate;await route.abort('failed');});
+ await page.locator('#check-answer').click();await accepted;await input.fill('draft without storage');release();await page.locator('#submission-error').getByRole('button',{name:'Reload saved session'}).waitFor();
+ await page.locator('.exercise-frame').evaluate(n=>{window.recoveryOriginalFrame=n;});let gets=0;
+ await page.route('**/api/sessions/'+id,async route=>{gets++;if(gets===1)await route.fulfill({status:503,json:{error:{code:'RENDERER_UNAVAILABLE',message:'unavailable'}}});else await route.fallback();});
+ await page.locator('#submission-error').getByRole('button',{name:'Reload saved session'}).click();await page.locator('#submission-error').getByText(/temporarily unavailable/).waitFor();assert.equal(await page.locator('.exercise-frame').evaluate(n=>n===window.recoveryOriginalFrame),true);assert.equal(await input.inputValue(),'draft without storage');assert.equal(await page.locator('#check-answer').isDisabled(),true);
+ await input.fill('latest in-memory edit');await page.locator('#submission-error').getByRole('button',{name:'Reload saved session'}).click();await draftReady(page);assert.equal(sessionId(page),id);assert.equal(await input.inputValue(),'latest in-memory edit');assert.equal(gets,2);await page.locator('#result-stale').waitFor();await page.locator('#draft-status').getByText(/(cannot|could not) be saved/).waitFor();
+});
+
+test('a mismatched saved-session response is rejected without replacing the requested exercise', {timeout:90_000},async t=>{
+ const page=await pageFor(t);await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();await draftReady(page);const id=sessionId(page);await page.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').fill('original draft');await draftAnswers(page);
+ const pattern='**/api/sessions/'+id;await page.route(pattern,route=>route.fulfill({status:200,json:{session:{id:'11111111-1111-4111-8111-111111111111',exerciseId:'dot-product-01'},exercise:{html:'<div id="problem_body">wrong session</div>'}}}));
+ await page.reload();await page.locator('#exercise-content').getByText(/response could not be verified/).waitFor();assert.equal(sessionId(page),id);assert.equal(await page.locator('.exercise-frame').count(),0);await page.unroute(pattern);await page.locator('#exercise-content').getByRole('button',{name:'Try again',exact:true}).click();await draftReady(page);assert.equal(await page.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').inputValue(),'original draft');
 });

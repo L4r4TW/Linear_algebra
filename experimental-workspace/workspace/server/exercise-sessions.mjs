@@ -99,13 +99,13 @@ export function createExerciseSessions({
     validateRecord(record, sessionId);
     if (record.ownerHash !== undefined) {
       if (!isOwnerToken(ownerToken) || !timingSafeEqual(Buffer.from(record.ownerHash, 'hex'), Buffer.from(ownerHash(ownerToken), 'hex'))) {
-        throw new ExerciseSessionError('SESSION_NOT_FOUND', 'Exercise session was not found.');
+        throw new ExerciseSessionError('SESSION_FORBIDDEN', 'Exercise session is not owned by this browser.');
       }
     } else if (ownerToken !== undefined) {
-      throw new ExerciseSessionError('SESSION_NOT_FOUND', 'Exercise session was not found.');
+      throw new ExerciseSessionError('SESSION_FORBIDDEN', 'Exercise session was not found.');
     }
     if (!exerciseLookup(record.exerciseId)) {
-      throw new ExerciseSessionError('UNKNOWN_EXERCISE', 'Stored exercise is no longer in the approved catalog.');
+      throw new ExerciseSessionError('EXERCISE_WITHDRAWN', 'Stored exercise is no longer in the approved catalog.');
     }
     return record;
   }
@@ -150,7 +150,7 @@ export function createExerciseSessions({
 
     async submitAnswers(sessionId, answers, { ownerToken } = {}) {
       // Grading always requires ownership, including for internal callers.
-      if (!isOwnerToken(ownerToken)) throw new ExerciseSessionError('SESSION_NOT_FOUND', 'Exercise session was not found.');
+      if (!isOwnerToken(ownerToken)) throw new ExerciseSessionError('SESSION_FORBIDDEN', 'Exercise session was not found.');
       await readSession(sessionId, ownerToken);
       try { validateAnswerEntries(answers); } catch (cause) {
         throw new ExerciseSessionError('INVALID_ANSWERS', 'Provide answer name/value pairs only.', { cause });

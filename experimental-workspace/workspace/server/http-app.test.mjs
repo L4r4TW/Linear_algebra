@@ -10,7 +10,7 @@ import { createApp } from './http-app.mjs';
 import { createExerciseSessions } from './exercise-sessions.mjs';
 import { RendererClientError } from './renderer-client.mjs';
 
-async function fixture(t, { origin = 'http://localhost:3100', rendererBaseUrl } = {}) {
+async function fixture(t, { origin = 'http://localhost:3100', rendererBaseUrl, exerciseLookup } = {}) {
   const root = await mkdtemp(join(tmpdir(), 'exercise-api-'));
   const directory = join(root, 'sessions');
   const calls = { load: [], restore: [], grade: [] };
@@ -26,7 +26,7 @@ async function fixture(t, { origin = 'http://localhost:3100', rendererBaseUrl } 
     async restoreSession(input) { calls.restore.push(input); return rendered(); },
     async submitAnswers(input) { calls.grade.push(input); return { ...rendered(), score: 0.75, sessionToken: 'UPDATED_TOKEN', problemToken: 'UPDATED_PROBLEM_TOKEN' }; },
   };
-  const sessions = createExerciseSessions({ directory, rendererClient });
+  const sessions = createExerciseSessions({ directory, rendererClient, ...(exerciseLookup?{exerciseLookup}:{}) });
   const app = createApp({ sessions, origin, rendererBaseUrl });
   app.listen(0, '127.0.0.1');
   await once(app, 'listening');
@@ -233,7 +233,7 @@ test('serves picker assets without making server-side modules public', async (t)
     assert.equal(response.status, 200);
     assert.ok(response.headers.get('content-type').startsWith(type));
   }
-  for (const path of ['/server/exercise-catalog.json', '/server/catalog-compatibility-evidence.json', '/server/activation-batches.json', '/server/compatibility-profile.json', '/compatibility/CATALOG_STATUS.md', '/compatibility/draft-preview.mjs', '/compatibility/continuity-audit.json', '/server/exercise-sessions.mjs', '/assets/../server/renderer-client.mjs', '/compatibility/catalog.json', '/compatibility/observations.json', '/compatibility/probe.mjs']) {
+  for (const path of ['/server/exercise-catalog.json', '/server/catalog-compatibility-evidence.json', '/server/activation-batches.json', '/server/compatibility-profile.json', '/compatibility/CATALOG_STATUS.md', '/compatibility/draft-preview.mjs', '/compatibility/probe-token-errors.pl', '/compatibility/token-error-observations.json', '/compatibility/continuity-audit.json', '/server/exercise-sessions.mjs', '/assets/../server/renderer-client.mjs', '/compatibility/catalog.json', '/compatibility/observations.json', '/compatibility/probe.mjs']) {
     assert.equal((await fetch(f.baseUrl + path)).status, 404);
   }
 });
@@ -450,4 +450,19 @@ test('serves only opaque registered assets without exposing paths, tokens, or fe
  assert.equal((await fetch(f.baseUrl+url.replace(/\/0$/,'/100'))).status,404);
  assert.equal((await fetch(f.baseUrl+'/assets/exercise/'+'x'.repeat(43)+'/0')).status,404);
  assert.equal((await fetch(f.baseUrl+url,{method:'POST'})).status,404);
+});
+for(const [code,status,publicCode] of [['TOKEN_EXPIRED',410,'SESSION_EXPIRED'],['TOKEN_REJECTED',409,'SESSION_REJECTED'],['NETWORK_ERROR',503,'RENDERER_UNAVAILABLE'],['TIMEOUT',504,'RENDERER_TIMEOUT']])test('recovery API maps '+code+' and preserves the saved record',async t=>{
+ const f=await fixture(t,{exerciseLookup:id=>id==='dot-product-01'?{id}:undefined});const started=await start(f);const initial=await started.json(),cookie=cookieOf(started),path=join(f.directory,initial.session.id+'.json'),before=await readFile(path,'utf8');
+ f.rendererClient.restoreSession=async()=>{throw new RendererClientError(code,'PRIVATE renderer detail and token');};
+ for(const method of ['GET','POST']){
+  const response=await fetch(f.baseUrl+'/api/sessions/'+initial.session.id+(method==='POST'?'/answers':''),{method,headers:{Cookie:cookie,'Content-Type':'application/json'},...(method==='POST'?{body:JSON.stringify({answers:[]})}:{})});
+  assert.equal(response.status,status);const body=await response.json();assert.equal(body.error.code,publicCode);assert.doesNotMatch(JSON.stringify(body),/PRIVATE|token/);assert.equal(await readFile(path,'utf8'),before);
+ }
+ assert.equal(f.calls.load.length,1);assert.equal(f.calls.grade.length,0);
+});
+test('owned withdrawn sessions differ from private missing/unowned responses without deleting records',async t=>{
+ let enabled=true;const f=await fixture(t,{exerciseLookup:id=>enabled&&id==='dot-product-01'?{id}:undefined});const response=await start(f),initial=await response.json(),cookie=cookieOf(response),url=f.baseUrl+'/api/sessions/'+initial.session.id,path=join(f.directory,initial.session.id+'.json'),before=await readFile(path,'utf8');enabled=false;
+ const owned=await fetch(url,{headers:{Cookie:cookie}});assert.equal(owned.status,410);assert.equal((await owned.json()).error.code,'EXERCISE_WITHDRAWN');
+ const otherCookie=cookie.replace(/=.+$/,'='+'b'.repeat(43));const foreign=await fetch(url,{headers:{Cookie:otherCookie}}),missing=await fetch(f.baseUrl+'/api/sessions/11111111-1111-4111-8111-111111111111',{headers:{Cookie:cookie}});
+ assert.equal(foreign.status,404);assert.equal(missing.status,404);assert.deepEqual(await foreign.json(),await missing.json());assert.equal(await readFile(path,'utf8'),before);assert.equal(f.calls.restore.length,0);
 });

@@ -147,10 +147,13 @@ function failure(error) {
     if (error.code === 'INVALID_ANSWERS') return new ApiError(400, 'INVALID_ANSWERS', 'Some answer fields are not valid for this exercise.');
     if (error.code === 'INVALID_INPUT') return new ApiError(400, 'INVALID_INPUT', 'The session request is invalid.');
     if (error.code === 'UNKNOWN_EXERCISE') return new ApiError(404, 'UNKNOWN_EXERCISE', 'Exercise is unavailable.');
-    if (error.code === 'SESSION_NOT_FOUND') return new ApiError(404, 'SESSION_NOT_FOUND', 'Session was not found.');
+    if (error.code === 'EXERCISE_WITHDRAWN') return new ApiError(410, 'EXERCISE_WITHDRAWN', 'This exercise is currently unavailable. Your saved session has been kept.');
+    if (['SESSION_NOT_FOUND','SESSION_FORBIDDEN'].includes(error.code)) return new ApiError(404, 'SESSION_NOT_FOUND', 'Session was not found.');
     return new ApiError(500, 'SESSION_SERVICE_ERROR', 'The session could not be accessed.');
   }
   if (error instanceof RendererClientError) {
+    if (error.code === 'TOKEN_EXPIRED') return new ApiError(410, 'SESSION_EXPIRED', 'This saved session has expired. Your saved answers have been kept.');
+    if (error.code === 'TOKEN_REJECTED') return new ApiError(409, 'SESSION_REJECTED', 'This saved session can no longer be resumed. Your saved answers have been kept.');
     if (error.code === 'TIMEOUT') return new ApiError(504, 'RENDERER_TIMEOUT', 'The exercise took too long to load. Please try again.');
     if (error.code === 'NETWORK_ERROR') return new ApiError(503, 'RENDERER_UNAVAILABLE', 'The exercise service is temporarily unavailable.');
     return new ApiError(502, 'RENDERER_ERROR', 'The exercise could not be loaded.');
@@ -166,6 +169,7 @@ const publicFiles = new Map([
   ['/assets/exercise-frame.js', ['exercise-frame.js', 'text/javascript; charset=utf-8']],
   ['/assets/widget-answers.js', ['widget-answers.js', 'text/javascript; charset=utf-8']],
   ['/assets/field-feedback.js', ['field-feedback.js', 'text/javascript; charset=utf-8']],
+  ['/assets/session-recovery.js', ['session-recovery.js', 'text/javascript; charset=utf-8']],
   ['/assets/draft-answers.js', ['draft-answers.js', 'text/javascript; charset=utf-8']],
   ['/assets/answer-fields.js', ['answer-fields.js', 'text/javascript; charset=utf-8']],
   ['/assets/answer-bridge.js', ['answer-bridge.js', 'text/javascript; charset=utf-8']],

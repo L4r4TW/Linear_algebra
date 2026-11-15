@@ -148,8 +148,8 @@ async function clearGraph(page){
  }
 }
 function summary(result){return {score:result.submission.score,statuses:result.submission.fieldFeedback.map(f=>f.status),feedbackCount:result.submission.fieldFeedback.length};}
-async function restored(page,id,answers,submission,{allowStageRelock=false}={}){
- const before=gradeCalls;await page.reload();await ready(page);
+async function restored(page,id,answers,submission,{allowStageRelock=false,reload=true}={}){
+ const before=gradeCalls;if(reload)await page.reload();await ready(page);
  check(new URL(page.url()).searchParams.get('session')===id,'SESSION_ID_CHANGED');
  const current=await collect(page);
  const removed=answers.fieldNames.filter(name=>!current.fieldNames.includes(name));

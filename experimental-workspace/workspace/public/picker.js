@@ -1,4 +1,5 @@
-import {createDraftStore,planDraftRestoration,sameEntries} from '/assets/draft-answers.js';
+import {ExerciseRequestError,sessionRecovery} from '/assets/session-recovery.js';
+import {createDraftStore,planDraftRestoration,sameEntries,validDraftAnswers} from '/assets/draft-answers.js';
 import { matchesSubmittedAnswers } from '/assets/field-feedback.js';
 import { createAnswerBridge, AnswerBridgeError } from '/assets/answer-bridge.js';
 import { buildExerciseDocument } from '/assets/exercise-frame.js';
@@ -36,7 +37,6 @@ let exerciseController;
 let operation = 0;
 let frameState;
 let frameTimer;
-let lastAction;
 let submission;
 let interaction = 0;
 
@@ -81,7 +81,7 @@ function loading(message) {
 function updateControls() {
   const submitting = Boolean(submission);
   controls.hidden = !frameState?.ready;
-  checkButton.disabled = busy || submitting || !frameState?.ready;
+  checkButton.disabled = busy || submitting || !frameState?.ready || Boolean(frameState?.recoveryRequired);
   reviewButton.disabled = busy || !frameState?.ready;
   checkButton.setAttribute('aria-busy', String(submitting));
   checkLabel.textContent = submitting ? 'Checking…' : 'Check answer';
@@ -147,13 +147,55 @@ async function request(path, options, signal) {
     signal: AbortSignal.any([signal, AbortSignal.timeout(40_000)]),
   });
   let data;
-  try { data = await response.json(); } catch { throw new Error('The service returned an unexpected response. Please try again.'); }
+  try { data = await response.json(); } catch { throw new ExerciseRequestError('INVALID_RESPONSE',response.status,'The service returned an unexpected response. Please try again.'); }
   if (!response.ok) {
-    throw new Error(typeof data.error?.message === 'string' ? data.error.message : 'The exercise service is unavailable. Please try again.');
+    const code=typeof data?.error?.code==='string'?data.error.code:response.status===404?'SESSION_NOT_FOUND':'HTTP_ERROR';
+    throw new ExerciseRequestError(code,response.status,typeof data?.error?.message === 'string' ? data.error.message : 'The exercise service is unavailable. Please try again.');
   }
   return data;
 }
 
+function chooseExercise() {
+  const target=catalog.querySelector('.exercise-choice:not(:disabled)')??document.querySelector('#catalog-title');
+  if(!target.hasAttribute('tabindex')&&target.tagName!=='BUTTON')target.tabIndex=-1;
+  target.focus();target.scrollIntoView({block:'nearest'});
+}
+function recoveryBox(error,request) {
+  const recovery=sessionRecovery(error);
+  const box=stateMessage(recovery.title,recovery.message,recovery.retry?()=>openExercise(request):undefined);
+  if(recovery.retry&&!request.sessionId)box.append(element('p','Trying again starts a new session for the selected exercise.'));
+  box.append(action('Choose another exercise',chooseExercise));
+  box.dataset.recovery=recovery.code??'SERVICE_ERROR';
+  return box;
+}
+function showSubmissionRecovery(state,error,{restoring=false}={}) {
+  const recovery=error instanceof AnswerBridgeError?{terminal:false,reconcile:false}:sessionRecovery(error,{phase:restoring?'load':'grade'});
+  const detail=error instanceof AnswerBridgeError?'We couldn’t read the answer fields. Please try again.':recovery.message;
+  submissionError.textContent=detail+' Your inputs are still here.';
+  state.recoveryRequired=restoring||recovery.terminal||recovery.reconcile;
+  if(recovery.terminal)submissionError.append(action('Choose another exercise',chooseExercise));
+  else if(restoring||recovery.reconcile)submissionError.append(action('Reload saved session',()=>void reloadSavedSession(state)));
+  submissionError.hidden=false;
+  return state.recoveryRequired?submissionError.querySelector('button'):checkButton;
+}
+async function reloadSavedSession(state) {
+  if(frameState!==state||state.recoveryController)return;
+  const controller=new AbortController(),focusAt=interaction;state.recoveryController=controller;
+  const button=submissionError.querySelector('button');if(button)button.disabled=true;
+  try{
+    const data=await request('/api/sessions/'+encodeURIComponent(state.sessionId),{},controller.signal);
+    if(frameState!==state)return;
+    if(data?.session?.id!==state.sessionId||data.session.exerciseId!==state.session.exerciseId)throw new ExerciseRequestError('INVALID_RESPONSE',200,'The saved session response could not be verified.');
+    const answers=await state.answerBridge.collect();if(frameState!==state)return;
+    if(!validDraftAnswers(answers)||JSON.stringify(answers).length>500000)throw new ExerciseRequestError('DRAFT_TOO_LARGE',0,'Unfinished answers are too large to restore safely. Keep this page open and shorten or copy them before reloading.');
+    const recoveryDraft={version:1,sessionId:state.sessionId,exerciseId:state.session.exerciseId,baseSubmissionId:state.lastSubmission?.id??null,baseSubmissionNumber:state.lastSubmission?.number??0,answers,pending:state.pendingDraft??null};
+    displaySession(data,{focusAt,recoveryDraft});
+  }catch(error){
+    if(controller.signal.aborted||frameState!==state)return;
+    const next=showSubmissionRecovery(state,error,{restoring:true});updateControls();
+    if(focusAt===interaction)next?.focus();
+  }finally{if(frameState===state)state.recoveryController=undefined;}
+}
 function renderCatalog() {
   catalog.replaceChildren();
   count.hidden = false;
@@ -242,7 +284,7 @@ async function initializeDraft(state) {
   state.initialAnswers=initial;
   let restored;
   try{
-    const record=draftStore.read(state.session);
+    const record=state.recoveryDraft??draftStore.read(state.session);
     const plan=planDraftRestoration(record,state.session,state.lastSubmission,initial.fieldNames);
     if(plan.action==='restore'){
       restored=await state.answerBridge.restoreDraft(plan.answers);
@@ -276,6 +318,7 @@ function clearFrame() {
   submissionError.hidden = true;
   clearTimeout(frameTimer);
   if (frameState) {
+    frameState.recoveryController?.abort();
     frameState.answerBridge.destroy();
     panel.dispatchEvent(new CustomEvent('exercise-answers-change', { bubbles: true, detail: null }));
   }
@@ -327,7 +370,7 @@ async function finishFrame(error = false) {
   }
 }
 
-function displaySession(data, { focusAt = interaction } = {}) {
+function displaySession(data, { focusAt = interaction, recoveryDraft } = {}) {
   if (!data?.session || typeof data.session.id !== 'string' || typeof data.session.exerciseId !== 'string' ||
       typeof data.exercise?.html !== 'string') {
     throw new Error('The exercise response could not be read. Please try again.');
@@ -371,7 +414,7 @@ function displaySession(data, { focusAt = interaction } = {}) {
       }));
     },
   });
-  frameState = { frame, channel, progress, warning, answerBridge, session: data.session, sessionId: data.session.id, lastSubmission: data.submission ?? null, focusAt };
+  frameState = { frame, channel, progress, warning, answerBridge, recoveryDraft, session: data.session, sessionId: data.session.id, lastSubmission: data.submission ?? null, focusAt };
   frameTimer = setTimeout(() => {
     if (data.exercise.resources?.dependencies?.length) {
       frameState.resourceFailed=true;
@@ -393,7 +436,6 @@ async function openExercise({ exerciseId, sessionId }) {
   exerciseController = controller;
   const current = ++operation;
   clearFrame();
-  lastAction = { exerciseId, sessionId };
   selectedId = exerciseId;
   selectCurrent();
   setBusy(true);
@@ -410,6 +452,7 @@ async function openExercise({ exerciseId, sessionId }) {
       controller.signal,
     );
     if (current !== operation) return;
+    if(sessionId&&data?.session?.id!==sessionId||exerciseId&&data?.session?.exerciseId!==exerciseId)throw new ExerciseRequestError('INVALID_RESPONSE',200,'The saved session response could not be verified. Please try again.');
     displaySession(data, { focusAt });
     if (!sessionId) {
       const url = new URL(location.href);
@@ -420,10 +463,9 @@ async function openExercise({ exerciseId, sessionId }) {
     if (controller.signal.aborted || current !== operation) return;
     clearFrame();
     setBusy(false);
-    const message = error.name === 'TimeoutError' ? 'Loading took too long. Please try again.' : error.message;
-    title.textContent = 'Let’s try that again.';
+    title.textContent = 'Your saved practice';
     topic.textContent = 'YOUR PRACTICE';
-    const box = stateMessage('Couldn’t open this exercise', message, () => openExercise(lastAction));
+    const box = recoveryBox(error,{exerciseId,sessionId});
     box.setAttribute('role', 'alert');
     content.replaceChildren(box);
     announce('');
@@ -439,7 +481,7 @@ function startExercise(exerciseId) {
 
 /** Check one fresh snapshot. Keep the live frame intact on both success and failure. */
 async function submitCurrentAnswers() {
-  if (busy || submission || !frameState?.ready) return;
+  if (busy || submission || !frameState?.ready || frameState.recoveryRequired) return;
   const current = frameState;
   const attempt = { controller: new AbortController() };
   submission = attempt;
@@ -463,7 +505,7 @@ async function submitCurrentAnswers() {
     if (submission !== attempt || frameState !== current) return;
     if (data.session?.id !== current.sessionId || data.session?.exerciseId !== selectedId ||
         !Number.isSafeInteger(data.submission?.number) || data.submission.number < 1) {
-      throw new Error('The checking response could not be confirmed.');
+      throw new ExerciseRequestError('UNCONFIRMED_SUBMISSION',200,'The checking response could not be confirmed.');
     }
     current.lastSubmission = data.submission;
     current.pendingDraft=null;
@@ -477,15 +519,8 @@ async function submitCurrentAnswers() {
   } catch (error) {
     if (attempt.controller.signal.aborted || submission !== attempt || frameState !== current) return;
     submissionStatus.textContent = '';
-    const detail = error instanceof AnswerBridgeError
-      ? 'We couldn’t read the answer fields. Please try Check answer again.'
-      : error.name === 'TimeoutError' || error instanceof TypeError
-        ? 'We couldn’t confirm whether your answers were saved. Please try Check answer again when you’re ready.'
-        : error.message;
-    submissionError.textContent = detail + ' Your inputs are still here.';
-    submissionError.hidden = false;
+    nextFocus=showSubmissionRecovery(current,error);
     announce('');
-    nextFocus = checkButton;
   } finally {
     if (submission === attempt && frameState === current) {
       submission = undefined;

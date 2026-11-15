@@ -51,3 +51,7 @@ The final successful verification combined the full suites with this focused out
 - A manual retry is a new submission. There is no general idempotency guarantee after a lost response; refresh recovers the last accepted result without resubmitting.
 - Actual NVDA/VoiceOver listening has not been performed. Automated browser checks verify semantics, MathML, and focus behavior; manual screen-reader review remains a release check.
 - The renderer remains a private localhost development service. Production hardening and broader exercise compatibility are separate work.
+
+## Explicit recovery follow-up (2026-11-15)
+
+The recovery-enabled runtime passes 136 server tests, 47 browser checks, 14 publisher/report tests and the six-entry continuity/API checks. The focused real renderer outage check was rerun and passed: owned grading/restoration returned RENDERER_UNAVAILABLE/503 while the renderer was stopped, foreign access remained 404, and normal restart preserved the accepted submission and question signature exactly. It required no fallback container replacement or volume removal. The complete 44-case compatibility gate retains the two failed mobile GraphTool cases. See [SESSION_RECOVERY.md](SESSION_RECOVERY.md) for safe token classifications, terminal choices and GET-only reconciliation.

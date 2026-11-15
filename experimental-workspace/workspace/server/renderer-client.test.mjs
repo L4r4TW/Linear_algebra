@@ -97,7 +97,7 @@ test('reports HTTP errors without disclosing the upstream body', async (t) => {
     response.end('private renderer detail and test-session');
   });
   await assert.rejects(createRendererClient({ baseUrl }).loadExercise(input), (error) => {
-    assert.ok(hasCode('HTTP_ERROR')(error));
+    assert.ok(hasCode('NETWORK_ERROR')(error));
     assert.equal(error.status, 503);
     assert.doesNotMatch(error.message, /private|test-session/);
     return true;
@@ -276,4 +276,22 @@ test('operator catalog injection is server configuration and never forwards brow
  assert.equal(fields.get('isInstructor'),'0');
  await assert.rejects(client.loadExercise({exerciseId:'Library/untrusted.pg',seed:1234}),hasCode('UNKNOWN_EXERCISE'));
  await assert.rejects(createRendererClient({baseUrl}).loadExercise({exerciseId:'operator-fixture',seed:1234}),hasCode('UNKNOWN_EXERCISE'));
+});
+for(const [message,code] of [['[request-1] JWT: exp claim check failed (1/0 vs. 2000)','TOKEN_EXPIRED'],['[request-2] JWS: invalid signature','TOKEN_REJECTED'],['JWT: invalid token format','TOKEN_REJECTED']])test('classifies verified session rejection '+code+' without disclosing details',async t=>{
+ const baseUrl=await serve(t,(_req,res)=>{res.writeHead(500,{'Content-Type':'application/json'});res.end(JSON.stringify({status:500,message}));});
+ const client=createRendererClient({baseUrl,exerciseLookup:()=>({renderer:{sourceFilePath:'Library/one.pg'}})});
+ await assert.rejects(client.restoreSession({...input,sessionToken:'private-token'}),error=>error.code===code&&!error.message.includes(message));
+});
+for(const body of [{status:500,message:'PG error: JWT: exp claim check failed (1/0 vs. 2000)'},{status:400,message:'JWT: invalid token format'},{status:500,message:'expired token PRIVATE'},'<html>JWT: invalid token format</html>'])test('does not infer token expiry from an unrelated or malformed failure',async t=>{
+ const baseUrl=await serve(t,(_req,res)=>{res.writeHead(500);res.end(typeof body==='string'?body:JSON.stringify(body));});
+ const client=createRendererClient({baseUrl,exerciseLookup:()=>({renderer:{sourceFilePath:'Library/one.pg'}})});
+ await assert.rejects(client.restoreSession({...input,sessionToken:'private-token'}),hasCode('HTTP_ERROR'));
+});
+test('only stored-token requests can be classified as expired; raw loads remain service errors',async t=>{
+ const baseUrl=await serve(t,(_req,res)=>{res.writeHead(500);res.end(JSON.stringify({status:500,message:'JWT: exp claim check failed (1/0 vs. 2000)'}));});
+ await assert.rejects(createRendererClient({baseUrl,exerciseLookup:()=>({renderer:{sourceFilePath:'Library/one.pg'}})}).loadExercise(input),hasCode('HTTP_ERROR'));
+});
+for(const [status,code] of [[502,'NETWORK_ERROR'],[503,'NETWORK_ERROR'],[504,'TIMEOUT']])test('treats renderer gateway '+status+' as transient '+code,async t=>{
+ const baseUrl=await serve(t,(_req,res)=>{res.writeHead(status);res.end('PRIVATE outage details');});
+ await assert.rejects(createRendererClient({baseUrl,exerciseLookup:()=>({renderer:{sourceFilePath:'Library/one.pg'}})}).restoreSession({...input,sessionToken:'private'}),hasCode(code));
 });

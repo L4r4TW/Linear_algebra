@@ -81,6 +81,13 @@ function validateExerciseInput(input, exerciseLookup) {
   return exercise;
 }
 
+// Verified against the pinned Render controller and Crypt::JWT. Never expose the private error body.
+function tokenFailure(data){
+ if(!isRecord(data)||data.status!==500||typeof data.message!=='string'||data.message.length>2000)return;
+ const message=data.message.replace(/^\[[^\]\r\n]{1,128}\]\s*/, '');
+ if(/^JWT: exp claim check failed \(\d+(?:\.\d+)?\/\d+(?:\.\d+)? vs\. \d+\)$/.test(message))return 'TOKEN_EXPIRED';
+ if(['JWS: invalid signature','JWT: invalid token format','JWT: iss claim scalar check failed'].includes(message))return 'TOKEN_REJECTED';
+}
 /** Node-only client. Configuration and persisted session tokens are trusted server data. */
 export function createRendererClient({ baseUrl = env.RENDERER_URL, timeoutMs = 30_000, exerciseLookup = getExerciseById } = {}) {
   let endpoint;
@@ -117,9 +124,15 @@ export function createRendererClient({ baseUrl = env.RENDERER_URL, timeoutMs = 3
         redirect: 'error',
       });
       if (!response.ok) {
-        throw new RendererClientError('HTTP_ERROR', 'Renderer returned an unsuccessful HTTP status.', {
-          status: response.status,
-        });
+        if(response.status===500&&new URLSearchParams(fields).has('sessionJWT')){
+          const body=await response.text();let data;
+          if(body.length<=32000){try{data=JSON.parse(body);}catch{}}
+          const code=tokenFailure(data);
+          if(code)throw new RendererClientError(code,'The stored renderer session is no longer accepted.');
+        }
+        if([502,503].includes(response.status))throw new RendererClientError('NETWORK_ERROR','Renderer is temporarily unavailable.',{status:response.status});
+        if(response.status===504)throw new RendererClientError('TIMEOUT','Renderer gateway timed out.',{status:response.status});
+        throw new RendererClientError('HTTP_ERROR', 'Renderer returned an unsuccessful HTTP status.', {status:response.status});
       }
       const text = await response.text();
       let data;

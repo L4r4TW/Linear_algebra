@@ -1,0 +1,37 @@
+{
+    "schemaVersion":  1,
+    "observedAt":  "2026-11-15T11:12:51.5657745Z",
+    "rendererRevision":  "1134ffbbf5e656148e579f424f70bcd9f1d15936",
+    "scope":  "Synthetic expired, invalid-signature and malformed session-token requests made inside the local renderer. Keys and token values remain inside the renderer container and are never printed; existing application sessions are not changed.",
+    "sourceEvidence":  [
+                           "lib/RenderApp/Controller/Render.pm:37-52,268-299",
+                           "lib/WeBWorK/RenderProblem.pm:295-345",
+                           "/usr/local/share/perl/5.30.0/Crypt/JWT.pm:344,883,984"
+                       ],
+    "results":  [
+                    {
+                        "jsonStatus":  500,
+                        "expiryRecognized":  true,
+                        "formatRecognized":  false,
+                        "case":  "expired",
+                        "signatureRecognized":  false,
+                        "httpStatus":  500
+                    },
+                    {
+                        "jsonStatus":  500,
+                        "expiryRecognized":  false,
+                        "formatRecognized":  false,
+                        "case":  "invalid-signature",
+                        "signatureRecognized":  true,
+                        "httpStatus":  500
+                    },
+                    {
+                        "jsonStatus":  500,
+                        "expiryRecognized":  false,
+                        "formatRecognized":  true,
+                        "case":  "malformed",
+                        "signatureRecognized":  false,
+                        "httpStatus":  500
+                    }
+                ]
+}

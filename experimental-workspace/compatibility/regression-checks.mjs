@@ -98,11 +98,12 @@ export async function retryAudit({page,injectFailure,recordFor,id,gradeCount,bac
  };
  const pattern='**/api/sessions/*/answers';await page.route(pattern,handler);
  try{
-  await page.locator('#check-answer').focus();await page.keyboard.press('Enter');await page.locator('#submission-error').waitFor({state:'visible'});await ready(page);
+  await page.locator('#check-answer').focus();await page.keyboard.press('Enter');await page.locator('#submission-error').waitFor({state:'visible'});check(await page.locator('#check-answer').isDisabled(),'UNCERTAIN_GRADE_REQUIRES_RECONCILIATION');
  }finally{await page.unroute(pattern,handler);}
  check(accepted,'LOST_RESPONSE_NOT_ACCEPTED');
  check(JSON.stringify((await collect(page)).entries)===JSON.stringify(answers.entries),'LOST_RESPONSE_INPUTS');
  const saved=await recordFor(id);check(saved.submissionCount===retried.submissionCount+1,'LOST_RESPONSE_SAVED_ONCE');
- await restored(page,id,answers,saved.lastSubmission);
+ await page.locator('#submission-error').getByRole('button',{name:'Reload saved session',exact:true}).click();await ready(page);
+ await restored(page,id,answers,saved.lastSubmission,{reload:false});
  return {passed:true,failedGradeUnchanged:true,inputsPreserved:true,noAutomaticRetry:true,explicitRetrySavedOnce:true,lostResponseRecoveredWithoutRegrading:true};
 }

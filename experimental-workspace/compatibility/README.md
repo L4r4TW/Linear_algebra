@@ -66,3 +66,7 @@ Visible reviewed records: [REGRESSION_STATUS.md](REGRESSION_STATUS.md), [report.
 ## Focused continuity audit
 
 [../CONTINUITY_FEEDBACK_AUDIT.md](../CONTINUITY_FEEDBACK_AUDIT.md) contains the working/missing-feature checklist and commands for [continuity-audit.mjs](continuity-audit.mjs). [continuity-audit.json](continuity-audit.json) records a fresh default-catalog run for all six enabled exercises. It now requires unfinished drafts to survive refresh before/after checks and load failures, alongside restoration/retry/feedback behavior. [continuity-audit-before-drafts.json](continuity-audit-before-drafts.json) retains the original draft-loss baseline. Read [../DRAFT_PERSISTENCE.md](../DRAFT_PERSISTENCE.md) for scope and precedence; authored hints remain future work. The audit uses its own normal sessions, no instructor answer oracle, and injected HTTP failures without stopping services.
+
+## Session recovery evidence
+
+[../SESSION_RECOVERY.md](../SESSION_RECOVERY.md) documents the verified upstream token error contract and reproduction commands for [probe-token-errors.pl](probe-token-errors.pl). [token-error-observations.json](token-error-observations.json) contains sanitized actual-renderer statuses/recognition booleans. No test token or signing key is exported from the renderer container. The seeded retry helper now uses the explicit Reload saved session action after accepted-but-lost grading and verifies that another check is blocked first.

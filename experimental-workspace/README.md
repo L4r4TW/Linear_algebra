@@ -4,11 +4,13 @@ Session handoff and next steps: [PROJECT_CONTEXT.md](../PROJECT_CONTEXT.md). Rep
 
 ## Current catalog scope
 
-Six exercises are enabled in the first local verified batch; five more candidates remain indexed and disabled. See [catalog compatibility rules](CATALOG_COMPATIBILITY.md), [eligibility record](compatibility/CATALOG_STATUS.md), and [server catalog](workspace/server/exercise-catalog.json). Source/runtime evidence and explicit batch membership govern availability. Current validation: 108 server tests, 37 browser checks, 14 publisher/report tests and the live six-entry API check pass. The full operator regression retains two failed mobile GraphTool cases. Earlier one-exercise counts below describe historical verification stages.
+Six exercises are enabled in the first local verified batch; five more candidates remain indexed and disabled. See [catalog compatibility rules](CATALOG_COMPATIBILITY.md), [eligibility record](compatibility/CATALOG_STATUS.md), and [server catalog](workspace/server/exercise-catalog.json). Source/runtime evidence and explicit batch membership govern availability. Current validation: 136 server tests, 47 browser checks, 14 publisher/report tests and the live six-entry API check pass. The full operator regression retains two failed mobile GraphTool cases. Earlier one-exercise counts below describe historical verification stages.
 
 To verify the enabled batch after rebuilding, run `docker compose exec -T workspace node server/check-catalog.mjs` from this directory. It checks listing, start, blank grading, restoration, ownership and rejection of disabled IDs. For the future full-library importer, start with [CATALOG_COMPATIBILITY.md](CATALOG_COMPATIBILITY.md); indexed exercises remain disabled until verified and included in an active batch.
 
 The [continuity and feedback audit](CONTINUITY_FEEDBACK_AUDIT.md) records the current six-exercise baseline: checked work and PG feedback restore. Unchecked edits now also survive refresh through [session-bound tab drafts](DRAFT_PERSISTENCE.md). Its original missing-draft baseline is historical; specific recovery actions, authored hints and protected navigation remain future work. Reproduce the focused browser audit with the commands in that document; it records known gaps rather than implementing fixes.
+
+See [SESSION_RECOVERY.md](SESSION_RECOVERY.md) for explicit unavailable-session recovery: same-session retries for outages, preserved records/drafts for terminal failures, privacy-safe missing/ownership messages, and GET-only reconciliation before retrying an uncertain grade. Saved-result reload keeps the live answers until restoration succeeds, including when tab storage is unavailable.
 
 ## Historical integration milestones
 

@@ -1,6 +1,6 @@
 # Unfinished answers and refresh
 
-Unfinished native answers now survive refresh in the same browser tab and original exercise session. They are stored separately from server-saved graded submissions. This is the implementation of continuity subtask 2; recovery-specific UX and authored hints remain separate work.
+Unfinished native answers now survive refresh in the same browser tab and original exercise session. They are stored separately from server-saved graded submissions. This is the implementation of continuity subtask 2. [Explicit recovery](SESSION_RECOVERY.md) now implements subtask 3; authored hints remain separate work.
 
 ## Student behavior
 
@@ -54,4 +54,6 @@ The focused browser checks cover all six enabled exercises on a narrow viewport,
 The focused continuity audit now **requires** unfinished edits to survive refresh before and after checking, including a transient load failure. Historical missing-draft assertions and observations are retained separately. Full seeded desktop/touch compatibility must be regenerated for the changed runtime before publishing catalog evidence; do not edit fingerprints by hand.
 
 Run the usual browser suite and the focused audit commands in [CONTINUITY_FEEDBACK_AUDIT.md](CONTINUITY_FEEDBACK_AUDIT.md). The private `compatibility/draft-preview.mjs` tool may be used in a temporary QA container to exercise a changed runtime before approval: it injects the six reviewed source entries into an operator-only app with temporary sessions and no host port. It is not a student route, production configuration or an alternative to the eligibility gate. Stop that temporary container when verification is complete.
-Final validation: 108 server tests, 37 browser checks, 14 publisher/report tests, the default six-entry API check and revised six-exercise continuity audit passed. The renewed 44-case seeded run has 42 passes and two mobile GraphTool grading failures; those failures remain explicit and GraphTool stays disabled. No real renderer-outage or physical assistive-technology review was rerun for this change.
+Draft-milestone validation before explicit recovery: 108 server tests, 37 browser checks, 14 publisher/report tests, the default six-entry API check and revised six-exercise continuity audit passed. The renewed 44-case seeded run has 42 passes and two mobile GraphTool grading failures; those failures remain explicit and GraphTool stays disabled. No real renderer-outage or physical assistive-technology review was rerun for this change.
+
+Saved-session recovery now keeps the live frame while GET is pending or failing, then carries the latest bounded in-memory draft into the successful response. This preserves edits even with blocked tab storage. See SESSION_RECOVERY.md for terminal failures, ownership masking and the GET-only recovery action.

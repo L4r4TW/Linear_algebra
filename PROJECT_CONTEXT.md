@@ -15,13 +15,25 @@ This handoff accompanies the capability-gated catalog activation changes on `mai
 
 1. Inspect `git log -1` and `git status --short`, then read [CATALOG_COMPATIBILITY.md](experimental-workspace/CATALOG_COMPATIBILITY.md) and [CATALOG_STATUS.md](experimental-workspace/compatibility/CATALOG_STATUS.md).
 2. Start Docker Desktop's Linux engine. From `experimental-workspace/`, run `docker compose up --build -d --wait --wait-timeout 240`. Open http://localhost:3100; six exercises should be available.
-3. Run `docker compose exec -T workspace npm test` and `docker compose exec -T workspace node server/check-catalog.mjs` for the ordinary catalog checks. The latest completed validation is 108 server tests, 37 browser checks and 14 publisher/report tests, plus live catalog and renderer/API smoke checks.
+3. Run `docker compose exec -T workspace npm test` and `docker compose exec -T workspace node server/check-catalog.mjs` for the ordinary catalog checks. The latest completed validation is 136 server tests, 47 browser checks and 14 publisher/report tests, plus live catalog and renderer/API smoke checks.
 4. Full `verify-compatibility.ps1` remains a deliberately failing gate: 42/44 cases pass; both mobile GraphTool cases fail. Keep those failures and the five disabled candidates visible. Do not treat a nonzero full gate as permission to weaken required checks.
 5. Finish runtime/profile edits before regenerating evidence. Fingerprints include source bytes and line endings, so a checkout that changes those bytes requires reverification. Use the documented publisher to produce reviewed metadata/evidence; do not manually rewrite evidence fingerprints to restore eligibility.
 
 The whole OPL remains in its Docker Linux volume. This change does not import the whole library, migrate catalog data into Supabase, or expose the renderer publicly. Continue with the blockers and importer steps below; preserve existing sessions and attribution.
 
-## Current work: unfinished answer drafts
+## Current work: explicit saved-session recovery
+
+Continuity subtask 3 is implemented locally. Read [SESSION_RECOVERY.md](experimental-workspace/SESSION_RECOVERY.md) for the API/status/action table and actual pinned-renderer token behavior. Transient failures offer explicit same-session loading retries. Confirmed expired/rejected tokens and withdrawn exercises preserve the saved record/draft and offer the catalog. Missing and unowned sessions deliberately share identical public 404 responses; ownership is distinguished internally without exposing another browser's session existence.
+
+Browser errors now retain safe API codes. Terminal grading errors leave the live frame editable but block another check. Lost/unconfirmed grading responses require Reload saved session (GET only) before checking again. That recovery keeps the current frame while loading is pending or failing, then carries the latest bounded in-memory draft after a successful same-session/owner response, including when tab storage is blocked. No automatic regrading, token replacement, session deletion, seed regeneration or GET-to-new-session fallback is added. Initial-start retry explains that it creates a new session when no session ID was received.
+
+The renderer reports token failures as HTTP 500; a real local probe confirmed distinct expired, bad-signature and malformed-token messages. Only reviewed structured error patterns are classified. Default session-token generation does not set an explicit expiry claim; this change does not add a time limit. Signing keys and test tokens stay inside the renderer container; [token-error-observations.json](experimental-workspace/compatibility/token-error-observations.json) records sanitized booleans/statuses only.
+
+Recovery validation: 136 server tests, 47 browser checks and 14 publisher/report tests pass, plus the live six-entry API check and current continuity audit. Full seeded compatibility was renewed: 42/44 cases pass; both mobile GraphTool positive-grading failures remain blocked. The same six active exercises have current matching runtime evidence. The focused real renderer outage/restart check passed: 503 for owned renderer-dependent requests while offline, 404 for unauthorized access, and exact question/submission restoration after normal restart. The renderer is healthy; no volumes were removed.
+
+Next: refine grading outcomes and feedback/suppression presentation, then add only authored/available hints and deliberate move-on controls. General grading idempotency, account/cookie recovery, attempt history and cross-device draft sync remain future work. Runtime changes require renewed full compatibility evidence; preserve all unsupported-capability failures. This handoff accompanies the explicit-session-recovery commit after `236fdae`; inspect Git history and working-tree status for subsequent changes.
+
+## Previous milestone: unfinished answer drafts
 
 Continuity subtask 2 is implemented locally. Read [DRAFT_PERSISTENCE.md](experimental-workspace/DRAFT_PERSISTENCE.md) for the per-tab storage contract and precedence rules. All six enabled native exercises preserve unfinished edits across refresh, including whitespace/vector strings, radio selections, repeated-name checkbox pairs and clearing. Drafts are isolated by original session/exercise and only applied after a successful owned-session response with matching fields.
 

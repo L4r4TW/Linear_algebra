@@ -79,3 +79,7 @@ The latest fingerprinted run attempted all 44 cases: 42 passed and both touch-mo
 ## Draft-enabled runtime verification
 
 After native tab drafts were implemented, all 44 seeded cases were rerun against the new runtime fingerprint. Forty-two pass; both mobile GraphTool positive-grading cases fail. The full gate remains nonzero, the six active entries have renewed matching evidence, and the same five limited/unsupported candidates remain disabled. Current checks pass 108 server tests, 37 browser checks, 14 publisher/report tests and the revised six-entry continuity audit. Read [DRAFT_PERSISTENCE.md](DRAFT_PERSISTENCE.md) for tab scope and precedence. Earlier seed-4321 keyboard failure details above describe the prior run.
+
+## Recovery-enabled runtime verification
+
+The complete 44-case matrix was rerun after explicit saved-session recovery. Forty-two cases pass; both mobile GraphTool positive-grading cases fail and remain disabled. The seeded lost-response path now requires the Reload saved session GET action before another check and confirms the stored submission without regrading. The six active entries have renewed matching runtime evidence. Current checks pass 136 server tests, 47 browser checks, 14 publisher/report tests and the six-entry continuity audit. See [SESSION_RECOVERY.md](SESSION_RECOVERY.md) for verified token errors, ownership privacy and recovery behavior.

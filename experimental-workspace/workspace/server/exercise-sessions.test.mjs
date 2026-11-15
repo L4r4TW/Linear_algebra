@@ -102,7 +102,7 @@ test('corrupt or inconsistent records fail closed', async (t) => {
     await assert.rejects(f.service.resumeSession(started.session.id), hasCode('STORAGE_ERROR'));
   }
   await writeFile(file, JSON.stringify({ ...original, exerciseId: 'removed-exercise' }));
-  await assert.rejects(f.service.resumeSession(started.session.id), hasCode('UNKNOWN_EXERCISE'));
+  await assert.rejects(f.service.resumeSession(started.session.id), hasCode('EXERCISE_WITHDRAWN'));
   assert.equal(f.calls.restore.length, 0);
 });
 
@@ -138,7 +138,7 @@ test('persists browser ownership across service instances and denies missing or 
   const started = await f.service.startSession({ exerciseId: 'dot-product-01', ownerToken });
   const fresh = createExerciseSessions({ directory: f.directory, rendererClient: f.rendererClient });
   for (const options of [{}, { ownerToken: 'B'.repeat(43) }, { ownerToken: 'invalid' }]) {
-    await assert.rejects(fresh.resumeSession(started.session.id, options), hasCode('SESSION_NOT_FOUND'));
+    await assert.rejects(fresh.resumeSession(started.session.id, options), hasCode('SESSION_FORBIDDEN'));
   }
   assert.deepEqual((await fresh.resumeSession(started.session.id, { ownerToken })).session, started.session);
   await assert.rejects(f.service.startSession({ exerciseId: 'dot-product-01', ownerToken: 'bad' }), hasCode('INVALID_INPUT'));
@@ -189,10 +189,10 @@ test('grades only trusted fields and atomically advances the stored renderer tok
 test('denies unauthorized grading before restoring or submitting to PG', async (t) => {
   const f = await gradingFixture(t);
   for (const options of [{}, { ownerToken: 'B'.repeat(43) }]) {
-    await assert.rejects(f.service.submitAnswers(f.started.session.id, [], options), hasCode('SESSION_NOT_FOUND'));
+    await assert.rejects(f.service.submitAnswers(f.started.session.id, [], options), hasCode('SESSION_FORBIDDEN'));
   }
   const legacy = await f.service.startSession({ exerciseId: 'dot-product-01' });
-  await assert.rejects(f.service.submitAnswers(legacy.session.id, [], { ownerToken: f.ownerToken }), hasCode('SESSION_NOT_FOUND'));
+  await assert.rejects(f.service.submitAnswers(legacy.session.id, [], { ownerToken: f.ownerToken }), hasCode('SESSION_FORBIDDEN'));
   assert.equal(f.calls.restore.length, 0);
   assert.equal(f.calls.grade.length, 0);
 });
@@ -359,8 +359,8 @@ test('withdrawn exercises block start, restore and grading without changing save
  const path=join(f.directory,started.session.id+'.json'),before=await readFile(path,'utf8');
  const withdrawn=createExerciseSessions({directory:f.directory,exerciseLookup:()=>undefined,rendererClient:f.rendererClient});
  await assert.rejects(withdrawn.startSession({exerciseId:'dot-product-01',ownerToken}),hasCode('UNKNOWN_EXERCISE'));
- await assert.rejects(withdrawn.resumeSession(started.session.id,{ownerToken}),hasCode('UNKNOWN_EXERCISE'));
- await assert.rejects(withdrawn.submitAnswers(started.session.id,[],{ownerToken}),hasCode('UNKNOWN_EXERCISE'));
+ await assert.rejects(withdrawn.resumeSession(started.session.id,{ownerToken}),hasCode('EXERCISE_WITHDRAWN'));
+ await assert.rejects(withdrawn.submitAnswers(started.session.id,[],{ownerToken}),hasCode('EXERCISE_WITHDRAWN'));
  assert.equal(await readFile(path,'utf8'),before);
  assert.equal(f.calls.load.length,1);assert.equal(f.calls.restore.length,0);
 });
