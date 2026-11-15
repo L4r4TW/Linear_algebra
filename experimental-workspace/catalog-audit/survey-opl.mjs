@@ -1,0 +1,35 @@
+// Read-only lexical audit of a pinned OPL checkout. Does not execute PG or inspect student sessions.
+import {readdir,readFile,writeFile,realpath} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {join,relative,sep} from 'node:path';
+import {execFileSync} from 'node:child_process';
+import assert from 'node:assert/strict';
+const root=await realpath(process.argv[2]??'/opl/webwork-open-problem-library');
+const output=process.argv[3];
+const revision=execFileSync('git',['-c','safe.directory='+root,'-C',root,'rev-parse','HEAD'],{encoding:'utf8'}).trim();
+const fields=['DBsubject','DBchapter','DBsection','Author','Institution','Level','KEYWORDS','Language','Title','TitleText1','AuthorText1','MLT','MO'];
+const canonical=new Map(fields.map(k=>[k.toLowerCase(),k]));
+const empty=value=>!value||/^(?:unknown|unspecified|none|n\/a|tbd|\?+|\[\s*\])$/i.test(value);
+const clean=value=>{let v=value.trim();if((v.startsWith("'")&&v.endsWith("'"))||(v.startsWith('"')&&v.endsWith('"')))v=v.slice(1,-1).trim();return v;};
+function taxonomy(text){let subject=null,chapter=null;const triples=new Set(),subjects=new Set();let malformed=0;for(const line of text.split(/\r?\n/)){if(!line.trim()||line.trim().startsWith('#'))continue;const depth=(line.match(/^\t*/)[0]).length,label=line.trim();if(depth===0){subject=label;chapter=null;subjects.add(label);}else if(depth===1&&subject)chapter=label;else if(depth===2&&subject&&chapter)triples.add(JSON.stringify([subject,chapter,label]));else malformed++;}return {triples,subjects,malformed};}
+const taxonomyReports={},taxonomies={};
+for(const name of ['Taxonomy','Taxonomy2']){const path='OpenProblemLibrary/'+name,bytes=await readFile(join(root,path)),parsed=taxonomy(bytes.toString('utf8'));taxonomies[name]=parsed;taxonomyReports[name]={path,sha256:createHash('sha256').update(bytes).digest('hex'),subjects:[...parsed.subjects].sort(),sectionTriples:parsed.triples.size,unparsedNonemptyLines:parsed.malformed};}
+function group(){return {pgFiles:0,fields:Object.fromEntries(fields.map(f=>[f,{present:0,nonempty:0,emptyOrPlaceholder:0,repeated:0}])),completeClassification:0,partialClassification:0,noClassification:0,descriptionBlocks:0,taxonomyExactMatches:{Taxonomy:0,Taxonomy2:0},levelValues:Object.create(null),subjectValues:Object.create(null)};}
+const groups={},hashes=new Map(),examples=[];let files=0,symlinksSkipped=0,unexpectedTagSyntax=0;
+async function walk(dir){for(const ent of (await readdir(dir,{withFileTypes:true})).sort((a,b)=>a.name.localeCompare(b.name,'en'))){if(ent.name==='.git')continue;const path=join(dir,ent.name);if(ent.isSymbolicLink()){symlinksSkipped++;continue;}if(ent.isDirectory()){await walk(path);continue;}if(!ent.isFile())continue;files++;if(!/\.pg$/i.test(ent.name))continue;
+const rel=relative(root,path).split(sep).join('/'),area=rel.split('/')[0],g=groups[area]??(groups[area]=group()),bytes=await readFile(path),text=bytes.toString('utf8'),tags={};g.pgFiles++;
+const hash=createHash('sha256').update(bytes).digest('hex');hashes.set(hash,(hashes.get(hash)??0)+1);
+for(const line of text.split(/\r?\n/)){const match=line.match(/^\s*#+\s*([A-Za-z][A-Za-z0-9]*)\s*\((.*)\)\s*(?:#.*)?$/);if(match&&canonical.has(match[1].toLowerCase())){const key=canonical.get(match[1].toLowerCase());(tags[key]??=[]).push(clean(match[2]));}else if(/^\s*#+\s*(?:DBsubject|DBchapter|DBsection)\b/i.test(line))unexpectedTagSyntax++;}
+for(const f of fields){const vals=tags[f];if(!vals)continue;g.fields[f].present++;if(vals.some(v=>!empty(v)))g.fields[f].nonempty++;else g.fields[f].emptyOrPlaceholder++;if(vals.length>1)g.fields[f].repeated++;}
+const triple=['DBsubject','DBchapter','DBsection'].map(f=>tags[f]?.find(v=>!empty(v))??null),n=triple.filter(Boolean).length;
+if(n===3){g.completeClassification++;for(const [name,t]of Object.entries(taxonomies))if(t.triples.has(JSON.stringify(triple)))g.taxonomyExactMatches[name]++;}else if(n)g.partialClassification++;else g.noClassification++;
+if(/^\s*#+\s*DESCRIPTION\b/im.test(text)&&/^\s*#+\s*ENDDESCRIPTION\b/im.test(text))g.descriptionBlocks++;
+for(const [field,key]of [['Level','levelValues'],['DBsubject','subjectValues']])for(const value of new Set(tags[field]??[]))if(!empty(value))g[key][value]=(g[key][value]??0)+1;
+if(examples.length<12&&area==='OpenProblemLibrary'&&n===3&&!examples.some(e=>e.classification[0]===triple[0]))examples.push({path:rel,classification:triple,author:tags.Author??[],institution:tags.Institution??[],level:tags.Level??[],textbookTitle:tags.TitleText1??[]});
+}}
+await walk(root);
+for(const g of Object.values(groups)){assert.equal(g.pgFiles,g.completeClassification+g.partialClassification+g.noClassification);for(const f of Object.values(g.fields)){assert.equal(f.present,f.nonempty+f.emptyOrPlaceholder);assert.ok(f.present<=g.pgFiles);}}
+for(const g of Object.values(groups))for(const key of ['levelValues','subjectValues'])g[key]=Object.entries(g[key]).sort(([a],[b])=>a.localeCompare(b,'en')).map(([value,files])=>({value,files}));
+const duplicateGroups=[...hashes.values()].filter(n=>n>1);
+const report={schemaVersion:1,observedAt:new Date().toISOString(),sourceRevision:revision,method:'Filesystem lexical scan of regular .pg files; no symlink following, PG execution, database/network calls, or student data. Counts describe file occurrences, not unique runnable exercises. Metadata tags are case-insensitive, line-local comment declarations; quoted empty/placeholder values are not populated metadata. No semantic Perl parsing.',regularFilesExcludingGit:files,symlinksSkipped,pgFiles:Object.values(groups).reduce((n,g)=>n+g.pgFiles,0),distinctPgByteHashes:hashes.size,duplicateByteHashGroups:duplicateGroups.length,duplicatePgOccurrencesBeyondFirst:duplicateGroups.reduce((n,k)=>n+k-1,0),unparsedClassificationTagLines:unexpectedTagSyntax,taxonomies:taxonomyReports,groups,classificationExamples:examples,limitations:['Working-tree scan; HEAD identifies the checkout but does not prove every file matches that revision.','Exact taxonomy matching is literal after trimming and outer-quote removal; no alias/case normalization or validity judgement.','Repeated tags, multiline or nonstandard metadata need importer diagnostics; Level is an authored value, not a calibrated difficulty.','Textbook title/author fields are bibliographic references, not exercise titles or problem authors.','Identical bytes do not establish shared stable identity or licensing; nonidentical variants may still be mathematical duplicates.','No license clearance, dependency resolution, capability inference, renderability or compatibility is established.']};
+if(!output)throw Error('Usage: node survey-opl.mjs ROOT OUTPUT.json');await writeFile(output,JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({pgFiles:report.pgFiles,groups:Object.fromEntries(Object.entries(groups).map(([k,g])=>[k,{pgFiles:g.pgFiles,completeClassification:g.completeClassification,partialClassification:g.partialClassification,noClassification:g.noClassification}])),output}));

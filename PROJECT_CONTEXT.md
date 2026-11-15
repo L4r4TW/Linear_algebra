@@ -29,6 +29,14 @@ The new verify-continuity.ps1 runs the server/catalog/browser suite and real des
 
 Next release checks: actual NVDA/VoiceOver listening and physical mobile devices. Before account/public scale, decide draft conflict recovery, cross-device persistence, durable attempt history, request idempotency and distributed locking. Keep the future whole-library importer behind capability verification; this milestone enables no additional exercises. Run git status/log to confirm commit and push state.
 
+## Current work: full-library model audit (5.1)
+
+Task 5.1 is complete in [CATALOG_MODEL_AUDIT.md](experimental-workspace/CATALOG_MODEL_AUDIT.md): current catalog/evidence, actual session-record shapes, checked-in Supabase schema/policies and installed OPL metadata are mapped to proposed platform entities. The [read-only survey](experimental-workspace/catalog-audit/survey-opl.mjs) and [observations](experimental-workspace/catalog-audit/opl-metadata-observations.json) distinguish 40,541 OpenProblemLibrary PG files from 77,134 across all three source areas. Counts are file occurrences at the pinned checkout, not unique runnable exercises or approval for activation.
+
+Reuse source identities, attribution, eligibility rules, ordered answers and atomic session/submission semantics. Preserve legacy Supabase course content and client-graded attempts separately. The audit records incomplete metadata, source/curated topic differences, absent immutable session source references, missing attempt history and checked-in RLS/grading-authority gaps. No live Supabase state was queried and no schema, runtime, session or catalog activation was changed. Existing test results remain prior evidence; this audit does not rerun or renew compatibility approval. Audit artifacts/docs are local work until separately committed; inspect Git status/history.
+
+Next implementation is task 5.2: decide stable exercise identity, source versions, aliases, rename/duplicate/withdrawal rules using the audit. Then proceed through taxonomy (5.3), display metadata (5.4), compatibility/activation (5.5), private student relationships (5.6), constraints/queries (5.7) and additive migrations/validation (5.8). Do not start a whole-library import or account migration as an implicit extension of this audit.
+
 ## Next work and decisions
 
 The eight feedback/continuity subtasks are complete for the verified local scope. Manual accessibility/device acceptance and production architecture are still outstanding. Do not reopen completed hints or navigation work just because an older milestone below calls it next.

@@ -12,6 +12,8 @@ Students can browse topics, solve exercises, and save progress. Admin users can 
 
 ## Continue development here
 
+The [full-library model audit (5.1)](experimental-workspace/CATALOG_MODEL_AUDIT.md) maps existing catalog, session, compatibility and Supabase data to the proposed platform model. It includes measured OPL metadata coverage, reusable contracts and migration gaps. Next: exercise identity and source-version design (5.2), before database migrations or bulk ingestion.
+
 Latest implementation: [`3eefcbb`](https://github.com/L4r4TW/Linear_algebra/commit/3eefcbb), pushed to `main`. The feedback/continuity milestone is complete within the six-exercise local scope. Next work includes manual screen-reader/physical-device acceptance, account/persistence decisions and a multi-subject metadata importer with disabled-by-default verification batches. The full OPL is already stored in a Docker Linux volume; it is not yet a student-accessible catalog.
 
 [Continuity acceptance](experimental-workspace/CONTINUITY_VERIFICATION.md) now verifies refresh, lost responses, draft failures, navigation, same-owner tabs and real renderer shutdown/recovery on desktop/mobile. It records current evidence, reproduction commands and remaining manual accessibility checks.

@@ -1,0 +1,1567 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-15T19:52:01.813Z",
+  "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+  "method": "Filesystem lexical scan of regular .pg files; no symlink following, PG execution, database/network calls, or student data. Counts describe file occurrences, not unique runnable exercises. Metadata tags are case-insensitive, line-local comment declarations; quoted empty/placeholder values are not populated metadata. No semantic Perl parsing.",
+  "regularFilesExcludingGit": 88022,
+  "symlinksSkipped": 3,
+  "pgFiles": 77134,
+  "distinctPgByteHashes": 64398,
+  "duplicateByteHashGroups": 11006,
+  "duplicatePgOccurrencesBeyondFirst": 12736,
+  "unparsedClassificationTagLines": 87,
+  "taxonomies": {
+    "Taxonomy": {
+      "path": "OpenProblemLibrary/Taxonomy",
+      "sha256": "472d17ef0a991c5b2e074cc0c830a14a5e80f7ff8e96f0f2ca46ff556e775ad8",
+      "subjects": [
+        "Abstract algebra",
+        "Algebra",
+        "Arithmetic",
+        "Calculus - multivariable",
+        "Calculus - single variable",
+        "Combinatorics",
+        "Complex analysis",
+        "Computer science",
+        "Cryptography",
+        "Differential equations",
+        "Dynamics",
+        "Electric circuits",
+        "Financial mathematics",
+        "Fluid mechanics",
+        "Geometry",
+        "Graph theory",
+        "Linear algebra",
+        "Material and energy balances",
+        "Mechanics of materials",
+        "Number theory",
+        "Operations research",
+        "Probability",
+        "Real analysis",
+        "Set theory and logic",
+        "Statics",
+        "Statistics",
+        "Thermodynamics",
+        "Trigonometry",
+        "Vibrations",
+        "WeBWorK"
+      ],
+      "sectionTriples": 1347,
+      "unparsedNonemptyLines": 0
+    },
+    "Taxonomy2": {
+      "path": "OpenProblemLibrary/Taxonomy2",
+      "sha256": "999026ff9c882a4389ebbd83e8cf6e90027e839a3cb2fc3c8bb617e5dd737f91",
+      "subjects": [
+        "Abstract algebra",
+        "Algebra",
+        "Arithmetic",
+        "Calculus - multivariable",
+        "Calculus - single variable",
+        "Combinatorics",
+        "Complex analysis",
+        "Computer science",
+        "Cryptography",
+        "Differential equations",
+        "Dynamics",
+        "Electric circuits",
+        "Financial mathematics",
+        "Fluid mechanics",
+        "Geometry",
+        "Graph theory",
+        "Linear algebra",
+        "Material and energy balances",
+        "Mechanics of materials",
+        "Number theory",
+        "Operations research",
+        "Precalculus <<<",
+        "Probability",
+        "Real analysis",
+        "Set theory and logic",
+        "Statics",
+        "Statistics",
+        "Thermodynamics",
+        "Trigonometry",
+        "Vibrations",
+        "WeBWorK"
+      ],
+      "sectionTriples": 1506,
+      "unparsedNonemptyLines": 0
+    }
+  },
+  "groups": {
+    "Contrib": {
+      "pgFiles": 29624,
+      "fields": {
+        "DBsubject": {
+          "present": 28077,
+          "nonempty": 27321,
+          "emptyOrPlaceholder": 756,
+          "repeated": 73
+        },
+        "DBchapter": {
+          "present": 27001,
+          "nonempty": 23687,
+          "emptyOrPlaceholder": 3314,
+          "repeated": 72
+        },
+        "DBsection": {
+          "present": 26618,
+          "nonempty": 22785,
+          "emptyOrPlaceholder": 3833,
+          "repeated": 85
+        },
+        "Author": {
+          "present": 25147,
+          "nonempty": 24258,
+          "emptyOrPlaceholder": 889,
+          "repeated": 27
+        },
+        "Institution": {
+          "present": 27378,
+          "nonempty": 27109,
+          "emptyOrPlaceholder": 269,
+          "repeated": 21
+        },
+        "Level": {
+          "present": 6292,
+          "nonempty": 4904,
+          "emptyOrPlaceholder": 1388,
+          "repeated": 74
+        },
+        "KEYWORDS": {
+          "present": 25663,
+          "nonempty": 23049,
+          "emptyOrPlaceholder": 2614,
+          "repeated": 37
+        },
+        "Language": {
+          "present": 1078,
+          "nonempty": 1078,
+          "emptyOrPlaceholder": 0,
+          "repeated": 0
+        },
+        "Title": {
+          "present": 0,
+          "nonempty": 0,
+          "emptyOrPlaceholder": 0,
+          "repeated": 0
+        },
+        "TitleText1": {
+          "present": 14079,
+          "nonempty": 9754,
+          "emptyOrPlaceholder": 4325,
+          "repeated": 11
+        },
+        "AuthorText1": {
+          "present": 14030,
+          "nonempty": 9518,
+          "emptyOrPlaceholder": 4512,
+          "repeated": 10
+        },
+        "MLT": {
+          "present": 373,
+          "nonempty": 371,
+          "emptyOrPlaceholder": 2,
+          "repeated": 0
+        },
+        "MO": {
+          "present": 5619,
+          "nonempty": 5619,
+          "emptyOrPlaceholder": 0,
+          "repeated": 0
+        }
+      },
+      "completeClassification": 22717,
+      "partialClassification": 4620,
+      "noClassification": 2287,
+      "descriptionBlocks": 20923,
+      "taxonomyExactMatches": {
+        "Taxonomy": 8493,
+        "Taxonomy2": 8493
+      },
+      "levelValues": [
+        {
+          "value": "1",
+          "files": 619
+        },
+        {
+          "value": "2",
+          "files": 2164
+        },
+        {
+          "value": "3",
+          "files": 1153
+        },
+        {
+          "value": "4",
+          "files": 515
+        },
+        {
+          "value": "5",
+          "files": 311
+        },
+        {
+          "value": "6",
+          "files": 80
+        },
+        {
+          "value": "Beginner",
+          "files": 6
+        },
+        {
+          "value": "Intermediate",
+          "files": 93
+        }
+      ],
+      "subjectValues": [
+        {
+          "value": "'Arithmetic'",
+          "files": 1
+        },
+        {
+          "value": "'Combinatorics'",
+          "files": 3
+        },
+        {
+          "value": "'Probability'",
+          "files": 31
+        },
+        {
+          "value": "'Probability'",
+          "files": 13
+        },
+        {
+          "value": "'Statistics'",
+          "files": 43
+        },
+        {
+          "value": "'Statistics'",
+          "files": 51
+        },
+        {
+          "value": "'Statistics'",
+          "files": 7
+        },
+        {
+          "value": "‘Statistics’",
+          "files": 5
+        },
+        {
+          "value": "ÃÂ'StatisticsÃÂ'",
+          "files": 1
+        },
+        {
+          "value": "Abstract algebra",
+          "files": 2
+        },
+        {
+          "value": "algeba",
+          "files": 1
+        },
+        {
+          "value": "algebra",
+          "files": 6
+        },
+        {
+          "value": "Algebra",
+          "files": 8460
+        },
+        {
+          "value": "Algebra Openstax",
+          "files": 19
+        },
+        {
+          "value": "Arithmetic",
+          "files": 45
+        },
+        {
+          "value": "Atomic Physics",
+          "files": 50
+        },
+        {
+          "value": "Calculus",
+          "files": 2045
+        },
+        {
+          "value": "Calculus - multivariable",
+          "files": 319
+        },
+        {
+          "value": "Calculus - single variable",
+          "files": 2709
+        },
+        {
+          "value": "Calculus 1",
+          "files": 1
+        },
+        {
+          "value": "College Algebra and Trigonometry, Openstax",
+          "files": 10
+        },
+        {
+          "value": "Combinatorial game theory",
+          "files": 25
+        },
+        {
+          "value": "Combinatorial Game Theory",
+          "files": 5
+        },
+        {
+          "value": "Combinatorics",
+          "files": 139
+        },
+        {
+          "value": "Complex analysis",
+          "files": 24
+        },
+        {
+          "value": "Complex Analysis",
+          "files": 8
+        },
+        {
+          "value": "Course",
+          "files": 38
+        },
+        {
+          "value": "Cryptography",
+          "files": 18
+        },
+        {
+          "value": "Demos",
+          "files": 1
+        },
+        {
+          "value": "Differential equations",
+          "files": 223
+        },
+        {
+          "value": "Differential Equations",
+          "files": 4
+        },
+        {
+          "value": "Discrete Math",
+          "files": 125
+        },
+        {
+          "value": "Discrete Mathematics",
+          "files": 59
+        },
+        {
+          "value": "Divisibility",
+          "files": 22
+        },
+        {
+          "value": "Dynamics",
+          "files": 588
+        },
+        {
+          "value": "Electric circuits",
+          "files": 5
+        },
+        {
+          "value": "Electrical Engineering",
+          "files": 143
+        },
+        {
+          "value": "Electrical Engineering and Circuits",
+          "files": 170
+        },
+        {
+          "value": "Electrical Engineering Mathematics",
+          "files": 16
+        },
+        {
+          "value": "Electricity",
+          "files": 569
+        },
+        {
+          "value": "Electricity and Magnetism",
+          "files": 9
+        },
+        {
+          "value": "Electrodynamics",
+          "files": 9
+        },
+        {
+          "value": "Elementary Algebra",
+          "files": 391
+        },
+        {
+          "value": "Elementary School",
+          "files": 104
+        },
+        {
+          "value": "Engineering Biomechanics Dynamics",
+          "files": 34
+        },
+        {
+          "value": "Engineering Biomechanics Statics",
+          "files": 4
+        },
+        {
+          "value": "Engineering Electric Circuit Analysis",
+          "files": 108
+        },
+        {
+          "value": "Engineering Electromagnetics",
+          "files": 67
+        },
+        {
+          "value": "Engineering Signals and Systems",
+          "files": 82
+        },
+        {
+          "value": "Experimental Skills",
+          "files": 11
+        },
+        {
+          "value": "Financial mathematics",
+          "files": 18
+        },
+        {
+          "value": "Financial Mathematics",
+          "files": 133
+        },
+        {
+          "value": "Finite Mathematics",
+          "files": 16
+        },
+        {
+          "value": "Fluid mechanics",
+          "files": 387
+        },
+        {
+          "value": "Fluids",
+          "files": 174
+        },
+        {
+          "value": "Foundations",
+          "files": 10
+        },
+        {
+          "value": "Geometry",
+          "files": 244
+        },
+        {
+          "value": "Graph theory",
+          "files": 31
+        },
+        {
+          "value": "Graph Theory",
+          "files": 4
+        },
+        {
+          "value": "Gravitation",
+          "files": 2
+        },
+        {
+          "value": "Heat Transfer",
+          "files": 38
+        },
+        {
+          "value": "Historical Systems",
+          "files": 18
+        },
+        {
+          "value": "History",
+          "files": 687
+        },
+        {
+          "value": "Integers",
+          "files": 6
+        },
+        {
+          "value": "Intermediate Algebra",
+          "files": 298
+        },
+        {
+          "value": "Intermediate Algebra, Openstax",
+          "files": 6
+        },
+        {
+          "value": "Introduction to Statistics",
+          "files": 68
+        },
+        {
+          "value": "Linear algebra",
+          "files": 754
+        },
+        {
+          "value": "Linear Algebra",
+          "files": 355
+        },
+        {
+          "value": "Lines and Linear Functions",
+          "files": 9
+        },
+        {
+          "value": "Material science",
+          "files": 45
+        },
+        {
+          "value": "Materials Engineering",
+          "files": 152
+        },
+        {
+          "value": "MECH 222",
+          "files": 5
+        },
+        {
+          "value": "Mechanics",
+          "files": 615
+        },
+        {
+          "value": "Mechanics of materials",
+          "files": 88
+        },
+        {
+          "value": "Mechanics of Materials",
+          "files": 34
+        },
+        {
+          "value": "Middle school",
+          "files": 94
+        },
+        {
+          "value": "Middle School",
+          "files": 157
+        },
+        {
+          "value": "Mining Engineering",
+          "files": 5
+        },
+        {
+          "value": "Modern Physics",
+          "files": 252
+        },
+        {
+          "value": "NECAP",
+          "files": 356
+        },
+        {
+          "value": "Nuclear",
+          "files": 143
+        },
+        {
+          "value": "Nuclear Physics",
+          "files": 2
+        },
+        {
+          "value": "Number theory",
+          "files": 17
+        },
+        {
+          "value": "Number Theory",
+          "files": 20
+        },
+        {
+          "value": "Numbers",
+          "files": 13
+        },
+        {
+          "value": "Openstax Algebra",
+          "files": 1
+        },
+        {
+          "value": "Operations research",
+          "files": 1
+        },
+        {
+          "value": "Optics",
+          "files": 349
+        },
+        {
+          "value": "Particle",
+          "files": 183
+        },
+        {
+          "value": "Particle and Quantum Physics",
+          "files": 6
+        },
+        {
+          "value": "Physics",
+          "files": 33
+        },
+        {
+          "value": "Prebasica",
+          "files": 113
+        },
+        {
+          "value": "Precalculus",
+          "files": 103
+        },
+        {
+          "value": "Principles of Electromechanical Energy Conversion",
+          "files": 43
+        },
+        {
+          "value": "Probability",
+          "files": 354
+        },
+        {
+          "value": "Programming Languages",
+          "files": 43
+        },
+        {
+          "value": "Proof",
+          "files": 8
+        },
+        {
+          "value": "Quantum Mechanics",
+          "files": 54
+        },
+        {
+          "value": "Quantum Physics",
+          "files": 79
+        },
+        {
+          "value": "Set theory",
+          "files": 3
+        },
+        {
+          "value": "Set Theory",
+          "files": 18
+        },
+        {
+          "value": "Set theory and logic",
+          "files": 86
+        },
+        {
+          "value": "Shapes",
+          "files": 14
+        },
+        {
+          "value": "Single Variable Calculus",
+          "files": 31
+        },
+        {
+          "value": "Statics",
+          "files": 1340
+        },
+        {
+          "value": "Statics_and_Mechanics_of_Materials",
+          "files": 72
+        },
+        {
+          "value": "Statistics",
+          "files": 967
+        },
+        {
+          "value": "Subject",
+          "files": 5
+        },
+        {
+          "value": "Sustainable Energy Engineering",
+          "files": 45
+        },
+        {
+          "value": "TBA",
+          "files": 16
+        },
+        {
+          "value": "Thermodynamic",
+          "files": 10
+        },
+        {
+          "value": "Thermodynamics",
+          "files": 301
+        },
+        {
+          "value": "Transformations",
+          "files": 8
+        },
+        {
+          "value": "Trigonometry",
+          "files": 828
+        },
+        {
+          "value": "Vibration",
+          "files": 2
+        },
+        {
+          "value": "Vibrations",
+          "files": 30
+        },
+        {
+          "value": "Waves",
+          "files": 2
+        },
+        {
+          "value": "WeBWorK",
+          "files": 77
+        },
+        {
+          "value": "ZZZ-Calculus - single variable",
+          "files": 1
+        },
+        {
+          "value": "ZZZ-Inserted Text",
+          "files": 35
+        },
+        {
+          "value": "ZZZ-Set theory and logic",
+          "files": 4
+        }
+      ]
+    },
+    "OpenProblemLibrary": {
+      "pgFiles": 40541,
+      "fields": {
+        "DBsubject": {
+          "present": 39543,
+          "nonempty": 39234,
+          "emptyOrPlaceholder": 309,
+          "repeated": 12
+        },
+        "DBchapter": {
+          "present": 39542,
+          "nonempty": 39085,
+          "emptyOrPlaceholder": 457,
+          "repeated": 12
+        },
+        "DBsection": {
+          "present": 39466,
+          "nonempty": 38604,
+          "emptyOrPlaceholder": 862,
+          "repeated": 8
+        },
+        "Author": {
+          "present": 19836,
+          "nonempty": 19583,
+          "emptyOrPlaceholder": 253,
+          "repeated": 4
+        },
+        "Institution": {
+          "present": 27092,
+          "nonempty": 26998,
+          "emptyOrPlaceholder": 94,
+          "repeated": 5
+        },
+        "Level": {
+          "present": 25302,
+          "nonempty": 25295,
+          "emptyOrPlaceholder": 7,
+          "repeated": 208
+        },
+        "KEYWORDS": {
+          "present": 27389,
+          "nonempty": 26808,
+          "emptyOrPlaceholder": 581,
+          "repeated": 22
+        },
+        "Language": {
+          "present": 35,
+          "nonempty": 35,
+          "emptyOrPlaceholder": 0,
+          "repeated": 0
+        },
+        "Title": {
+          "present": 0,
+          "nonempty": 0,
+          "emptyOrPlaceholder": 0,
+          "repeated": 0
+        },
+        "TitleText1": {
+          "present": 23173,
+          "nonempty": 19563,
+          "emptyOrPlaceholder": 3610,
+          "repeated": 4
+        },
+        "AuthorText1": {
+          "present": 23168,
+          "nonempty": 19216,
+          "emptyOrPlaceholder": 3952,
+          "repeated": 4
+        },
+        "MLT": {
+          "present": 14226,
+          "nonempty": 14226,
+          "emptyOrPlaceholder": 0,
+          "repeated": 0
+        },
+        "MO": {
+          "present": 11959,
+          "nonempty": 11959,
+          "emptyOrPlaceholder": 0,
+          "repeated": 16
+        }
+      },
+      "completeClassification": 38604,
+      "partialClassification": 634,
+      "noClassification": 1303,
+      "descriptionBlocks": 19673,
+      "taxonomyExactMatches": {
+        "Taxonomy": 28054,
+        "Taxonomy2": 28055
+      },
+      "levelValues": [
+        {
+          "value": "1",
+          "files": 572
+        },
+        {
+          "value": "2",
+          "files": 10784
+        },
+        {
+          "value": "3",
+          "files": 9187
+        },
+        {
+          "value": "4",
+          "files": 2854
+        },
+        {
+          "value": "5",
+          "files": 1884
+        },
+        {
+          "value": "6",
+          "files": 140
+        },
+        {
+          "value": "8",
+          "files": 1
+        }
+      ],
+      "subjectValues": [
+        {
+          "value": "Abstract algebra",
+          "files": 118
+        },
+        {
+          "value": "Algebra",
+          "files": 9225
+        },
+        {
+          "value": "Arithmetic",
+          "files": 543
+        },
+        {
+          "value": "Calculus - multivariable",
+          "files": 1575
+        },
+        {
+          "value": "Calculus - single variable",
+          "files": 8638
+        },
+        {
+          "value": "Combinatorics",
+          "files": 225
+        },
+        {
+          "value": "Complex analysis",
+          "files": 159
+        },
+        {
+          "value": "Computer science",
+          "files": 11
+        },
+        {
+          "value": "Cryptography",
+          "files": 10
+        },
+        {
+          "value": "Differential equations",
+          "files": 1302
+        },
+        {
+          "value": "Dynamics",
+          "files": 85
+        },
+        {
+          "value": "Electric circuits",
+          "files": 99
+        },
+        {
+          "value": "Elementary School",
+          "files": 104
+        },
+        {
+          "value": "Financial mathematics",
+          "files": 688
+        },
+        {
+          "value": "Financial Mathematics",
+          "files": 1
+        },
+        {
+          "value": "Fluid mechanics",
+          "files": 80
+        },
+        {
+          "value": "Geometry",
+          "files": 540
+        },
+        {
+          "value": "Graph theory",
+          "files": 53
+        },
+        {
+          "value": "Intermediate Algebra",
+          "files": 2
+        },
+        {
+          "value": "Introduction to Statistics",
+          "files": 43
+        },
+        {
+          "value": "Linear algebra",
+          "files": 1770
+        },
+        {
+          "value": "Mechanics of materials",
+          "files": 102
+        },
+        {
+          "value": "Middle school",
+          "files": 1
+        },
+        {
+          "value": "Middle School",
+          "files": 155
+        },
+        {
+          "value": "Number theory",
+          "files": 112
+        },
+        {
+          "value": "Numbers",
+          "files": 8
+        },
+        {
+          "value": "Operations research",
+          "files": 100
+        },
+        {
+          "value": "Precalculus",
+          "files": 2
+        },
+        {
+          "value": "Probability",
+          "files": 768
+        },
+        {
+          "value": "Real analysis",
+          "files": 8
+        },
+        {
+          "value": "Set theory and logic",
+          "files": 322
+        },
+        {
+          "value": "Statics",
+          "files": 119
+        },
+        {
+          "value": "Statistics",
+          "files": 1068
+        },
+        {
+          "value": "Thermodynamics",
+          "files": 125
+        },
+        {
+          "value": "Trigonometry",
+          "files": 992
+        },
+        {
+          "value": "Vibrations",
+          "files": 41
+        },
+        {
+          "value": "WeBWorK",
+          "files": 2473
+        },
+        {
+          "value": "ZZZ-Inserted Text",
+          "files": 7571
+        }
+      ]
+    },
+    "Pending": {
+      "pgFiles": 6969,
+      "fields": {
+        "DBsubject": {
+          "present": 6391,
+          "nonempty": 6052,
+          "emptyOrPlaceholder": 339,
+          "repeated": 1
+        },
+        "DBchapter": {
+          "present": 6103,
+          "nonempty": 5384,
+          "emptyOrPlaceholder": 719,
+          "repeated": 1
+        },
+        "DBsection": {
+          "present": 6071,
+          "nonempty": 5309,
+          "emptyOrPlaceholder": 762,
+          "repeated": 2
+        },
+        "Author": {
+          "present": 6230,
+          "nonempty": 5971,
+          "emptyOrPlaceholder": 259,
+          "repeated": 1
+        },
+        "Institution": {
+          "present": 6328,
+          "nonempty": 6283,
+          "emptyOrPlaceholder": 45,
+          "repeated": 2
+        },
+        "Level": {
+          "present": 1505,
+          "nonempty": 700,
+          "emptyOrPlaceholder": 805,
+          "repeated": 1
+        },
+        "KEYWORDS": {
+          "present": 6098,
+          "nonempty": 4997,
+          "emptyOrPlaceholder": 1101,
+          "repeated": 84
+        },
+        "Language": {
+          "present": 355,
+          "nonempty": 355,
+          "emptyOrPlaceholder": 0,
+          "repeated": 0
+        },
+        "Title": {
+          "present": 0,
+          "nonempty": 0,
+          "emptyOrPlaceholder": 0,
+          "repeated": 0
+        },
+        "TitleText1": {
+          "present": 2671,
+          "nonempty": 2253,
+          "emptyOrPlaceholder": 418,
+          "repeated": 0
+        },
+        "AuthorText1": {
+          "present": 2644,
+          "nonempty": 2219,
+          "emptyOrPlaceholder": 425,
+          "repeated": 0
+        },
+        "MLT": {
+          "present": 55,
+          "nonempty": 55,
+          "emptyOrPlaceholder": 0,
+          "repeated": 0
+        },
+        "MO": {
+          "present": 2183,
+          "nonempty": 2183,
+          "emptyOrPlaceholder": 0,
+          "repeated": 0
+        }
+      },
+      "completeClassification": 5305,
+      "partialClassification": 749,
+      "noClassification": 915,
+      "descriptionBlocks": 5546,
+      "taxonomyExactMatches": {
+        "Taxonomy": 1711,
+        "Taxonomy2": 1711
+      },
+      "levelValues": [
+        {
+          "value": "1",
+          "files": 51
+        },
+        {
+          "value": "2",
+          "files": 482
+        },
+        {
+          "value": "3",
+          "files": 66
+        },
+        {
+          "value": "4",
+          "files": 57
+        },
+        {
+          "value": "5",
+          "files": 44
+        }
+      ],
+      "subjectValues": [
+        {
+          "value": "Abstract algebra",
+          "files": 1
+        },
+        {
+          "value": "Algebra",
+          "files": 1790
+        },
+        {
+          "value": "Algebra Openstax",
+          "files": 2
+        },
+        {
+          "value": "Arithmetic",
+          "files": 4
+        },
+        {
+          "value": "Atomic Physics",
+          "files": 50
+        },
+        {
+          "value": "Calculus",
+          "files": 8
+        },
+        {
+          "value": "Calculus - multivariable",
+          "files": 47
+        },
+        {
+          "value": "Calculus - single variable",
+          "files": 110
+        },
+        {
+          "value": "College Algebra and Trigonometry, Openstax",
+          "files": 3
+        },
+        {
+          "value": "Combinatorial game theory",
+          "files": 25
+        },
+        {
+          "value": "Combinatorial Game Theory",
+          "files": 5
+        },
+        {
+          "value": "Combinatorics",
+          "files": 7
+        },
+        {
+          "value": "Complex analysis",
+          "files": 19
+        },
+        {
+          "value": "Complex Analysis",
+          "files": 8
+        },
+        {
+          "value": "Cryptography",
+          "files": 18
+        },
+        {
+          "value": "Differential equations",
+          "files": 77
+        },
+        {
+          "value": "Dynamics",
+          "files": 121
+        },
+        {
+          "value": "Electric circuits",
+          "files": 225
+        },
+        {
+          "value": "Electrical engineering",
+          "files": 59
+        },
+        {
+          "value": "Electrical Engineering",
+          "files": 143
+        },
+        {
+          "value": "Electrical Engineering Mathematics",
+          "files": 16
+        },
+        {
+          "value": "Electricity",
+          "files": 569
+        },
+        {
+          "value": "Electricity and Magnetism",
+          "files": 9
+        },
+        {
+          "value": "Experimental Skills",
+          "files": 11
+        },
+        {
+          "value": "Fluid mechanics",
+          "files": 309
+        },
+        {
+          "value": "Fluids",
+          "files": 89
+        },
+        {
+          "value": "Geometry",
+          "files": 41
+        },
+        {
+          "value": "Graph theory",
+          "files": 9
+        },
+        {
+          "value": "Heat Transfer",
+          "files": 38
+        },
+        {
+          "value": "Intermediate Algebra",
+          "files": 2
+        },
+        {
+          "value": "Linear algebra",
+          "files": 146
+        },
+        {
+          "value": "Linear Algebra",
+          "files": 1
+        },
+        {
+          "value": "Material science",
+          "files": 45
+        },
+        {
+          "value": "Materials Engineering",
+          "files": 43
+        },
+        {
+          "value": "Mechanica",
+          "files": 1
+        },
+        {
+          "value": "Mechanics",
+          "files": 573
+        },
+        {
+          "value": "Mechanics of materials",
+          "files": 19
+        },
+        {
+          "value": "Middle School",
+          "files": 2
+        },
+        {
+          "value": "Mining Engineering",
+          "files": 5
+        },
+        {
+          "value": "Modern Physics",
+          "files": 252
+        },
+        {
+          "value": "Nuclear",
+          "files": 143
+        },
+        {
+          "value": "Number theory",
+          "files": 4
+        },
+        {
+          "value": "Number Theory",
+          "files": 20
+        },
+        {
+          "value": "Operations research",
+          "files": 1
+        },
+        {
+          "value": "Optics",
+          "files": 197
+        },
+        {
+          "value": "Particle",
+          "files": 79
+        },
+        {
+          "value": "Physics",
+          "files": 33
+        },
+        {
+          "value": "Precalculus",
+          "files": 46
+        },
+        {
+          "value": "Probability",
+          "files": 31
+        },
+        {
+          "value": "Quantum Mechanics",
+          "files": 54
+        },
+        {
+          "value": "Quantum Physics",
+          "files": 79
+        },
+        {
+          "value": "Set theory and logic",
+          "files": 1
+        },
+        {
+          "value": "Statics",
+          "files": 61
+        },
+        {
+          "value": "Statistics",
+          "files": 37
+        },
+        {
+          "value": "Themrodynamics",
+          "files": 1
+        },
+        {
+          "value": "Thermodyanamics",
+          "files": 1
+        },
+        {
+          "value": "Thermodynamics",
+          "files": 213
+        },
+        {
+          "value": "Trigonometry",
+          "files": 122
+        },
+        {
+          "value": "Vibration",
+          "files": 1
+        },
+        {
+          "value": "Vibrations",
+          "files": 3
+        },
+        {
+          "value": "ZZZ-Calculus - single variable",
+          "files": 1
+        },
+        {
+          "value": "ZZZ-Inserted Text",
+          "files": 2
+        },
+        {
+          "value": "ZZZ-Set theory and logic",
+          "files": 20
+        }
+      ]
+    }
+  },
+  "classificationExamples": [
+    {
+      "path": "OpenProblemLibrary/270/setDerivatives1/c1s5p8.pg",
+      "classification": [
+        "ZZZ-Inserted Text",
+        "ZZZ-Inserted Text",
+        "ZZZ-Inserted Text"
+      ],
+      "author": [],
+      "institution": [],
+      "level": [],
+      "textbookTitle": []
+    },
+    {
+      "path": "OpenProblemLibrary/270/setDerivatives1/c1s6p1.pg",
+      "classification": [
+        "Calculus - single variable",
+        "Differentiation",
+        "Definition of the derivative"
+      ],
+      "author": [],
+      "institution": [],
+      "level": [
+        "3"
+      ],
+      "textbookTitle": []
+    },
+    {
+      "path": "OpenProblemLibrary/270/setzKim/p6.pg",
+      "classification": [
+        "Statistics",
+        "Exploratory data analysis/descriptive statistics",
+        "Summary statistics"
+      ],
+      "author": [],
+      "institution": [
+        "ASU"
+      ],
+      "level": [
+        "2"
+      ],
+      "textbookTitle": []
+    },
+    {
+      "path": "OpenProblemLibrary/272/setStewart12_1/problem_1.pg",
+      "classification": [
+        "Geometry",
+        "Vector geometry",
+        "Coordinate systems"
+      ],
+      "author": [
+        "Stewart"
+      ],
+      "institution": [],
+      "level": [
+        "3"
+      ],
+      "textbookTitle": []
+    },
+    {
+      "path": "OpenProblemLibrary/272/setStewart12_5/problem_2.pg",
+      "classification": [
+        "Calculus - multivariable",
+        "Calculus of vector valued functions",
+        "Parameterized curves"
+      ],
+      "author": [
+        "Stewart"
+      ],
+      "institution": [],
+      "level": [
+        "3"
+      ],
+      "textbookTitle": []
+    },
+    {
+      "path": "OpenProblemLibrary/274/Exact/prob1.pg",
+      "classification": [
+        "Differential equations",
+        "First order differential equations",
+        "Exact"
+      ],
+      "author": [],
+      "institution": [
+        "ASU"
+      ],
+      "level": [
+        "3"
+      ],
+      "textbookTitle": []
+    },
+    {
+      "path": "OpenProblemLibrary/AlfredUniv/anton8e/chapter1/1.2/prob1.pg",
+      "classification": [
+        "Algebra",
+        "Linear equations and functions",
+        "Linear functions"
+      ],
+      "author": [
+        "Darwyn Cook"
+      ],
+      "institution": [
+        "Alfred University"
+      ],
+      "level": [
+        "3"
+      ],
+      "textbookTitle": [
+        "Calculus: with early transcendentals"
+      ]
+    },
+    {
+      "path": "OpenProblemLibrary/AlfredUniv/anton8e/chapter1/1.5/prob7.pg",
+      "classification": [
+        "Trigonometry",
+        "Trigonometric functions",
+        "Inverse trigonometric functions - definitions, graphs, & properties"
+      ],
+      "author": [
+        "Addison Frey"
+      ],
+      "institution": [
+        "Alfred University"
+      ],
+      "level": [
+        "3"
+      ],
+      "textbookTitle": [
+        "Calculus: with Early Transcendentals"
+      ]
+    },
+    {
+      "path": "OpenProblemLibrary/AlfredUniv/diffeq/Fourier/findorthogonal.pg",
+      "classification": [
+        "Linear algebra",
+        "Inner products",
+        "Computing with inner products"
+      ],
+      "author": [
+        "Darwyn Cook"
+      ],
+      "institution": [
+        "Alfred University"
+      ],
+      "level": [
+        "3"
+      ],
+      "textbookTitle": [
+        "Differential Equations"
+      ]
+    },
+    {
+      "path": "OpenProblemLibrary/AlfredUniv/samples/addafunctiontoparser.pg",
+      "classification": [
+        "WeBWorK",
+        "Demos",
+        "Answers"
+      ],
+      "author": [
+        "Darwyn Cook"
+      ],
+      "institution": [
+        "Alfred University"
+      ],
+      "level": [
+        "1"
+      ],
+      "textbookTitle": [
+        "AUCI"
+      ]
+    },
+    {
+      "path": "OpenProblemLibrary/ASU-topics/crypto/dec_aff.pg",
+      "classification": [
+        "Cryptography",
+        "Classic ciphers",
+        "Affine cipher"
+      ],
+      "author": [],
+      "institution": [
+        "ASU"
+      ],
+      "level": [
+        "3"
+      ],
+      "textbookTitle": [
+        "Discrete Mathematics"
+      ]
+    },
+    {
+      "path": "OpenProblemLibrary/ASU-topics/set119LPGraphical/p2.pg",
+      "classification": [
+        "Operations research",
+        "Linear programming",
+        "Constrained optimization - planar"
+      ],
+      "author": [
+        "Shafiu Jibrin"
+      ],
+      "institution": [
+        "NAU"
+      ],
+      "level": [
+        "2"
+      ],
+      "textbookTitle": []
+    }
+  ],
+  "limitations": [
+    "Working-tree scan; HEAD identifies the checkout but does not prove every file matches that revision.",
+    "Exact taxonomy matching is literal after trimming and outer-quote removal; no alias/case normalization or validity judgement.",
+    "Repeated tags, multiline or nonstandard metadata need importer diagnostics; Level is an authored value, not a calibrated difficulty.",
+    "Textbook title/author fields are bibliographic references, not exercise titles or problem authors.",
+    "Identical bytes do not establish shared stable identity or licensing; nonidentical variants may still be mathematical duplicates.",
+    "No license clearance, dependency resolution, capability inference, renderability or compatibility is established."
+  ]
+}

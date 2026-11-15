@@ -62,6 +62,10 @@ For original app changes, use root `npm run lint`, `npm run smoke:admin`, and `n
 
 Update PROJECT_CONTEXT.md when implementation status, verification, or next steps change. Keep README entry points and nested workspace guidance consistent. Record what is implemented versus exposed in the UI, and what is committed/pushed versus only present locally. Never include private session files, cookie values, credentials, renderer tokens, or instructor answer maps in documentation or Git.
 
+## Catalog model design
+
+Before whole-library schema/import work, read [CATALOG_MODEL_AUDIT.md](experimental-workspace/CATALOG_MODEL_AUDIT.md) and its observed metadata counts. Task 5.1 is discovery only; the next design step is identity/source versions (5.2). Preserve legacy authored courses and client-graded attempts; never relabel them PG-verified. Checked-in SQL is not evidence of deployed Supabase policy/grants. Audit reports must contain source metadata/aggregate record shapes only, never private session values. Finalize subsequent model decisions before additive migrations.
+
 ## Catalog handoff
 
 The current local batch enables six of eleven indexed entries. Follow [CATALOG_COMPATIBILITY.md](experimental-workspace/CATALOG_COMPATIBILITY.md) for eligibility and publication, and retain [CATALOG_STATUS.md](experimental-workspace/compatibility/CATALOG_STATUS.md) as the visible decision record. Run the live catalog check after rebuilding. The full 44-case operator gate currently fails for two mobile GraphTool cases; keep these failures explicit. Runtime/profile/source changes invalidate approval and require new evidence before reactivation. Never replace fingerprint values manually or delete session records to regain eligibility.

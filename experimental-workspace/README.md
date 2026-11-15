@@ -16,6 +16,10 @@ The [feedback model](FEEDBACK_MODEL.md) now documents field and overall state pr
 
 Current [continuity acceptance](CONTINUITY_VERIFICATION.md) covers refresh, lost responses, draft-save failures, history, real same-owner tabs and actual renderer shutdown/recovery on desktop and 360 px touch emulation. From the repository root run: `powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace/verify-continuity.ps1`. This briefly stops only the experimental renderer and restores it without removing volumes. Screen-reader listening and physical-device review remain manual release checks.
 
+## Full-library model design
+
+[CATALOG_MODEL_AUDIT.md](CATALOG_MODEL_AUDIT.md) completes task 5.1 with a field-level reuse/migration mapping and [source metadata observations](catalog-audit/opl-metadata-observations.json). The installed checkout contains 40,541 regular PG files under OpenProblemLibrary, plus 29,624 in Contrib and 6,969 in Pending. These are source occurrences, not verified playable counts. Missing classification, authorship, friendly titles and calibrated difficulty need explicit treatment. No database or runtime change was made. Next task is stable identity/source-version design (5.2); preserve the existing six-entry activation batch.
+
 ## Documentation and next work
 
 | Need | Start here |
