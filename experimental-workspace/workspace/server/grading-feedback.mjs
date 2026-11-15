@@ -12,7 +12,7 @@ export function projectFieldFeedback(token, entries, toText, { individualResults
   const payload = JSON.parse(Buffer.from(segments[1], 'base64url').toString('utf8'));
   if (!isRecord(payload) || !isRecord(payload.score) || !isRecord(payload.score.answers)) throw new Error('Invalid grading data.');
   return [...new Set(entries.map(([name]) => name))].map((name) => {
-    const base = { name, status: 'ungraded', score: null, message: '' };
+    const base = { name, status: 'ungraded', score: null, message: '', reason:individualResults?'unavailable':'suppressed' };
     if (!individualResults || !Object.hasOwn(payload.score.answers, name)) return base;
     const answer = payload.score.answers[name];
     if (!isRecord(answer)) throw new Error('Invalid answer feedback.');
@@ -43,6 +43,11 @@ export function hasValidFieldFeedback(fields, fieldNames) {
     if (!isRecord(field) || !names.has(field.name) || seen.has(field.name) ||
         !statuses.has(field.status) || typeof field.message !== 'string' ||
         (field.score !== null && (typeof field.score !== 'number' || !Number.isFinite(field.score) || field.score < 0 || field.score > 1))) return false;
+    if(field.status==='ungraded'&&field.score!==null||field.status!=='ungraded'&&field.score===null)return false;
+    if(field.status==='correct'&&field.score!==1||field.status==='incorrect'&&field.score!==0||field.status==='partial'&&!(field.score>0&&field.score<1))return false;
+    if(['invalid','unanswered'].includes(field.status)&&field.score===1)return false;
+    if(field.reason!==undefined&&(!['suppressed','unavailable'].includes(field.reason)||field.status!=='ungraded'))return false;
+    if(field.reason==='suppressed'&&field.message!=='')return false;
     seen.add(field.name);
     return true;
   });

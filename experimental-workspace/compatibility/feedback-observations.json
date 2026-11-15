@@ -1,0 +1,641 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-15T11:54:50.801Z",
+  "runtimeFingerprint": "2a77968754beae8530a591a91a6d77e6862fbc0728ebdc326b1c11cae4d2ca4a",
+  "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+  "rendererRevision": "1134ffbbf5e656148e579f424f70bcd9f1d15936",
+  "seeds": [
+    1234,
+    4321
+  ],
+  "scope": "Operator-only temporary owned-session browser app using real student-mode PG responses. Instructor calibration and raw claims stay in memory. No student catalog expansion.",
+  "cases": [
+    {
+      "id": "dot-product-01",
+      "verificationSeed": 1234,
+      "scenario": "unanswered",
+      "sourceVerified": true,
+      "pgIndividualFeedbackVisible": true,
+      "publicScore": 0,
+      "fieldStates": [
+        {
+          "name": "AnSwEr0001",
+          "status": "unanswered",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0002",
+          "status": "unanswered",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0003",
+          "status": "unanswered",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0004",
+          "status": "unanswered",
+          "score": 0
+        }
+      ],
+      "outcome": "unanswered",
+      "fieldBindingVerified": true,
+      "feedbackAndAnswersRestored": true,
+      "noGradeOnRefresh": true,
+      "suppressedDetailsRedacted": false,
+      "passed": true
+    },
+    {
+      "id": "dot-product-01",
+      "verificationSeed": 1234,
+      "scenario": "invalid",
+      "sourceVerified": true,
+      "pgIndividualFeedbackVisible": true,
+      "publicScore": 0,
+      "fieldStates": [
+        {
+          "name": "AnSwEr0001",
+          "status": "invalid",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0002",
+          "status": "unanswered",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0003",
+          "status": "unanswered",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0004",
+          "status": "unanswered",
+          "score": 0
+        }
+      ],
+      "outcome": "invalid",
+      "fieldBindingVerified": true,
+      "feedbackAndAnswersRestored": true,
+      "noGradeOnRefresh": true,
+      "suppressedDetailsRedacted": false,
+      "passed": true
+    },
+    {
+      "id": "dot-product-01",
+      "verificationSeed": 1234,
+      "scenario": "incorrect",
+      "sourceVerified": true,
+      "pgIndividualFeedbackVisible": true,
+      "publicScore": 0,
+      "fieldStates": [
+        {
+          "name": "AnSwEr0001",
+          "status": "incorrect",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0002",
+          "status": "incorrect",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0003",
+          "status": "incorrect",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0004",
+          "status": "incorrect",
+          "score": 0
+        }
+      ],
+      "outcome": "incorrect",
+      "fieldBindingVerified": true,
+      "feedbackAndAnswersRestored": true,
+      "noGradeOnRefresh": true,
+      "suppressedDetailsRedacted": false,
+      "passed": true
+    },
+    {
+      "id": "dot-product-01",
+      "verificationSeed": 1234,
+      "scenario": "overall-partial",
+      "sourceVerified": true,
+      "pgIndividualFeedbackVisible": true,
+      "publicScore": 0.25,
+      "fieldStates": [
+        {
+          "name": "AnSwEr0001",
+          "status": "correct",
+          "score": 1
+        },
+        {
+          "name": "AnSwEr0002",
+          "status": "unanswered",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0003",
+          "status": "unanswered",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0004",
+          "status": "unanswered",
+          "score": 0
+        }
+      ],
+      "outcome": "partial",
+      "fieldBindingVerified": true,
+      "feedbackAndAnswersRestored": true,
+      "noGradeOnRefresh": true,
+      "suppressedDetailsRedacted": false,
+      "passed": true
+    },
+    {
+      "id": "dot-product-01",
+      "verificationSeed": 1234,
+      "scenario": "mixed-invalid-and-correct",
+      "sourceVerified": true,
+      "pgIndividualFeedbackVisible": true,
+      "publicScore": 0.25,
+      "fieldStates": [
+        {
+          "name": "AnSwEr0001",
+          "status": "invalid",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0002",
+          "status": "correct",
+          "score": 1
+        },
+        {
+          "name": "AnSwEr0003",
+          "status": "unanswered",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0004",
+          "status": "unanswered",
+          "score": 0
+        }
+      ],
+      "outcome": "invalid",
+      "fieldBindingVerified": true,
+      "feedbackAndAnswersRestored": true,
+      "noGradeOnRefresh": true,
+      "suppressedDetailsRedacted": false,
+      "passed": true
+    },
+    {
+      "id": "dot-product-01",
+      "verificationSeed": 1234,
+      "scenario": "correct",
+      "sourceVerified": true,
+      "pgIndividualFeedbackVisible": true,
+      "publicScore": 1,
+      "fieldStates": [
+        {
+          "name": "AnSwEr0001",
+          "status": "correct",
+          "score": 1
+        },
+        {
+          "name": "AnSwEr0002",
+          "status": "correct",
+          "score": 1
+        },
+        {
+          "name": "AnSwEr0003",
+          "status": "correct",
+          "score": 1
+        },
+        {
+          "name": "AnSwEr0004",
+          "status": "correct",
+          "score": 1
+        }
+      ],
+      "outcome": "correct",
+      "fieldBindingVerified": true,
+      "feedbackAndAnswersRestored": true,
+      "noGradeOnRefresh": true,
+      "suppressedDetailsRedacted": false,
+      "passed": true
+    },
+    {
+      "id": "dot-product-01",
+      "verificationSeed": 4321,
+      "scenario": "unanswered",
+      "sourceVerified": true,
+      "pgIndividualFeedbackVisible": true,
+      "publicScore": 0,
+      "fieldStates": [
+        {
+          "name": "AnSwEr0001",
+          "status": "unanswered",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0002",
+          "status": "unanswered",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0003",
+          "status": "unanswered",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0004",
+          "status": "unanswered",
+          "score": 0
+        }
+      ],
+      "outcome": "unanswered",
+      "fieldBindingVerified": true,
+      "feedbackAndAnswersRestored": true,
+      "noGradeOnRefresh": true,
+      "suppressedDetailsRedacted": false,
+      "passed": true
+    },
+    {
+      "id": "dot-product-01",
+      "verificationSeed": 4321,
+      "scenario": "invalid",
+      "sourceVerified": true,
+      "pgIndividualFeedbackVisible": true,
+      "publicScore": 0,
+      "fieldStates": [
+        {
+          "name": "AnSwEr0001",
+          "status": "invalid",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0002",
+          "status": "unanswered",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0003",
+          "status": "unanswered",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0004",
+          "status": "unanswered",
+          "score": 0
+        }
+      ],
+      "outcome": "invalid",
+      "fieldBindingVerified": true,
+      "feedbackAndAnswersRestored": true,
+      "noGradeOnRefresh": true,
+      "suppressedDetailsRedacted": false,
+      "passed": true
+    },
+    {
+      "id": "dot-product-01",
+      "verificationSeed": 4321,
+      "scenario": "incorrect",
+      "sourceVerified": true,
+      "pgIndividualFeedbackVisible": true,
+      "publicScore": 0,
+      "fieldStates": [
+        {
+          "name": "AnSwEr0001",
+          "status": "incorrect",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0002",
+          "status": "incorrect",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0003",
+          "status": "incorrect",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0004",
+          "status": "incorrect",
+          "score": 0
+        }
+      ],
+      "outcome": "incorrect",
+      "fieldBindingVerified": true,
+      "feedbackAndAnswersRestored": true,
+      "noGradeOnRefresh": true,
+      "suppressedDetailsRedacted": false,
+      "passed": true
+    },
+    {
+      "id": "dot-product-01",
+      "verificationSeed": 4321,
+      "scenario": "overall-partial",
+      "sourceVerified": true,
+      "pgIndividualFeedbackVisible": true,
+      "publicScore": 0.25,
+      "fieldStates": [
+        {
+          "name": "AnSwEr0001",
+          "status": "correct",
+          "score": 1
+        },
+        {
+          "name": "AnSwEr0002",
+          "status": "unanswered",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0003",
+          "status": "unanswered",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0004",
+          "status": "unanswered",
+          "score": 0
+        }
+      ],
+      "outcome": "partial",
+      "fieldBindingVerified": true,
+      "feedbackAndAnswersRestored": true,
+      "noGradeOnRefresh": true,
+      "suppressedDetailsRedacted": false,
+      "passed": true
+    },
+    {
+      "id": "dot-product-01",
+      "verificationSeed": 4321,
+      "scenario": "mixed-invalid-and-correct",
+      "sourceVerified": true,
+      "pgIndividualFeedbackVisible": true,
+      "publicScore": 0.25,
+      "fieldStates": [
+        {
+          "name": "AnSwEr0001",
+          "status": "invalid",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0002",
+          "status": "correct",
+          "score": 1
+        },
+        {
+          "name": "AnSwEr0003",
+          "status": "unanswered",
+          "score": 0
+        },
+        {
+          "name": "AnSwEr0004",
+          "status": "unanswered",
+          "score": 0
+        }
+      ],
+      "outcome": "invalid",
+      "fieldBindingVerified": true,
+      "feedbackAndAnswersRestored": true,
+      "noGradeOnRefresh": true,
+      "suppressedDetailsRedacted": false,
+      "passed": true
+    },
+    {
+      "id": "dot-product-01",
+      "verificationSeed": 4321,
+      "scenario": "correct",
+      "sourceVerified": true,
+      "pgIndividualFeedbackVisible": true,
+      "publicScore": 1,
+      "fieldStates": [
+        {
+          "name": "AnSwEr0001",
+          "status": "correct",
+          "score": 1
+        },
+        {
+          "name": "AnSwEr0002",
+          "status": "correct",
+          "score": 1
+        },
+        {
+          "name": "AnSwEr0003",
+          "status": "correct",
+          "score": 1
+        },
+        {
+          "name": "AnSwEr0004",
+          "status": "correct",
+          "score": 1
+        }
+      ],
+      "outcome": "correct",
+      "fieldBindingVerified": true,
+      "feedbackAndAnswersRestored": true,
+      "noGradeOnRefresh": true,
+      "suppressedDetailsRedacted": false,
+      "passed": true
+    },
+    {
+      "id": "feedback-suppressed-01",
+      "verificationSeed": 1234,
+      "scenario": "suppressed-unanswered",
+      "sourceVerified": true,
+      "pgIndividualFeedbackVisible": false,
+      "publicScore": null,
+      "fieldStates": [
+        {
+          "name": "AnSwEr0001",
+          "status": "ungraded",
+          "score": null,
+          "reason": "suppressed"
+        }
+      ],
+      "outcome": "ungraded",
+      "fieldBindingVerified": true,
+      "feedbackAndAnswersRestored": true,
+      "noGradeOnRefresh": true,
+      "suppressedDetailsRedacted": true,
+      "passed": true
+    },
+    {
+      "id": "feedback-suppressed-01",
+      "verificationSeed": 1234,
+      "scenario": "suppressed-incorrect",
+      "sourceVerified": true,
+      "pgIndividualFeedbackVisible": false,
+      "publicScore": null,
+      "fieldStates": [
+        {
+          "name": "AnSwEr0001",
+          "status": "ungraded",
+          "score": null,
+          "reason": "suppressed"
+        }
+      ],
+      "outcome": "ungraded",
+      "fieldBindingVerified": true,
+      "feedbackAndAnswersRestored": true,
+      "noGradeOnRefresh": true,
+      "suppressedDetailsRedacted": true,
+      "passed": true
+    },
+    {
+      "id": "feedback-suppressed-01",
+      "verificationSeed": 1234,
+      "scenario": "suppressed-correct",
+      "sourceVerified": true,
+      "pgIndividualFeedbackVisible": false,
+      "publicScore": null,
+      "fieldStates": [
+        {
+          "name": "AnSwEr0001",
+          "status": "ungraded",
+          "score": null,
+          "reason": "suppressed"
+        }
+      ],
+      "outcome": "ungraded",
+      "fieldBindingVerified": true,
+      "feedbackAndAnswersRestored": true,
+      "noGradeOnRefresh": true,
+      "suppressedDetailsRedacted": true,
+      "passed": true
+    },
+    {
+      "id": "feedback-suppressed-01",
+      "verificationSeed": 4321,
+      "scenario": "suppressed-unanswered",
+      "sourceVerified": true,
+      "pgIndividualFeedbackVisible": false,
+      "publicScore": null,
+      "fieldStates": [
+        {
+          "name": "AnSwEr0001",
+          "status": "ungraded",
+          "score": null,
+          "reason": "suppressed"
+        }
+      ],
+      "outcome": "ungraded",
+      "fieldBindingVerified": true,
+      "feedbackAndAnswersRestored": true,
+      "noGradeOnRefresh": true,
+      "suppressedDetailsRedacted": true,
+      "passed": true
+    },
+    {
+      "id": "feedback-suppressed-01",
+      "verificationSeed": 4321,
+      "scenario": "suppressed-incorrect",
+      "sourceVerified": true,
+      "pgIndividualFeedbackVisible": false,
+      "publicScore": null,
+      "fieldStates": [
+        {
+          "name": "AnSwEr0001",
+          "status": "ungraded",
+          "score": null,
+          "reason": "suppressed"
+        }
+      ],
+      "outcome": "ungraded",
+      "fieldBindingVerified": true,
+      "feedbackAndAnswersRestored": true,
+      "noGradeOnRefresh": true,
+      "suppressedDetailsRedacted": true,
+      "passed": true
+    },
+    {
+      "id": "feedback-suppressed-01",
+      "verificationSeed": 4321,
+      "scenario": "suppressed-correct",
+      "sourceVerified": true,
+      "pgIndividualFeedbackVisible": false,
+      "publicScore": null,
+      "fieldStates": [
+        {
+          "name": "AnSwEr0001",
+          "status": "ungraded",
+          "score": null,
+          "reason": "suppressed"
+        }
+      ],
+      "outcome": "ungraded",
+      "fieldBindingVerified": true,
+      "feedbackAndAnswersRestored": true,
+      "noGradeOnRefresh": true,
+      "suppressedDetailsRedacted": true,
+      "passed": true
+    },
+    {
+      "id": "compat-algebra-graphtool-01",
+      "verificationSeed": 1234,
+      "scenario": "field-partial",
+      "sourceVerified": true,
+      "pgIndividualFeedbackVisible": true,
+      "publicScore": 0.111111111111111,
+      "fieldStates": [
+        {
+          "name": "AnSwEr0001",
+          "status": "partial",
+          "score": 0.111111111111111
+        }
+      ],
+      "outcome": "partial",
+      "fieldBindingVerified": true,
+      "feedbackAndAnswersRestored": true,
+      "noGradeOnRefresh": true,
+      "suppressedDetailsRedacted": false,
+      "passed": true
+    },
+    {
+      "id": "compat-algebra-graphtool-01",
+      "verificationSeed": 4321,
+      "scenario": "field-partial",
+      "sourceVerified": true,
+      "pgIndividualFeedbackVisible": true,
+      "publicScore": 0.111111111111111,
+      "fieldStates": [
+        {
+          "name": "AnSwEr0001",
+          "status": "partial",
+          "score": 0.111111111111111
+        }
+      ],
+      "outcome": "partial",
+      "fieldBindingVerified": true,
+      "feedbackAndAnswersRestored": true,
+      "noGradeOnRefresh": true,
+      "suppressedDetailsRedacted": false,
+      "passed": true
+    }
+  ],
+  "staleChecks": [
+    {
+      "id": "dot-product-01",
+      "verificationSeed": 1234,
+      "onlyEditedFieldOutdated": true,
+      "otherFieldsRetained": true,
+      "draftAndStaleStateRestored": true,
+      "revertingClearsOutdatedState": true,
+      "noGradeForEdits": true
+    },
+    {
+      "id": "dot-product-01",
+      "verificationSeed": 4321,
+      "onlyEditedFieldOutdated": true,
+      "otherFieldsRetained": true,
+      "draftAndStaleStateRestored": true,
+      "revertingClearsOutdatedState": true,
+      "noGradeForEdits": true
+    }
+  ],
+  "complete": true
+}

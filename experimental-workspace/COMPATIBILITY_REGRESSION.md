@@ -83,3 +83,7 @@ After native tab drafts were implemented, all 44 seeded cases were rerun against
 ## Recovery-enabled runtime verification
 
 The complete 44-case matrix was rerun after explicit saved-session recovery. Forty-two cases pass; both mobile GraphTool positive-grading cases fail and remain disabled. The seeded lost-response path now requires the Reload saved session GET action before another check and confirms the stored submission without regrading. The six active entries have renewed matching runtime evidence. Current checks pass 136 server tests, 47 browser checks, 14 publisher/report tests and the six-entry continuity audit. See [SESSION_RECOVERY.md](SESSION_RECOVERY.md) for verified token errors, ownership privacy and recovery behavior.
+
+## Feedback-model follow-up
+
+The feedback-enabled runtime has renewed seeded evidence for the same six active entries. The full 44-case gate retains the two known mobile GraphTool failures. Validation passes 153 server tests, 49 browser checks, 14 publisher/report tests and 20 additional real-PG feedback cases at two seeds, with stale/revert verification. The verification script now runs that separate feedback audit before the full matrix; its extra suppression fixture is operator-only. Read [FEEDBACK_MODEL.md](FEEDBACK_MODEL.md) for withheld scores, coherent state/score rules and named-field binding.

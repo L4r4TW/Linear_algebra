@@ -1,0 +1,86 @@
+{
+    "version":  1,
+    "purpose":  "Operator-only grading model verification, not a student activation catalog",
+    "sourceRepository":  "https://github.com/openwebwork/webwork-open-problem-library",
+    "sourceRevision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+    "rendererRevision":  "1134ffbbf5e656148e579f424f70bcd9f1d15936",
+    "licenseEvidence":  "OPL_LICENSE supplies a conditional default; individual and parent-directory notices still require review before redistribution or commercial use.",
+    "verificationSeeds":  [
+                              1234,
+                              4321
+                          ],
+    "exercises":  [
+                      {
+                          "id":  "dot-product-01",
+                          "title":  "Dot products and vector operations",
+                          "subject":  "Linear algebra",
+                          "authors":  [
+                                          "Paul Pearson"
+                                      ],
+                          "institution":  "Fort Lewis College",
+                          "requiredCapabilities":  [
+                                                       "mathjax",
+                                                       "native-text",
+                                                       "vector-syntax",
+                                                       "multiple-answers"
+                                                   ],
+                          "interaction":  "text",
+                          "source":  {
+                                         "path":  "OpenProblemLibrary/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg",
+                                         "sha256":  "015a00eec3ad5bfd10568083fb0640a79c9f1ad1b59df740cca0d9832575460a",
+                                         "url":  "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg",
+                                         "attribution":  "As credited in source; textbook credits are not treated as problem authors."
+                                     },
+                          "rendererPath":  "Library/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg"
+                      },
+                      {
+                          "id":  "feedback-suppressed-01",
+                          "title":  "Identify a probability distribution (withheld grading)",
+                          "subject":  "Probability",
+                          "authors":  [
+                                          "Vladislav Emelyanov"
+                                      ],
+                          "institution":  "UMASS-Amherst-Math-Stat",
+                          "requiredCapabilities":  [
+                                                       "mathjax",
+                                                       "checkbox-groups",
+                                                       "repeated-names",
+                                                       "suppressed-feedback"
+                                                   ],
+                          "interaction":  "checkbox",
+                          "source":  {
+                                         "url":  "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/UMass-Amherst/Probability/Problem4.pg",
+                                         "path":  "OpenProblemLibrary/UMass-Amherst/Probability/Problem4.pg",
+                                         "sha256":  "e89d493722e04048670977d4bef14f0bdd6faa2bc2976f988c8447b518f18d05",
+                                         "attribution":  "Vladislav Emelyanov, UMASS-Amherst-Math-Stat; source header."
+                                     },
+                          "rendererPath":  "Library/UMass-Amherst/Probability/Problem4.pg"
+                      },
+                      {
+                          "id":  "compat-algebra-graphtool-01",
+                          "title":  "Plot points on a linear equation",
+                          "subject":  "Algebra",
+                          "authors":  [
+                                          "Alex Jordan"
+                                      ],
+                          "institution":  null,
+                          "requiredCapabilities":  [
+                                                       "mathjax",
+                                                       "graph-tool",
+                                                       "jsxgraph",
+                                                       "header-scripts",
+                                                       "header-styles",
+                                                       "script-initialization",
+                                                       "hidden-answer-state"
+                                                   ],
+                          "interaction":  "graph-tool",
+                          "source":  {
+                                         "path":  "OpenProblemLibrary/PCC/BasicAlgebra/EquationsAndInequalitiesInTwoVariables/PlotMXPlusB.pg",
+                                         "sha256":  "6c971d903bb786efb7869ed8f517a10f69646d9883e72c4d0e8e011cea4d8a4f",
+                                         "url":  "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/PCC/BasicAlgebra/EquationsAndInequalitiesInTwoVariables/PlotMXPlusB.pg",
+                                         "attribution":  "As credited in source; textbook credits are not treated as problem authors."
+                                     },
+                          "rendererPath":  "Library/PCC/BasicAlgebra/EquationsAndInequalitiesInTwoVariables/PlotMXPlusB.pg"
+                      }
+                  ]
+}

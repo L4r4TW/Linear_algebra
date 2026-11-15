@@ -8,20 +8,30 @@ The active work is the independent **experimental-workspace/** WeBWorK integrati
 
 The goal has expanded to a multi-subject practice platform covering the whole OPL, using PG mathematical grading. Design the future catalog for all subjects, while validating playable exercises in batches. Build one complete, reliable exercise flow before broadly enabling large numbers of exercises.
 
-This handoff accompanies the capability-gated catalog activation changes on `main`, following `c5d3fba` (automated compatibility regression). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
+This handoff accompanies the consistent PG feedback changes on `main`, following `76fbda5` (explicit saved-session recovery). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
 
 
 ## Resume checklist
 
 1. Inspect `git log -1` and `git status --short`, then read [CATALOG_COMPATIBILITY.md](experimental-workspace/CATALOG_COMPATIBILITY.md) and [CATALOG_STATUS.md](experimental-workspace/compatibility/CATALOG_STATUS.md).
 2. Start Docker Desktop's Linux engine. From `experimental-workspace/`, run `docker compose up --build -d --wait --wait-timeout 240`. Open http://localhost:3100; six exercises should be available.
-3. Run `docker compose exec -T workspace npm test` and `docker compose exec -T workspace node server/check-catalog.mjs` for the ordinary catalog checks. The latest completed validation is 136 server tests, 47 browser checks and 14 publisher/report tests, plus live catalog and renderer/API smoke checks.
+3. Run `docker compose exec -T workspace npm test` and `docker compose exec -T workspace node server/check-catalog.mjs` for the ordinary catalog checks. The latest completed validation is 153 server tests, 49 browser checks and 14 publisher/report tests, plus live catalog and renderer/API smoke checks.
 4. Full `verify-compatibility.ps1` remains a deliberately failing gate: 42/44 cases pass; both mobile GraphTool cases fail. Keep those failures and the five disabled candidates visible. Do not treat a nonzero full gate as permission to weaken required checks.
 5. Finish runtime/profile edits before regenerating evidence. Fingerprints include source bytes and line endings, so a checkout that changes those bytes requires reverification. Use the documented publisher to produce reviewed metadata/evidence; do not manually rewrite evidence fingerprints to restore eligibility.
 
 The whole OPL remains in its Docker Linux volume. This change does not import the whole library, migrate catalog data into Supabase, or expose the renderer publicly. Continue with the blockers and importer steps below; preserve existing sessions and attribution.
 
-## Current work: explicit saved-session recovery
+## Current work: consistent PG feedback outcomes
+
+Continuity subtask 4 is implemented. [FEEDBACK_MODEL.md](experimental-workspace/FEEDBACK_MODEL.md) documents field states, overall precedence, actual PG scores, suppressed visibility and stale/revert rules. [feedback-observations.json](experimental-workspace/compatibility/feedback-observations.json) records 20 passing owned-session real-PG browser cases at seeds 1234/4321 plus two stale/revert checks. [feedback-fixtures.json](experimental-workspace/compatibility/feedback-fixtures.json) keeps source hashes, attribution and license evidence separate from student activation.
+
+The model distinguishes unanswered, invalid, incorrect, per-field/overall partial, correct and ungraded states. It retains PG's authoritative aggregate instead of averaging fields, prioritizes visible parser failures, and avoids rounding partial scores into 0%/100%. Feedback is bound by generated name; only changed fields become stale, old invalid semantics clear on edit, and exact revert restores saved feedback without grading.
+
+Real authored suppression still leaves scores in raw renderer JSON. The app now persists `feedbackVisibility: suppressed`, keeps the private PG score, and redacts both public score locations, all grading messages and individual claims. Public scores are null, fields are ungraded with reason suppressed, and the UI says Answers submitted / Feedback withheld. Legacy restoration adopts actual PG suppression without rewriting history. No student endpoint accepts flags/instructor settings. The extra probability suppression fixture and desktop GraphTool partial-credit fixture remain operator-only, not enabled catalog entries.
+
+Feedback validation: 153 server tests, 49 browser checks, 14 publisher/report tests and all 20 real-PG feedback cases plus two stale/revert checks pass. Full compatibility was regenerated for the changed runtime; the two known mobile GraphTool failures remain blocked. The real-PG audit is included in verify-compatibility.ps1. The normal catalog stays at six approved entries; all five limited/unsupported candidates remain disabled. Runtime evidence is renewed through the documented publisher, not by editing fingerprints. Next work: richer reviewed PG message/mathematics presentation, available authored hints, and deliberate result-area move-on controls. This handoff accompanies the feedback-model commit after `76fbda5`; inspect Git status/history for subsequent work.
+
+## Previous milestone: explicit saved-session recovery
 
 Continuity subtask 3 is implemented locally. Read [SESSION_RECOVERY.md](experimental-workspace/SESSION_RECOVERY.md) for the API/status/action table and actual pinned-renderer token behavior. Transient failures offer explicit same-session loading retries. Confirmed expired/rejected tokens and withdrawn exercises preserve the saved record/draft and offer the catalog. Missing and unowned sessions deliberately share identical public 404 responses; ownership is distinguished internally without exposing another browser's session existence.
 

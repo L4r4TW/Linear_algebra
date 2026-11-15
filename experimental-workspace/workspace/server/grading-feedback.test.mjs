@@ -38,3 +38,15 @@ test('rejects malformed PG grading claims and unsafe result metadata', () => {
     assert.equal(hasValidFieldFeedback(invalid, ['a']), false);
   }
 });
+
+test('suppressed and absent grade entries have explicit distinct reasons and no invented grades',()=>{
+ const suppressed=projectFieldFeedback(token({a:{score:1,ans_message:'PRIVATE'}}),[['a','x']],text,{individualResults:false});assert.deepEqual(suppressed,[{name:'a',status:'ungraded',score:null,message:'',reason:'suppressed'}]);
+ const missing=projectFieldFeedback(token({}),[['a','x']],text);assert.equal(missing[0].reason,'unavailable');assert.equal(missing[0].score,null);
+});
+test('stored field status, score and reason must form a coherent result',()=>{
+ for(const field of [{status:'correct',score:0},{status:'incorrect',score:1},{status:'partial',score:0},{status:'partial',score:1},{status:'ungraded',score:.5},{status:'invalid',score:1},{status:'correct',score:1,reason:'suppressed'},{status:'ungraded',score:null,reason:'suppressed',message:'hidden'}])assert.equal(hasValidFieldFeedback([{name:'a',message:'',...field}],['a']),false);
+ assert.equal(hasValidFieldFeedback([{name:'a',status:'ungraded',score:null,message:'',reason:'suppressed'}],['a']),true);
+});
+test('PG can award full credit to an empty response; blank detection never overrides that grade',()=>{
+ assert.equal(projectFieldFeedback(token({a:{score:1}}),[['a','']],text)[0].status,'correct');
+});

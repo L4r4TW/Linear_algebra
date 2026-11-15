@@ -4,13 +4,15 @@ Session handoff and next steps: [PROJECT_CONTEXT.md](../PROJECT_CONTEXT.md). Rep
 
 ## Current catalog scope
 
-Six exercises are enabled in the first local verified batch; five more candidates remain indexed and disabled. See [catalog compatibility rules](CATALOG_COMPATIBILITY.md), [eligibility record](compatibility/CATALOG_STATUS.md), and [server catalog](workspace/server/exercise-catalog.json). Source/runtime evidence and explicit batch membership govern availability. Current validation: 136 server tests, 47 browser checks, 14 publisher/report tests and the live six-entry API check pass. The full operator regression retains two failed mobile GraphTool cases. Earlier one-exercise counts below describe historical verification stages.
+Six exercises are enabled in the first local verified batch; five more candidates remain indexed and disabled. See [catalog compatibility rules](CATALOG_COMPATIBILITY.md), [eligibility record](compatibility/CATALOG_STATUS.md), and [server catalog](workspace/server/exercise-catalog.json). Source/runtime evidence and explicit batch membership govern availability. Current validation: 153 server tests, 49 browser checks, 14 publisher/report tests and the live six-entry API check pass. The full operator regression retains two failed mobile GraphTool cases. Earlier one-exercise counts below describe historical verification stages.
 
 To verify the enabled batch after rebuilding, run `docker compose exec -T workspace node server/check-catalog.mjs` from this directory. It checks listing, start, blank grading, restoration, ownership and rejection of disabled IDs. For the future full-library importer, start with [CATALOG_COMPATIBILITY.md](CATALOG_COMPATIBILITY.md); indexed exercises remain disabled until verified and included in an active batch.
 
 The [continuity and feedback audit](CONTINUITY_FEEDBACK_AUDIT.md) records the current six-exercise baseline: checked work and PG feedback restore. Unchecked edits now also survive refresh through [session-bound tab drafts](DRAFT_PERSISTENCE.md). Its original missing-draft baseline is historical; specific recovery actions, authored hints and protected navigation remain future work. Reproduce the focused browser audit with the commands in that document; it records known gaps rather than implementing fixes.
 
 See [SESSION_RECOVERY.md](SESSION_RECOVERY.md) for explicit unavailable-session recovery: same-session retries for outages, preserved records/drafts for terminal failures, privacy-safe missing/ownership messages, and GET-only reconciliation before retrying an uncertain grade. Saved-result reload keeps the live answers until restoration succeeds, including when tab storage is unavailable.
+
+The [feedback model](FEEDBACK_MODEL.md) now documents field and overall state precedence, withheld grading, named-field association and stale/revert behavior. Its [real-PG audit](compatibility/feedback-observations.json) verifies 20 cases at two seeds, including a separate operator-only suppression fixture. This does not expand the student catalog.
 
 ## Historical integration milestones
 
@@ -345,7 +347,8 @@ Each successful grading response now writes the latest submission in the **same 
     answers,
     score,
     feedback: { message, summary },
-    fieldFeedback: [{ name, status, score, message }]
+    fieldFeedback: [{ name, status, score, message, reason }], // reason is optional
+    feedbackVisibility // optional; suppressed or shown
   }
 }
 ```
@@ -356,11 +359,11 @@ Feedback stores the student-facing PG message and result summary as plain text. 
 
 The private file keeps a count of successfully saved submissions and **only the latest snapshot**, rather than an attempt-history log. The snapshot ID stays stable across retrieval and changes on the next accepted submission. Failed grading or failed saving leaves the preceding snapshot and token unchanged.
 
-Start, grading, and retrieval API responses now include `submission`: null before the first recorded submission, otherwise the public snapshot above. Tokens and ownership hashes remain private. The last checked score/feedback come from this saved snapshot, while the renderer token reconstructs the original question and entered answer values. Restoring does not increment the submission count or call the grading endpoint.
+Start, grading, and retrieval API responses now include `submission`: null before the first recorded submission, otherwise the public snapshot above, subject to the visibility policy below. Tokens and ownership hashes remain private. The last checked score/feedback come from this saved snapshot, while the renderer token reconstructs the original question and entered answer values. Restoring does not increment the submission count or call the grading endpoint.
 
 Older version-1 files containing only renderer tokens remain valid. Their explicit submission snapshot starts with the next successful grade; existing PG state is not reset or guessed. Corrupt or inconsistent count/snapshot metadata is rejected as a storage error.
 
-All state remains in the existing private Docker session volume, with the same file permissions, ownership checks, and single-process submission guard. Deleting that volume still deletes the sessions and their latest submissions. Unsubmitted edits remain in browser memory only; the visible controls and feedback use the saved snapshot; editing an answer marks its old feedback as stale.
+All state remains in the existing private Docker session volume, with the same file permissions, ownership checks, and single-process submission guard. Deleting that volume still deletes the sessions and their latest submissions. Unsubmitted edits are preserved by the tab draft mechanism; the visible controls and feedback use the saved snapshot; editing an answer marks its old feedback as stale.
 
 Run the focused live state check:
 
@@ -371,13 +374,13 @@ docker compose exec -T workspace npm run smoke:submission-state
 Verified on 2026-11-14: exact answers (including spaces and vector syntax), submission identity/count/time, score, and feedback survive browser refresh and full container replacement. Refresh makes no additional grading request. The full suite passes 68 server tests and 23 browser checks.
 ## Student grading feedback
 
-The practice screen shows feedback directly beneath each answer field and an overall result with a percentage score. Status labels distinguish **Correct**, **Incorrect**, **Partially correct**, **Invalid input**, **Not answered**, and **Not graded**. A failed HTTP request remains a service error rather than a mathematical result.
+The practice screen shows feedback directly beneath each answer field and an overall result with a percentage score when grading is visible. Withheld results show Answers submitted without a numerical score. Status labels distinguish **Correct**, **Incorrect**, **Partially correct**, **Invalid input**, **Not answered**, and **Not graded**. A failed HTTP request remains a service error rather than a mathematical result.
 
-`workspace/server/grading-feedback.mjs` reads only the private `JWT.answer` returned directly by the configured renderer, whose PG results are at `score.answers`. It projects only `{name, status, score, message}` for submitted trusted field names. The token, correct answers, previews, debug information, and other claims are never returned to students or saved in the public snapshot. No instructor-mode request is used for student feedback. This decoding treats the token as trusted upstream response data; it does not authenticate browser-supplied JWTs.
+`workspace/server/grading-feedback.mjs` reads only the private `JWT.answer` returned directly by the configured renderer, whose PG results are at `score.answers`. It projects only `{name, status, score, message, reason?}` for submitted trusted field names. The token, correct answers, previews, debug information, and other claims are never returned to students or saved in the public snapshot. No instructor-mode request is used for student feedback. This decoding treats the token as trusted upstream response data; it does not authenticate browser-supplied JWTs.
 
 PG MathObjects can put both parse errors and mathematical hints into `error_message`. Classify invalid input from an explicit PG error flag, or a reported error with an explicitly missing parsed `student_value`. A parsed vector with incorrect coordinates remains **Incorrect**, with the coordinate hints displayed. Do not infer validity from message wording. Ordinary mathematical expressions of the wrong type can still be parsed; their PG message explains the mismatch.
 
-The API snapshot includes optional `fieldFeedback` entries with `status` in `correct`, `incorrect`, `partial`, `invalid`, `unanswered`, or `ungraded`; score is a fraction or null when no individual result is available. PG settings that suppress individual grades are respected. Older snapshots without this array still restore; checking again obtains individual feedback.
+The API snapshot includes optional `fieldFeedback` entries with `status` in `correct`, `incorrect`, `partial`, `invalid`, `unanswered`, or `ungraded`; score is a fraction or null when no individual result is available. PG settings that suppress grading set `feedbackVisibility: suppressed`. In public responses, both aggregate score locations are null, grading messages are empty, and fields are ungraded with reason suppressed. The private PG score remains stored. See [FEEDBACK_MODEL.md](FEEDBACK_MODEL.md) for the complete state and legacy-restoration contract. Older snapshots without this array still restore; checking again obtains individual feedback.
 
 `workspace/public/field-feedback.js` inserts only text into the opaque iframe through source/origin/channel-checked bridge messages. Each visible field links to its message with `aria-describedby`; invalid input uses `aria-invalid`. Editing a field changes its message to **Changed since last check**, removes the old invalid marker, and marks the overall result as describing the last submission. The live inputs remain intact, including edits made while grading was in flight. PG popover controls are removed from the isolated view because the custom messages replace them.
 

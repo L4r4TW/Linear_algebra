@@ -1,3 +1,4 @@
+import {feedbackOutcome} from '/assets/feedback-model.js';
 import {ExerciseRequestError,sessionRecovery} from '/assets/session-recovery.js';
 import {createDraftStore,planDraftRestoration,sameEntries,validDraftAnswers} from '/assets/draft-answers.js';
 import { matchesSubmittedAnswers } from '/assets/field-feedback.js';
@@ -97,7 +98,7 @@ function displayResult(checked, entries) {
   const stale = Boolean(entries) && !matchesSubmittedAnswers(entries, checked.answers, checked.fieldNames);
   const changed = resultStale.hidden === stale;
   resultStale.hidden = !stale;
-  resultTitle.setAttribute('aria-describedby', 'result-score result-detail' + (stale ? ' result-stale' : ''));
+  resultTitle.setAttribute('aria-describedby', (checked.feedbackVisibility==='suppressed'?'':'result-score ')+'result-detail' + (stale ? ' result-stale' : ''));
   if (resultPanel.dataset.submissionId === checked.id) {
     if (changed && frameState?.ready && !submission) announce(stale
       ? 'You have unsubmitted changes. The displayed result is from your last check.'
@@ -105,24 +106,13 @@ function displayResult(checked, entries) {
     return;
   }
   resultPanel.dataset.submissionId = checked.id;
-  const fields = checked.fieldFeedback ?? [];
-  const invalid = fields.filter((field) => field.status === 'invalid').length;
-  const unanswered = fields.filter((field) => field.status === 'unanswered').length;
-  const score = checked.score;
-  const outcome = invalid ? 'invalid' : score === 1 ? 'correct' : score > 0 ? 'partial' : unanswered ? 'unanswered' : 'incorrect';
-  resultPanel.dataset.outcome = outcome;
-  resultTitle.textContent = {
-    invalid: 'Check your input', correct: 'All answers correct', partial: 'Partially correct',
-    unanswered: 'Some answers are missing', incorrect: 'Not correct yet',
-  }[outcome];
-  resultScore.textContent = 'Score: ' + new Intl.NumberFormat(undefined, { style: 'percent', maximumFractionDigits: 1 }).format(score);
-  resultDetail.textContent = invalid
-    ? `${invalid} ${invalid === 1 ? 'answer could' : 'answers could'} not be interpreted. Fix the input format, then check again.`
-    : outcome === 'correct' ? 'Your submitted answers are correct. Well done.'
-      : unanswered ? 'Complete the unanswered fields and review the feedback beside your answers.'
-        : 'Review the feedback beside each answer, then try again.';
-  if (!fields.length) resultDetail.textContent += ' Check again to see individual field feedback for this saved result.';
-  resultMessage.textContent = [checked.feedback?.summary, checked.feedback?.message].filter(Boolean).join(' ');
+  const model=feedbackOutcome(checked);
+  resultPanel.dataset.outcome=model.outcome;
+  resultTitle.textContent=model.title;
+  resultScore.hidden=model.scoreText===null;
+  resultScore.textContent=model.scoreText??'';
+  resultDetail.textContent=model.detail;
+  resultMessage.textContent = checked.feedbackVisibility==='suppressed'?'':[checked.feedback?.summary, checked.feedback?.message].filter(Boolean).join(' ');
   resultMessage.hidden = !resultMessage.textContent;
 }
 
@@ -365,7 +355,7 @@ async function finishFrame(error = false) {
     if (frameState.focusAt === interaction) title.focus();
     announce(error ? 'The exercise is ready, but math formatting needs attention.'
       : frameState.lastSubmission
-        ? 'Exercise restored. Last result: ' + resultTitle.textContent + '. ' + resultScore.textContent + '.'
+        ? 'Exercise restored. Last result: ' + [resultTitle.textContent,resultScore.textContent].filter(Boolean).join('. ')+'.'
         : 'Exercise ready. Press Tab to reach the answer fields.');
   }
 }
@@ -513,7 +503,7 @@ async function submitCurrentAnswers() {
     current.answerBridge.showFeedback(data.submission.fieldFeedback ?? [], data.submission.answers);
     displayResult(data.submission, current.answerBridge.getSnapshot()?.entries);
     submissionStatus.textContent = 'Submitted answers checked and saved.';
-    announce(resultTitle.textContent + '. ' + resultScore.textContent + '. ' + resultDetail.textContent +
+    announce([resultTitle.textContent,resultScore.textContent,resultDetail.textContent].filter(Boolean).join('. ') +
       (resultStale.hidden ? '' : ' You have unsubmitted changes.'));
     nextFocus = resultTitle;
   } catch (error) {

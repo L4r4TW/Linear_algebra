@@ -1120,3 +1120,27 @@ test('a mismatched saved-session response is rejected without replacing the requ
  const pattern='**/api/sessions/'+id;await page.route(pattern,route=>route.fulfill({status:200,json:{session:{id:'11111111-1111-4111-8111-111111111111',exerciseId:'dot-product-01'},exercise:{html:'<div id="problem_body">wrong session</div>'}}}));
  await page.reload();await page.locator('#exercise-content').getByText(/response could not be verified/).waitFor();assert.equal(sessionId(page),id);assert.equal(await page.locator('.exercise-frame').count(),0);await page.unroute(pattern);await page.locator('#exercise-content').getByRole('button',{name:'Try again',exact:true}).click();await draftReady(page);assert.equal(await page.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').inputValue(),'original draft');
 });
+
+test('suppressed public results stay neutral and visible grading can follow without stale score state', {timeout:90_000},async t=>{
+ const page=await pageFor(t);await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();await draftReady(page);
+ const pattern='**/api/sessions/*/answers';await page.route(pattern,async route=>{
+  const response=await route.fetch({url:route.request().url().replace(baseUrl,backendUrl)}),data=await response.json();
+  data.submission.feedbackVisibility='suppressed';data.submission.score=null;data.exercise.score=null;data.submission.feedback={summary:'PRIVATE hidden result',message:'PRIVATE hidden result'};
+  data.submission.fieldFeedback=data.submission.fieldFeedback.map(({name})=>({name,status:'ungraded',score:null,message:'',reason:'suppressed'}));await route.fulfill({response,json:data});
+ });
+ await gradeDraft(page);await page.getByRole('heading',{name:'Answers submitted',exact:true}).waitFor();assert.equal(await page.locator('#result-score').isHidden(),true);assert.equal(await page.locator('#result-score').textContent(),'');assert.equal(await page.locator('#result-message').isHidden(),true);assert.doesNotMatch(await page.locator('#practice-result').textContent(),/PRIVATE|100%|Not correct yet/);
+ const frame=page.frameLocator('.exercise-frame');assert.equal(await frame.locator('[data-status=ungraded]').count(),4);assert.equal(await frame.getByText('Feedback withheld',{exact:true}).count(),4);
+ await frame.locator('[name=AnSwEr0001]').fill('314159');await frame.getByText(/Grading feedback remains withheld/).waitFor();await page.locator('#result-stale').waitFor();
+ await page.unroute(pattern);await gradeDraft(page);assert.equal(await page.locator('#result-score').isVisible(),true);assert.match(await page.locator('#result-score').textContent(),/^Score:/);assert.equal(await frame.getByText('Feedback withheld',{exact:true}).count(),0);
+});
+
+test('field feedback remains bound by generated name, clears stale invalid semantics and restores them on revert',async t=>{
+ const page=await pageFor(t);await page.goto(baseUrl);const result=await page.evaluate(async()=>{
+  const {renderFieldFeedback}=await import('/assets/field-feedback.js');const root=document.createElement('div');root.innerHTML='<input name="scalar" value="bad("><div class="checkboxes-container"><label><input type="checkbox" name="choices" value="a" checked>A</label><label><input type="checkbox" name="choices" value="b">B</label></div>';
+  const submitted=[['scalar','bad('],['choices','a']],fields=[{name:'choices',status:'correct',score:1,message:'Group message'},{name:'scalar',status:'invalid',score:0,message:'Parser message'}];
+  renderFieldFeedback(root,fields,submitted);const scalar=root.querySelector('[name=scalar]'),choice=root.querySelector('[name=choices]'),box=node=>root.querySelector('#'+node.getAttribute('data-practice-description'));
+  const initial={invalid:scalar.getAttribute('aria-invalid')==='true',scalarMessage:box(scalar).textContent.includes('Parser message'),groupMessage:box(choice).textContent.includes('Group message'),groupCount:root.querySelectorAll('[data-practice-feedback]').length};
+  scalar.value='new';renderFieldFeedback(root,fields,submitted);const changed={invalidRemoved:!scalar.hasAttribute('aria-invalid'),scalarChanged:box(scalar).dataset.status==='changed',groupUnchanged:box(choice).dataset.status==='correct'};
+  scalar.value='bad(';renderFieldFeedback(root,fields,submitted);return {initial,changed,reverted:scalar.getAttribute('aria-invalid')==='true'&&box(scalar).dataset.status==='invalid',noLabelMutation:root.querySelectorAll('label [data-practice-feedback]').length===0};
+ });assert.deepEqual(result,{initial:{invalid:true,scalarMessage:true,groupMessage:true,groupCount:2},changed:{invalidRemoved:true,scalarChanged:true,groupUnchanged:true},reverted:true,noLabelMutation:true});
+});

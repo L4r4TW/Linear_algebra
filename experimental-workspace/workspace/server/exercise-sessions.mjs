@@ -37,6 +37,8 @@ function validateRecord(record, id) {
 }
 
 function present(record, rendered) {
+  const submission=structuredClone(record.lastSubmission??null);
+  if(submission&&rendered.feedbackVisibility==='suppressed')submission.feedbackVisibility='suppressed';
   return {
     session: {
       id: record.id,
@@ -44,8 +46,9 @@ function present(record, rendered) {
       seed: record.seed,
       createdAt: record.createdAt,
     },
-    submission: structuredClone(record.lastSubmission ?? null),
+    submission,
     exercise: {
+      ...(rendered.feedbackVisibility==='suppressed'||submission?.feedbackVisibility==='suppressed'?{feedbackVisibility:'suppressed'}:{}),
       html: rendered.html,
       score: record.lastSubmission?.score ?? rendered.score,
       resources: rendered.resources,
@@ -188,6 +191,7 @@ export function createExerciseSessions({
           updatedAt: new Date().toISOString(),
           submissionCount: (record.submissionCount ?? 0) + 1,
           lastSubmission: {
+            ...(graded.feedbackVisibility==='suppressed'?{feedbackVisibility:'suppressed'}:{}),
             id: randomUUID(),
             number: (record.submissionCount ?? 0) + 1,
             submittedAt,

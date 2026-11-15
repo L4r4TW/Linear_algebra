@@ -25,6 +25,7 @@ export function hasValidSubmissionState(record) {
     validateAnswerEntries(lastSubmission.fieldNames.map((name) => [name, '']));
   } catch { return false; }
   if (lastSubmission.fieldFeedback !== undefined && !hasValidFieldFeedback(lastSubmission.fieldFeedback, lastSubmission.fieldNames)) return false;
+  if(lastSubmission.feedbackVisibility!==undefined&&!['shown','suppressed'].includes(lastSubmission.feedbackVisibility))return false;
   const allowed = new Set(lastSubmission.fieldNames);
   return lastSubmission.answers.every(([name]) => allowed.has(name));
 }

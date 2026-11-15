@@ -55,6 +55,7 @@ function validateResponse(data, exerciseId, seed) {
   }
 
   return {
+    ...([false,0,'0'].includes(data.flags.showPartialCorrectAnswers)?{feedbackVisibility:'suppressed'}:{}),
     exerciseId,
     seed,
     html: data.renderedHTML,

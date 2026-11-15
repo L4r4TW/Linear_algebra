@@ -233,7 +233,7 @@ test('serves picker assets without making server-side modules public', async (t)
     assert.equal(response.status, 200);
     assert.ok(response.headers.get('content-type').startsWith(type));
   }
-  for (const path of ['/server/exercise-catalog.json', '/server/catalog-compatibility-evidence.json', '/server/activation-batches.json', '/server/compatibility-profile.json', '/compatibility/CATALOG_STATUS.md', '/compatibility/draft-preview.mjs', '/compatibility/probe-token-errors.pl', '/compatibility/token-error-observations.json', '/compatibility/continuity-audit.json', '/server/exercise-sessions.mjs', '/assets/../server/renderer-client.mjs', '/compatibility/catalog.json', '/compatibility/observations.json', '/compatibility/probe.mjs']) {
+  for (const path of ['/server/exercise-catalog.json', '/server/catalog-compatibility-evidence.json', '/server/activation-batches.json', '/server/compatibility-profile.json', '/compatibility/CATALOG_STATUS.md', '/compatibility/draft-preview.mjs', '/compatibility/probe-token-errors.pl', '/compatibility/token-error-observations.json', '/compatibility/feedback-fixtures.json', '/compatibility/feedback-observations.json', '/compatibility/feedback-audit.mjs', '/compatibility/continuity-audit.json', '/server/exercise-sessions.mjs', '/assets/../server/renderer-client.mjs', '/compatibility/catalog.json', '/compatibility/observations.json', '/compatibility/probe.mjs']) {
     assert.equal((await fetch(f.baseUrl + path)).status, 404);
   }
 });
@@ -465,4 +465,15 @@ test('owned withdrawn sessions differ from private missing/unowned responses wit
  const owned=await fetch(url,{headers:{Cookie:cookie}});assert.equal(owned.status,410);assert.equal((await owned.json()).error.code,'EXERCISE_WITHDRAWN');
  const otherCookie=cookie.replace(/=.+$/,'='+'b'.repeat(43));const foreign=await fetch(url,{headers:{Cookie:otherCookie}}),missing=await fetch(f.baseUrl+'/api/sessions/11111111-1111-4111-8111-111111111111',{headers:{Cookie:cookie}});
  assert.equal(foreign.status,404);assert.equal(missing.status,404);assert.deepEqual(await foreign.json(),await missing.json());assert.equal(await readFile(path,'utf8'),before);assert.equal(f.calls.restore.length,0);
+});
+test('suppression redacts public scores and messages on check and refresh without deleting the private PG result',async t=>{
+ const f=await fixture(t,{exerciseLookup:id=>id==='dot-product-01'?{id}:undefined});
+ const restore=f.rendererClient.restoreSession;f.rendererClient.restoreSession=async input=>({...await restore(input),feedbackVisibility:'suppressed'});
+ f.rendererClient.submitAnswers=async()=>({html:'<div id="problem_body"><input name="AnSwEr0001"></div>',resources:{assets:[]},score:1,sessionToken:'private-saved',problemToken:'private-problem',feedbackVisibility:'suppressed',feedback:{summary:'PRIVATE result',message:'PRIVATE result'},fieldFeedback:[{name:'AnSwEr0001',status:'ungraded',score:null,message:'',reason:'suppressed'}]});
+ const started=await start(f),initial=await started.json(),cookie=cookieOf(started),url=f.baseUrl+'/api/sessions/'+initial.session.id;
+ const grade=await fetch(url+'/answers',{method:'POST',headers:{Cookie:cookie,'Content-Type':'application/json'},body:JSON.stringify({answers:[['AnSwEr0001','x']]})});assert.equal(grade.status,200);const checked=await grade.json();
+ assert.equal(checked.submission.feedbackVisibility,'suppressed');assert.equal(checked.submission.score,null);assert.equal(checked.exercise.score,null);assert.deepEqual(checked.submission.feedback,{summary:'',message:''});assert.deepEqual(checked.submission.fieldFeedback,[{name:'AnSwEr0001',status:'ungraded',score:null,message:'',reason:'suppressed'}]);assert.doesNotMatch(JSON.stringify(checked),/PRIVATE|private-saved/);
+ const path=join(f.directory,initial.session.id+'.json'),before=await readFile(path,'utf8');assert.equal(JSON.parse(before).lastSubmission.score,1);const restored=await (await fetch(url,{headers:{Cookie:cookie}})).json();assert.deepEqual(restored.submission,checked.submission);assert.equal(await readFile(path,'utf8'),before);
+ // Older snapshots lacking policy must adopt the actual renderer's suppression on restoration.
+ const legacy=JSON.parse(before);delete legacy.lastSubmission.feedbackVisibility;await writeFile(path,JSON.stringify(legacy));const old=await (await fetch(url,{headers:{Cookie:cookie}})).json();assert.equal(old.submission.score,null);assert.equal(old.submission.feedbackVisibility,'suppressed');
 });

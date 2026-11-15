@@ -1,9 +1,9 @@
 {
   "version": 1,
   "complete": true,
-  "observedAt": "2026-11-15T11:13:21.787Z",
+  "observedAt": "2026-11-15T11:55:45.608Z",
   "profileVersion": "local-practice-v1",
-  "runtimeFingerprint": "f5ce5bae13e1220e34e5b652d63e6e393a57d3f6b8562de17e282f29bbd44ae6",
+  "runtimeFingerprint": "2a77968754beae8530a591a91a6d77e6862fbc0728ebdc326b1c11cae4d2ca4a",
   "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
   "rendererRevision": "1134ffbbf5e656148e579f424f70bcd9f1d15936",
   "entries": {
@@ -1168,7 +1168,7 @@
             "keyboard": true,
             "mobile": true
           },
-          "correctScore": 0.444444444444444,
+          "correctScore": 0.388888888888889,
           "clearedScore": 0,
           "limitations": [
             {
@@ -1189,7 +1189,7 @@
             {
               "code": "MOBILE_GRAPH_TOUCH_GRADING",
               "expectedScore": 1,
-              "actualScore": 0.444444444444444
+              "actualScore": 0.388888888888889
             }
           ]
         },

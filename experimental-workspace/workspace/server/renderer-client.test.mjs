@@ -295,3 +295,9 @@ for(const [status,code] of [[502,'NETWORK_ERROR'],[503,'NETWORK_ERROR'],[504,'TI
  const baseUrl=await serve(t,(_req,res)=>{res.writeHead(status);res.end('PRIVATE outage details');});
  await assert.rejects(createRendererClient({baseUrl,exerciseLookup:()=>({renderer:{sourceFilePath:'Library/one.pg'}})}).restoreSession({...input,sessionToken:'private'}),hasCode(code));
 });
+test('real-shaped suppressed grading retains policy but withholds individual claims in the server projection',async t=>{
+ const answerToken='e30.'+Buffer.from(JSON.stringify({score:{answers:{AnSwEr0001:{score:1,ans_message:'PRIVATE'}}}})).toString('base64url')+'.c2ln';
+ const baseUrl=await serve(t,(_req,res)=>res.end(JSON.stringify({...valid(),flags:{error_flag:0,showPartialCorrectAnswers:0},problem_result:{score:1},JWT:{session:'private-session',problem:'private-problem',answer:answerToken}})));
+ const result=await createRendererClient({baseUrl,exerciseLookup:()=>({renderer:{sourceFilePath:'Library/one.pg'}})}).submitAnswers({...input,sessionToken:'stored',answers:[['AnSwEr0001','x']]});
+ assert.equal(result.feedbackVisibility,'suppressed');assert.equal(result.score,1);assert.deepEqual(result.fieldFeedback,[{name:'AnSwEr0001',status:'ungraded',score:null,message:'',reason:'suppressed'}]);
+});

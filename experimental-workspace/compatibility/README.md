@@ -70,3 +70,7 @@ Visible reviewed records: [REGRESSION_STATUS.md](REGRESSION_STATUS.md), [report.
 ## Session recovery evidence
 
 [../SESSION_RECOVERY.md](../SESSION_RECOVERY.md) documents the verified upstream token error contract and reproduction commands for [probe-token-errors.pl](probe-token-errors.pl). [token-error-observations.json](token-error-observations.json) contains sanitized actual-renderer statuses/recognition booleans. No test token or signing key is exported from the renderer container. The seeded retry helper now uses the explicit Reload saved session action after accepted-but-lost grading and verifies that another check is blocked first.
+
+## Real-PG feedback model
+
+[feedback-fixtures.json](feedback-fixtures.json) is a separate operator-only manifest with pinned source hashes and attribution; its withheld-feedback fixture is not in the student catalog. [feedback-audit.mjs](feedback-audit.mjs) runs 20 owned-session browser cases at seeds 1234/4321 and two stale/revert checks; [feedback-observations.json](feedback-observations.json) contains sanitized outcomes and proof flags only. Read [../FEEDBACK_MODEL.md](../FEEDBACK_MODEL.md) for state/score precedence, suppression redaction and reproduction commands. The normal verification script now runs this audit before the full seeded compatibility gate. Instructor calibration stays in memory; never commit raw PG responses, correct maps, entered pairs or cookies/tokens.

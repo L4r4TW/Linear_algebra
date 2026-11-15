@@ -39,7 +39,7 @@ export function renderFieldFeedback(root, fields, submitted) {
     const related=presentation.targets;
     const changed = !matchesSubmittedAnswers(entries, submitted, [field.name]);
     const status = changed ? 'changed' : field.status;
-    const [label, fallback] = descriptions[status];
+    const [label, fallback] = status==='ungraded'&&field.reason==='suppressed'?['Feedback withheld','Grading feedback is not shown for this field.']:status==='changed'&&field.reason==='suppressed'?['Changed since last check','Check again to save your current answer. Grading feedback remains withheld.']:descriptions[status];
     const box = document.createElement('div');
     box.id = 'practice-field-feedback-' + index;
     box.className = 'field-feedback';

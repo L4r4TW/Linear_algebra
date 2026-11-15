@@ -47,3 +47,7 @@ test('preserves new field feedback and accepts legacy snapshots without it', () 
   delete value.lastSubmission.fieldFeedback;
   assert.equal(hasValidSubmissionState(value), true);
 });
+
+test('suppression policy persists alongside private PG score and legacy snapshots remain valid',()=>{
+ const value=record();value.lastSubmission.feedbackVisibility='suppressed';assert.equal(hasValidSubmissionState(value),true);value.lastSubmission.feedbackVisibility='invented';assert.equal(hasValidSubmissionState(value),false);delete value.lastSubmission.feedbackVisibility;assert.equal(hasValidSubmissionState(value),true);
+});
