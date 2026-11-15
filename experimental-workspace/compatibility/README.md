@@ -80,3 +80,7 @@ Visible reviewed records: [REGRESSION_STATUS.md](REGRESSION_STATUS.md), [report.
 ## Authored hint verification
 
 [hint-fixtures.json](hint-fixtures.json) pins the PCC source/attribution and no-hint control separately from student activation. [hint-audit.mjs](hint-audit.mjs) requires 12 real-PG desktop/mobile cases plus both-seed availability checks for all six enabled entries. [hint-observations.json](hint-observations.json) contains sanitized proof flags only. Read [../AUTHORED_HINTS.md](../AUTHORED_HINTS.md) for upstream availability/solution separation, supported prose/notation, read-only disclosure and reproduction. Operator-only signed showHints=0 proves that hintExists can remain true while no hint is available. No instructor requests or answer oracle are used. The standard verification script includes this audit.
+
+## Practice-action navigation in QA
+
+The operator-only [navigation-consent.mjs](navigation-consent.mjs) approves the deliberate reloads/leaves used by existing compatibility, feedback, hint and continuity checks. Student code never imports it. The browser suite separately tests Cancel, storage/collection failures, history, beforeunload and pending grading. The feedback audit verifies visible next actions for every real-PG outcome. Read [../PRACTICE_ACTIONS.md](../PRACTICE_ACTIONS.md) before changing this consent or weakening a navigation assertion.

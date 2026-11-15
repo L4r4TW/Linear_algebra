@@ -8,20 +8,30 @@ The active work is the independent **experimental-workspace/** WeBWorK integrati
 
 The goal has expanded to a multi-subject practice platform covering the whole OPL, using PG mathematical grading. Design the future catalog for all subjects, while validating playable exercises in batches. Build one complete, reliable exercise flow before broadly enabling large numbers of exercises.
 
-This handoff accompanies authored hint support on `main`, following `cf072fe` (safe PG message presentation). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
+This handoff accompanies the practice-action commit following `05e30f4` (authored hints). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
 
 
 ## Resume checklist
 
 1. Inspect `git log -1` and `git status --short`, then read [CATALOG_COMPATIBILITY.md](experimental-workspace/CATALOG_COMPATIBILITY.md) and [CATALOG_STATUS.md](experimental-workspace/compatibility/CATALOG_STATUS.md).
 2. Start Docker Desktop's Linux engine. From `experimental-workspace/`, run `docker compose up --build -d --wait --wait-timeout 240`. Open http://localhost:3100; six exercises should be available.
-3. Run `docker compose exec -T workspace npm test` and `docker compose exec -T workspace node server/check-catalog.mjs` for the ordinary catalog checks. The latest completed validation is 170 server tests, 54 browser checks and 14 publisher/report tests, plus live catalog and renderer/API smoke checks.
+3. Run `docker compose exec -T workspace npm test` and `docker compose exec -T workspace node server/check-catalog.mjs` for the ordinary catalog checks. The latest completed validation is 173 server tests, 60 browser checks and 14 publisher/report tests, plus live catalog and renderer/API smoke checks.
 4. Full `verify-compatibility.ps1` remains a deliberately failing gate: 42/44 cases pass; both mobile GraphTool cases fail. Keep those failures and the five disabled candidates visible. Do not treat a nonzero full gate as permission to weaken required checks.
 5. Finish runtime/profile edits before regenerating evidence. Fingerprints include source bytes and line endings, so a checkout that changes those bytes requires reverification. Use the documented publisher to produce reviewed metadata/evidence; do not manually rewrite evidence fingerprints to restore eligibility.
 
 The whole OPL remains in its Docker Linux volume. This change does not import the whole library, migrate catalog data into Supabase, or expose the renderer publicly. Continue with the blockers and importer steps below; preserve existing sessions and attribution.
 
-## Current work: available authored hints
+## Current work: retry and protected move-on controls
+
+Continuity subtask 7 is implemented. [PRACTICE_ACTIONS.md](experimental-workspace/PRACTICE_ACTIONS.md) defines next actions, fresh answer collection before leaving, native confirmations, history and unload protection. Every result offers Return to answers and Choose another exercise with same-session retry guidance. Choosing another only focuses the catalog; selecting a card is the separate leave. The current exercise's card explicitly labels a new variation as starting a new session.
+
+Unchecked, pending and unreadable work is protected before session replacement. Cancel retains the exact live frame, answers and URL; confirmed navigation preserves the old session-bound tab draft where storage works. Storage/collection failures warn instead of silently leaving. App history cancellation restores the committed entry without a new session or duplicate history. Browser reload/exit uses the standard best-effort beforeunload prompt. No automatic grade or fresh variation is created by the retry/result controls. Existing ownership, pending-grade reconciliation, hint disclosure and PG isolation remain intact. See the document for browser/tab-storage limits.
+
+QA explicitly consents to intentional reloads/leaves in existing operator flows; dedicated browser tests verify cancellation. Runtime evidence has been renewed through the publisher for the same six enabled entries. This handoff is included with the practice-action changes on main. Next: end-to-end continuity acceptance and the remaining deliberate multi-tab/account/history decisions before a full-library importer.
+
+Validation for practice actions: 173 server tests, 60 browser checks and 14 publisher/report tests pass, plus 12 real-PG hint cases plus 12 catalog seed probes and 22 real-PG feedback cases (all with next actions verified), plus two stale/revert checks. The normal rebuilt workspace passes its live six-entry catalog/API checks and focused result/new-session/rapid-history browser checks. Full compatibility is 42/44: both mobile GraphTool cases reach completion with touch-positive grading failures and stay disabled. No check, timeout, grading/ownership predicate or activation rule was weakened. The normal workspace on port 3100 has the local implementation; this handoff accompanies the practice-action commit after `05e30f4`.
+
+## Previous milestone: available authored hints
 
 Continuity subtask 6 is implemented. [AUTHORED_HINTS.md](experimental-workspace/AUTHORED_HINTS.md) documents the pinned renderer/PG source behavior, supported hint markup, actual availability rules and safe local disclosure. `hintExists` alone is insufficient: the app requires an explicit renderer flag plus a nonempty supported standard hint body. Withheld, absent, empty, unstructured and unsupported hints produce no action. Marked hint/solution blocks are removed from the live question; only canonical authored hint text is exposed separately, with the existing reviewed notation rules. Solutions and instructor/correct-answer data remain private.
 

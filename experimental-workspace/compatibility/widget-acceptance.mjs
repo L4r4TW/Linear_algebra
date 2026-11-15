@@ -1,3 +1,4 @@
+import {allowIntentionalNavigation} from './navigation-consent.mjs';
 // Operator-only full HTTP/picker acceptance. Expected values and private state stay in memory.
 import {readFile,writeFile,mkdir,mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -50,6 +51,7 @@ if(regression){
 await mkdir(output,{recursive:true});
 async function pageContext(viewportName='desktop'){
  const context=await browser.newContext({viewport:{width:viewportName==='mobile'?390:1100,height:1000},isMobile:viewportName==='mobile',hasTouch:viewportName==='mobile'});
+ allowIntentionalNavigation(context);
  await context.route('http://localhost:3100/**',async route=>{
   try{const response=await route.fetch({url:route.request().url().replace('http://localhost:3100',backend)});await route.fulfill({response});}
   catch{await route.fulfill({status:502,body:'Operator test request failed'});}

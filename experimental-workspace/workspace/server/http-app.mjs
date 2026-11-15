@@ -174,6 +174,7 @@ const publicFiles = new Map([
   ['/assets/exercise-frame.js', ['exercise-frame.js', 'text/javascript; charset=utf-8']],
   ['/assets/widget-answers.js', ['widget-answers.js', 'text/javascript; charset=utf-8']],
   ['/assets/feedback-content.js', ['feedback-content.js', 'text/javascript; charset=utf-8']],
+  ['/assets/practice-actions.js', ['practice-actions.js', 'text/javascript; charset=utf-8']],
   ['/assets/feedback-model.js', ['feedback-model.js', 'text/javascript; charset=utf-8']],
   ['/assets/field-feedback.js', ['field-feedback.js', 'text/javascript; charset=utf-8']],
   ['/assets/session-recovery.js', ['session-recovery.js', 'text/javascript; charset=utf-8']],

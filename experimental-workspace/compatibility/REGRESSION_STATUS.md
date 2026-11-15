@@ -1,6 +1,6 @@
 # Compatibility regression results
 
-Observed: 2026-11-15T17:22:38.653Z. Scope: complete default matrix.
+Observed: 2026-11-15T17:59:48.284Z. Scope: complete default matrix.
 
 Result: **FAIL**; 44/44 cases completed. 16 cases retain documented limitations.
 

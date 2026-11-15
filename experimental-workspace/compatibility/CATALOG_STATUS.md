@@ -1,6 +1,6 @@
 # Catalog eligibility
 
-Observed: 2026-11-15T17:22:38.653Z. Profile: local-practice-v1. Localhost experiment only.
+Observed: 2026-11-15T17:59:48.284Z. Profile: local-practice-v1. Localhost experiment only.
 
 | Exercise | Compatibility | Enabled | Recorded reasons |
 | --- | --- | --- | --- |

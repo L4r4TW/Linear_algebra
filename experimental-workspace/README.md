@@ -4,7 +4,7 @@ Session handoff and next steps: [PROJECT_CONTEXT.md](../PROJECT_CONTEXT.md). Rep
 
 ## Current catalog scope
 
-Six exercises are enabled in the first local verified batch; five more candidates remain indexed and disabled. See [catalog compatibility rules](CATALOG_COMPATIBILITY.md), [eligibility record](compatibility/CATALOG_STATUS.md), and [server catalog](workspace/server/exercise-catalog.json). Source/runtime evidence and explicit batch membership govern availability. Current validation: 170 server tests, 54 browser checks, 14 publisher/report tests and the live six-entry API check pass. The full operator regression retains two failed mobile GraphTool cases. Earlier one-exercise counts below describe historical verification stages.
+Six exercises are enabled in the first local verified batch; five more candidates remain indexed and disabled. See [catalog compatibility rules](CATALOG_COMPATIBILITY.md), [eligibility record](compatibility/CATALOG_STATUS.md), and [server catalog](workspace/server/exercise-catalog.json). Source/runtime evidence and explicit batch membership govern availability. Current validation: 173 server tests, 60 browser checks, 14 publisher/report tests and the live six-entry API check pass. The full operator regression retains two failed mobile GraphTool cases. Earlier one-exercise counts below describe historical verification stages.
 
 To verify the enabled batch after rebuilding, run `docker compose exec -T workspace node server/check-catalog.mjs` from this directory. It checks listing, start, blank grading, restoration, ownership and rejection of disabled IDs. For the future full-library importer, start with [CATALOG_COMPATIBILITY.md](CATALOG_COMPATIBILITY.md); indexed exercises remain disabled until verified and included in an active batch.
 
@@ -502,3 +502,7 @@ Safe PG feedback presentation is documented in [FEEDBACK_PRESENTATION.md](FEEDBA
 ## Available authored hints
 
 [AUTHORED_HINTS.md](AUTHORED_HINTS.md) records exact pinned behavior and verification. Owner-only session responses include exercise.hint.available and, only when available, a canonical message string. View hint appears only for actual supported PG hint output, preserves the live answers/session and performs no grading or renderer request. Hint notation uses the reviewed feedback renderer. Empty, withheld and unsupported hints have no action; marked solutions never become hints. No instructor mode or attempt-threshold override is added. The six enabled exercises currently have no authored hint at either verification seed, so no hint button appears for those entries. A separate source-pinned PCC fixture verifies the complete disclosure flow without entering the student catalog.
+
+## Retry and move on
+
+[PRACTICE_ACTIONS.md](PRACTICE_ACTIONS.md) documents same-session retries and protected navigation. Every result has Return to answers and Choose another exercise. Browsing the list keeps the current frame; selecting a card collects/saves fresh edits and asks before leaving unchecked or uncertain work. Cancel keeps the frame, values and URL. A fresh variation is explicitly labelled as a new session. Old drafts stay bound to their original sessions for Back/Forward restoration. Browser exit/reload uses its standard prompt for cached unfinished work, subject to browser rules; tab drafts are not permanent storage.

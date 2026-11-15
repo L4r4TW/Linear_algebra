@@ -1,3 +1,4 @@
+import {allowIntentionalNavigation} from './navigation-consent.mjs';
 // Operator-only continuity audit against the default student catalog. No answers or private session data are written.
 import {chromium} from 'playwright';
 import {mkdir,readFile,writeFile} from 'node:fs/promises';
@@ -26,6 +27,7 @@ try{
  for(const id of expected){
   const row={id};report.exercises.push(row);
   const context=await browser.newContext({viewport:{width:1100,height:1000}});
+ allowIntentionalNavigation(context);
   try{
    await context.route(base+'/**',async route=>{const response=await route.fetch({url:route.request().url().replace(base,backend)});await route.fulfill({response});});
    const page=await context.newPage();let starts=0,grades=0;

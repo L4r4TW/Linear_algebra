@@ -1,3 +1,4 @@
+import {allowIntentionalNavigation} from './navigation-consent.mjs';
 import {projectAuthoredHints} from '../application/server/authored-hints.mjs';
 // Real student-mode hints. Only booleans, fixture IDs and verification seeds leave operator memory.
 import {readFile,writeFile,mkdtemp,rm,mkdir} from 'node:fs/promises';import {tmpdir} from 'node:os';import {join} from 'node:path';import {createHash} from 'node:crypto';import {once} from 'node:events';import {parse,serializeOuter} from 'parse5';import {chromium} from 'playwright';
@@ -19,7 +20,7 @@ const sessions=createExerciseSessions({directory,exerciseLookup:lookup,seedGener
 const report={schemaVersion:1,observedAt:new Date().toISOString(),runtimeFingerprint:runtimeFingerprint(),sourceRevision:fixtures.sourceRevision,rendererRevision:fixtures.rendererRevision,pgRevision:fixtures.pgRevision,scope:'12 source-verified real-PG student-mode hint cases: two seeds and desktop/mobile. No instructor requests, solution content, tokens, entered pairs or raw messages are serialized.',cases:[]};
 const browser=await chromium.launch(),ready=p=>p.waitForFunction(()=>{const b=document.querySelector('#check-answer');return b&&!b.disabled&&!b.closest('[hidden]');}),frame=p=>p.frames().find(f=>f.parentFrame());
 const collect=p=>p.evaluate(async()=> (await(await import('/assets/picker.js')).collectCurrentAnswers()).answers.entries);
-async function context(viewport){const c=await browser.newContext({viewport:{width:viewport==='mobile'?360:1100,height:950},isMobile:viewport==='mobile',hasTouch:viewport==='mobile'});await c.route(origin+'/**',async route=>{const response=await route.fetch({url:route.request().url().replace(origin,backend)});await route.fulfill({response});});return c;}
+async function context(viewport){const c=await browser.newContext({viewport:{width:viewport==='mobile'?360:1100,height:950},isMobile:viewport==='mobile',hasTouch:viewport==='mobile'});allowIntentionalNavigation(c);await c.route(origin+'/**',async route=>{const response=await route.fetch({url:route.request().url().replace(origin,backend)});await route.fulfill({response});});return c;}
 try{
  for(const fixture of fixtures.exercises){const bytes=await readFile('/opl/webwork-open-problem-library/'+fixture.source.path);check(createHash('sha256').update(bytes).digest('hex')===fixture.source.sha256,'SOURCE_HASH');active=fixture;
  for(const s of fixtures.verificationSeeds){seed=s;for(const viewport of ['desktop','mobile']){

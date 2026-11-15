@@ -1,3 +1,4 @@
+import {unfinishedAnswers,nextActionText} from '/assets/practice-actions.js';
 import {renderFeedbackContent,feedbackMathReady} from '/assets/feedback-content.js';
 import {feedbackOutcome} from '/assets/feedback-model.js';
 import {ExerciseRequestError,sessionRecovery} from '/assets/session-recovery.js';
@@ -28,6 +29,8 @@ const resultDetail = document.querySelector('#result-detail');
 const resultMessage = document.querySelector('#result-message');
 const resultStale = document.querySelector('#result-stale');
 const announcement = document.querySelector('#practice-announcement');
+const chooseButton=document.querySelector('#choose-exercise');
+const nextStep=document.querySelector('#result-next-step');
 const reviewButton = document.querySelector('#review-answers');
 const hintPanel=document.querySelector('#practice-hint');
 const hintButton=document.querySelector('#view-hint');
@@ -45,6 +48,10 @@ let frameState;
 let frameTimer;
 let submission;
 let interaction = 0;
+let navigationPending=false, pendingHistory=false, restoringHistory=false, cancelledFocus;
+let historyIndex=Number.isSafeInteger(history.state?.practiceStep)?history.state.practiceStep:0;
+history.replaceState({...history.state,practiceStep:historyIndex},'',location.href);
+let committedUrl=location.href;
 
 function announce(message) {
   if (announcement.textContent !== message) announcement.textContent = message;
@@ -86,16 +93,17 @@ function loading(message) {
 
 function updateControls() {
   const submitting = Boolean(submission);
+  chooseButton.disabled=busy||submitting||navigationPending||!frameState?.ready;
   controls.hidden = !frameState?.ready;
-  checkButton.disabled = busy || submitting || !frameState?.ready || Boolean(frameState?.recoveryRequired);
-  reviewButton.disabled = busy || !frameState?.ready;
+  checkButton.disabled = busy || submitting || navigationPending || !frameState?.ready || Boolean(frameState?.recoveryRequired);
+  reviewButton.disabled = busy || navigationPending || !frameState?.ready;
   hintPanel.hidden=!frameState?.ready||frameState.hint?.available!==true;
-  hintButton.disabled=busy||submitting||!frameState?.ready;
+  hintButton.disabled=busy||submitting||navigationPending||!frameState?.ready;
   checkButton.setAttribute('aria-busy', String(submitting));
   checkLabel.textContent = submitting ? 'Checking…' : 'Check answer';
   checkButton.querySelector('.spinner').hidden = !submitting;
   panel.setAttribute('aria-busy', String(busy));
-  for (const button of catalog.querySelectorAll('.exercise-choice')) button.disabled = busy || submitting;
+  for (const button of catalog.querySelectorAll('.exercise-choice')) button.disabled = busy || submitting || navigationPending;
   for (const button of frameState?.warning.querySelectorAll('button') ?? []) button.disabled = submitting;
 }
 
@@ -135,6 +143,7 @@ function displayResult(checked, entries) {
   resultScore.hidden=model.scoreText===null;
   resultScore.textContent=model.scoreText??'';
   resultDetail.textContent=model.detail;
+  nextStep.textContent=nextActionText(checked);
   const messages=checked.feedbackVisibility==='suppressed'?[]:[...new Set([checked.feedback?.summary,checked.feedback?.message].filter(Boolean))];
   void renderFeedbackContent(resultMessage,messages.join('\n\n'),feedbackMathReady);
   resultMessage.hidden = !messages.length;
@@ -149,7 +158,7 @@ function selectCurrent() {
   for (const button of catalog.querySelectorAll('.exercise-choice')) {
     const active = button.dataset.exerciseId === selectedId;
     button.setAttribute('aria-current', String(active));
-    button.querySelector('.choice-action').textContent = active ? 'Start a new version →' : 'Start exercise →';
+    button.querySelector('.choice-action').textContent = active ? 'New variation (starts a new session) →' : 'Start exercise →';
   }
 }
 
@@ -170,9 +179,10 @@ async function request(path, options, signal) {
 }
 
 function chooseExercise() {
-  const target=catalog.querySelector('.exercise-choice:not(:disabled)')??document.querySelector('#catalog-title');
+  const target=catalog.querySelector('.exercise-choice:not([aria-current=true]):not(:disabled)')??catalog.querySelector('.exercise-choice:not(:disabled)')??document.querySelector('#catalog-title');
   if(!target.hasAttribute('tabindex')&&target.tagName!=='BUTTON')target.tabIndex=-1;
   target.focus();target.scrollIntoView({block:'nearest'});
+  if(frameState)announce('Choose an exercise from the list. Your current exercise stays open until you select one.');
 }
 function recoveryBox(error,request) {
   const recovery=sessionRecovery(error);
@@ -230,7 +240,7 @@ function renderCatalog() {
       const button = element('button', undefined, 'exercise-choice');
       button.type = 'button';
       button.dataset.exerciseId = exercise.id;
-      button.disabled = busy || Boolean(submission);
+      button.disabled = busy || Boolean(submission) || navigationPending;
       button.append(
         element('span', exercise.title, 'choice-title'),
         element('span', exercise.description, 'choice-description'),
@@ -288,8 +298,11 @@ function persistDraft(state,answers) {
       draftStore.write(state.session,state.lastSubmission,answers,state.pendingDraft??null);
       draftNotice('Draft saved in this tab. Changes have not been checked.');
     }
+    state.draftStorageFailed=false;return true;
   }catch{
+    state.draftStorageFailed=true;
     draftNotice('Draft could not be saved in this tab. Keep this page open to avoid losing unfinished answers.');
+    return false;
   }
 }
 async function initializeDraft(state) {
@@ -446,7 +459,7 @@ function displaySession(data, { focusAt = interaction, recoveryDraft } = {}) {
   }, 20_000);
 }
 
-async function openExercise({ exerciseId, sessionId }) {
+async function loadExercise({ exerciseId, sessionId }) {
   exerciseController?.abort();
   const controller = new AbortController();
   exerciseController = controller;
@@ -467,13 +480,15 @@ async function openExercise({ exerciseId, sessionId }) {
       sessionId ? {} : { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ exerciseId }) },
       controller.signal,
     );
-    if (current !== operation) return;
+    if (current !== operation || pendingHistory) return;
     if(sessionId&&data?.session?.id!==sessionId||exerciseId&&data?.session?.exerciseId!==exerciseId)throw new ExerciseRequestError('INVALID_RESPONSE',200,'The saved session response could not be verified. Please try again.');
     displaySession(data, { focusAt });
     if (!sessionId) {
       const url = new URL(location.href);
       url.searchParams.set('session', data.session.id);
-      history.pushState({}, '', url);
+      historyIndex++;
+      history.pushState({practiceStep:historyIndex}, '', url);
+      committedUrl=url.href;
     }
   } catch (error) {
     if (controller.signal.aborted || current !== operation) return;
@@ -491,13 +506,47 @@ async function openExercise({ exerciseId, sessionId }) {
   }
 }
 
+function pendingWork(state,answers=state?.answerBridge.getSnapshot()){
+ return Boolean(state)&&unfinishedAnswers(answers,state.lastSubmission?.answers??state.initialAnswers?.entries,{pending:Boolean(submission||state.pendingDraft),unknown:!state.draftReady&&Boolean(answers)});
+}
+function restoreCancelledFocus(){
+ const saved=cancelledFocus;cancelledFocus=undefined;
+ if(saved&&saved.frame===frameState&&saved.at===interaction&&saved.node?.isConnected&&!saved.node.disabled)saved.node.focus();
+}
+function restoreHistory(){
+ const target=history.state?.practiceStep;
+ if(Number.isSafeInteger(target)&&target!==historyIndex){restoringHistory=true;history.go(historyIndex-target);}
+ else history.replaceState({practiceStep:historyIndex},'',committedUrl);
+}
+/** Read/persist fresh controls before a destructive transition; consent never submits answers. */
+async function navigate(action,{fromHistory=false}={}){
+ if(navigationPending)return;
+ const returnFocus=document.activeElement,focusAt=interaction;
+ navigationPending=true;updateControls();
+ const state=frameState;let allowed=true;
+ try{
+  if(state){
+   let answers,saved=false,unknown=false;const wasChecking=Boolean(submission||state.pendingDraft);
+   try{answers=await state.answerBridge.collect();if(frameState!==state){if(fromHistory||pendingHistory){restoreHistory();pendingHistory=false;}return;}saved=persistDraft(state,answers)===true;}
+   catch{unknown=true;}
+   if(unknown||unfinishedAnswers(answers,state.lastSubmission?.answers??state.initialAnswers?.entries,{pending:wasChecking||Boolean(state.pendingDraft),unknown:!state.draftReady})){
+    const message=unknown?'Your current answers could not be read. Leaving may lose them. Stay to copy your work if needed.':wasChecking||state.pendingDraft?'Your last check has not been confirmed. Leaving does not cancel that check and may leave unfinished work.':saved?'Your unchecked work is saved in this tab for this session. Keep this tab open and use Back to return.':'Your unchecked work could not be saved. Leaving may lose it.';
+    allowed=window.confirm('Leave this exercise?\n\n'+message+'\n\nChoose Cancel to keep working, or OK to leave without checking again.');
+   }
+  }
+  if(!allowed){cancelledFocus={node:returnFocus,at:focusAt,frame:state};if(fromHistory||pendingHistory)restoreHistory();pendingHistory=false;return;}
+  if(fromHistory||pendingHistory){do{pendingHistory=false;await followUrl();}while(pendingHistory);}
+  else{await action();while(pendingHistory){pendingHistory=false;await followUrl();}}
+ }finally{if(!restoringHistory){navigationPending=false;updateControls();restoreCancelledFocus();}}
+}
+function openExercise(target){return navigate(()=>loadExercise(target));}
 function startExercise(exerciseId) {
-  if (!busy && !submission) void openExercise({ exerciseId });
+  if (!busy && !submission && !navigationPending) void openExercise({ exerciseId });
 }
 
 /** Check one fresh snapshot. Keep the live frame intact on both success and failure. */
 async function submitCurrentAnswers() {
-  if (busy || submission || !frameState?.ready || frameState.recoveryRequired) return;
+  if (busy || submission || navigationPending || !frameState?.ready || frameState.recoveryRequired) return;
   const current = frameState;
   const attempt = { controller: new AbortController() };
   submission = attempt;
@@ -558,9 +607,11 @@ reviewButton.addEventListener('click', () => {
 
 checkButton.addEventListener('click', () => { void submitCurrentAnswers(); });
 
-function followUrl() {
+async function followUrl() {
+  historyIndex=Number.isSafeInteger(history.state?.practiceStep)?history.state.practiceStep:historyIndex;
+  committedUrl=location.href;
   const sessionId = new URL(location.href).searchParams.get('session');
-  if (sessionId) void openExercise({ sessionId });
+  if (sessionId) await loadExercise({ sessionId });
   else resetPanel();
 }
 
@@ -578,7 +629,14 @@ export async function collectCurrentAnswers() {
   if (frameState !== current) throw new AnswerBridgeError('FRAME_REPLACED', 'The exercise has changed.');
   return { sessionId: current.sessionId, answers };
 }
-window.addEventListener('popstate', followUrl);
+window.addEventListener('popstate',()=>{
+ if(restoringHistory){restoringHistory=false;navigationPending=false;updateControls();restoreCancelledFocus();return;}
+ if(new URL(location.href).searchParams.get('session')===new URL(committedUrl).searchParams.get('session')&&!navigationPending){committedUrl=location.href;return;}
+ pendingHistory=true;if(!navigationPending)void navigate(()=>followUrl(),{fromHistory:true});
+});
+window.addEventListener('beforeunload',event=>{if(pendingWork(frameState)||navigationPending){event.preventDefault();event.returnValue='';}});
+chooseButton.addEventListener('click',chooseExercise);
+document.querySelector('.skip-link').addEventListener('click',event=>{event.preventDefault();panel.focus();panel.scrollIntoView({block:'start'});});
 window.addEventListener('message', (event) => {
   if (!frameState || event.origin !== 'null' || event.source !== frameState.frame.contentWindow || event.data?.channel !== frameState.channel) return;
   const height = event.data.height;

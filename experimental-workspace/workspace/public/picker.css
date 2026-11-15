@@ -31,3 +31,7 @@ button:focus,a:focus{outline:3px solid #075e50;outline-offset:4px}
 #hint-message div.feedback-math{display:block}
 #view-hint{min-height:44px}
 #view-hint:focus-visible{outline:3px solid #075e50;outline-offset:3px}
+
+.result-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.result-actions .review-answers{margin-top:0}
+@media(max-width:760px){.result-actions .action{width:100%;min-height:48px}}

@@ -1,3 +1,4 @@
+import {allowIntentionalNavigation} from './navigation-consent.mjs';
 // Owned-session real-PG grading audit. No raw responses, entered values, expected answers or JWTs are written.
 import {readFile,writeFile,mkdtemp,rm,mkdir} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
@@ -58,6 +59,7 @@ async function grade(page,fixture,label,pairs,{score,statuses,outcome,suppressed
  const responsePromise=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/answers'));
  await page.locator('#check-answer').click();const response=await responsePromise;check(response.status()===200,'GRADE_HTTP');const data=await response.json();await ready(page);capturing=false;check(raw,'RAW_RESPONSE');
  const submitted=data.submission,states=submitted.fieldFeedback.map(f=>f.status);check(same(states,statuses),'FIELD_STATES');
+ check(await page.locator('#choose-exercise').isVisible()&&await page.locator('#review-answers').isVisible()&&Boolean(await page.locator('#result-next-step').textContent()),'NEXT_ACTIONS');
  check(await uiBinding(page,submitted),'FIELD_BINDING');check(await page.locator('#practice-result').getAttribute('data-outcome')===outcome,'OVERALL_OUTCOME');
  check(submitted.fieldFeedback.every(f=>Object.hasOwn(raw.fields,f.name)),'RAW_FIELD_IDENTITY');
  if(score==='partial')check(raw.score>0&&raw.score<1,'PARTIAL_SCORE');else check(raw.score===score,'PG_SCORE');
@@ -74,7 +76,7 @@ async function grade(page,fixture,label,pairs,{score,statuses,outcome,suppressed
  const before=gradeCalls,answers=await collect(page);await page.reload();await ready(page);const restored=await page.evaluate(async id=>(await fetch('/api/sessions/'+id)).json(),id);
  check(same(restored.submission,submitted)&&same(await collect(page),answers)&&gradeCalls===before,'RESTORED_SUBMISSION');
  check(await uiBinding(page,submitted),'RESTORED_BINDING');
- row.pgIndividualFeedbackVisible=raw.flag!==0;row.publicScore=submitted.score;row.fieldStates=submitted.fieldFeedback.map(({name,status,score,reason})=>({name,status,score,...(reason?{reason}:{})}));row.outcome=outcome;row.fieldBindingVerified=true;row.feedbackAndAnswersRestored=true;row.noGradeOnRefresh=true;row.suppressedDetailsRedacted=suppressed;row.passed=true;
+ row.pgIndividualFeedbackVisible=raw.flag!==0;row.publicScore=submitted.score;row.fieldStates=submitted.fieldFeedback.map(({name,status,score,reason})=>({name,status,score,...(reason?{reason}:{})}));row.outcome=outcome;row.nextActionsVerified=true;row.fieldBindingVerified=true;row.feedbackAndAnswersRestored=true;row.noGradeOnRefresh=true;row.suppressedDetailsRedacted=suppressed;row.passed=true;
  return {data,answers,id};
 }
 const browser=await chromium.launch();
@@ -83,6 +85,7 @@ try{
   const source=await readFile('/opl/webwork-open-problem-library/'+fixture.source.path);check(createHash('sha256').update(source).digest('hex')===fixture.source.sha256,'SOURCE_HASH');
   for(const verificationSeed of fixtures.verificationSeeds){seed=verificationSeed;
    const context=await browser.newContext({viewport:{width:1100,height:1000}});
+ allowIntentionalNavigation(context);
    try{
     await context.route(origin+'/**',async route=>{const response=await route.fetch({url:route.request().url().replace(origin,backend)});await route.fulfill({response});});const page=await context.newPage();await page.goto(origin);await page.locator('.exercise-choice[data-exercise-id="'+fixture.id+'"]').click();await ready(page);
     const base={sourceFilePath:fixture.rendererPath,problemSeed:String(seed),_format:'json',isInstructor:'0',showSolutions:'0',showCorrectAnswersButton:'0'};

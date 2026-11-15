@@ -21,12 +21,15 @@ async function pageFor(t, viewport = { width: 1360, height: 1000 }) {
     await route.fulfill({ response });
   });
   t.after(() => context.close());
-  return context.newPage();
+  const page=await context.newPage();
+  page.on('dialog',dialog=>dialog.type()==='beforeunload'||dialog.message().startsWith('Leave this exercise?')?dialog.accept():dialog.dismiss());
+  return page;
 }
 async function choices(page) {
   await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).first().waitFor();
 }
 async function ready(page) {
+  await page.waitForFunction(()=>!document.querySelector('#check-answer').disabled);
   await page.locator('#session-status').waitFor({ state: 'visible' });
   await page.frameLocator('.exercise-frame').locator('mjx-container svg').first().waitFor();
 }
@@ -1199,4 +1202,39 @@ test('hint disclosure preserves live text/vector drafts, session and grading sta
 
 test('a normal exercise without authored hints never advertises a View hint action',{timeout:90000},async t=>{
  const page=await pageFor(t);await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice[data-exercise-id=dot-product-01]').click();await ready(page);assert.equal(await page.locator('#view-hint').isHidden(),true);await page.locator('#check-answer').click();await page.waitForFunction(()=>!document.querySelector('#check-answer').disabled);assert.equal(await page.locator('#view-hint').isHidden(),true);await page.reload();await ready(page);assert.equal(await page.locator('#view-hint').isHidden(),true);
+});
+test('result actions retry in the same session and choosing another only focuses the catalog',{timeout:90000},async t=>{
+ const p=await pageFor(t,{width:360,height:900});let starts=0,grades=0;p.on('request',r=>{if(r.method()==='POST'&&r.url().endsWith('/api/sessions'))starts++;if(r.method()==='POST'&&r.url().endsWith('/answers'))grades++;});await p.goto(baseUrl);await choices(p);await p.locator('.exercise-choice[data-exercise-id=dot-product-01]').click();await ready(p);const id=sessionId(p),f=p.frames().find(f=>f.parentFrame());
+ await p.locator('#check-answer').click();await p.locator('#practice-result').waitFor();await ready(p);assert.match(await p.locator('#result-next-step').textContent(),/same exercise/);await p.locator('#review-answers').press('Enter');await f.locator('[name=AnSwEr0001]:focus').waitFor();assert.equal(grades,1);
+ await f.locator('[name=AnSwEr0001]').fill('17');await p.locator('#check-answer').click();await ready(p);assert.equal(grades,2);assert.equal(starts,1);assert.equal(sessionId(p),id);assert.equal(p.frames().find(f=>f.parentFrame()),f);
+ await f.locator('[name=AnSwEr0001]').fill('unfinished');await p.locator('#choose-exercise').press('Enter');await p.locator('.exercise-choice:not([aria-current=true]):focus').waitFor();assert.equal(starts,1);assert.equal(grades,2);assert.equal(sessionId(p),id);assert.equal(await f.locator('[name=AnSwEr0001]').inputValue(),'unfinished');assert.equal(p.frames().find(f=>f.parentFrame()),f);
+});
+
+test('new variation is explicit, Cancel keeps fresh unsignalled edits and confirmed leave preserves the old draft',{timeout:90000},async t=>{
+ const p=await pageFor(t);let accept=false,confirmations=0;const messages=[];p.removeAllListeners('dialog');p.on('dialog',d=>{if(d.type()==='beforeunload')return d.accept();confirmations++;messages.push(d.message());return accept?d.accept():d.dismiss();});await p.goto(baseUrl);await choices(p);const card=p.locator('.exercise-choice[data-exercise-id=dot-product-01]');await card.click();await ready(p);const id=sessionId(p),f=p.frames().find(f=>f.parentFrame());assert.match(await card.textContent(),/starts a new session/);
+ await f.locator('[name=AnSwEr0001]').evaluate(n=>{n.value='  fresh without input event  ';});await card.click();await ready(p);assert.equal(confirmations,1);assert.equal(await card.evaluate(n=>document.activeElement===n),true);assert.match(messages[0],/unchecked work is saved in this tab/);assert.equal(sessionId(p),id);assert.equal(p.frames().find(f=>f.parentFrame()),f);assert.equal(await f.locator('[name=AnSwEr0001]').inputValue(),'  fresh without input event  ');
+ accept=true;let starts=0;p.on('request',r=>{if(r.method()==='POST'&&r.url().endsWith('/api/sessions'))starts++;});await card.evaluate(n=>{n.click();n.click();});await p.waitForFunction(id=>new URL(location.href).searchParams.get('session')!==id,id);await ready(p);assert.equal(starts,1);assert.notEqual(sessionId(p),id);assert.equal(await p.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').inputValue(),'');
+ await p.goBack();await ready(p);assert.equal(sessionId(p),id);assert.equal(await p.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').inputValue(),'  fresh without input event  ');
+});
+
+test('Back and browser reload protect unfinished work, with exact history and draft restoration',{timeout:90000},async t=>{
+ const p=await pageFor(t);let leave=false,reload=false,exits=0;p.removeAllListeners('dialog');p.on('dialog',d=>{if(d.type()==='beforeunload'){exits++;return reload?d.accept():d.dismiss();}return leave?d.accept():d.dismiss();});await p.goto(baseUrl);await choices(p);await p.locator('.exercise-choice[data-exercise-id=dot-product-01]').click();await ready(p);const id=sessionId(p),f=p.frames().find(f=>f.parentFrame());await f.locator('[name=AnSwEr0001]').fill('history draft');
+ await p.goBack();await p.waitForFunction(id=>new URL(location.href).searchParams.get('session')===id,id);await ready(p);assert.equal(p.frames().find(f=>f.parentFrame()),f);assert.equal(await f.locator('[name=AnSwEr0001]').inputValue(),'history draft');
+ leave=true;await p.goBack();await p.getByText('A small step toward understanding.').waitFor();await p.goForward();await ready(p);assert.equal(sessionId(p),id);assert.equal(await p.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').inputValue(),'history draft');
+ const blockedReload=p.waitForEvent('dialog');await p.evaluate(()=>{setTimeout(()=>location.reload(),0);});await blockedReload;assert.ok(exits>0);assert.equal(sessionId(p),id);assert.equal(await p.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').inputValue(),'history draft');reload=true;await p.reload();await ready(p);assert.equal(sessionId(p),id);assert.equal(await p.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').inputValue(),'history draft');
+});
+
+test('storage and collection failures require explicit consent instead of losing live answers',{timeout:90000},async t=>{
+ const p=await pageFor(t),messages=[];await p.addInitScript(()=>window.addEventListener('message',e=>{if(window.blockCollectedAnswers&&e.data?.type==='answers')e.stopImmediatePropagation();}));p.removeAllListeners('dialog');p.on('dialog',d=>{if(d.type()==='beforeunload')return d.accept();messages.push(d.message());return d.dismiss();});await p.goto(baseUrl);await choices(p);await p.locator('.exercise-choice[data-exercise-id=dot-product-01]').click();await ready(p);const id=sessionId(p),f=p.frames().find(f=>f.parentFrame());await p.evaluate(()=>{Storage.prototype.setItem=function(){throw Error('blocked');};});await f.locator('[name=AnSwEr0001]').fill('cannot save');await p.locator('.exercise-choice:not([aria-current=true])').first().click();await ready(p);assert.match(messages[0],/could not be saved/);assert.equal(sessionId(p),id);assert.equal(await f.locator('[name=AnSwEr0001]').inputValue(),'cannot save');
+ await p.evaluate(()=>{window.blockCollectedAnswers=true;});await p.locator('.exercise-choice:not([aria-current=true])').first().click();await ready(p);assert.match(messages[1],/could not be read/);assert.equal(sessionId(p),id);assert.equal(p.frames().find(f=>f.parentFrame()),f);assert.equal(await f.locator('[name=AnSwEr0001]').inputValue(),'cannot save');
+});
+
+test('cancelling Back during a check preserves the active session and never duplicates grading',{timeout:90000},async t=>{
+ const p=await pageFor(t);p.removeAllListeners('dialog');const messages=[];p.on('dialog',d=>{if(d.type()==='beforeunload')return d.accept();messages.push(d.message());return d.dismiss();});await p.goto(baseUrl);await choices(p);await p.locator('.exercise-choice[data-exercise-id=dot-product-01]').click();await ready(p);const id=sessionId(p);let release,reached,calls=0;const gate=new Promise(r=>{release=r;}),entered=new Promise(r=>{reached=r;});t.after(()=>release());await p.route('**/api/sessions/*/answers',async route=>{calls++;reached();await gate;await route.fulfill({status:503,json:{error:{code:'RENDERER_UNAVAILABLE',message:'Try again.'}}});});await p.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').fill('pending work');await p.locator('#check-answer').click();await entered;await p.goBack();await p.waitForFunction(id=>new URL(location.href).searchParams.get('session')===id,id);assert.match(messages[0],/last check has not been confirmed/);assert.equal(calls,1);assert.equal(await p.locator('#check-answer').isDisabled(),true);release();await p.locator('#submission-error').waitFor();assert.equal(sessionId(p),id);assert.equal(await p.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').inputValue(),'pending work');assert.equal(calls,1);
+});
+test('rapid history requests supersede a pending restore without duplicate sessions or losing the current draft',{timeout:90000},async t=>{
+ const p=await pageFor(t);let starts=0;p.on('request',r=>{if(r.method()==='POST'&&r.url().endsWith('/api/sessions'))starts++;});await p.goto(baseUrl);await choices(p);const card=p.locator('.exercise-choice[data-exercise-id=dot-product-01]');await card.click();await ready(p);const first=sessionId(p);await card.click();await p.waitForFunction(id=>new URL(location.href).searchParams.get('session')!==id,first);await ready(p);const second=sessionId(p);
+ let release,reached;const gate=new Promise(r=>{release=r;}),entered=new Promise(r=>{reached=r;});t.after(()=>release());await p.route('**/api/sessions/'+first,async route=>{reached();await gate;const response=await route.fetch({url:route.request().url().replace(baseUrl,backendUrl)});await route.fulfill({response});});
+ await p.goBack();await entered;await p.goBack();release();await p.getByText('A small step toward understanding.').waitFor();assert.equal(sessionId(p),null);assert.equal(starts,2);await p.unroute('**/api/sessions/'+first);await p.goForward();await ready(p);assert.equal(sessionId(p),first);await p.goForward();await ready(p);assert.equal(sessionId(p),second);
+ p.removeAllListeners('dialog');p.on('dialog',d=>d.type()==='beforeunload'?d.accept():d.dismiss());const f=p.frames().find(f=>f.parentFrame());await f.locator('[name=AnSwEr0001]').fill('keep across two steps');const cancelled=p.waitForEvent('dialog');await p.evaluate(()=>history.go(-2));await cancelled;await p.waitForFunction(id=>new URL(location.href).searchParams.get('session')===id,second);await ready(p);assert.equal(p.frames().find(f=>f.parentFrame()),f);assert.equal(await f.locator('[name=AnSwEr0001]').inputValue(),'keep across two steps');assert.equal(starts,2);
 });
