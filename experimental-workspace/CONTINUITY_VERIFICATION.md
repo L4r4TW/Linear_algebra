@@ -1,6 +1,6 @@
 # Continuity acceptance: failures and navigation
 
-Verified 2026-11-15 against the normal experimental application and its pinned renderer, PG and OPL. Continuity subtask 8 passes the automated checks below. No application runtime, activation rule or enabled exercise changed.
+Implementation/evidence committed and pushed in `3eefcbb`. Documentation refreshes do not imply a new test run. Verified 2026-11-15 against the normal experimental application and its pinned renderer, PG and OPL. Continuity subtask 8 passes the automated checks below. No application runtime, activation rule or enabled exercise changed.
 
 ## Evidence and coverage
 

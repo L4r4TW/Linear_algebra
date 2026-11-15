@@ -8,7 +8,7 @@ The active work is the independent **experimental-workspace/** WeBWorK integrati
 
 The goal has expanded to a multi-subject practice platform covering the whole OPL, using PG mathematical grading. Design the future catalog for all subjects, while validating playable exercises in batches. Build one complete, reliable exercise flow before broadly enabling large numbers of exercises.
 
-This handoff accompanies continuity acceptance following `72d381d` (practice actions). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
+Latest implementation: `3eefcbb` (continuity acceptance), pushed to `origin/main` on 2026-11-15. This documentation refresh follows that commit; it does not change runtime behavior or rerun its tests. Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
 
 
 ## Resume checklist
@@ -21,13 +21,40 @@ This handoff accompanies continuity acceptance following `72d381d` (practice act
 
 The whole OPL remains in its Docker Linux volume. This change does not import the whole library, migrate catalog data into Supabase, or expose the renderer publicly. Continue with the blockers and importer steps below; preserve existing sessions and attribution.
 
-## Current work: failure and navigation continuity acceptance
+## Completed milestone: failure and navigation continuity acceptance
 
 Continuity subtask 8 is verified. [CONTINUITY_VERIFICATION.md](experimental-workspace/CONTINUITY_VERIFICATION.md) maps refresh, accepted-but-lost responses, blocked draft saving, back/forward, pending navigation, ownership, keyboard semantics and mobile checks to repeatable evidence. Two new actual same-owner tab tests verify independent drafts and the existing newer-checked-result precedence with a visible warning. No automatic live merge or older-conflicting-draft recovery is provided.
 
 The new verify-continuity.ps1 runs the server/catalog/browser suite and real desktop/mobile outage audit. It SIGKILLs only the experimental renderer after sessions are prepared, tests offline grading/refresh/retry and privacy, restarts the same container normally, then proves exact draft/question restoration and explicit-only regrading. Fresh results: 173 server tests, 62 browser checks, all six focused continuity cases and both outage viewports pass; normal restart succeeded with no fallback. Sanitized evidence is linked from the acceptance document. No application runtime or catalog activation changed; the matching full seeded evidence remains historical 42/44, with both mobile GraphTool failures disabled.
 
 Next release checks: actual NVDA/VoiceOver listening and physical mobile devices. Before account/public scale, decide draft conflict recovery, cross-device persistence, durable attempt history, request idempotency and distributed locking. Keep the future whole-library importer behind capability verification; this milestone enables no additional exercises. Run git status/log to confirm commit and push state.
+
+## Next work and decisions
+
+The eight feedback/continuity subtasks are complete for the verified local scope. Manual accessibility/device acceptance and production architecture are still outstanding. Do not reopen completed hints or navigation work just because an older milestone below calls it next.
+
+1. Perform and record actual NVDA/VoiceOver listening and physical mobile checks: spoken mathematics, reading order, announcement timing, keyboard focus, leaving with drafts and failure recovery. Automated semantics do not establish spoken output.
+2. Define account ownership and persistence before public/account integration: anonymous-cookie migration, server-side drafts, conflicting-tab draft recovery, durable attempt history, idempotency and concurrency beyond one Node process.
+3. Design the multi-subject catalog/importer around the existing capability contract: stable IDs, attribution/license metadata, source revisions, topic/search metadata, disabled-by-default ingestion and resumable verification batches. OPL source already exists in the Linux volume; importing metadata is separate from enabling playable exercises.
+4. Keep unsupported capabilities visible. Fix and reverify mobile GraphTool, scaffold lifecycle and remaining unapproved interactions/layouts before activating affected batches. The economics candidate's verified evidence alone does not add it to the active batch.
+5. Integrate the experimental flow into the main application only as an explicit implementation task; prepare renderer/service hardening and deployment separately from local catalog growth.
+
+## Verification commands for the next session
+
+Run from the repository root unless the command explicitly changes directory. Avoid overlapping renderer-dependent tests with outage runs.
+
+| Purpose | Command | Scope |
+| --- | --- | --- |
+| Current failure/navigation acceptance | `powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace/verify-continuity.ps1` | 173 server tests, 62 browser checks, live catalog and real desktop/mobile renderer interruption/recovery; requires matching runtime evidence |
+| Focused real outage | Same command with `-OutageOnly` | Two viewport cases only; briefly interrupts the experimental renderer and restores it |
+| Full seeded compatibility | `powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace/verify-compatibility.ps1` | Full operator gate; currently 42/44 with two explicit mobile GraphTool failures |
+| Renderer/client/session API smoke coverage | `powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace/verify-practice.ps1` | Existing broader smoke runner; optional `-IncludeRendererOutage` adds its API-level outage check |
+
+The six-entry focused continuity audit is separate from verify-continuity.ps1; reproduce it using [CONTINUITY_FEEDBACK_AUDIT.md](experimental-workspace/CONTINUITY_FEEDBACK_AUDIT.md). Read [CONTINUITY_VERIFICATION.md](experimental-workspace/CONTINUITY_VERIFICATION.md) for evidence and limits. The last 14 publisher/report checks and full 44-case run belong to the preceding runtime milestone; they were not rerun during the tests/docs-only acceptance change. Documentation-only edits require link/command validation and `git diff --check`, not another renderer interruption.
+
+## Historical implementation milestones
+
+The sections below preserve results and next-step notes as they stood at each milestone. Current scope and next work are defined above.
 
 ## Previous milestone: retry and protected move-on controls
 

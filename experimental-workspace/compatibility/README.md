@@ -65,7 +65,7 @@ Visible reviewed records: [REGRESSION_STATUS.md](REGRESSION_STATUS.md), [report.
 
 ## Focused continuity audit
 
-[../CONTINUITY_FEEDBACK_AUDIT.md](../CONTINUITY_FEEDBACK_AUDIT.md) contains the working/missing-feature checklist and commands for [continuity-audit.mjs](continuity-audit.mjs). [continuity-audit.json](continuity-audit.json) records a fresh default-catalog run for all six enabled exercises. It now requires unfinished drafts to survive refresh before/after checks and load failures, alongside restoration/retry/feedback behavior. [continuity-audit-before-drafts.json](continuity-audit-before-drafts.json) retains the original draft-loss baseline. Read [../DRAFT_PERSISTENCE.md](../DRAFT_PERSISTENCE.md) for scope and precedence; authored hints remain future work. The audit uses its own normal sessions, no instructor answer oracle, and injected HTTP failures without stopping services.
+[../CONTINUITY_FEEDBACK_AUDIT.md](../CONTINUITY_FEEDBACK_AUDIT.md) contains the working/missing-feature checklist and commands for [continuity-audit.mjs](continuity-audit.mjs). [continuity-audit.json](continuity-audit.json) records a fresh default-catalog run for all six enabled exercises. It now requires unfinished drafts to survive refresh before/after checks and load failures, alongside restoration/retry/feedback behavior. [continuity-audit-before-drafts.json](continuity-audit-before-drafts.json) retains the original draft-loss baseline. Read [../DRAFT_PERSISTENCE.md](../DRAFT_PERSISTENCE.md) for scope and precedence; authored hints and protected navigation are implemented and verified separately. The audit uses its own normal sessions, no instructor answer oracle, and injected HTTP failures without stopping services.
 
 ## Session recovery evidence
 
@@ -84,3 +84,15 @@ Visible reviewed records: [REGRESSION_STATUS.md](REGRESSION_STATUS.md), [report.
 ## Practice-action navigation in QA
 
 The operator-only [navigation-consent.mjs](navigation-consent.mjs) approves the deliberate reloads/leaves used by existing compatibility, feedback, hint and continuity checks. Student code never imports it. The browser suite separately tests Cancel, storage/collection failures, history, beforeunload and pending grading. The feedback audit verifies visible next actions for every real-PG outcome. Read [../PRACTICE_ACTIONS.md](../PRACTICE_ACTIONS.md) before changing this consent or weakening a navigation assertion.
+
+## Real failure and navigation acceptance
+
+[../CONTINUITY_VERIFICATION.md](../CONTINUITY_VERIFICATION.md) records acceptance at `3eefcbb`: 173 server tests, 62 browser checks, six focused continuity cases and two actual outage viewports. From the repository root run:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace/verify-continuity.ps1
+```
+
+The host orchestrates an actual renderer SIGKILL/restart around [failure-continuity.mjs](failure-continuity.mjs); browser QA has no Docker socket. Keep other renderer-dependent tests idle. The command checks normal-app runtime identity and writes temporary, sanitized [browser-suite observations](practice-suite-observations.json), [desktop/mobile outage observations](failure-continuity-observations.json) and [host restart evidence](outage-orchestration.json). It restores the renderer in finally without removing volumes. `-OutageOnly` skips ordinary server/catalog/browser checks; the six-entry focused audit above remains a separate run. Do not run the phase-coordinated browser module alone without its host orchestrator.
+
+Both actual same-owner tab tests are in the browser suite. Tabs have independent drafts; live changes do not synchronize, and restoration prefers a newer checked submission with a warning. Manual screen-reader listening and physical-device testing remain outstanding. The full 44-case seeded gate was not rerun for the tests/docs-only continuity milestone; its two mobile GraphTool failures remain disabled and visible.

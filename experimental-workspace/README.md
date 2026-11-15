@@ -4,17 +4,30 @@ Session handoff and next steps: [PROJECT_CONTEXT.md](../PROJECT_CONTEXT.md). Rep
 
 ## Current catalog scope
 
-Six exercises are enabled in the first local verified batch; five more candidates remain indexed and disabled. See [catalog compatibility rules](CATALOG_COMPATIBILITY.md), [eligibility record](compatibility/CATALOG_STATUS.md), and [server catalog](workspace/server/exercise-catalog.json). Source/runtime evidence and explicit batch membership govern availability. Current validation: 173 server tests, 62 browser checks, 14 publisher/report tests and the live six-entry API check pass. The full operator regression retains two failed mobile GraphTool cases. Earlier one-exercise counts below describe historical verification stages.
+Six exercises are enabled in the first local verified batch; five more candidates remain indexed and disabled. See [catalog compatibility rules](CATALOG_COMPATIBILITY.md), [eligibility record](compatibility/CATALOG_STATUS.md), and [server catalog](workspace/server/exercise-catalog.json). Source/runtime evidence and explicit batch membership govern availability. Latest implementation validation (`3eefcbb`, 2026-11-15): 173 server tests, 62 browser checks, six focused continuity cases, two actual outage viewport cases and the live six-entry API check pass. The 14 publisher/report checks and full seeded gate are prior evidence for the unchanged runtime. The full operator regression retains two failed mobile GraphTool cases. Earlier one-exercise counts below describe historical verification stages.
 
 To verify the enabled batch after rebuilding, run `docker compose exec -T workspace node server/check-catalog.mjs` from this directory. It checks listing, start, blank grading, restoration, ownership and rejection of disabled IDs. For the future full-library importer, start with [CATALOG_COMPATIBILITY.md](CATALOG_COMPATIBILITY.md); indexed exercises remain disabled until verified and included in an active batch.
 
-The [continuity and feedback audit](CONTINUITY_FEEDBACK_AUDIT.md) records the current six-exercise baseline: checked work and PG feedback restore. Unchecked edits now also survive refresh through [session-bound tab drafts](DRAFT_PERSISTENCE.md). Its original missing-draft baseline is historical; explicit recovery actions are implemented; authored hints and protected navigation are now implemented. Reproduce the focused browser audit with the commands in that document; it records known gaps rather than implementing fixes.
+The [continuity and feedback audit](CONTINUITY_FEEDBACK_AUDIT.md) preserves the historical gap checklist and commands for the current six-entry focused audit. Checked work, PG feedback and [session-bound tab drafts](DRAFT_PERSISTENCE.md) restore. Explicit recovery, authored hints and protected navigation are implemented; [current continuity acceptance](CONTINUITY_VERIFICATION.md) records their verified scope and remaining limits.
 
 See [SESSION_RECOVERY.md](SESSION_RECOVERY.md) for explicit unavailable-session recovery: same-session retries for outages, preserved records/drafts for terminal failures, privacy-safe missing/ownership messages, and GET-only reconciliation before retrying an uncertain grade. Saved-result reload keeps the live answers until restoration succeeds, including when tab storage is unavailable.
 
 The [feedback model](FEEDBACK_MODEL.md) now documents field and overall state precedence, withheld grading, named-field association and stale/revert behavior. Its [real-PG audit](compatibility/feedback-observations.json) verifies 22 cases at two seeds, including separate operator-only suppression and authored-equation-notation fixtures. This does not expand the student catalog.
 
 Current [continuity acceptance](CONTINUITY_VERIFICATION.md) covers refresh, lost responses, draft-save failures, history, real same-owner tabs and actual renderer shutdown/recovery on desktop and 360 px touch emulation. From the repository root run: `powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace/verify-continuity.ps1`. This briefly stops only the experimental renderer and restores it without removing volumes. Screen-reader listening and physical-device review remain manual release checks.
+
+## Documentation and next work
+
+| Need | Start here |
+| --- | --- |
+| Resume development and choose the next implementation | [PROJECT_CONTEXT.md](../PROJECT_CONTEXT.md) and [AGENTS.md](AGENTS.md) |
+| Current continuity evidence and failure testing | [CONTINUITY_VERIFICATION.md](CONTINUITY_VERIFICATION.md) |
+| Draft precedence, multi-tab limits and recovery | [DRAFT_PERSISTENCE.md](DRAFT_PERSISTENCE.md) and [SESSION_RECOVERY.md](SESSION_RECOVERY.md) |
+| PG outcomes, notation, hints and move-on behavior | [FEEDBACK_MODEL.md](FEEDBACK_MODEL.md), [FEEDBACK_PRESENTATION.md](FEEDBACK_PRESENTATION.md), [AUTHORED_HINTS.md](AUTHORED_HINTS.md), [PRACTICE_ACTIONS.md](PRACTICE_ACTIONS.md) |
+| Future multi-subject import and activation | [CATALOG_COMPATIBILITY.md](CATALOG_COMPATIBILITY.md) and [eligibility record](compatibility/CATALOG_STATUS.md) |
+| Full seeded operator tests and unsupported widgets | [COMPATIBILITY_REGRESSION.md](COMPATIBILITY_REGRESSION.md) and [operator guide](compatibility/README.md) |
+
+The feedback/continuity milestone is complete for the enabled local batch. Next release checks are actual screen-reader listening and physical mobile devices. Future account/public work needs deliberate ownership, server-side drafts, tab conflict recovery, attempt history, request idempotency, distributed concurrency and renderer hardening. A metadata importer can index OPL subjects while keeping unverified entries disabled. Main-app integration and additional activation remain separate implementation tasks.
 
 ## Historical integration milestones
 
@@ -333,7 +346,7 @@ Run the operator-only live grading diagnostic:
 docker compose exec -T workspace npm run smoke:grading
 ```
 
-It obtains expected answers directly from the renderer in instructor mode solely for testing; instructor responses never pass through the student API and are not logged. Verified against the installed PG engine: incorrect score 0, partial score 0.25, correct score 1, restored correct score 1, and cleared-answer score 0. The current regression suite passes 68 server tests and 23 browser checks.
+It obtains expected answers directly from the renderer in instructor mode solely for testing; instructor responses never pass through the student API and are not logged. Verified against the installed PG engine: incorrect score 0, partial score 0.25, correct score 1, restored correct score 1, and cleared-answer score 0. That historical grading milestone passed 68 server tests and 23 browser checks; current counts are recorded at the top of this document.
 
 Implementation: `renderer-client.mjs`, `answer-contract.mjs`, `exercise-sessions.mjs`, and `http-app.mjs` in `workspace/server/`.
 ## Saved submission state
@@ -415,7 +428,7 @@ Run the complete acceptance checks from this directory:
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./verify-practice.ps1 -IncludeRendererOutage
 ```
 
-The outage option briefly interrupts only the experimental renderer and restores it in `finally`; no volumes are removed. Omit it for ordinary checks, or use `-RendererOutageOnly` for focused recovery verification. An explicit retry after an ambiguous lost response is a new submission; refreshing restores the last accepted result without grading again.
+The outage option briefly interrupts only the experimental renderer and restores it in `finally`; no volumes are removed. Omit it for ordinary checks, or use `-RendererOutageOnly` for focused recovery verification. After an ambiguous lost response, another check is blocked until explicit Reload saved session reconciles with GET only; restoration does not grade. The student can then explicitly edit/check again in the same session.
 
 The outage check found and fixed stale Hypnotoad PID-file handling. Compose now removes only `/usr/app/script/hypnotoad.pid` before starting the renderer with `exec`, preventing PID reuse from triggering a false hot reload after a stop or crash. Keep this startup wrapper when updating the pinned renderer.
 
@@ -499,7 +512,7 @@ docker compose down
 
 Both services belong to Compose project `linear-algebra-experimental`, on a dedicated network with localhost-only ports. No host source directories or application secrets are mounted. If Docker reports a missing engine pipe, start Docker Desktop and wait for its Linux engine to become ready.
 
-Safe PG feedback presentation is documented in [FEEDBACK_PRESENTATION.md](FEEDBACK_PRESENTATION.md). The real-PG feedback audit covers 22 cases plus two edit/revert checks, including actual authored equation notation after refresh. Added fixtures remain operator-only; the student catalog still enables six entries. [Available authored hints](AUTHORED_HINTS.md) are implemented; protected move-on controls are next.
+Safe PG feedback presentation is documented in [FEEDBACK_PRESENTATION.md](FEEDBACK_PRESENTATION.md). The real-PG feedback audit covers 22 cases plus two edit/revert checks, including actual authored equation notation after refresh. Added fixtures remain operator-only; the student catalog still enables six entries. [Available authored hints](AUTHORED_HINTS.md) and [protected move-on controls](PRACTICE_ACTIONS.md) are implemented and covered by [continuity acceptance](CONTINUITY_VERIFICATION.md).
 
 ## Available authored hints
 

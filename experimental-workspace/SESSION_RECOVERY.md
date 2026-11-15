@@ -67,9 +67,12 @@ Server tests cover real renderer-shaped errors, rejection of misleading/non-JSON
 
 The seeded compatibility runner now explicitly uses Reload saved session after an accepted-but-lost response, verifies that another check is blocked first, and compares the restored answers/submission without regrading. It still retains unsupported widget failures. Use the regular server/browser suites, live catalog check and [verify-compatibility.ps1](verify-compatibility.ps1); runtime approval must match the new fingerprint.
 
-No existing exercise is regenerated to recover an expired token. Automatic expiry/renewal policy, account recovery, durable attempt history, general grading idempotency, a UI for reviewing an older conflicting draft and cross-device draft synchronization remain separate work. The next product subtask is to refine grading outcomes and PG feedback presentation, followed by available authored hints and deliberate move-on controls.
-## Final verification
+No existing exercise is regenerated to recover an expired token. Automatic expiry/renewal policy, account recovery, durable attempt history, general grading idempotency, a UI for reviewing an older conflicting draft and cross-device draft synchronization remain separate work. Grading outcomes, safe PG feedback, authored hints and protected move-on controls are now implemented. See [CONTINUITY_VERIFICATION.md](CONTINUITY_VERIFICATION.md) for current end-to-end acceptance and remaining release checks.
+
+## Historical recovery-milestone verification
 
 136 server tests, 47 browser checks, 14 publisher/report tests, the six-entry live API check and current continuity audit passed. The real renderer outage/restart check also passed: owned restore/grade returned 503 while offline, unauthorized requests stayed 404, and normal restart restored the exact question and accepted submission. No volumes were removed. The complete seeded matrix has 42 passes and the two known mobile GraphTool grading failures, which remain blocked. Actual screen-reader listening and general grading idempotency remain separate work.
 
 Repeat the focused real outage check from the repository root with `powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace/verify-practice.ps1 -RendererOutageOnly`. It briefly stops only the experimental renderer and restores it in finally; keep other renderer-dependent tests idle while it runs.
+
+Current actual desktop/mobile outage acceptance is documented in [CONTINUITY_VERIFICATION.md](CONTINUITY_VERIFICATION.md) and automated by [verify-continuity.ps1](verify-continuity.ps1). It supplements the older API-level outage command above; both briefly interrupt the experimental renderer and must run without overlapping renderer-dependent tests.
