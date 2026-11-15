@@ -8,6 +8,8 @@ Six exercises are enabled in the first local verified batch; five more candidate
 
 To verify the enabled batch after rebuilding, run `docker compose exec -T workspace node server/check-catalog.mjs` from this directory. It checks listing, start, blank grading, restoration, ownership and rejection of disabled IDs. For the future full-library importer, start with [CATALOG_COMPATIBILITY.md](CATALOG_COMPATIBILITY.md); indexed exercises remain disabled until verified and included in an active batch.
 
+The [continuity and feedback audit](CONTINUITY_FEEDBACK_AUDIT.md) records the current six-exercise baseline: checked work and PG feedback restore, but unchecked edits do not survive refresh. Its checklist prioritizes drafts, specific recovery actions, authored hints and protected navigation. Reproduce the focused browser audit with the commands in that document; it records known gaps rather than implementing fixes.
+
 ## Historical integration milestones
 
 The following paragraphs record earlier verification stages; current availability is governed by the catalog scope above.

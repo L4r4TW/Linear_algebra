@@ -21,6 +21,16 @@ This handoff accompanies the capability-gated catalog activation changes on `mai
 
 The whole OPL remains in its Docker Linux volume. This change does not import the whole library, migrate catalog data into Supabase, or expose the renderer publicly. Continue with the blockers and importer steps below; preserve existing sessions and attribution.
 
+## Current work: feedback and continuity audit
+
+The next product milestone is reliable feedback and continuity. Subtask 1 is complete locally: [CONTINUITY_FEEDBACK_AUDIT.md](experimental-workspace/CONTINUITY_FEEDBACK_AUDIT.md) separates working behavior from missing features, with a per-entry table and sanitized [fresh observations](experimental-workspace/compatibility/continuity-audit.json).
+
+Fresh checks covered all six enabled exercises in the default application: same exercise on refresh, checked blank-answer/feedback restoration, changed-answer labels, input preservation after an injected failed check, and load retry without starting another session. All five text-answer exercises also distinguished real PG parser errors from valid-but-wrong answers and restored both result types. The radio fixture's incorrect/correct evidence remains the existing seeded run. Unsubmitted edits before or after checking are lost on refresh in all six, including native choices.
+
+Fresh validation: 100 server tests and the six-entry live API check passed. The earlier 24 seeded cases for these six entries and 29 browser-suite checks were reviewed, not rerun. No runtime, compatibility approval, original-app code or existing session records were changed; the audit creates its own normal sessions and records no private answer/session values. This handoff accompanies the audit commit after `0e2534e`; inspect Git history and working-tree status for subsequent changes.
+
+Immediate next task: implement session-bound drafts and restoration precedence (subtask 2), followed by recovery-specific next actions and uncertain-grade reconciliation, feedback/suppression rules, available authored hints, and protected move-on controls. Read the audit's missing-feature checklist and reproduction commands first. Preserve the known GraphTool/scaffold/layout blockers and the full gate's existing failures.
+
 ## Capability-based exercise enablement (2026-11-15)
 
 The current catalog uses [capability and evidence rules](experimental-workspace/CATALOG_COMPATIBILITY.md). Eleven exercises are indexed; the first local batch enables six verified entries across linear algebra, calculus, statistics and algebra. The [eligibility record](experimental-workspace/compatibility/CATALOG_STATUS.md) retains disabled matrix/static-image/dropdown/scaffold/GraphTool candidates and their reasons. Earlier one-exercise counts and operator-only scope below are historical.

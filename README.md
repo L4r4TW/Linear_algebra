@@ -33,6 +33,8 @@ The sandbox now enables a first local batch of **six verified exercises** across
 
 Latest catalog validation: **100 server tests, 29 browser checks, and 14 publisher/report tests passed**, along with the live six-exercise API check. The full 44-case compatibility run retains two mobile GraphTool failures; GraphTool remains disabled. The [importer contract](experimental-workspace/CATALOG_COMPATIBILITY.md) explains status, capability requirements, batch activation, withdrawal, and stale evidence.
 
+The [continuity and feedback audit](experimental-workspace/CONTINUITY_FEEDBACK_AUDIT.md) now checks all six enabled exercises and separates working restoration/feedback from missing drafts, hints and recovery actions. Same-session restoration works; unchecked edits are lost on refresh. Durable session-bound drafts are the next implementation task.
+
 The previous complete-flow verification passed **68 server tests and 23 browser checks**, all live smoke checks, and a real renderer failure/recovery test. That test found and fixed a stale PID-file restart bug. See the [acceptance report](experimental-workspace/PRACTICE_VERIFICATION.md) for evidence and limits.
 
 Repeat the complete verification from the repository root:
