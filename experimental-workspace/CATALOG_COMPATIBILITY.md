@@ -65,7 +65,11 @@ After copying reviewed outputs, rebuild the workspace, run server/browser tests 
 5. Review a validated batch, publish atomically, monitor failures, and support withdrawal without deleting sessions or evidence. Reverify affected files after source/dependency/runtime changes. These two seeds do not prove all possible random variants; broaden sampling and track runtime failures as rollout grows.
 
 Compatibility approval is separate from licensing, redistribution, public sandboxing, authentication, rate limits and deployment readiness. Retain individual/parent-directory notices and conditional OPL license evidence. This task enables a small local batch; it does not import or enable the whole library.
-## Current validation
+## Full-library persistence follow-up (5.5)
+
+[COMPATIBILITY_DATA_MODEL.md](COMPATIBILITY_DATA_MODEL.md) maps this unchanged gate to versioned requirements, environments/profiles, retained run/case evidence and explicit activation events. The [read-only model checks](catalog-model/README.md) preserve the current decisions; their output is not new publisher evidence, a replacement allowlist or stronger environment certification. Unknown historical approval/worker/attempt details remain unknown. Use the existing publisher workflow above until integration is explicitly implemented.
+
+## Historical runtime-milestone validation
 
 173 server tests, 60 browser checks, 14 publisher/report tests, the live six-entry catalog check and baseline renderer/API smoke checks passed. The complete 44-case operator run has 42 passes and two mobile GraphTool failures; its nonzero gate is retained. Both seeds fail positive touch grading in the latest draft-enabled run; the earlier keyboard failure is historical. This does not affect eligibility of the six individually verified batch members. The recovery follow-up also passed the focused real renderer outage/restart check with saved state preserved. Physical screen-reader review remains manual.
 

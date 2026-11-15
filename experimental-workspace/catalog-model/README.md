@@ -43,3 +43,15 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace
 The [runner](verify-metadata-contract.ps1) invokes [source inspection](inspect-metadata-sources.mjs), [thirteen contract checks](verify-metadata-contract.mjs) and optional [Chromium preview checks](check-metadata-preview.mjs). If the existing QA image is absent, build browser-tests/Dockerfile as described in CATALOG_METADATA.md. No source bind mount, PG evaluation, private session access, SQL or application restart is needed. Re-running refreshes artifact timestamps; review their diffs.
 
 Fresh evidence: [source observations](metadata-source-observations.json) cover eleven hashes/header/notice inventories; [contract observations](metadata-contract-observations.json) pass thirteen cases; [preview observations](metadata-preview-observations.json) cover search, unavailable filtering, keyboard disclosure, unknown values, CSP, no load-time requests and 360 px fit. Parent notice discovery is not complete license review, and reviewed-looking fixture states are design examples, not new live editorial or compatibility approval. Next: task 5.5.
+
+## Compatibility evidence and activation model (5.5)
+
+Read [COMPATIBILITY_DATA_MODEL.md](../COMPATIBILITY_DATA_MODEL.md). [compatibility-model.mjs](compatibility-model.mjs) normalizes the existing catalog/evidence/profile/batch snapshots and calls the actual catalog assessor. It is private design tooling, not a publisher, new allowlist, student API or database migration. [compatibility-model-examples.json](compatibility-model-examples.json) preserves tested source/capability bindings separately from current requirements, all 44 selected cases, retained failures and current assessments; unknown history stays null/not-recorded.
+
+From the repository root, with the existing workspace running:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace/catalog-model/verify-compatibility-model.ps1
+```
+
+The [runner](verify-compatibility-model.ps1) and [checks](verify-compatibility-model.mjs) compare every decision against the live catalog module and exercise hypothetical changes only in cloned memory. Fresh [observations](compatibility-model-observations.json): 15 checks pass, 11 indexed / 6 enabled, with 42 historical required passes and 2 retained mobile GraphTool failures. No new renderer/browser run, session reads, activation or SQL writes. Do not replace workspace/server/catalog-compatibility-evidence.json with these design artifacts. Next: student-record relationships/privacy boundaries (5.6).

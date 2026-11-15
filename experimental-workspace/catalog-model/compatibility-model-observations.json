@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-15T22:55:10.463Z",
+  "kind": "compatibility-model-observations",
+  "state": "design-only-not-applied",
+  "runtimeFingerprint": "8ff066dd7e957a03850b3f23cda907a3285b9dd536cd60ad0f396a20aa9d879e",
+  "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+  "indexed": 11,
+  "enabled": 6,
+  "statusCounts": {
+    "unverified": 0,
+    "verified": 7,
+    "limited": 2,
+    "unsupported": 2,
+    "failed": 0,
+    "stale": 0
+  },
+  "recordedCases": 44,
+  "historicalRequiredPasses": 42,
+  "historicalRequiredFailures": 2,
+  "newRendererExecution": false,
+  "checks": [
+    {
+      "name": "Normalized decisions preserve all eleven live gate outcomes",
+      "passed": true
+    },
+    {
+      "name": "A complete report retains failed cases instead of claiming all checks passed",
+      "passed": true
+    },
+    {
+      "name": "Unsupported classification retains both mobile GraphTool grading failures",
+      "passed": true
+    },
+    {
+      "name": "Verified but unbatched economics remains disabled",
+      "passed": true
+    },
+    {
+      "name": "Batch withdrawal disables all six without deleting evidence or identities",
+      "passed": true
+    },
+    {
+      "name": "Entry enable flag alone cannot authorize an exercise",
+      "passed": true
+    },
+    {
+      "name": "Runtime mismatch invalidates every otherwise enabled decision",
+      "passed": true
+    },
+    {
+      "name": "Source hash changes keep old observations but mark the decision stale",
+      "passed": true
+    },
+    {
+      "name": "Incomplete report and duplicate seed/viewport coverage cannot confer approval",
+      "passed": true
+    },
+    {
+      "name": "One missing mandatory ownership check blocks an otherwise correct case",
+      "passed": true
+    },
+    {
+      "name": "Same declared capabilities never substitute for per-file evidence",
+      "passed": true
+    },
+    {
+      "name": "Changing capability requirements makes prior evidence stale",
+      "passed": true
+    },
+    {
+      "name": "A passing retry cannot erase retained failure observations",
+      "passed": true
+    },
+    {
+      "name": "Historical worker, approval and attempt identities are not invented",
+      "passed": true
+    },
+    {
+      "name": "Normalization and hypothetical decisions do not mutate the live input snapshot",
+      "passed": true
+    }
+  ],
+  "complete": true,
+  "scope": "Read-only normalization and hypothetical model decisions using the actual catalog assessor. No new PG/browser acceptance, database migration or activation."
+}
