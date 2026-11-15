@@ -1,0 +1,259 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-15T18:24:41.551Z",
+  "runtimeFingerprint": "8ff066dd7e957a03850b3f23cda907a3285b9dd536cd60ad0f396a20aa9d879e",
+  "scope": "Chromium browser suite against the normal owned-session practice application. Static test names and status only; no private response data.",
+  "cases": [
+    {
+      "name": "selects a real exercise, renders mathematics, restores on refresh and browser history",
+      "passed": true
+    },
+    {
+      "name": "fits a narrow mobile viewport and keeps exercise inputs usable",
+      "passed": true
+    },
+    {
+      "name": "shows catalog loading, empty state, and a working refresh action",
+      "passed": true
+    },
+    {
+      "name": "shows catalog errors and recovers through retry",
+      "passed": true
+    },
+    {
+      "name": "shows session loading and errors, and retries the selected exercise",
+      "passed": true
+    },
+    {
+      "name": "a missing saved session shows an error without starting a replacement",
+      "passed": true
+    },
+    {
+      "name": "math resource failures can be retried without creating another session",
+      "passed": true
+    },
+    {
+      "name": "collects all four real PG fields exactly and publishes session-bound changes",
+      "passed": true
+    },
+    {
+      "name": "preserves repeated names and successful-control semantics without renderer/helper state",
+      "passed": true
+    },
+    {
+      "name": "ignores forged frame messages and clears snapshots when changing exercises",
+      "passed": true
+    },
+    {
+      "name": "answer requests time out cleanly and pending requests reject when their frame is replaced",
+      "passed": true
+    },
+    {
+      "name": "submitted answers and feedback survive page refresh without another grading request",
+      "passed": true
+    },
+    {
+      "name": "Check answer sends fresh values once, shows submitting state, and keeps the live inputs",
+      "passed": true
+    },
+    {
+      "name": "grading server and network failures preserve all inputs and allow an explicit retry",
+      "passed": true
+    },
+    {
+      "name": "leaving during grading clears the controls and ignores a late response",
+      "passed": true
+    },
+    {
+      "name": "real PG feedback distinguishes invalid input, incorrect answers, blanks and correctness, then restores results",
+      "passed": true
+    },
+    {
+      "name": "keyboard flow supports skip navigation, Enter checking, result focus, and return to invalid answers",
+      "passed": true
+    },
+    {
+      "name": "Enter preserves textarea, selection, widget, modifier, composition, and repeat-key behavior",
+      "passed": true
+    },
+    {
+      "name": "slow loads and grading do not steal focus after the student moves elsewhere",
+      "passed": true
+    },
+    {
+      "name": "service errors announce the failure and leave keyboard focus on the retry control",
+      "passed": true
+    },
+    {
+      "name": "narrow screens retain readable mathematics, touch targets, contrast and visible focus",
+      "passed": true
+    },
+    {
+      "name": "complete real practice flow preserves partial credit through failures and recovers a lost successful response on refresh",
+      "passed": true
+    },
+    {
+      "name": "real browser sessions enforce ownership across owned and anonymous contexts without changing either session",
+      "passed": true
+    },
+    {
+      "name": "a failed dependency keeps grading disabled after the deadline and retry restores the same session",
+      "passed": true
+    },
+    {
+      "name": "GraphTool observation is limited to the mapped answer, preserves native values, and cleans up",
+      "passed": true
+    },
+    {
+      "name": "widget feedback describes the visible graph and keeps choice labels together using plain text",
+      "passed": true
+    },
+    {
+      "name": "exercise styles opt in native answers while preserving table, graph, editor and author opt-outs",
+      "passed": true
+    },
+    {
+      "name": "application shell styles cannot reach the exercise and widget geometry survives exercise override removal",
+      "passed": true
+    },
+    {
+      "name": "approved multi-subject batch is selectable and disabled candidates stay private",
+      "passed": true
+    },
+    {
+      "name": "drafts preserve every enabled native exercise, whitespace and repeated-name choices across refresh",
+      "passed": true
+    },
+    {
+      "name": "draft overrides checked answers, marks feedback stale, and clears only after those edits are checked",
+      "passed": true
+    },
+    {
+      "name": "draft retains edits made during accepted grading when the response is lost",
+      "passed": true
+    },
+    {
+      "name": "new versions and other owners never receive the original session draft",
+      "passed": true
+    },
+    {
+      "name": "unavailable storage and corrupt drafts leave answers editable and report the problem",
+      "passed": true
+    },
+    {
+      "name": "native draft adapter restores repeated values, cleared groups and selects atomically, rejecting helpers",
+      "passed": true
+    },
+    {
+      "name": "a newer checked result wins over an older draft in this tab",
+      "passed": true
+    },
+    {
+      "name": "native input events autosave without requesting collection or grading",
+      "passed": true
+    },
+    {
+      "name": "terminal recovery SESSION_EXPIRED keeps the session link and draft without retrying or starting another",
+      "passed": true
+    },
+    {
+      "name": "terminal recovery SESSION_REJECTED keeps the session link and draft without retrying or starting another",
+      "passed": true
+    },
+    {
+      "name": "terminal recovery EXERCISE_WITHDRAWN keeps the session link and draft without retrying or starting another",
+      "passed": true
+    },
+    {
+      "name": "terminal recovery SESSION_NOT_FOUND keeps the session link and draft without retrying or starting another",
+      "passed": true
+    },
+    {
+      "name": "transient recovery RENDERER_UNAVAILABLE retries only the same saved session on request",
+      "passed": true
+    },
+    {
+      "name": "transient recovery RENDERER_TIMEOUT retries only the same saved session on request",
+      "passed": true
+    },
+    {
+      "name": "terminal grading failure keeps the live frame editable, blocks repeated checks and offers a deliberate choice",
+      "passed": true
+    },
+    {
+      "name": "lost grading response reload action uses GET, restores saved result and preserves newer draft edits",
+      "passed": true
+    },
+    {
+      "name": "failed GET recovery and blocked draft storage keep live edits until a successful restore",
+      "passed": true
+    },
+    {
+      "name": "a mismatched saved-session response is rejected without replacing the requested exercise",
+      "passed": true
+    },
+    {
+      "name": "suppressed public results stay neutral and visible grading can follow without stale score state",
+      "passed": true
+    },
+    {
+      "name": "field feedback remains bound by generated name, clears stale invalid semantics and restores them on revert",
+      "passed": true
+    },
+    {
+      "name": "reviewed PG notation renders in field and overall feedback while HTML and unreviewed TeX stay inert",
+      "passed": true
+    },
+    {
+      "name": "optional feedback math failure preserves original notation, saved result and usable controls",
+      "passed": true
+    },
+    {
+      "name": "late feedback math cannot replace edited feedback and wide expressions retain keyboard scrolling",
+      "passed": true
+    },
+    {
+      "name": "hint disclosure preserves live text/vector drafts, session and grading state, and closes when availability changes",
+      "passed": true
+    },
+    {
+      "name": "a normal exercise without authored hints never advertises a View hint action",
+      "passed": true
+    },
+    {
+      "name": "result actions retry in the same session and choosing another only focuses the catalog",
+      "passed": true
+    },
+    {
+      "name": "new variation is explicit, Cancel keeps fresh unsignalled edits and confirmed leave preserves the old draft",
+      "passed": true
+    },
+    {
+      "name": "Back and browser reload protect unfinished work, with exact history and draft restoration",
+      "passed": true
+    },
+    {
+      "name": "storage and collection failures require explicit consent instead of losing live answers",
+      "passed": true
+    },
+    {
+      "name": "cancelling Back during a check preserves the active session and never duplicates grading",
+      "passed": true
+    },
+    {
+      "name": "rapid history requests supersede a pending restore without duplicate sessions or losing the current draft",
+      "passed": true
+    },
+    {
+      "name": "two actual tabs share ownership but keep independent drafts and explain a newer checked result",
+      "passed": true
+    },
+    {
+      "name": "a stale same-owner tab checks only by explicit action and the other tab restores that newer result",
+      "passed": true
+    }
+  ],
+  "passed": 62,
+  "failed": 0,
+  "complete": true
+}

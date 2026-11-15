@@ -1,0 +1,10 @@
+{
+    "schemaVersion":  1,
+    "observedAt":  "2026-11-15T18:25:35.0687540Z",
+    "runtimeFingerprint":  "8ff066dd7e957a03850b3f23cda907a3285b9dd536cd60ad0f396a20aa9d879e",
+    "rendererStopped":  true,
+    "normalRestartSucceeded":  true,
+    "sameRendererContainer":  true,
+    "fallbackUsed":  false,
+    "complete":  true
+}

@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-15T18:24:47.106Z",
+  "runtimeFingerprint": "8ff066dd7e957a03850b3f23cda907a3285b9dd536cd60ad0f396a20aa9d879e",
+  "scope": "Actual renderer SIGKILL and normal restart; owned normal-app sessions on desktop and emulated touch-mobile. No instructor data, private answers, session IDs, seeds, cookies, tokens or raw HTML are serialized.",
+  "cases": [
+    {
+      "viewport": "desktop",
+      "fixtureId": "dot-product-01",
+      "phase": "complete",
+      "ready": true,
+      "offlineGradeStatus": 503,
+      "foreignOwnerStatuses": [
+        404,
+        404
+      ],
+      "liveFrameAndDraftPreserved": true,
+      "failedRefreshPreservedDraft": true,
+      "keyboardRetryVerified": true,
+      "errorSemanticsVerified": true,
+      "workspaceHealthyWhileRendererOffline": true,
+      "questionSessionAndDraftRestored": true,
+      "originalSubmissionPreserved": true,
+      "noAutomaticGradeOrNewSession": true,
+      "explicitCheckAdvancedOnce": true,
+      "checkedRefreshVerified": true,
+      "keyboardReviewVerified": true,
+      "resultAnnouncementVerified": true,
+      "mobileLayoutAndTargetsVerified": true,
+      "assistiveMathVerified": true,
+      "passed": true
+    },
+    {
+      "viewport": "mobile",
+      "fixtureId": "dot-product-01",
+      "phase": "complete",
+      "ready": true,
+      "offlineGradeStatus": 503,
+      "foreignOwnerStatuses": [
+        404,
+        404
+      ],
+      "liveFrameAndDraftPreserved": true,
+      "failedRefreshPreservedDraft": true,
+      "keyboardRetryVerified": true,
+      "errorSemanticsVerified": true,
+      "workspaceHealthyWhileRendererOffline": true,
+      "questionSessionAndDraftRestored": true,
+      "originalSubmissionPreserved": true,
+      "noAutomaticGradeOrNewSession": true,
+      "explicitCheckAdvancedOnce": true,
+      "checkedRefreshVerified": true,
+      "keyboardReviewVerified": true,
+      "resultAnnouncementVerified": true,
+      "mobileLayoutAndTargetsVerified": true,
+      "assistiveMathVerified": true,
+      "passed": true
+    }
+  ],
+  "manualScreenReaderListening": false,
+  "physicalDeviceReview": false,
+  "anonymousStatuses": [
+    404,
+    404
+  ],
+  "complete": true
+}

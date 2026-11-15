@@ -8,20 +8,28 @@ The active work is the independent **experimental-workspace/** WeBWorK integrati
 
 The goal has expanded to a multi-subject practice platform covering the whole OPL, using PG mathematical grading. Design the future catalog for all subjects, while validating playable exercises in batches. Build one complete, reliable exercise flow before broadly enabling large numbers of exercises.
 
-This handoff accompanies the practice-action commit following `05e30f4` (authored hints). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
+This handoff accompanies continuity acceptance following `72d381d` (practice actions). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
 
 
 ## Resume checklist
 
 1. Inspect `git log -1` and `git status --short`, then read [CATALOG_COMPATIBILITY.md](experimental-workspace/CATALOG_COMPATIBILITY.md) and [CATALOG_STATUS.md](experimental-workspace/compatibility/CATALOG_STATUS.md).
 2. Start Docker Desktop's Linux engine. From `experimental-workspace/`, run `docker compose up --build -d --wait --wait-timeout 240`. Open http://localhost:3100; six exercises should be available.
-3. Run `docker compose exec -T workspace npm test` and `docker compose exec -T workspace node server/check-catalog.mjs` for the ordinary catalog checks. The latest completed validation is 173 server tests, 60 browser checks and 14 publisher/report tests, plus live catalog and renderer/API smoke checks.
+3. Run `docker compose exec -T workspace npm test` and `docker compose exec -T workspace node server/check-catalog.mjs` for the ordinary catalog checks. Fresh continuity validation is 173 server tests, 62 browser checks, the live catalog check, six exercise continuity cases and two real-outage viewport cases. The 14 publisher/report checks and 42/44 full gate are prior evidence for the unchanged runtime.
 4. Full `verify-compatibility.ps1` remains a deliberately failing gate: 42/44 cases pass; both mobile GraphTool cases fail. Keep those failures and the five disabled candidates visible. Do not treat a nonzero full gate as permission to weaken required checks.
 5. Finish runtime/profile edits before regenerating evidence. Fingerprints include source bytes and line endings, so a checkout that changes those bytes requires reverification. Use the documented publisher to produce reviewed metadata/evidence; do not manually rewrite evidence fingerprints to restore eligibility.
 
 The whole OPL remains in its Docker Linux volume. This change does not import the whole library, migrate catalog data into Supabase, or expose the renderer publicly. Continue with the blockers and importer steps below; preserve existing sessions and attribution.
 
-## Current work: retry and protected move-on controls
+## Current work: failure and navigation continuity acceptance
+
+Continuity subtask 8 is verified. [CONTINUITY_VERIFICATION.md](experimental-workspace/CONTINUITY_VERIFICATION.md) maps refresh, accepted-but-lost responses, blocked draft saving, back/forward, pending navigation, ownership, keyboard semantics and mobile checks to repeatable evidence. Two new actual same-owner tab tests verify independent drafts and the existing newer-checked-result precedence with a visible warning. No automatic live merge or older-conflicting-draft recovery is provided.
+
+The new verify-continuity.ps1 runs the server/catalog/browser suite and real desktop/mobile outage audit. It SIGKILLs only the experimental renderer after sessions are prepared, tests offline grading/refresh/retry and privacy, restarts the same container normally, then proves exact draft/question restoration and explicit-only regrading. Fresh results: 173 server tests, 62 browser checks, all six focused continuity cases and both outage viewports pass; normal restart succeeded with no fallback. Sanitized evidence is linked from the acceptance document. No application runtime or catalog activation changed; the matching full seeded evidence remains historical 42/44, with both mobile GraphTool failures disabled.
+
+Next release checks: actual NVDA/VoiceOver listening and physical mobile devices. Before account/public scale, decide draft conflict recovery, cross-device persistence, durable attempt history, request idempotency and distributed locking. Keep the future whole-library importer behind capability verification; this milestone enables no additional exercises. Run git status/log to confirm commit and push state.
+
+## Previous milestone: retry and protected move-on controls
 
 Continuity subtask 7 is implemented. [PRACTICE_ACTIONS.md](experimental-workspace/PRACTICE_ACTIONS.md) defines next actions, fresh answer collection before leaving, native confirmations, history and unload protection. Every result offers Return to answers and Choose another exercise with same-session retry guidance. Choosing another only focuses the catalog; selecting a card is the separate leave. The current exercise's card explicitly labels a new variation as starting a new session.
 

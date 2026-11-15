@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "observedAt": "2026-11-15T18:07:25.277Z",
+  "observedAt": "2026-11-15T18:27:31.619Z",
   "runtimeFingerprint": "8ff066dd7e957a03850b3f23cda907a3285b9dd536cd60ad0f396a20aa9d879e",
   "scope": "Default catalog browser audit; random session seeds; desktop Chromium. Draft-enabled baseline. No positive-answer oracle or actual renderer outage.",
   "exercises": [

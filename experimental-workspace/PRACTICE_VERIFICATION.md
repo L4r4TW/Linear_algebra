@@ -1,5 +1,7 @@
 # Practice experience verification
 
+Current continuity acceptance: [CONTINUITY_VERIFICATION.md](CONTINUITY_VERIFICATION.md) records 173 server tests, 62 browser checks, all six enabled exercises and actual desktop/mobile renderer outage recovery. The original one-exercise report below is historical; its counts describe that earlier milestone.
+
 Verified on 2026-11-14 for the experimental Docker workspace and its pinned renderer/OPL revisions. **Result: PASS for the catalog exercise `dot-product-01` (Dot products and vector operations).**
 
 The student flow works from selection through real PG grading and restoration. The complete suite passed **68 server tests, 23 Chromium browser checks, five live API/client/session smoke checks, and the PowerShell renderer smoke check**. The focused real-renderer outage/recovery check also passed after fixing the startup issue described below. No instructor response is used by the browser acceptance tests; they solve the public mathematical statement.

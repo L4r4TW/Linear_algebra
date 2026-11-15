@@ -50,6 +50,8 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace
 
 The outage option briefly force-stops only the experimental renderer, then restores it without removing volumes. Omit the option for ordinary checks; use `-RendererOutageOnly` for focused recovery checks. A failed normal restart must still fail verification even if fallback container replacement recovers service. Keep private cookies and renderer data in memory. Actual screen-reader listening remains a separate manual release check.
 
+Current failure/navigation acceptance is in [CONTINUITY_VERIFICATION.md](experimental-workspace/CONTINUITY_VERIFICATION.md). Run `./experimental-workspace/verify-continuity.ps1` for server/browser checks and real desktop/mobile outage recovery; it briefly stops only the experimental renderer and restores it without removing volumes.
+
 Use [verify-compatibility.ps1](experimental-workspace/verify-compatibility.ps1) for the full seeded desktop/touch compatibility gate; read [COMPATIBILITY_REGRESSION.md](experimental-workspace/COMPATIBILITY_REGRESSION.md) and its explicit failed/unsupported capability records. Do not waive required checks to turn the gate green. Run the focused smoke checks and browser suite required by the nested guide for the area changed. Do not substitute root app lint for sandbox tests. Documentation-only edits need link/command checks and `git diff --check`; historical test results must be labelled as such.
 
 For original app changes, use root `npm run lint`, `npm run smoke:admin`, and `npm run build` as applicable. The build can fail on Google Fonts downloads in restricted networks. `supabase/schema.sql` drops existing tables: follow [DATABASE_SETUP.md](DATABASE_SETUP.md) and use migrations for existing data.

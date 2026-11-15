@@ -1,6 +1,6 @@
 # Unfinished answers and refresh
 
-Unfinished native answers now survive refresh in the same browser tab and original exercise session. They are stored separately from server-saved graded submissions. This is the implementation of continuity subtask 2. [Explicit recovery](SESSION_RECOVERY.md) now implements subtask 3; authored hints remain separate work.
+Unfinished native answers now survive refresh in the same browser tab and original exercise session. They are stored separately from server-saved graded submissions. This is the implementation of continuity subtask 2. [Explicit recovery](SESSION_RECOVERY.md) now implements subtask 3; authored hints and protected navigation are implemented separately.
 
 ## Student behavior
 
@@ -57,3 +57,7 @@ Run the usual browser suite and the focused audit commands in [CONTINUITY_FEEDBA
 Draft-milestone validation before explicit recovery: 108 server tests, 37 browser checks, 14 publisher/report tests, the default six-entry API check and revised six-exercise continuity audit passed. The renewed 44-case seeded run has 42 passes and two mobile GraphTool grading failures; those failures remain explicit and GraphTool stays disabled. No real renderer-outage or physical assistive-technology review was rerun for this change.
 
 Saved-session recovery now keeps the live frame while GET is pending or failing, then carries the latest bounded in-memory draft into the successful response. This preserves edits even with blocked tab storage. See SESSION_RECOVERY.md for terminal failures, ownership masking and the GET-only recovery action.
+
+## Multi-tab acceptance
+
+[Continuity verification](CONTINUITY_VERIFICATION.md) tests two actual same-owner pages with independent tab drafts. There is no live synchronization or merge. A newer unrelated checked result wins on reload with a visible warning; the older conflicting draft has no recovery UI. Explicit grading from a stale tab updates the shared latest submission, and the other tab sees it on restoration. This policy does not provide general request idempotency or cross-device drafts.
