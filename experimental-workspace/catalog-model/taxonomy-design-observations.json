@@ -1,0 +1,628 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-15T20:15:44.400Z",
+  "kind": "taxonomy-design-observations",
+  "state": "design-only-not-applied",
+  "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+  "releaseKey": "math-browse-v1-draft",
+  "fixtureDecodedJsonSha256": "81dcac2b99770e2123a304b98cff198fdbd301aa101d8cfbf3000f319080341b",
+  "fixtureFingerprintMethod": "SHA-256 of JSON.stringify(fixture) after runner decoding; not raw file bytes.",
+  "classifierVersion": "line-comment-demo-v1",
+  "sourceTaxonomies": [
+    {
+      "key": "opl-taxonomy",
+      "path": "OpenProblemLibrary/Taxonomy",
+      "sha256": "472d17ef0a991c5b2e074cc0c830a14a5e80f7ff8e96f0f2ca46ff556e775ad8",
+      "role": "baseline-proposal-vocabulary"
+    },
+    {
+      "key": "opl-taxonomy2",
+      "path": "OpenProblemLibrary/Taxonomy2",
+      "sha256": "999026ff9c882a4389ebbd83e8cf6e90027e839a3cb2fc3c8bb617e5dd737f91",
+      "role": "alternative-evidence-only"
+    }
+  ],
+  "exampleNodeCount": 30,
+  "subjectCount": 6,
+  "existingCatalogExamples": [
+    {
+      "legacyId": "dot-product-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg",
+        "sha256": "015a00eec3ad5bfd10568083fb0640a79c9f1ad1b59df740cca0d9832575460a"
+      },
+      "classification": {
+        "status": "matched",
+        "raw": [
+          {
+            "line": 7,
+            "text": "## DBsubject(Geometry)",
+            "recognized": true,
+            "field": "DBsubject",
+            "argument": "Geometry"
+          },
+          {
+            "line": 8,
+            "text": "## DBchapter(Vector geometry)",
+            "recognized": true,
+            "field": "DBchapter",
+            "argument": "Vector geometry"
+          },
+          {
+            "line": 9,
+            "text": "## DBsection(Dot product, length, and unit vectors)",
+            "recognized": true,
+            "field": "DBsection",
+            "argument": "Dot product, length, and unit vectors"
+          }
+        ],
+        "tuple": [
+          "Geometry",
+          "Vector geometry",
+          "Dot product, length, and unit vectors"
+        ],
+        "matchesAlternative": true
+      },
+      "curatedSections": [
+        "linear-algebra.dot-products",
+        "geometry.dot-products"
+      ],
+      "primarySection": "linear-algebra.dot-products",
+      "playableAtObservation": true
+    },
+    {
+      "legacyId": "compat-calculus-numeric-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/Rochester/setDerivatives2Formulas/c2s5p1.pg",
+        "sha256": "224502a030bf255614ea83ef58708627546abde879ba595a580277b67476c677"
+      },
+      "classification": {
+        "status": "matched",
+        "raw": [
+          {
+            "line": 7,
+            "text": "## DBsubject(Calculus - single variable)",
+            "recognized": true,
+            "field": "DBsubject",
+            "argument": "Calculus - single variable"
+          },
+          {
+            "line": 8,
+            "text": "## DBchapter(Differentiation)",
+            "recognized": true,
+            "field": "DBchapter",
+            "argument": "Differentiation"
+          },
+          {
+            "line": 9,
+            "text": "## DBsection(Derivatives involving multiple rules (all rules))",
+            "recognized": true,
+            "field": "DBsection",
+            "argument": "Derivatives involving multiple rules (all rules)"
+          }
+        ],
+        "tuple": [
+          "Calculus - single variable",
+          "Differentiation",
+          "Derivatives involving multiple rules (all rules)"
+        ],
+        "matchesAlternative": true
+      },
+      "curatedSections": [
+        "calculus.derivative-values"
+      ],
+      "primarySection": "calculus.derivative-values",
+      "playableAtObservation": true
+    },
+    {
+      "legacyId": "compat-calculus-formula-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/Union/setDervProductQuotientRule/ur_dr_2_1.pg",
+        "sha256": "4bbd5597c07ee42bd3824ad4a3b2727edb4cc162fe45ce336350e7255af52dfc"
+      },
+      "classification": {
+        "status": "matched",
+        "raw": [
+          {
+            "line": 7,
+            "text": "## DBsubject(Calculus - single variable)",
+            "recognized": true,
+            "field": "DBsubject",
+            "argument": "Calculus - single variable"
+          },
+          {
+            "line": 8,
+            "text": "## DBchapter(Differentiation)",
+            "recognized": true,
+            "field": "DBchapter",
+            "argument": "Differentiation"
+          },
+          {
+            "line": 9,
+            "text": "## DBsection(Quotient rule (without trigonometric functions))",
+            "recognized": true,
+            "field": "DBsection",
+            "argument": "Quotient rule (without trigonometric functions)"
+          }
+        ],
+        "tuple": [
+          "Calculus - single variable",
+          "Differentiation",
+          "Quotient rule (without trigonometric functions)"
+        ],
+        "matchesAlternative": true
+      },
+      "curatedSections": [
+        "calculus.quotient-rule"
+      ],
+      "primarySection": "calculus.quotient-rule",
+      "playableAtObservation": true
+    },
+    {
+      "legacyId": "compat-matrix-grid-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/ASU-topics/set119MatrixAlgebra/p12.pg",
+        "sha256": "67cfe0c86359294d3753818e72ddc39d5a4a4efae1b6e9e4057588f79dd71cf2"
+      },
+      "classification": {
+        "status": "matched",
+        "raw": [
+          {
+            "line": 7,
+            "text": "## DBsubject(Linear algebra)",
+            "recognized": true,
+            "field": "DBsubject",
+            "argument": "Linear algebra"
+          },
+          {
+            "line": 8,
+            "text": "## DBchapter(Matrices)",
+            "recognized": true,
+            "field": "DBchapter",
+            "argument": "Matrices"
+          },
+          {
+            "line": 9,
+            "text": "## DBsection(Matrix algebra)",
+            "recognized": true,
+            "field": "DBsection",
+            "argument": "Matrix algebra"
+          }
+        ],
+        "tuple": [
+          "Linear algebra",
+          "Matrices",
+          "Matrix algebra"
+        ],
+        "matchesAlternative": true
+      },
+      "curatedSections": [
+        "linear-algebra.matrix-arithmetic"
+      ],
+      "primarySection": "linear-algebra.matrix-arithmetic",
+      "playableAtObservation": false
+    },
+    {
+      "legacyId": "compat-statistics-radio-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/ASU-topics/setStat/di12.pg",
+        "sha256": "ca848d241dda15054e1f675727344a5d8737b82512f02def4814d73f9ae62c91"
+      },
+      "classification": {
+        "status": "matched",
+        "raw": [
+          {
+            "line": 7,
+            "text": "## DBsubject(Statistics)",
+            "recognized": true,
+            "field": "DBsubject",
+            "argument": "Statistics"
+          },
+          {
+            "line": 8,
+            "text": "## DBchapter(Hypothesis tests)",
+            "recognized": true,
+            "field": "DBchapter",
+            "argument": "Hypothesis tests"
+          },
+          {
+            "line": 9,
+            "text": "## DBsection(Type I/type II errors and power)",
+            "recognized": true,
+            "field": "DBsection",
+            "argument": "Type I/type II errors and power"
+          }
+        ],
+        "tuple": [
+          "Statistics",
+          "Hypothesis tests",
+          "Type I/type II errors and power"
+        ],
+        "matchesAlternative": true
+      },
+      "curatedSections": [
+        "statistics.errors-power"
+      ],
+      "primarySection": "statistics.errors-power",
+      "playableAtObservation": true
+    },
+    {
+      "legacyId": "compat-algebra-checkbox-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/LoyolaChicago/Precalc/Chap3Review/Q46.pg",
+        "sha256": "784601fbfd5562a91b86882750ad38810464d2e1278cbbb731c0dfbf4046fbe8"
+      },
+      "classification": {
+        "status": "matched",
+        "raw": [
+          {
+            "line": 5,
+            "text": "## DBsubject(Algebra)",
+            "recognized": true,
+            "field": "DBsubject",
+            "argument": "Algebra"
+          },
+          {
+            "line": 6,
+            "text": "## DBchapter(Exponential and logarithmic expressions and functions)",
+            "recognized": true,
+            "field": "DBchapter",
+            "argument": "Exponential and logarithmic expressions and functions"
+          },
+          {
+            "line": 7,
+            "text": "## DBsection(Applications and models - population growth)",
+            "recognized": true,
+            "field": "DBsection",
+            "argument": "Applications and models - population growth"
+          }
+        ],
+        "tuple": [
+          "Algebra",
+          "Exponential and logarithmic expressions and functions",
+          "Applications and models - population growth"
+        ],
+        "matchesAlternative": true
+      },
+      "curatedSections": [
+        "algebra.population"
+      ],
+      "primarySection": "algebra.population",
+      "playableAtObservation": true
+    },
+    {
+      "legacyId": "compat-economics-popup-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/ASU-topics/setElasticity/p10.pg",
+        "sha256": "7109d85872e2ed9c6cf93ed20dfcfbdbc9312f318218535d13c5c4b1f5dd003d"
+      },
+      "classification": {
+        "status": "matched",
+        "raw": [
+          {
+            "line": 7,
+            "text": "## DBsubject(Calculus - single variable)",
+            "recognized": true,
+            "field": "DBsubject",
+            "argument": "Calculus - single variable"
+          },
+          {
+            "line": 8,
+            "text": "## DBchapter(Applications of differentiation)",
+            "recognized": true,
+            "field": "DBchapter",
+            "argument": "Applications of differentiation"
+          },
+          {
+            "line": 9,
+            "text": "## DBsection(Elasticity of demand)",
+            "recognized": true,
+            "field": "DBsection",
+            "argument": "Elasticity of demand"
+          }
+        ],
+        "tuple": [
+          "Calculus - single variable",
+          "Applications of differentiation",
+          "Elasticity of demand"
+        ],
+        "matchesAlternative": true
+      },
+      "curatedSections": [
+        "calculus.elasticity"
+      ],
+      "primarySection": "calculus.elasticity",
+      "playableAtObservation": false
+    },
+    {
+      "legacyId": "compat-calculus-scaffold-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/Hope/Calc1/05-04-FTC/FTC_01.pg",
+        "sha256": "399cf94d53291f2994d287ff6cda4ea39bd7045bb3a77a1f8a305d01305a7b8e"
+      },
+      "classification": {
+        "status": "matched",
+        "raw": [
+          {
+            "line": 5,
+            "text": "## DBsubject(Calculus - single variable)",
+            "recognized": true,
+            "field": "DBsubject",
+            "argument": "Calculus - single variable"
+          },
+          {
+            "line": 6,
+            "text": "## DBchapter(Integrals)",
+            "recognized": true,
+            "field": "DBchapter",
+            "argument": "Integrals"
+          },
+          {
+            "line": 7,
+            "text": "## DBsection(Fundamental theorem of calculus)",
+            "recognized": true,
+            "field": "DBsection",
+            "argument": "Fundamental theorem of calculus"
+          }
+        ],
+        "tuple": [
+          "Calculus - single variable",
+          "Integrals",
+          "Fundamental theorem of calculus"
+        ],
+        "matchesAlternative": true
+      },
+      "curatedSections": [
+        "calculus.fundamental-theorem"
+      ],
+      "primarySection": "calculus.fundamental-theorem",
+      "playableAtObservation": false
+    },
+    {
+      "legacyId": "compat-algebra-image-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/ASU-topics/setAlgebraFunctions/beth2algfun.pg",
+        "sha256": "a6470e62683d0331d541a5df7f8fe8cc4eaa31fba7886fef1a8e5ea24f1984ae"
+      },
+      "classification": {
+        "status": "matched",
+        "raw": [
+          {
+            "line": 7,
+            "text": "## DBsubject(Algebra)",
+            "recognized": true,
+            "field": "DBsubject",
+            "argument": "Algebra"
+          },
+          {
+            "line": 8,
+            "text": "## DBchapter(Functions)",
+            "recognized": true,
+            "field": "DBchapter",
+            "argument": "Functions"
+          },
+          {
+            "line": 9,
+            "text": "## DBsection(Compositions and combinations of functions)",
+            "recognized": true,
+            "field": "DBsection",
+            "argument": "Compositions and combinations of functions"
+          }
+        ],
+        "tuple": [
+          "Algebra",
+          "Functions",
+          "Compositions and combinations of functions"
+        ],
+        "matchesAlternative": true
+      },
+      "curatedSections": [
+        "algebra.composition"
+      ],
+      "primarySection": "algebra.composition",
+      "playableAtObservation": false
+    },
+    {
+      "legacyId": "compat-calculus-graph-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/270/setDerivatives1/ur_dr_1_7.pg",
+        "sha256": "b91bc436c92c6d68434c522d5bac40087af07bf75019b058710173ea8d0ca053"
+      },
+      "classification": {
+        "status": "matched",
+        "raw": [
+          {
+            "line": 7,
+            "text": "## DBsubject(Calculus - single variable)",
+            "recognized": true,
+            "field": "DBsubject",
+            "argument": "Calculus - single variable"
+          },
+          {
+            "line": 8,
+            "text": "## DBchapter(Applications of differentiation)",
+            "recognized": true,
+            "field": "DBchapter",
+            "argument": "Applications of differentiation"
+          },
+          {
+            "line": 9,
+            "text": "## DBsection(Increasing/decreasing functions and local extrema)",
+            "recognized": true,
+            "field": "DBsection",
+            "argument": "Increasing/decreasing functions and local extrema"
+          }
+        ],
+        "tuple": [
+          "Calculus - single variable",
+          "Applications of differentiation",
+          "Increasing/decreasing functions and local extrema"
+        ],
+        "matchesAlternative": true
+      },
+      "curatedSections": [
+        "calculus.graphs"
+      ],
+      "primarySection": "calculus.graphs",
+      "playableAtObservation": true
+    },
+    {
+      "legacyId": "compat-algebra-graphtool-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/PCC/BasicAlgebra/EquationsAndInequalitiesInTwoVariables/PlotMXPlusB.pg",
+        "sha256": "6c971d903bb786efb7869ed8f517a10f69646d9883e72c4d0e8e011cea4d8a4f"
+      },
+      "classification": {
+        "status": "missing",
+        "raw": [],
+        "tuple": [
+          null,
+          null,
+          null
+        ],
+        "matchesAlternative": false
+      },
+      "curatedSections": [
+        "algebra.plotting"
+      ],
+      "primarySection": "algebra.plotting",
+      "playableAtObservation": false
+    }
+  ],
+  "supplementalSourceExamples": [
+    {
+      "key": "differential-equations-example",
+      "sourcePath": "OpenProblemLibrary/274/Exact/prob1.pg",
+      "sha256": "b309e4e5b4c05dfd6633bcc5fab06413f214cdfcc7d63d85aa6a922425f660d0",
+      "classification": {
+        "status": "matched",
+        "raw": [
+          {
+            "line": 7,
+            "text": "## DBsubject(Differential equations)",
+            "recognized": true,
+            "field": "DBsubject",
+            "argument": "Differential equations"
+          },
+          {
+            "line": 8,
+            "text": "## DBchapter(First order differential equations)",
+            "recognized": true,
+            "field": "DBchapter",
+            "argument": "First order differential equations"
+          },
+          {
+            "line": 9,
+            "text": "## DBsection(Exact)",
+            "recognized": true,
+            "field": "DBsection",
+            "argument": "Exact"
+          }
+        ],
+        "tuple": [
+          "Differential equations",
+          "First order differential equations",
+          "Exact"
+        ],
+        "matchesAlternative": true
+      },
+      "curatedSection": "differential-equations.exact",
+      "scope": "source-only-not-indexed-or-enabled"
+    }
+  ],
+  "classificationCases": [
+    {
+      "name": "missing classification",
+      "status": "missing",
+      "passed": true
+    },
+    {
+      "name": "partial hierarchy",
+      "status": "partial",
+      "passed": true
+    },
+    {
+      "name": "empty section",
+      "status": "partial",
+      "passed": true
+    },
+    {
+      "name": "conflicting repeated subject",
+      "status": "conflicting",
+      "passed": true
+    },
+    {
+      "name": "case variant values stay unmatched",
+      "status": "unmapped",
+      "passed": true
+    },
+    {
+      "name": "unknown subject stays unmatched",
+      "status": "unmapped",
+      "passed": true
+    },
+    {
+      "name": "exact full tuple with outer quotes",
+      "status": "matched",
+      "passed": true
+    },
+    {
+      "name": "malformed declaration requires diagnostics",
+      "status": "malformed",
+      "passed": true
+    },
+    {
+      "name": "child label under wrong ancestor",
+      "status": "unmapped",
+      "passed": true
+    }
+  ],
+  "countExamples": {
+    "playableDistinct": 6,
+    "subjectMembershipSum": 7,
+    "bySubject": [
+      {
+        "key": "algebra",
+        "playableDistinct": 1
+      },
+      {
+        "key": "linear-algebra",
+        "playableDistinct": 1
+      },
+      {
+        "key": "calculus",
+        "playableDistinct": 3
+      },
+      {
+        "key": "geometry",
+        "playableDistinct": 1
+      },
+      {
+        "key": "statistics",
+        "playableDistinct": 1
+      },
+      {
+        "key": "differential-equations",
+        "playableDistinct": 0
+      }
+    ],
+    "note": "Distinct identities within each subtree, not a sum of section/subject counts. Source-only supplemental example is never counted as playable."
+  },
+  "complete": true,
+  "limits": [
+    "No SQL, account/session changes, activation or UI integration.",
+    "The lexical classifier and fixture checks demonstrate the design; they are not a full PG metadata importer or deployed constraints.",
+    "Live playable IDs were read from the current workspace eligibility gate, not inferred from taxonomy."
+  ]
+}

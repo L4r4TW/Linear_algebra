@@ -1,0 +1,504 @@
+{
+    "version":  1,
+    "state":  "design-only-not-applied",
+    "releaseKey":  "math-browse-v1-draft",
+    "locale":  "en",
+    "sourceRevision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+    "sourceTaxonomies":  [
+                             {
+                                 "key":  "opl-taxonomy",
+                                 "path":  "OpenProblemLibrary/Taxonomy",
+                                 "sha256":  "472d17ef0a991c5b2e074cc0c830a14a5e80f7ff8e96f0f2ca46ff556e775ad8",
+                                 "role":  "baseline-proposal-vocabulary"
+                             },
+                             {
+                                 "key":  "opl-taxonomy2",
+                                 "path":  "OpenProblemLibrary/Taxonomy2",
+                                 "sha256":  "999026ff9c882a4389ebbd83e8cf6e90027e839a3cb2fc3c8bb617e5dd737f91",
+                                 "role":  "alternative-evidence-only"
+                             }
+                         ],
+    "nodes":  [
+                  {
+                      "key":  "algebra",
+                      "internalNodeId":  null,
+                      "kind":  "subject",
+                      "parentKey":  null,
+                      "slug":  "algebra",
+                      "label":  "Algebra",
+                      "locale":  "en",
+                      "position":  10
+                  },
+                  {
+                      "key":  "linear-algebra",
+                      "internalNodeId":  null,
+                      "kind":  "subject",
+                      "parentKey":  null,
+                      "slug":  "linear-algebra",
+                      "label":  "Linear Algebra",
+                      "locale":  "en",
+                      "position":  20
+                  },
+                  {
+                      "key":  "calculus",
+                      "internalNodeId":  null,
+                      "kind":  "subject",
+                      "parentKey":  null,
+                      "slug":  "calculus",
+                      "label":  "Calculus",
+                      "locale":  "en",
+                      "position":  30
+                  },
+                  {
+                      "key":  "geometry",
+                      "internalNodeId":  null,
+                      "kind":  "subject",
+                      "parentKey":  null,
+                      "slug":  "geometry",
+                      "label":  "Geometry",
+                      "locale":  "en",
+                      "position":  40
+                  },
+                  {
+                      "key":  "statistics",
+                      "internalNodeId":  null,
+                      "kind":  "subject",
+                      "parentKey":  null,
+                      "slug":  "statistics",
+                      "label":  "Statistics",
+                      "locale":  "en",
+                      "position":  50
+                  },
+                  {
+                      "key":  "differential-equations",
+                      "internalNodeId":  null,
+                      "kind":  "subject",
+                      "parentKey":  null,
+                      "slug":  "differential-equations",
+                      "label":  "Differential Equations",
+                      "locale":  "en",
+                      "position":  60
+                  },
+                  {
+                      "key":  "algebra.exponentials",
+                      "internalNodeId":  null,
+                      "kind":  "chapter",
+                      "parentKey":  "algebra",
+                      "slug":  "exponential-functions",
+                      "label":  "Exponential functions",
+                      "locale":  "en",
+                      "position":  10
+                  },
+                  {
+                      "key":  "algebra.functions",
+                      "internalNodeId":  null,
+                      "kind":  "chapter",
+                      "parentKey":  "algebra",
+                      "slug":  "functions",
+                      "label":  "Functions",
+                      "locale":  "en",
+                      "position":  20
+                  },
+                  {
+                      "key":  "algebra.linear-equations",
+                      "internalNodeId":  null,
+                      "kind":  "chapter",
+                      "parentKey":  "algebra",
+                      "slug":  "linear-equations",
+                      "label":  "Linear equations",
+                      "locale":  "en",
+                      "position":  30
+                  },
+                  {
+                      "key":  "linear-algebra.vectors",
+                      "internalNodeId":  null,
+                      "kind":  "chapter",
+                      "parentKey":  "linear-algebra",
+                      "slug":  "vectors",
+                      "label":  "Vectors",
+                      "locale":  "en",
+                      "position":  10
+                  },
+                  {
+                      "key":  "linear-algebra.matrices",
+                      "internalNodeId":  null,
+                      "kind":  "chapter",
+                      "parentKey":  "linear-algebra",
+                      "slug":  "matrices",
+                      "label":  "Matrices",
+                      "locale":  "en",
+                      "position":  20
+                  },
+                  {
+                      "key":  "calculus.differentiation",
+                      "internalNodeId":  null,
+                      "kind":  "chapter",
+                      "parentKey":  "calculus",
+                      "slug":  "differentiation",
+                      "label":  "Differentiation",
+                      "locale":  "en",
+                      "position":  10
+                  },
+                  {
+                      "key":  "calculus.applications",
+                      "internalNodeId":  null,
+                      "kind":  "chapter",
+                      "parentKey":  "calculus",
+                      "slug":  "derivative-applications",
+                      "label":  "Applications of derivatives",
+                      "locale":  "en",
+                      "position":  20
+                  },
+                  {
+                      "key":  "calculus.integration",
+                      "internalNodeId":  null,
+                      "kind":  "chapter",
+                      "parentKey":  "calculus",
+                      "slug":  "integration",
+                      "label":  "Integration",
+                      "locale":  "en",
+                      "position":  30
+                  },
+                  {
+                      "key":  "geometry.vectors",
+                      "internalNodeId":  null,
+                      "kind":  "chapter",
+                      "parentKey":  "geometry",
+                      "slug":  "vectors",
+                      "label":  "Vector geometry",
+                      "locale":  "en",
+                      "position":  10
+                  },
+                  {
+                      "key":  "statistics.tests",
+                      "internalNodeId":  null,
+                      "kind":  "chapter",
+                      "parentKey":  "statistics",
+                      "slug":  "hypothesis-tests",
+                      "label":  "Hypothesis tests",
+                      "locale":  "en",
+                      "position":  10
+                  },
+                  {
+                      "key":  "differential-equations.first-order",
+                      "internalNodeId":  null,
+                      "kind":  "chapter",
+                      "parentKey":  "differential-equations",
+                      "slug":  "first-order",
+                      "label":  "First-order equations",
+                      "locale":  "en",
+                      "position":  10
+                  },
+                  {
+                      "key":  "algebra.population",
+                      "internalNodeId":  null,
+                      "kind":  "section",
+                      "parentKey":  "algebra.exponentials",
+                      "slug":  "population-growth",
+                      "label":  "Population growth",
+                      "locale":  "en",
+                      "position":  10
+                  },
+                  {
+                      "key":  "algebra.composition",
+                      "internalNodeId":  null,
+                      "kind":  "section",
+                      "parentKey":  "algebra.functions",
+                      "slug":  "composition",
+                      "label":  "Combining functions",
+                      "locale":  "en",
+                      "position":  10
+                  },
+                  {
+                      "key":  "algebra.plotting",
+                      "internalNodeId":  null,
+                      "kind":  "section",
+                      "parentKey":  "algebra.linear-equations",
+                      "slug":  "plotting",
+                      "label":  "Plotting linear equations",
+                      "locale":  "en",
+                      "position":  10
+                  },
+                  {
+                      "key":  "linear-algebra.dot-products",
+                      "internalNodeId":  null,
+                      "kind":  "section",
+                      "parentKey":  "linear-algebra.vectors",
+                      "slug":  "dot-products",
+                      "label":  "Dot products",
+                      "locale":  "en",
+                      "position":  10
+                  },
+                  {
+                      "key":  "linear-algebra.matrix-arithmetic",
+                      "internalNodeId":  null,
+                      "kind":  "section",
+                      "parentKey":  "linear-algebra.matrices",
+                      "slug":  "arithmetic",
+                      "label":  "Matrix arithmetic",
+                      "locale":  "en",
+                      "position":  10
+                  },
+                  {
+                      "key":  "calculus.derivative-values",
+                      "internalNodeId":  null,
+                      "kind":  "section",
+                      "parentKey":  "calculus.differentiation",
+                      "slug":  "derivative-values",
+                      "label":  "Evaluating derivatives",
+                      "locale":  "en",
+                      "position":  10
+                  },
+                  {
+                      "key":  "calculus.quotient-rule",
+                      "internalNodeId":  null,
+                      "kind":  "section",
+                      "parentKey":  "calculus.differentiation",
+                      "slug":  "quotient-rule",
+                      "label":  "Quotient rule",
+                      "locale":  "en",
+                      "position":  20
+                  },
+                  {
+                      "key":  "calculus.graphs",
+                      "internalNodeId":  null,
+                      "kind":  "section",
+                      "parentKey":  "calculus.differentiation",
+                      "slug":  "graphs",
+                      "label":  "Reading derivative graphs",
+                      "locale":  "en",
+                      "position":  30
+                  },
+                  {
+                      "key":  "calculus.elasticity",
+                      "internalNodeId":  null,
+                      "kind":  "section",
+                      "parentKey":  "calculus.applications",
+                      "slug":  "elasticity",
+                      "label":  "Demand elasticity",
+                      "locale":  "en",
+                      "position":  10
+                  },
+                  {
+                      "key":  "calculus.fundamental-theorem",
+                      "internalNodeId":  null,
+                      "kind":  "section",
+                      "parentKey":  "calculus.integration",
+                      "slug":  "fundamental-theorem",
+                      "label":  "Fundamental theorem of calculus",
+                      "locale":  "en",
+                      "position":  10
+                  },
+                  {
+                      "key":  "geometry.dot-products",
+                      "internalNodeId":  null,
+                      "kind":  "section",
+                      "parentKey":  "geometry.vectors",
+                      "slug":  "dot-products",
+                      "label":  "Dot products",
+                      "locale":  "en",
+                      "position":  10
+                  },
+                  {
+                      "key":  "statistics.errors-power",
+                      "internalNodeId":  null,
+                      "kind":  "section",
+                      "parentKey":  "statistics.tests",
+                      "slug":  "errors-and-power",
+                      "label":  "Errors and power",
+                      "locale":  "en",
+                      "position":  10
+                  },
+                  {
+                      "key":  "differential-equations.exact",
+                      "internalNodeId":  null,
+                      "kind":  "section",
+                      "parentKey":  "differential-equations.first-order",
+                      "slug":  "exact-equations",
+                      "label":  "Exact equations",
+                      "locale":  "en",
+                      "position":  10
+                  }
+              ],
+    "exerciseAssignments":  [
+                                {
+                                    "legacyId":  "dot-product-01",
+                                    "sectionKeys":  [
+                                                        "linear-algebra.dot-products",
+                                                        "geometry.dot-products"
+                                                    ],
+                                    "primarySectionKey":  "linear-algebra.dot-products",
+                                    "provenance":  "curated-design-example-not-published"
+                                },
+                                {
+                                    "legacyId":  "compat-calculus-numeric-01",
+                                    "sectionKeys":  [
+                                                        "calculus.derivative-values"
+                                                    ],
+                                    "primarySectionKey":  "calculus.derivative-values",
+                                    "provenance":  "curated-design-example-not-published"
+                                },
+                                {
+                                    "legacyId":  "compat-calculus-formula-01",
+                                    "sectionKeys":  [
+                                                        "calculus.quotient-rule"
+                                                    ],
+                                    "primarySectionKey":  "calculus.quotient-rule",
+                                    "provenance":  "curated-design-example-not-published"
+                                },
+                                {
+                                    "legacyId":  "compat-matrix-grid-01",
+                                    "sectionKeys":  [
+                                                        "linear-algebra.matrix-arithmetic"
+                                                    ],
+                                    "primarySectionKey":  "linear-algebra.matrix-arithmetic",
+                                    "provenance":  "curated-design-example-not-published"
+                                },
+                                {
+                                    "legacyId":  "compat-statistics-radio-01",
+                                    "sectionKeys":  [
+                                                        "statistics.errors-power"
+                                                    ],
+                                    "primarySectionKey":  "statistics.errors-power",
+                                    "provenance":  "curated-design-example-not-published"
+                                },
+                                {
+                                    "legacyId":  "compat-algebra-checkbox-01",
+                                    "sectionKeys":  [
+                                                        "algebra.population"
+                                                    ],
+                                    "primarySectionKey":  "algebra.population",
+                                    "provenance":  "curated-design-example-not-published"
+                                },
+                                {
+                                    "legacyId":  "compat-economics-popup-01",
+                                    "sectionKeys":  [
+                                                        "calculus.elasticity"
+                                                    ],
+                                    "primarySectionKey":  "calculus.elasticity",
+                                    "provenance":  "curated-design-example-not-published"
+                                },
+                                {
+                                    "legacyId":  "compat-calculus-scaffold-01",
+                                    "sectionKeys":  [
+                                                        "calculus.fundamental-theorem"
+                                                    ],
+                                    "primarySectionKey":  "calculus.fundamental-theorem",
+                                    "provenance":  "curated-design-example-not-published"
+                                },
+                                {
+                                    "legacyId":  "compat-algebra-image-01",
+                                    "sectionKeys":  [
+                                                        "algebra.composition"
+                                                    ],
+                                    "primarySectionKey":  "algebra.composition",
+                                    "provenance":  "curated-design-example-not-published"
+                                },
+                                {
+                                    "legacyId":  "compat-calculus-graph-01",
+                                    "sectionKeys":  [
+                                                        "calculus.graphs"
+                                                    ],
+                                    "primarySectionKey":  "calculus.graphs",
+                                    "provenance":  "curated-design-example-not-published"
+                                },
+                                {
+                                    "legacyId":  "compat-algebra-graphtool-01",
+                                    "sectionKeys":  [
+                                                        "algebra.plotting"
+                                                    ],
+                                    "primarySectionKey":  "algebra.plotting",
+                                    "provenance":  "curated-design-example-not-published"
+                                }
+                            ],
+    "supplementalSourceExamples":  [
+                                       {
+                                           "key":  "differential-equations-example",
+                                           "sourcePath":  "OpenProblemLibrary/274/Exact/prob1.pg",
+                                           "sectionKey":  "differential-equations.exact",
+                                           "scope":  "source-only-not-indexed-or-enabled"
+                                       }
+                                   ],
+    "classificationCases":  [
+                                {
+                                    "name":  "missing classification",
+                                    "lines":  [
+                                                  "## DESCRIPTION",
+                                                  "## ENDDESCRIPTION"
+                                              ],
+                                    "expected":  "missing"
+                                },
+                                {
+                                    "name":  "partial hierarchy",
+                                    "lines":  [
+                                                  "## DBsubject(Geometry)",
+                                                  "## DBchapter(Vector geometry)"
+                                              ],
+                                    "expected":  "partial"
+                                },
+                                {
+                                    "name":  "empty section",
+                                    "lines":  [
+                                                  "## DBsubject(Geometry)",
+                                                  "## DBchapter(Vector geometry)",
+                                                  "## DBsection()"
+                                              ],
+                                    "expected":  "partial"
+                                },
+                                {
+                                    "name":  "conflicting repeated subject",
+                                    "lines":  [
+                                                  "## DBsubject(Geometry)",
+                                                  "## DBsubject(Linear algebra)",
+                                                  "## DBchapter(Vector geometry)",
+                                                  "## DBsection(Dot product, length, and unit vectors)"
+                                              ],
+                                    "expected":  "conflicting"
+                                },
+                                {
+                                    "name":  "case variant values stay unmatched",
+                                    "lines":  [
+                                                  "## DBsubject(GEOMETRY)",
+                                                  "## DBchapter(Vector geometry)",
+                                                  "## DBsection(Dot product, length, and unit vectors)"
+                                              ],
+                                    "expected":  "unmapped"
+                                },
+                                {
+                                    "name":  "unknown subject stays unmatched",
+                                    "lines":  [
+                                                  "## DBsubject(ZZZ-Inserted Text)",
+                                                  "## DBchapter(ZZZ-Inserted Text)",
+                                                  "## DBsection(ZZZ-Inserted Text)"
+                                              ],
+                                    "expected":  "unmapped"
+                                },
+                                {
+                                    "name":  "exact full tuple with outer quotes",
+                                    "lines":  [
+                                                  "## DBsubject(\u0027Geometry\u0027)",
+                                                  "## DBchapter(Vector geometry)",
+                                                  "## DBsection(Dot product, length, and unit vectors)"
+                                              ],
+                                    "expected":  "matched"
+                                },
+                                {
+                                    "name":  "malformed declaration requires diagnostics",
+                                    "lines":  [
+                                                  "## DBsubject(Geometry",
+                                                  "## DBchapter(Vector geometry)",
+                                                  "## DBsection(Dot product, length, and unit vectors)"
+                                              ],
+                                    "expected":  "malformed"
+                                },
+                                {
+                                    "name":  "child label under wrong ancestor",
+                                    "lines":  [
+                                                  "## DBsubject(Statistics)",
+                                                  "## DBchapter(Vector geometry)",
+                                                  "## DBsection(Dot product, length, and unit vectors)"
+                                              ],
+                                    "expected":  "unmapped"
+                                }
+                            ]
+}

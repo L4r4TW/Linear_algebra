@@ -122,4 +122,4 @@ No real UUIDs are allocated, no legacy row/session is edited and no catalog/publ
 
 The [bootstrap verification command](catalog-model/README.md) checks alias coverage/uniqueness, exact correspondence to all eleven current catalog entries and installed source-byte hashes. It does not implement or test future transactional rename/withdrawal algorithms: the cases above are acceptance requirements for tasks 5.7/5.8 and the importer. No database constraint or production behavior is claimed implemented by this document.
 
-Next: task 5.3, raw OPL classifications and curated Subject → Chapter → Section taxonomy, building on these identities without encoding topics into keys.
+Task 5.3 is now specified in [TOPIC_TAXONOMY.md](TOPIC_TAXONOMY.md): raw OPL classifications and curated Subject → Chapter → Section taxonomy build on these identities without encoding topics into keys. Next is student-facing metadata (5.4).
