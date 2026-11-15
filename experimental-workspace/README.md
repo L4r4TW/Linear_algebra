@@ -4,15 +4,15 @@ Session handoff and next steps: [PROJECT_CONTEXT.md](../PROJECT_CONTEXT.md). Rep
 
 ## Current catalog scope
 
-Six exercises are enabled in the first local verified batch; five more candidates remain indexed and disabled. See [catalog compatibility rules](CATALOG_COMPATIBILITY.md), [eligibility record](compatibility/CATALOG_STATUS.md), and [server catalog](workspace/server/exercise-catalog.json). Source/runtime evidence and explicit batch membership govern availability. Current validation: 153 server tests, 49 browser checks, 14 publisher/report tests and the live six-entry API check pass. The full operator regression retains two failed mobile GraphTool cases. Earlier one-exercise counts below describe historical verification stages.
+Six exercises are enabled in the first local verified batch; five more candidates remain indexed and disabled. See [catalog compatibility rules](CATALOG_COMPATIBILITY.md), [eligibility record](compatibility/CATALOG_STATUS.md), and [server catalog](workspace/server/exercise-catalog.json). Source/runtime evidence and explicit batch membership govern availability. Current validation: 161 server tests, 52 browser checks, 14 publisher/report tests and the live six-entry API check pass. The full operator regression retains two failed mobile GraphTool cases. Earlier one-exercise counts below describe historical verification stages.
 
 To verify the enabled batch after rebuilding, run `docker compose exec -T workspace node server/check-catalog.mjs` from this directory. It checks listing, start, blank grading, restoration, ownership and rejection of disabled IDs. For the future full-library importer, start with [CATALOG_COMPATIBILITY.md](CATALOG_COMPATIBILITY.md); indexed exercises remain disabled until verified and included in an active batch.
 
-The [continuity and feedback audit](CONTINUITY_FEEDBACK_AUDIT.md) records the current six-exercise baseline: checked work and PG feedback restore. Unchecked edits now also survive refresh through [session-bound tab drafts](DRAFT_PERSISTENCE.md). Its original missing-draft baseline is historical; specific recovery actions, authored hints and protected navigation remain future work. Reproduce the focused browser audit with the commands in that document; it records known gaps rather than implementing fixes.
+The [continuity and feedback audit](CONTINUITY_FEEDBACK_AUDIT.md) records the current six-exercise baseline: checked work and PG feedback restore. Unchecked edits now also survive refresh through [session-bound tab drafts](DRAFT_PERSISTENCE.md). Its original missing-draft baseline is historical; explicit recovery actions are implemented; authored hints and protected navigation remain future work. Reproduce the focused browser audit with the commands in that document; it records known gaps rather than implementing fixes.
 
 See [SESSION_RECOVERY.md](SESSION_RECOVERY.md) for explicit unavailable-session recovery: same-session retries for outages, preserved records/drafts for terminal failures, privacy-safe missing/ownership messages, and GET-only reconciliation before retrying an uncertain grade. Saved-result reload keeps the live answers until restoration succeeds, including when tab storage is unavailable.
 
-The [feedback model](FEEDBACK_MODEL.md) now documents field and overall state precedence, withheld grading, named-field association and stale/revert behavior. Its [real-PG audit](compatibility/feedback-observations.json) verifies 20 cases at two seeds, including a separate operator-only suppression fixture. This does not expand the student catalog.
+The [feedback model](FEEDBACK_MODEL.md) now documents field and overall state precedence, withheld grading, named-field association and stale/revert behavior. Its [real-PG audit](compatibility/feedback-observations.json) verifies 22 cases at two seeds, including separate operator-only suppression and authored-equation-notation fixtures. This does not expand the student catalog.
 
 ## Historical integration milestones
 
@@ -83,7 +83,7 @@ A prominent **Check answer** button sits beneath the exercise. It collects fresh
 
 Successful checks show **Submitted answers checked and saved.** The live exercise frame stays in place, including any edits made while the request was in flight. Server, network, and answer-collection errors appear beneath the button, leave inputs intact, and re-enable an explicit retry. Requests are not retried automatically. Navigating away cancels the browser request and ignores late results; cancellation does not guarantee that an already-received server request was stopped.
 
-Unsubmitted edits are not saved. Checked answers restore after refresh from the saved renderer session. Each field now shows a result and plain-text PG feedback; an overall result and percentage score appear above Check answer. These results restore after refresh.
+Unsubmitted edits are saved in this tab through session-bound drafts. Checked answers restore after refresh from the saved renderer session. Each field now shows a result and PG feedback with reviewed mathematical notation; an overall result and the available PG score appear above Check answer. Suppressed feedback shows a neutral saved-submission result without a score. These results restore after refresh.
 
 The UI lives in `workspace/public/`: `index.html`, `picker.css`, `picker.js`, and `exercise-frame.js`. The server exposes only explicitly listed static files. Catalog text is inserted as text, and API problem HTML is displayed in an iframe with `sandbox="allow-scripts"`, without same-origin access or form submission permissions. A restrictive frame content policy blocks API connections, forms, and unapproved resources; the sandbox blocks top navigation. Self-frame navigation is not comprehensively prevented. Parent messages are checked against the frame window and a per-frame channel.
 
@@ -355,7 +355,7 @@ Each successful grading response now writes the latest submission in the **same 
 
 `answers` preserves the exact validated request pairs, including whitespace, empty values, and duplicate names. `fieldNames` comes from the restored trusted PG problem, so omitted selections can be distinguished from unknown fields. PG still receives explicit blanks for omitted answers. The timestamp and submission ID are generated by the server; the score and feedback come from PG.
 
-Feedback stores the student-facing PG message and result summary as plain text. HTML formatting is removed, block spacing/entities are normalized, and executable script/style contents are discarded. The practice screen displays these strings as text. `fieldFeedback` adds a separate safe per-field result, also rendered as text.
+Feedback stores student-facing PG message/summary strings with readable line/paragraph breaks and explicit TeX notation. The server discards HTML attributes, active/hidden content and marked answer/solution containers. The UI builds text nodes and typesets only reviewed notation, preserving original text on optional formatting failure. `fieldFeedback` uses the same rules inside the isolated frame. See [FEEDBACK_PRESENTATION.md](FEEDBACK_PRESENTATION.md) for sources, limits, privacy and accessibility; raw feedback HTML is never inserted.
 
 The private file keeps a count of successfully saved submissions and **only the latest snapshot**, rather than an attempt-history log. The snapshot ID stays stable across retrieval and changes on the next accepted submission. Failed grading or failed saving leaves the preceding snapshot and token unchanged.
 
@@ -496,3 +496,5 @@ docker compose down
 ```
 
 Both services belong to Compose project `linear-algebra-experimental`, on a dedicated network with localhost-only ports. No host source directories or application secrets are mounted. If Docker reports a missing engine pipe, start Docker Desktop and wait for its Linux engine to become ready.
+
+Safe PG feedback presentation is documented in [FEEDBACK_PRESENTATION.md](FEEDBACK_PRESENTATION.md). The real-PG feedback audit covers 22 cases plus two edit/revert checks, including actual authored equation notation after refresh. Added fixtures remain operator-only; the student catalog still enables six entries. Available authored hints and move-on controls are future work.

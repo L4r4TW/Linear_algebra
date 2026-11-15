@@ -1,3 +1,4 @@
+import {reviewedFeedbackTex,feedbackParts,renderFeedbackContent} from './feedback-content.js';
 import { renderFieldFeedback, matchesSubmittedAnswers } from './field-feedback.js';
 import { collectAnswerFields, restoreAnswerFields, isAnswerFieldName } from './answer-fields.js';
 import { graphAnswerControl, answerPresentation, installGraphAnswerAdapters } from './widget-answers.js';
@@ -84,6 +85,9 @@ const matchesSubmittedAnswers=${matchesSubmittedAnswers.toString()};
 const graphAnswerControl=${graphAnswerControl.toString()};
 const answerPresentation=${answerPresentation.toString()};
 const installGraphAnswerAdapters=${installGraphAnswerAdapters.toString()};
+const reviewedFeedbackTex=${reviewedFeedbackTex.toString()};
+const feedbackParts=${feedbackParts.toString()};
+const renderFeedbackContent=${renderFeedbackContent.toString()};
 const renderFieldFeedback=${renderFieldFeedback.toString()};
 const shouldSubmitOnEnter=${shouldSubmitOnEnter.toString()};
 const markPracticeControls=${markPracticeControls.toString()};

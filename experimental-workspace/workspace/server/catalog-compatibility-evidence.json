@@ -1,9 +1,9 @@
 {
   "version": 1,
   "complete": true,
-  "observedAt": "2026-11-15T11:55:45.608Z",
+  "observedAt": "2026-11-15T12:44:42.911Z",
   "profileVersion": "local-practice-v1",
-  "runtimeFingerprint": "2a77968754beae8530a591a91a6d77e6862fbc0728ebdc326b1c11cae4d2ca4a",
+  "runtimeFingerprint": "5392a6676e1326f4333069b4bd05b75a6b06091009943cb098afdad6be0997ef",
   "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
   "rendererRevision": "1134ffbbf5e656148e579f424f70bcd9f1d15936",
   "entries": {
@@ -688,14 +688,7 @@
           },
           "correctScore": 1,
           "clearedScore": 0,
-          "limitations": [
-            {
-              "code": "NARROW_FRAME_SCROLL",
-              "capability": "mobile-layout",
-              "status": "limited",
-              "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
-            }
-          ]
+          "limitations": []
         },
         {
           "verificationSeed": 4321,
@@ -737,14 +730,7 @@
           },
           "correctScore": 1,
           "clearedScore": 0,
-          "limitations": [
-            {
-              "code": "NARROW_FRAME_SCROLL",
-              "capability": "mobile-layout",
-              "status": "limited",
-              "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
-            }
-          ]
+          "limitations": []
         }
       ]
     },
@@ -1168,7 +1154,7 @@
             "keyboard": true,
             "mobile": true
           },
-          "correctScore": 0.388888888888889,
+          "correctScore": 0.444444444444444,
           "clearedScore": 0,
           "limitations": [
             {
@@ -1189,7 +1175,7 @@
             {
               "code": "MOBILE_GRAPH_TOUCH_GRADING",
               "expectedScore": 1,
-              "actualScore": 0.388888888888889
+              "actualScore": 0.444444444444444
             }
           ]
         },
@@ -1226,27 +1212,19 @@
           "viewport": "mobile",
           "sourceVerified": true,
           "passed": false,
-          "phase": "complete",
+          "phase": "graph-stale-feedback",
           "checks": {
             "rendering": true,
             "interaction": true,
-            "answerCapture": true,
+            "answerCapture": false,
             "grading": false,
-            "retries": true,
-            "refresh": true,
-            "ownership": true,
+            "retries": false,
+            "refresh": false,
+            "ownership": false,
             "keyboard": true,
             "mobile": true
           },
-          "correctScore": 0.333333333333333,
-          "clearedScore": 0,
           "limitations": [
-            {
-              "code": "MOBILE_GRAPH_TOUCH_GRADING",
-              "capability": "touch-graph-positive-answer",
-              "status": "unsupported",
-              "reason": "For fixture seeds 1234 and 4321, touch-mobile point placement does not reach the expected full score. Coordinate/interaction behavior needs investigation; these cases remain failed and are not waived by this policy."
-            },
             {
               "code": "NARROW_FRAME_SCROLL",
               "capability": "mobile-layout",
@@ -1254,14 +1232,7 @@
               "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
             }
           ],
-          "error": "QA_MOBILE_GRAPH_TOUCH_GRADING",
-          "capabilityFailures": [
-            {
-              "code": "MOBILE_GRAPH_TOUCH_GRADING",
-              "expectedScore": 1,
-              "actualScore": 0.333333333333333
-            }
-          ]
+          "error": "QA_GRAPH_PARTIAL"
         }
       ]
     }

@@ -1,3 +1,4 @@
+import {renderFeedbackContent,feedbackMathReady} from '/assets/feedback-content.js';
 import {feedbackOutcome} from '/assets/feedback-model.js';
 import {ExerciseRequestError,sessionRecovery} from '/assets/session-recovery.js';
 import {createDraftStore,planDraftRestoration,sameEntries,validDraftAnswers} from '/assets/draft-answers.js';
@@ -112,8 +113,9 @@ function displayResult(checked, entries) {
   resultScore.hidden=model.scoreText===null;
   resultScore.textContent=model.scoreText??'';
   resultDetail.textContent=model.detail;
-  resultMessage.textContent = checked.feedbackVisibility==='suppressed'?'':[checked.feedback?.summary, checked.feedback?.message].filter(Boolean).join(' ');
-  resultMessage.hidden = !resultMessage.textContent;
+  const messages=checked.feedbackVisibility==='suppressed'?[]:[...new Set([checked.feedback?.summary,checked.feedback?.message].filter(Boolean))];
+  void renderFeedbackContent(resultMessage,messages.join('\n\n'),feedbackMathReady);
+  resultMessage.hidden = !messages.length;
 }
 
 function setBusy(value) {

@@ -507,7 +507,7 @@ test('real PG feedback distinguishes invalid input, incorrect answers, blanks an
   assert.match(await page.locator('#result-score').textContent(),/25%/);
   await frame.locator('.field-feedback[data-status=invalid]').waitFor();
   assert.match(await frame.locator('.field-feedback[data-status=invalid]').textContent(),/gibberish.*not defined/);
-  assert.match(await frame.locator('.field-feedback[data-status=incorrect]').textContent(),/understood.*not mathematically correct/);
+  assert.match(await frame.locator('.field-feedback[data-status=incorrect]').textContent(),/PG marked this answer incorrect/);
   assert.equal(await inputs.nth(1).getAttribute('aria-invalid'),'true');
   assert.equal(await inputs.nth(0).getAttribute('aria-invalid'),null);
   const description=await inputs.nth(1).getAttribute('aria-describedby');
@@ -1143,4 +1143,46 @@ test('field feedback remains bound by generated name, clears stale invalid seman
   scalar.value='new';renderFieldFeedback(root,fields,submitted);const changed={invalidRemoved:!scalar.hasAttribute('aria-invalid'),scalarChanged:box(scalar).dataset.status==='changed',groupUnchanged:box(choice).dataset.status==='correct'};
   scalar.value='bad(';renderFieldFeedback(root,fields,submitted);return {initial,changed,reverted:scalar.getAttribute('aria-invalid')==='true'&&box(scalar).dataset.status==='invalid',noLabelMutation:root.querySelectorAll('label [data-practice-feedback]').length===0};
  });assert.deepEqual(result,{initial:{invalid:true,scalarMessage:true,groupMessage:true,groupCount:2},changed:{invalidRemoved:true,scalarChanged:true,groupUnchanged:true},reverted:true,noLabelMutation:true});
+});
+
+test('reviewed PG notation renders in field and overall feedback while HTML and unreviewed TeX stay inert', {timeout:90000}, async t=>{
+ const page=await pageFor(t,{width:360,height:900});await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice[data-exercise-id="dot-product-01"]').click();await ready(page);
+ const f=page.frameLocator('.exercise-frame');let unsafeRequests=0;page.on('request',r=>{if(r.url().includes('feedback-evil'))unsafeRequests++;});
+ await page.route('**/api/sessions/*/answers',async route=>{
+  const response=await route.fetch({url:route.request().url().replace(baseUrl,backendUrl)}),data=await response.json();data.submission.feedback={summary:'PG summary: \\(x^2 + \\frac{1}{2}\\).\nNext paragraph.',message:'<img src="/feedback-evil" onerror="window.feedbackExecuted=true"> \\(\\href{https://feedback-evil}{x}\\)'};
+  data.submission.fieldFeedback[0].message='PG field: \\(\\vec{v} = \\langle 1,2\\rangle\\).\nKeep this line. \\(\\href{https://feedback-evil}{x}\\)';await route.fulfill({response,json:data});
+ });
+ await f.locator('[name=AnSwEr0001]').fill('gibberish(');await page.locator('#check-answer').click();
+ await page.locator('#result-message .feedback-math[data-math-state=rendered]').waitFor();await f.locator('.field-feedback-message .feedback-math[data-math-state=rendered]').waitFor();
+ await f.locator('.field-feedback-message').first().evaluate(async node=>{await MathJax.typesetPromise([node]);});
+ assert.equal(await f.locator('.field-feedback-message a').count(),0);
+ assert.match(await f.locator('.field-feedback-message').first().textContent(),/\\href/);
+ assert.equal(await page.locator('#result-message mjx-assistive-mml').count(),1);assert.equal(await f.locator('.field-feedback-message mjx-assistive-mml').count(),1);
+ assert.match(await page.locator('#result-message').textContent(),/Next paragraph/);assert.match(await page.locator('#result-message').textContent(),/\\href/);assert.match(await f.locator('.field-feedback-message').first().textContent(),/Keep this line/);
+ assert.equal(await page.locator('#result-message img,#result-message a').count(),0);assert.equal(unsafeRequests,0);assert.equal(await page.evaluate(()=>window.feedbackExecuted),undefined);
+ assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true);
+ await f.locator('[name=AnSwEr0001]').fill('1');await f.locator('.field-feedback[data-status=changed]').waitFor();assert.equal(await f.locator('.field-feedback-message .feedback-math').count(),0);
+ await f.locator('[name=AnSwEr0001]').fill('gibberish(');await f.locator('.field-feedback-message .feedback-math[data-math-state=rendered]').waitFor();
+});
+
+test('optional feedback math failure preserves original notation, saved result and usable controls', {timeout:90000}, async t=>{
+ const page=await pageFor(t);await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice[data-exercise-id="dot-product-01"]').click();await ready(page);
+ await page.route('**/assets/mathjax/tex-svg.js',route=>route.abort());
+ await page.route('**/api/sessions/*/answers',async route=>{const response=await route.fetch({url:route.request().url().replace(baseUrl,backendUrl)}),data=await response.json();data.submission.feedback.message='PG notation: \\(x^2\\).';await route.fulfill({response,json:data});});
+ await page.locator('#check-answer').click();await page.locator('#result-message [data-math-state=fallback]').waitFor();
+ assert.match(await page.locator('#result-message').textContent(),/\\\(x\^2\\\)/);assert.equal(await page.locator('#check-answer').isEnabled(),true);assert.equal(await page.locator('#practice-result').isVisible(),true);
+});
+
+test('late feedback math cannot replace edited feedback and wide expressions retain keyboard scrolling',async t=>{
+ const page=await pageFor(t,{width:360,height:900});await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice[data-exercise-id=dot-product-01]').click();await ready(page);
+ const result=await page.evaluate(async()=>{
+  const {renderFeedbackContent}=await import('/assets/feedback-content.js');const target=document.createElement('div');document.body.append(target);
+  let resolve;const pending=renderFeedbackContent(target,'Old \\(x^2\\)',()=>new Promise(r=>{resolve=r;}));await Promise.resolve();
+  await renderFeedbackContent(target,'Changed since last check',()=>{throw Error('Unexpected math');});
+  resolve({tex2svgPromise:async()=>{const n=document.createElement('div');n.textContent='Late old mathematics';return n;}});await pending;
+  const staleKept=target.textContent==='Changed since last check';target.remove();
+  const {feedbackMathReady}=await import('/assets/feedback-content.js');const overall=document.getElementById('result-message');document.getElementById('practice-result').hidden=false;
+  await renderFeedbackContent(overall,'\\['+'x+'.repeat(120)+'x\\]',feedbackMathReady);
+  const expression=overall.querySelector('.feedback-math');return {staleKept,state:expression?.dataset.mathState,width:expression?.clientWidth,scroll:expression?.scrollWidth,scrollable:expression?.tabIndex===0&&expression?.getAttribute('role')==='group',noOverflow:document.documentElement.scrollWidth<=innerWidth+1};
+ });assert.equal(result.staleKept,true);assert.equal(result.scrollable,true,JSON.stringify(result));assert.equal(result.noOverflow,true);
 });

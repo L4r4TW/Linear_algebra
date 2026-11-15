@@ -287,7 +287,7 @@
         ]
       },
       "compatibility": {
-        "status": "limited",
+        "status": "verified",
         "requiredCapabilities": [
           "mathjax",
           "native-text",

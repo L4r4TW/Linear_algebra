@@ -20,3 +20,7 @@
 @media(forced-colors:active){button,.catalog-panel,.exercise-panel,.practice-result{border:1px solid CanvasText}button:focus-visible,a:focus-visible,#exercise-title:focus,#result-title:focus,#practice:focus,.state h3:focus{outline-color:Highlight}}
 button:focus,a:focus{outline:3px solid #075e50;outline-offset:4px}
 @media(forced-colors:active){button:focus,a:focus{outline-color:Highlight}}
+
+#result-message{white-space:pre-wrap;overflow-wrap:anywhere}
+#result-message .feedback-math{display:inline-block;max-width:100%;overflow-x:auto;vertical-align:middle;white-space:normal}
+#result-message div.feedback-math{display:block}

@@ -126,7 +126,7 @@ function publicSession(result, assets) {
       fieldNames: [...result.submission.fieldNames],
       answers: result.submission.answers.map((entry) => [...entry]),
       score: result.submission.feedbackVisibility==='suppressed'?null:result.submission.score,
-      feedback: result.submission.feedbackVisibility==='suppressed'?{message:'',summary:''}:{ ...result.submission.feedback },
+      feedback: result.submission.feedbackVisibility==='suppressed'?{message:'',summary:''}:{ message:result.submission.feedback.message, summary:result.submission.feedback.summary },
       fieldFeedback: (result.submission.fieldFeedback ?? []).map((field) => ({
         ...(result.submission.feedbackVisibility==='suppressed'?{name:field.name,status:'ungraded',score:null,message:'',reason:'suppressed'}:{name:field.name,status:field.status,score:field.score,message:field.message,...(field.reason?{reason:field.reason}:{})}),
       })),
@@ -170,6 +170,7 @@ const publicFiles = new Map([
   ['/assets/picker.css', ['picker.css', 'text/css; charset=utf-8']],
   ['/assets/exercise-frame.js', ['exercise-frame.js', 'text/javascript; charset=utf-8']],
   ['/assets/widget-answers.js', ['widget-answers.js', 'text/javascript; charset=utf-8']],
+  ['/assets/feedback-content.js', ['feedback-content.js', 'text/javascript; charset=utf-8']],
   ['/assets/feedback-model.js', ['feedback-model.js', 'text/javascript; charset=utf-8']],
   ['/assets/field-feedback.js', ['field-feedback.js', 'text/javascript; charset=utf-8']],
   ['/assets/session-recovery.js', ['session-recovery.js', 'text/javascript; charset=utf-8']],

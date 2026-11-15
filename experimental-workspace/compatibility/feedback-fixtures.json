@@ -81,6 +81,29 @@
                                          "attribution":  "As credited in source; textbook credits are not treated as problem authors."
                                      },
                           "rendererPath":  "Library/PCC/BasicAlgebra/EquationsAndInequalitiesInTwoVariables/PlotMXPlusB.pg"
+                      },
+                      {
+                          "id":  "feedback-equation-01",
+                          "title":  "Equation of a line (authored mathematical feedback)",
+                          "subject":  "Algebra",
+                          "authors":  [
+                                          "RA Cruz"
+                                      ],
+                          "institution":  "The College of Idaho",
+                          "requiredCapabilities":  [
+                                                       "mathjax",
+                                                       "native-text",
+                                                       "multiple-answers",
+                                                       "feedback-tex"
+                                                   ],
+                          "interaction":  "text",
+                          "source":  {
+                                         "path":  "OpenProblemLibrary/CollegeOfIdaho/setAlgebra_02_04_PointSlopeFormofLine/24IntAlg_13_LinearFunction.pg",
+                                         "sha256":  "68204f5ee064d3f7492860a54a8549411c7176e28e8ad07e4ffe36cceb798618",
+                                         "url":  "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/CollegeOfIdaho/setAlgebra_02_04_PointSlopeFormofLine/24IntAlg_13_LinearFunction.pg",
+                                         "attribution":  "RA Cruz, as credited in source. Textbook credits are not treated as problem authors."
+                                     },
+                          "rendererPath":  "Library/CollegeOfIdaho/setAlgebra_02_04_PointSlopeFormofLine/24IntAlg_13_LinearFunction.pg"
                       }
                   ]
 }

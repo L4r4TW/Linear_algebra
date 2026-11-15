@@ -87,3 +87,9 @@ The complete 44-case matrix was rerun after explicit saved-session recovery. For
 ## Feedback-model follow-up
 
 The feedback-enabled runtime has renewed seeded evidence for the same six active entries. The full 44-case gate retains the two known mobile GraphTool failures. Validation passes 153 server tests, 49 browser checks, 14 publisher/report tests and 20 additional real-PG feedback cases at two seeds, with stale/revert verification. The verification script now runs that separate feedback audit before the full matrix; its extra suppression fixture is operator-only. Read [FEEDBACK_MODEL.md](FEEDBACK_MODEL.md) for withheld scores, coherent state/score rules and named-field binding.
+
+## Feedback presentation follow-up
+
+Safe PG message presentation now preserves line breaks and reviewed explicit TeX while keeping HTML/unknown commands inert, including during widget MathJax rescans. See [FEEDBACK_PRESENTATION.md](FEEDBACK_PRESENTATION.md). The separate real-PG audit requires 22 cases plus two stale/revert checks; it includes a source-pinned equation-feedback fixture that remains outside the student activation manifest. Final runtime verification renews all 44 desktop/touch cases and the protected-geometry audit; keep mobile GraphTool failures visible and disabled.
+
+The final isolated presentation run completed 44 cases: 42 passed. Both failed cases are mobile GraphTool: seed 1234 reaches complete with QA_MOBILE_GRAPH_TOUCH_GRADING; seed 4321 fails QA_GRAPH_PARTIAL at graph-stale-feedback. Earlier concurrent refresh-timeout evidence was discarded, with no changed check/timeout. Publisher-generated evidence keeps all six enabled entries verified and all other candidates blocked.

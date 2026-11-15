@@ -1,3 +1,4 @@
+import {renderFeedbackContent} from './feedback-content.js';
 import { collectAnswerFields } from './answer-fields.js';
 import { answerPresentation } from './widget-answers.js';
 /** Compare values by field, retaining duplicate order and treating omitted groups as blank. */
@@ -9,7 +10,7 @@ export function matchesSubmittedAnswers(entries, submitted, names) {
   return names.every((name) => JSON.stringify(values(entries, name)) === JSON.stringify(values(submitted, name)));
 }
 
-/** Runs inside the opaque frame. Messages are rendered as text, never PG HTML. */
+/** Runs inside the opaque frame: text plus reviewed MathJax notation, never PG HTML. */
 export function renderFieldFeedback(root, fields, submitted) {
   if (!root || !Array.isArray(fields) || !Array.isArray(submitted)) return;
   const entries = collectAnswerFields(root).entries;
@@ -25,8 +26,8 @@ export function renderFieldFeedback(root, fields, submitted) {
   }
   const descriptions = {
     correct: ['Correct', 'Your answer is correct.'],
-    incorrect: ['Incorrect', 'Your answer was understood, but it is not mathematically correct.'],
-    partial: ['Partially correct', 'Part of this answer is correct. Review it and try again.'],
+    incorrect: ['Incorrect', 'PG marked this answer incorrect. No additional feedback was provided.'],
+    partial: ['Partially correct', 'PG awarded partial credit. No additional feedback was provided.'],
     invalid: ['Invalid input', 'PG could not interpret this answer. Check its format.'],
     unanswered: ['Not answered', 'Enter an answer, then check again.'],
     ungraded: ['Not graded', 'No individual result is available for this field.'],
@@ -48,7 +49,10 @@ export function renderFieldFeedback(root, fields, submitted) {
     const heading = document.createElement('strong');
     heading.textContent = label;
     const message = document.createElement('span');
-    message.textContent = !changed && field.message ? field.message : fallback;
+    message.className='field-feedback-message';
+    const supplied=!changed && field.reason!=='suppressed' && field.message;
+    if(supplied)void renderFeedbackContent(message,field.message,async()=>{await window.MathJax?.startup?.promise;if(!window.MathJax?.tex2svgPromise)throw new Error('Math formatting unavailable');return window.MathJax;});
+    else message.textContent=fallback;
     box.append(heading, message);
     presentation.anchor.insertAdjacentElement('afterend', box);
     for (const control of related) {

@@ -1,8 +1,8 @@
 # Compatibility regression results
 
-Observed: 2026-11-15T11:55:45.608Z. Scope: complete default matrix.
+Observed: 2026-11-15T12:44:42.911Z. Scope: complete default matrix.
 
-Result: **FAIL**; 44/44 cases completed. 18 cases retain documented limitations.
+Result: **FAIL**; 44/44 cases completed. 16 cases retain documented limitations.
 
 A passing flow does not approve every capability or enable student catalog entries.
 
@@ -33,9 +33,9 @@ A passing flow does not approve every capability or enable student catalog entri
 | compat-algebra-checkbox-01 | 4321 | desktop | 9/9 | passed | None observed |
 | compat-algebra-checkbox-01 | 4321 | mobile | 9/9 | passed | None observed |
 | compat-economics-popup-01 | 1234 | desktop | 9/9 | passed | None observed |
-| compat-economics-popup-01 | 1234 | mobile | 9/9 | passed-with-limitations | NARROW_FRAME_SCROLL |
+| compat-economics-popup-01 | 1234 | mobile | 9/9 | passed | None observed |
 | compat-economics-popup-01 | 4321 | desktop | 9/9 | passed | None observed |
-| compat-economics-popup-01 | 4321 | mobile | 9/9 | passed-with-limitations | NARROW_FRAME_SCROLL |
+| compat-economics-popup-01 | 4321 | mobile | 9/9 | passed | None observed |
 | compat-calculus-scaffold-01 | 1234 | desktop | 9/9 | passed-with-limitations | STAGED_CONTENT_REQUIRES_REFRESH |
 | compat-calculus-scaffold-01 | 1234 | mobile | 9/9 | passed-with-limitations | STAGED_CONTENT_REQUIRES_REFRESH |
 | compat-calculus-scaffold-01 | 4321 | desktop | 9/9 | passed-with-limitations | STAGED_CONTENT_REQUIRES_REFRESH |
@@ -51,7 +51,7 @@ A passing flow does not approve every capability or enable student catalog entri
 | compat-algebra-graphtool-01 | 1234 | desktop | 9/9 | passed-with-limitations | NARROW_FRAME_SCROLL |
 | compat-algebra-graphtool-01 | 1234 | mobile | 8/9 | failed | MOBILE_GRAPH_TOUCH_GRADING, NARROW_FRAME_SCROLL |
 | compat-algebra-graphtool-01 | 4321 | desktop | 9/9 | passed-with-limitations | NARROW_FRAME_SCROLL |
-| compat-algebra-graphtool-01 | 4321 | mobile | 8/9 | failed | MOBILE_GRAPH_TOUCH_GRADING, NARROW_FRAME_SCROLL |
+| compat-algebra-graphtool-01 | 4321 | mobile | 4/9 | failed | NARROW_FRAME_SCROLL |
 
 ## Known capability boundaries
 

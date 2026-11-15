@@ -8,20 +8,28 @@ The active work is the independent **experimental-workspace/** WeBWorK integrati
 
 The goal has expanded to a multi-subject practice platform covering the whole OPL, using PG mathematical grading. Design the future catalog for all subjects, while validating playable exercises in batches. Build one complete, reliable exercise flow before broadly enabling large numbers of exercises.
 
-This handoff accompanies the consistent PG feedback changes on `main`, following `76fbda5` (explicit saved-session recovery). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
+This handoff accompanies safe PG message presentation on `main`, following `4ab8d08` (consistent PG feedback outcomes). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
 
 
 ## Resume checklist
 
 1. Inspect `git log -1` and `git status --short`, then read [CATALOG_COMPATIBILITY.md](experimental-workspace/CATALOG_COMPATIBILITY.md) and [CATALOG_STATUS.md](experimental-workspace/compatibility/CATALOG_STATUS.md).
 2. Start Docker Desktop's Linux engine. From `experimental-workspace/`, run `docker compose up --build -d --wait --wait-timeout 240`. Open http://localhost:3100; six exercises should be available.
-3. Run `docker compose exec -T workspace npm test` and `docker compose exec -T workspace node server/check-catalog.mjs` for the ordinary catalog checks. The latest completed validation is 153 server tests, 49 browser checks and 14 publisher/report tests, plus live catalog and renderer/API smoke checks.
+3. Run `docker compose exec -T workspace npm test` and `docker compose exec -T workspace node server/check-catalog.mjs` for the ordinary catalog checks. The latest completed validation is 161 server tests, 52 browser checks and 14 publisher/report tests, plus live catalog and renderer/API smoke checks.
 4. Full `verify-compatibility.ps1` remains a deliberately failing gate: 42/44 cases pass; both mobile GraphTool cases fail. Keep those failures and the five disabled candidates visible. Do not treat a nonzero full gate as permission to weaken required checks.
 5. Finish runtime/profile edits before regenerating evidence. Fingerprints include source bytes and line endings, so a checkout that changes those bytes requires reverification. Use the documented publisher to produce reviewed metadata/evidence; do not manually rewrite evidence fingerprints to restore eligibility.
 
 The whole OPL remains in its Docker Linux volume. This change does not import the whole library, migrate catalog data into Supabase, or expose the renderer publicly. Continue with the blockers and importer steps below; preserve existing sessions and attribution.
 
-## Current work: consistent PG feedback outcomes
+## Current work: safe and readable PG feedback
+
+Continuity subtask 5 is implemented. [FEEDBACK_PRESENTATION.md](experimental-workspace/FEEDBACK_PRESENTATION.md) specifies the canonical student-message projection, reviewed TeX vocabulary and resource budgets, optional formatting fallback, privacy boundary and accessibility rules. Paragraphs/line breaks now survive. Explicit reviewed TeX typesets in field feedback and the overall result through the pinned MathJax library; arbitrary PG feedback HTML remains inert text. Unknown notation remains literal. HTML superscripts/subscripts retain readable text notation. No mathematical explanation is generated from expected answers.
+
+Overall feedback exposes only message/summary strings. Correct-answer claims, hidden answer/solution markup and tokens remain private; authored suppression continues to remove all public feedback and scores. Field feedback stays in the opaque frame; the shell lazily loads only the fixed math library for reviewed overall notation, with automatic typesetting disabled. Async formatting cannot overwrite changed/replaced messages. Original notation remains on optional formatting failure, without disabling grading or changing scores. Existing plain-string snapshots remain compatible.
+
+The real-PG audit now requires 22 passing cases at seeds 1234/4321 plus two stale/revert checks, including two actual authored equation forms after grading and refresh from a source-pinned RA Cruz/College of Idaho fixture. That fixture remains operator-only. Browser tests additionally cover synthetic hostile HTML/TeX, overall notation, formatting failure and long-expression keyboard scrolling. Final validation passed 161 server tests, 52 browser checks and 14 publisher/report tests, all 22 real-PG cases plus two stale/revert checks, and live catalog/renderer/session/API/grading/submission-state checks. Full compatibility evidence was regenerated and published for this runtime: 42/44 cases pass. Both remaining failures concern mobile GraphTool; seed 1234 reaches completion with a touch-grading failure and seed 4321 fails the partial-credit interaction at graph-stale-feedback. GraphTool stays disabled, and the same six entries remain approved. The economics dropdown now passes the four current seed/viewport cases, but remains disabled because it is outside the active batch; its earlier narrow-layout observation is historical. An earlier concurrent run timed out during dot-product refresh; the isolated full rerun passed every enabled case without changing checks/timeouts. Next work is available authored hints and deliberate move-on controls; hints and solutions are not added here. This handoff accompanies the presentation commit after `4ab8d08`; inspect Git status/history for subsequent work.
+
+## Previous milestone: consistent PG feedback outcomes
 
 Continuity subtask 4 is implemented. [FEEDBACK_MODEL.md](experimental-workspace/FEEDBACK_MODEL.md) documents field states, overall precedence, actual PG scores, suppressed visibility and stale/revert rules. [feedback-observations.json](experimental-workspace/compatibility/feedback-observations.json) records 20 passing owned-session real-PG browser cases at seeds 1234/4321 plus two stale/revert checks. [feedback-fixtures.json](experimental-workspace/compatibility/feedback-fixtures.json) keeps source hashes, attribution and license evidence separate from student activation.
 

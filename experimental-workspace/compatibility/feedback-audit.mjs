@@ -108,6 +108,15 @@ try{
      const wrong=options.find(pair=>!correct.some(([name,value])=>name===pair[0]&&value===pair[1]));check(wrong,'WRONG_CHOICE');await grade(page,fixture,'suppressed-incorrect',[wrong],{score:0,statuses:['ungraded'],outcome:'ungraded',suppressed:true});
      await grade(page,fixture,'suppressed-correct',correct,{score:1,statuses:['ungraded'],outcome:'ungraded',suppressed:true});
      await setPairs(page,[]);await page.locator('#result-stale').waitFor();check(await frame(page).locator('[data-practice-feedback]').getByText(/remains withheld/).count()===1,'SUPPRESSED_STALE');
+    }else if(fixture.id==='feedback-equation-01'){
+     check(names.length===2,'EQUATION_FIELD_COUNT');
+     const saved=await grade(page,fixture,'authored-equation-notation',[[names[1],'1']],{score:0,statuses:['unanswered','incorrect'],outcome:'unanswered'});
+     check(saved.data.submission.fieldFeedback[1].message.includes('\\(y = m x + b\\)'),'AUTHORED_TEX_RETAINED');
+     const boxes=frame(page).locator('.field-feedback-message .feedback-math[data-math-state=rendered]');
+     await boxes.nth(1).waitFor();check(await boxes.count()===2,'AUTHORED_TEX_RENDERED');
+     check(await frame(page).locator('.field-feedback-message mjx-assistive-mml').count()===2,'AUTHORED_TEX_ACCESSIBLE');
+     check(!/"(?:correct_value|correct_ans|answerJWT|sessionJWT|problemJWT|student_value)"\s*:/.test(JSON.stringify(saved.data)),'NO_PRIVATE_ANSWER_CLAIMS');
+     const row=report.cases.at(-1);row.authoredMathPreserved=true;row.twoExpressionsTypesetAfterRefresh=true;row.assistiveMathRetained=true;row.noCorrectAnswerProjection=true;
     }else{
      const name=names[0],value=String(diagnostic.answers[name].correct_value??diagnostic.answers[name].correct_ans),point=value.match(/\{point,\s*\(\s*(-?[\d.]+),\s*(-?[\d.]+)\s*\)\s*\}/);check(point,'PARTIAL_POINT');
      await frame(page).locator('.gt-point-tool').click();
@@ -118,7 +127,7 @@ try{
    }finally{await context.close();}
   }
  }
- report.complete=report.cases.length===20&&report.cases.every(c=>c.passed)&&report.staleChecks.length===2;
+ report.complete=report.cases.length===22&&report.cases.every(c=>c.passed)&&report.staleChecks.length===2;
  check(report.complete,'CASE_MATRIX');
 }catch(error){report.complete=false;report.failure=error.message?.startsWith('QA_FEEDBACK_')?error.message:error.name;process.exitCode=1;}
 finally{capturing=false;await browser.close();app.closeAllConnections();await new Promise(resolve=>app.close(resolve));await rm(directory,{recursive:true,force:true});globalThis.fetch=nativeFetch;await mkdir(output,{recursive:true});await writeFile(output+'/feedback-observations.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({complete:report.complete,cases:report.cases.length,staleChecks:report.staleChecks.length,failure:report.failure??null}));}

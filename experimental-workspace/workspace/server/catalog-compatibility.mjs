@@ -3,8 +3,8 @@ import {readFileSync} from 'node:fs';
 // Data, activation choices and test files are deliberately excluded. Runtime and profile changes invalidate evidence.
 export const compatibilityRuntimeFiles=[
  'package-lock.json','server.mjs','server/exercise-assets.mjs','server/catalog-compatibility.mjs','server/compatibility-profile.json','server/exercise-catalog.mjs',
- 'server/renderer-client.mjs','server/exercise-sessions.mjs','server/answer-contract.mjs','server/submission-state.mjs','server/grading-feedback.mjs','server/http-app.mjs',
- 'public/index.html','public/picker.js','public/picker.css','public/exercise-frame.js','public/exercise.css','public/session-recovery.js','public/draft-answers.js','public/answer-fields.js','public/answer-bridge.js','public/widget-answers.js','public/feedback-model.js','public/field-feedback.js'
+ 'server/renderer-client.mjs','server/exercise-sessions.mjs','server/answer-contract.mjs','server/submission-state.mjs','server/grading-feedback.mjs','server/feedback-content.mjs','server/http-app.mjs',
+ 'public/index.html','public/picker.js','public/picker.css','public/exercise-frame.js','public/exercise.css','public/session-recovery.js','public/draft-answers.js','public/answer-fields.js','public/answer-bridge.js','public/widget-answers.js','public/feedback-model.js','public/field-feedback.js','public/feedback-content.js'
 ];
 export function runtimeFingerprint(){
  const digest=createHash('sha256');

@@ -237,7 +237,7 @@ test('normalizes student feedback to text without returning executable HTML', as
   const result = await createRendererClient({ baseUrl }).loadExercise(input);
   assert.deepEqual(result.feedback, {
     message: 'You can earn partial credit.',
-    summary: 'One answer is correct. Three remain unanswered & need work.',
+    summary: 'One answer is correct.\n\nThree remain unanswered & need work.',
   });
 });
 
@@ -300,4 +300,10 @@ test('real-shaped suppressed grading retains policy but withholds individual cla
  const baseUrl=await serve(t,(_req,res)=>res.end(JSON.stringify({...valid(),flags:{error_flag:0,showPartialCorrectAnswers:0},problem_result:{score:1},JWT:{session:'private-session',problem:'private-problem',answer:answerToken}})));
  const result=await createRendererClient({baseUrl,exerciseLookup:()=>({renderer:{sourceFilePath:'Library/one.pg'}})}).submitAnswers({...input,sessionToken:'stored',answers:[['AnSwEr0001','x']]});
  assert.equal(result.feedbackVisibility,'suppressed');assert.equal(result.score,1);assert.deepEqual(result.fieldFeedback,[{name:'AnSwEr0001',status:'ungraded',score:null,message:'',reason:'suppressed'}]);
+});
+test('projects actual PG-style notation without answer claims, active HTML or hidden correct data',async t=>{
+ const answer='e30.'+Buffer.from(JSON.stringify({score:{answers:{AnSwEr0001:{score:0,student_value:'1',ans_message:'Your answer must be an equation:<br> \\(y = m x + b\\) or <script type="math/tex">ax + by = c</script><span class="correct-answer">PRIVATE_EXPECTED</span>',correct_ans:'PRIVATE_EXPECTED',correct_value:'PRIVATE_EXPECTED'}}},private:'PRIVATE'})).toString('base64url')+'.c2ln';
+ const baseUrl=await serve(t,(_req,res)=>res.end(JSON.stringify({...valid(),JWT:{...valid().JWT,answer}})));
+ const result=await createRendererClient({baseUrl,exerciseLookup:()=>({renderer:{sourceFilePath:'Library/operator.pg'}})}).submitAnswers({...input,sessionToken:'stored',answers:[['AnSwEr0001','1']]});
+ assert.equal(result.fieldFeedback[0].message,'Your answer must be an equation:\n\\(y = m x + b\\) or \\(ax + by = c\\)');assert.doesNotMatch(JSON.stringify(result),/PRIVATE|correct_ans|correct_value|<script/);
 });

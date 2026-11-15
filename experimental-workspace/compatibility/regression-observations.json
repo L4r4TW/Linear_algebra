@@ -1,9 +1,9 @@
 {
   "fixtureCatalogFingerprint": "5cf24cefe4a9a23931cd5a0491610d795538d6db02df0ddf81b374351025e400",
-  "runtimeFingerprint": "2a77968754beae8530a591a91a6d77e6862fbc0728ebdc326b1c11cae4d2ca4a",
+  "runtimeFingerprint": "5392a6676e1326f4333069b4bd05b75a6b06091009943cb098afdad6be0997ef",
   "profileVersion": "local-practice-v1",
   "schemaVersion": 1,
-  "observedAt": "2026-11-15T11:55:45.608Z",
+  "observedAt": "2026-11-15T12:44:42.911Z",
   "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
   "rendererRevision": "1134ffbbf5e656148e579f424f70bcd9f1d15936",
   "scope": "Operator-only temporary HTTP application using injected server catalogs and the real renderer client, owned sessions, picker, sandbox, answer bridge, grading, feedback and persistence. Production defaults are unchanged. Positive fixtures use expected values only in operator memory.",
@@ -2135,7 +2135,7 @@
       },
       "mobile": {
         "frameWidth": 312,
-        "contentWidth": 872,
+        "contentWidth": 506,
         "horizontalFrameScroll": true,
         "passed": true,
         "touchControlTypes": [
@@ -2516,7 +2516,7 @@
       },
       "mobile": {
         "frameWidth": 312,
-        "contentWidth": 872,
+        "contentWidth": 506,
         "horizontalFrameScroll": true,
         "passed": true,
         "touchControlTypes": [
@@ -4164,8 +4164,8 @@
       },
       "mobile": {
         "frameWidth": 312,
-        "contentWidth": 409,
-        "horizontalFrameScroll": true,
+        "contentWidth": 312,
+        "horizontalFrameScroll": false,
         "passed": true,
         "touchControlTypes": [
           "text",
@@ -4261,15 +4261,8 @@
         "keyboard": true,
         "mobile": true
       },
-      "limitations": [
-        {
-          "code": "NARROW_FRAME_SCROLL",
-          "capability": "mobile-layout",
-          "status": "limited",
-          "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
-        }
-      ],
-      "status": "passed-with-limitations"
+      "limitations": [],
+      "status": "passed"
     },
     {
       "id": "compat-economics-popup-01",
@@ -4501,8 +4494,8 @@
       },
       "mobile": {
         "frameWidth": 312,
-        "contentWidth": 409,
-        "horizontalFrameScroll": true,
+        "contentWidth": 312,
+        "horizontalFrameScroll": false,
         "passed": true,
         "touchControlTypes": [
           "text",
@@ -4598,15 +4591,8 @@
         "keyboard": true,
         "mobile": true
       },
-      "limitations": [
-        {
-          "code": "NARROW_FRAME_SCROLL",
-          "capability": "mobile-layout",
-          "status": "limited",
-          "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
-        }
-      ],
-      "status": "passed-with-limitations"
+      "limitations": [],
+      "status": "passed"
     },
     {
       "id": "compat-calculus-scaffold-01",
@@ -6848,7 +6834,7 @@
         "feedbackCount": 1
       },
       "correct": {
-        "score": 0.388888888888889,
+        "score": 0.444444444444444,
         "statuses": [
           "partial"
         ],
@@ -6858,7 +6844,7 @@
         {
           "code": "MOBILE_GRAPH_TOUCH_GRADING",
           "expectedScore": 1,
-          "actualScore": 0.388888888888889
+          "actualScore": 0.444444444444444
         }
       ],
       "fieldCount": 1,
@@ -7109,7 +7095,7 @@
       "sourceVerified": true,
       "verificationSeed": 4321,
       "viewport": "mobile",
-      "phase": "complete",
+      "phase": "graph-stale-feedback",
       "loadingRetry": {
         "passed": true,
         "sameSession": true
@@ -7188,91 +7174,37 @@
       },
       "staleFeedbackOnClear": true,
       "partial": {
-        "score": 0.111111111111111,
-        "statuses": [
-          "partial"
-        ],
-        "feedbackCount": 1
-      },
-      "correct": {
-        "score": 0.333333333333333,
-        "statuses": [
-          "partial"
-        ],
-        "feedbackCount": 1
-      },
-      "capabilityFailures": [
-        {
-          "code": "MOBILE_GRAPH_TOUCH_GRADING",
-          "expectedScore": 1,
-          "actualScore": 0.333333333333333
-        }
-      ],
-      "fieldCount": 1,
-      "collection": {
-        "fieldCount": 1,
-        "pairCount": 1,
-        "repeatedPairs": 0,
-        "helperFieldsExcluded": true
-      },
-      "privateRendererDataOmitted": true,
-      "restoration": {
-        "sameAvailableAnswers": true,
-        "removedBlankFieldCount": 0,
-        "sameSession": true,
-        "sameSubmission": true,
-        "noNewGrade": true,
-        "feedbackCount": 1
-      },
-      "retry": {
-        "passed": true,
-        "failedGradeUnchanged": true,
-        "inputsPreserved": true,
-        "noAutomaticRetry": true,
-        "explicitRetrySavedOnce": true,
-        "lostResponseRecoveredWithoutRegrading": true
-      },
-      "graphFocus": true,
-      "cleared": {
         "score": 0,
         "statuses": [
-          "unanswered"
+          "incorrect"
         ],
         "feedbackCount": 1
       },
-      "clearedRestoration": {
-        "sameAvailableAnswers": true,
-        "removedBlankFieldCount": 0,
-        "sameSession": true,
-        "sameSubmission": true,
-        "noNewGrade": true,
-        "feedbackCount": 1
+      "graphDiagnostics": {
+        "feedback": [
+          "incorrect"
+        ],
+        "nonempty": true,
+        "confirmButtons": 0,
+        "clearDisabled": false,
+        "confirmationContainers": 0,
+        "focusedTag": "BODY",
+        "action": "clear"
       },
-      "ownershipProtected": true,
-      "gradingOwnershipProtected": true,
-      "ownerDataUnchanged": true,
-      "seedPreserved": true,
-      "pageErrors": 0,
+      "error": "QA_GRAPH_PARTIAL",
       "passed": false,
-      "error": "QA_MOBILE_GRAPH_TOUCH_GRADING",
       "checks": {
         "rendering": true,
         "interaction": true,
-        "answerCapture": true,
+        "answerCapture": false,
         "grading": false,
-        "retries": true,
-        "refresh": true,
-        "ownership": true,
+        "retries": false,
+        "refresh": false,
+        "ownership": false,
         "keyboard": true,
         "mobile": true
       },
       "limitations": [
-        {
-          "code": "MOBILE_GRAPH_TOUCH_GRADING",
-          "capability": "touch-graph-positive-answer",
-          "status": "unsupported",
-          "reason": "For fixture seeds 1234 and 4321, touch-mobile point placement does not reach the expected full score. Coordinate/interaction behavior needs investigation; these cases remain failed and are not waived by this policy."
-        },
         {
           "code": "NARROW_FRAME_SCROLL",
           "capability": "mobile-layout",
@@ -7516,7 +7448,7 @@
       "CASE_FAILED:compat-algebra-graphtool-01:1234:mobile",
       "CASE_FAILED:compat-algebra-graphtool-01:4321:mobile"
     ],
-    "limitedCases": 18
+    "limitedCases": 16
   },
   "unverified": [
     {

@@ -477,3 +477,11 @@ test('suppression redacts public scores and messages on check and refresh withou
  // Older snapshots lacking policy must adopt the actual renderer's suppression on restoration.
  const legacy=JSON.parse(before);delete legacy.lastSubmission.feedbackVisibility;await writeFile(path,JSON.stringify(legacy));const old=await (await fetch(url,{headers:{Cookie:cookie}})).json();assert.equal(old.submission.score,null);assert.equal(old.submission.feedbackVisibility,'suppressed');
 });
+test('visible feedback only exposes message and summary; notation survives grading and owned restoration',async t=>{
+ const f=await fixture(t),original=f.rendererClient.submitAnswers;
+ f.rendererClient.submitAnswers=async input=>({...await original(input),feedback:{message:'Compare \\(x^2\\).',summary:'First line.\nSecond line.',correct_ans:'PRIVATE_EXPECTED',answerJWT:'PRIVATE_TOKEN'},fieldFeedback:[{name:'AnSwEr0001',status:'incorrect',score:0,message:'Use \\(x_1\\).'}]});
+ const started=await start(f),data=await started.json(),cookie=cookieOf(started),url=f.baseUrl+'/api/sessions/'+data.session.id;
+ const response=await fetch(url+'/answers',{method:'POST',headers:{Cookie:cookie,'Content-Type':'application/json'},body:JSON.stringify({answers:[['AnSwEr0001','1']]})});assert.equal(response.status,200);
+ const checked=await response.json();assert.deepEqual(checked.submission.feedback,{message:'Compare \\(x^2\\).',summary:'First line.\nSecond line.'});assert.doesNotMatch(JSON.stringify(checked),/PRIVATE|correct_ans|answerJWT/);
+ const restored=await(await fetch(url,{headers:{Cookie:cookie}})).json();assert.deepEqual(restored.submission,checked.submission);
+});

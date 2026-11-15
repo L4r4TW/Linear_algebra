@@ -1,6 +1,6 @@
 import { projectFieldFeedback } from './grading-feedback.mjs';
 import { env } from 'node:process';
-import { parseFragment } from 'parse5';
+import { feedbackText } from './feedback-content.mjs';
 import { getExerciseById } from './exercise-catalog.mjs';
 import { validateAnswerEntries } from './answer-contract.mjs';
 
@@ -17,20 +17,6 @@ export class RendererClientError extends Error {
   }
 }
 
-function feedbackText(value) {
-  if (value === undefined || value === null) return '';
-  if (typeof value !== 'string') {
-    throw new RendererClientError('INVALID_RESPONSE', 'Renderer returned invalid feedback.');
-  }
-  function text(node) {
-    if (node.nodeName === '#text') return node.value;
-    if (node.tagName === 'style' || (node.tagName === 'script' &&
-        !node.attrs?.some((attribute) => attribute.name === 'type' && attribute.value.startsWith('math/tex')))) return '';
-    const content = (node.childNodes ?? []).map(text).join('');
-    return ['div', 'p', 'br', 'li', 'ul', 'ol'].includes(node.tagName) ? ' ' + content + ' ' : content;
-  }
-  return text(parseFragment(value)).replace(/\s+/g, ' ').trim();
-}
 function validateResponse(data, exerciseId, seed) {
   if (!isRecord(data) || !isRecord(data.flags)) {
     throw new RendererClientError('INVALID_RESPONSE', 'Renderer returned an invalid response.');
@@ -142,7 +128,11 @@ export function createRendererClient({ baseUrl = env.RENDERER_URL, timeoutMs = 3
       } catch {
         throw new RendererClientError('INVALID_RESPONSE', 'Renderer returned invalid JSON.');
       }
-      const result = validateResponse(data, exerciseId, seed);
+      let result;
+      try { result = validateResponse(data, exerciseId, seed); } catch (error) {
+        if(error instanceof RendererClientError)throw error;
+        throw new RendererClientError('INVALID_RESPONSE','Renderer returned invalid feedback.');
+      }
       if (answers) {
         try {
           result.fieldFeedback = projectFieldFeedback(data.JWT.answer, answers, feedbackText, {
