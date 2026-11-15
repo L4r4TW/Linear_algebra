@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-15T20:34:36.401Z",
+  "kind": "metadata-contract-observations",
+  "state": "design-only-not-published",
+  "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+  "catalogEntries": 11,
+  "playableAtObservation": 6,
+  "unknownLanguage": 11,
+  "unknownDifficulty": 11,
+  "unknownTimeEstimate": 11,
+  "checks": [
+    {
+      "name": "Approved scalar-product synonym finds the real vector exercise",
+      "passed": true
+    },
+    {
+      "name": "Unavailable entries are excluded by default, and explicitly discoverable",
+      "passed": true
+    },
+    {
+      "name": "Every query token must match and case/prefixes normalize",
+      "passed": true
+    },
+    {
+      "name": "Cross-listed exercise stays one result",
+      "passed": true
+    },
+    {
+      "name": "Textbook title is not an exercise title or searchable leaked field",
+      "passed": true
+    },
+    {
+      "name": "Proposed title and raw description are not displayed",
+      "passed": true
+    },
+    {
+      "name": "Source change invalidates an old metadata selection",
+      "passed": true
+    },
+    {
+      "name": "Raw Level eight, English UI and absent minutes never invent ratings",
+      "passed": true
+    },
+    {
+      "name": "Locale fallback is generic and rejected credits links are absent",
+      "passed": true
+    },
+    {
+      "name": "Author absence remains unknown and a directory is never credited as an author",
+      "passed": true
+    },
+    {
+      "name": "Private source identity, raw keywords and renderer tokens are allowlist-excluded",
+      "passed": true
+    },
+    {
+      "name": "License evidence is not turned into permission by metadata approval",
+      "passed": true
+    },
+    {
+      "name": "Hostile-looking text stays inert and survives JSON roundtrip in preview",
+      "passed": true
+    }
+  ],
+  "complete": true,
+  "scope": "Read-only source inventory and reference metadata projection/search checks. Not SQL, full-library importer, live frontend integration or compatibility recertification."
+}

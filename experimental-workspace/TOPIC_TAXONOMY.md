@@ -135,4 +135,4 @@ Fresh result: **30 nodes, six subjects, eleven catalog examples, one source-only
 
 These are design/fixture checks, not a database constraint test, full-library import, browser accessibility test or compatibility recertification. No application, SQL, stored session, account, active catalog or renderer dependency changes. Existing 173-server/62-browser results remain prior implementation evidence. Manual screen-reader listening and physical-device review remain separate release checks.
 
-Next: **5.4 — student-facing metadata**, including title/description provenance, search terms, language, attribution/license evidence and explicit handling of unknown difficulty/time estimates.
+Task 5.4 is now specified in [CATALOG_METADATA.md](CATALOG_METADATA.md), with executable projection/search examples and a local preview. Next: **5.5 — compatibility evidence and activation**, preserving the existing fail-closed rules.

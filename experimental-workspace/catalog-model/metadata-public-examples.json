@@ -1,0 +1,418 @@
+{
+  "state": "design-preview-not-live-api",
+  "observedAt": "2026-11-15T20:34:36.401Z",
+  "documents": [
+    {
+      "id": "dot-product-01",
+      "title": "Dot products and vector operations",
+      "description": "Practice dot products and scalar multiplication using three-dimensional vectors.",
+      "metadataLocale": "en",
+      "requestedLocale": "en",
+      "contentLanguage": null,
+      "difficulty": null,
+      "estimatedMinutes": null,
+      "searchTerms": [
+        "dot product",
+        "scalar product",
+        "vector operations"
+      ],
+      "topics": [
+        {
+          "subject": "Linear Algebra",
+          "chapter": "Vectors",
+          "section": "Dot products"
+        },
+        {
+          "subject": "Geometry",
+          "chapter": "Vector geometry",
+          "section": "Dot products"
+        }
+      ],
+      "attribution": {
+        "provider": "WeBWorK Open Problem Library",
+        "contributors": [
+          "Paul Pearson"
+        ],
+        "institution": "Fort Lewis College",
+        "sourceUrl": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg"
+      },
+      "rights": {
+        "status": "review-required",
+        "label": "Source notices require review"
+      },
+      "availability": {
+        "canPractice": true,
+        "label": "Available in local practice"
+      }
+    },
+    {
+      "id": "compat-calculus-numeric-01",
+      "title": "Evaluate a derivative at a point",
+      "description": "Evaluate a derivative at a given point.",
+      "metadataLocale": "en",
+      "requestedLocale": "en",
+      "contentLanguage": null,
+      "difficulty": null,
+      "estimatedMinutes": null,
+      "searchTerms": [
+        "derivative",
+        "rate of change",
+        "evaluate"
+      ],
+      "topics": [
+        {
+          "subject": "Calculus",
+          "chapter": "Differentiation",
+          "section": "Evaluating derivatives"
+        }
+      ],
+      "attribution": {
+        "provider": "WeBWorK Open Problem Library",
+        "contributors": [],
+        "institution": "Rochester",
+        "sourceUrl": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/Rochester/setDerivatives2Formulas/c2s5p1.pg"
+      },
+      "rights": {
+        "status": "review-required",
+        "label": "Source notices require review"
+      },
+      "availability": {
+        "canPractice": true,
+        "label": "Available in local practice"
+      }
+    },
+    {
+      "id": "compat-calculus-formula-01",
+      "title": "Differentiate a quotient",
+      "description": "Practice differentiating a quotient.",
+      "metadataLocale": "en",
+      "requestedLocale": "en",
+      "contentLanguage": null,
+      "difficulty": null,
+      "estimatedMinutes": null,
+      "searchTerms": [
+        "quotient rule",
+        "differentiate",
+        "derivative"
+      ],
+      "topics": [
+        {
+          "subject": "Calculus",
+          "chapter": "Differentiation",
+          "section": "Quotient rule"
+        }
+      ],
+      "attribution": {
+        "provider": "WeBWorK Open Problem Library",
+        "contributors": [],
+        "institution": "UCSB",
+        "sourceUrl": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/Union/setDervProductQuotientRule/ur_dr_2_1.pg"
+      },
+      "rights": {
+        "status": "review-required",
+        "label": "Source notices require review"
+      },
+      "availability": {
+        "canPractice": true,
+        "label": "Available in local practice"
+      }
+    },
+    {
+      "id": "compat-matrix-grid-01",
+      "title": "Add scaled matrices",
+      "description": "Add scaled matrices",
+      "metadataLocale": "en",
+      "requestedLocale": "en",
+      "contentLanguage": null,
+      "difficulty": null,
+      "estimatedMinutes": null,
+      "searchTerms": [
+        "matrix addition",
+        "scalar multiplication",
+        "matrices"
+      ],
+      "topics": [
+        {
+          "subject": "Linear Algebra",
+          "chapter": "Matrices",
+          "section": "Matrix arithmetic"
+        }
+      ],
+      "attribution": {
+        "provider": "WeBWorK Open Problem Library",
+        "contributors": [],
+        "institution": "ASU",
+        "sourceUrl": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/ASU-topics/set119MatrixAlgebra/p12.pg"
+      },
+      "rights": {
+        "status": "review-required",
+        "label": "Source notices require review"
+      },
+      "availability": {
+        "canPractice": false,
+        "label": "Not available for practice"
+      }
+    },
+    {
+      "id": "compat-statistics-radio-01",
+      "title": "Classify hypothesis-test decisions",
+      "description": "Choose answers to statistics questions.",
+      "metadataLocale": "en",
+      "requestedLocale": "en",
+      "contentLanguage": null,
+      "difficulty": null,
+      "estimatedMinutes": null,
+      "searchTerms": [
+        "hypothesis testing",
+        "type I error",
+        "type II error",
+        "power"
+      ],
+      "topics": [
+        {
+          "subject": "Statistics",
+          "chapter": "Hypothesis tests",
+          "section": "Errors and power"
+        }
+      ],
+      "attribution": {
+        "provider": "WeBWorK Open Problem Library",
+        "contributors": [
+          "Rachael Norton (adaptation credit in source)"
+        ],
+        "institution": "ASU",
+        "sourceUrl": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/ASU-topics/setStat/di12.pg"
+      },
+      "rights": {
+        "status": "review-required",
+        "label": "Source notices require review"
+      },
+      "availability": {
+        "canPractice": true,
+        "label": "Available in local practice"
+      }
+    },
+    {
+      "id": "compat-algebra-checkbox-01",
+      "title": "Compare population growth and explanations",
+      "description": "Combine calculations with multiple selections.",
+      "metadataLocale": "en",
+      "requestedLocale": "en",
+      "contentLanguage": null,
+      "difficulty": null,
+      "estimatedMinutes": null,
+      "searchTerms": [
+        "population growth",
+        "exponential model",
+        "growth rate"
+      ],
+      "topics": [
+        {
+          "subject": "Algebra",
+          "chapter": "Exponential functions",
+          "section": "Population growth"
+        }
+      ],
+      "attribution": {
+        "provider": "WeBWorK Open Problem Library",
+        "contributors": [
+          "Adam Spiegler"
+        ],
+        "institution": "Loyola University Chicago",
+        "sourceUrl": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/LoyolaChicago/Precalc/Chap3Review/Q46.pg"
+      },
+      "rights": {
+        "status": "review-required",
+        "label": "Source notices require review"
+      },
+      "availability": {
+        "canPractice": true,
+        "label": "Available in local practice"
+      }
+    },
+    {
+      "id": "compat-economics-popup-01",
+      "title": "Demand elasticity and revenue",
+      "description": "Demand elasticity and revenue",
+      "metadataLocale": "en",
+      "requestedLocale": "en",
+      "contentLanguage": null,
+      "difficulty": null,
+      "estimatedMinutes": null,
+      "searchTerms": [
+        "elasticity of demand",
+        "revenue",
+        "economics"
+      ],
+      "topics": [
+        {
+          "subject": "Calculus",
+          "chapter": "Applications of derivatives",
+          "section": "Demand elasticity"
+        }
+      ],
+      "attribution": {
+        "provider": "WeBWorK Open Problem Library",
+        "contributors": [],
+        "institution": "ASU",
+        "sourceUrl": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/ASU-topics/setElasticity/p10.pg"
+      },
+      "rights": {
+        "status": "review-required",
+        "label": "Source notices require review"
+      },
+      "availability": {
+        "canPractice": false,
+        "label": "Not available for practice"
+      }
+    },
+    {
+      "id": "compat-calculus-scaffold-01",
+      "title": "Integral and derivative in stages",
+      "description": "Integral and derivative in stages",
+      "metadataLocale": "en",
+      "requestedLocale": "en",
+      "contentLanguage": null,
+      "difficulty": null,
+      "estimatedMinutes": null,
+      "searchTerms": [
+        "fundamental theorem of calculus",
+        "integral",
+        "derivative"
+      ],
+      "topics": [
+        {
+          "subject": "Calculus",
+          "chapter": "Integration",
+          "section": "Fundamental theorem of calculus"
+        }
+      ],
+      "attribution": {
+        "provider": "WeBWorK Open Problem Library",
+        "contributors": [
+          "Paul Pearson"
+        ],
+        "institution": "Hope College",
+        "sourceUrl": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/Hope/Calc1/05-04-FTC/FTC_01.pg"
+      },
+      "rights": {
+        "status": "review-required",
+        "label": "Source notices require review"
+      },
+      "availability": {
+        "canPractice": false,
+        "label": "Not available for practice"
+      }
+    },
+    {
+      "id": "compat-algebra-image-01",
+      "title": "Combine functions from a supplied graph",
+      "description": "Combine functions from a supplied graph",
+      "metadataLocale": "en",
+      "requestedLocale": "en",
+      "contentLanguage": null,
+      "difficulty": null,
+      "estimatedMinutes": null,
+      "searchTerms": [
+        "function composition",
+        "combine functions",
+        "graph"
+      ],
+      "topics": [
+        {
+          "subject": "Algebra",
+          "chapter": "Functions",
+          "section": "Combining functions"
+        }
+      ],
+      "attribution": {
+        "provider": "WeBWorK Open Problem Library",
+        "contributors": [],
+        "institution": "ASU",
+        "sourceUrl": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/ASU-topics/setAlgebraFunctions/beth2algfun.pg"
+      },
+      "rights": {
+        "status": "review-required",
+        "label": "Source notices require review"
+      },
+      "availability": {
+        "canPractice": false,
+        "label": "Not available for practice"
+      }
+    },
+    {
+      "id": "compat-calculus-graph-01",
+      "title": "Read a function and derivative graph",
+      "description": "Read a graph and estimate a derivative.",
+      "metadataLocale": "en",
+      "requestedLocale": "en",
+      "contentLanguage": null,
+      "difficulty": null,
+      "estimatedMinutes": null,
+      "searchTerms": [
+        "derivative graph",
+        "increasing",
+        "decreasing"
+      ],
+      "topics": [
+        {
+          "subject": "Calculus",
+          "chapter": "Differentiation",
+          "section": "Reading derivative graphs"
+        }
+      ],
+      "attribution": {
+        "provider": "WeBWorK Open Problem Library",
+        "contributors": [],
+        "institution": null,
+        "sourceUrl": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/270/setDerivatives1/ur_dr_1_7.pg"
+      },
+      "rights": {
+        "status": "review-required",
+        "label": "Source notices require review"
+      },
+      "availability": {
+        "canPractice": true,
+        "label": "Available in local practice"
+      }
+    },
+    {
+      "id": "compat-algebra-graphtool-01",
+      "title": "Plot points on a linear equation",
+      "description": "Plot points on a linear equation",
+      "metadataLocale": "en",
+      "requestedLocale": "en",
+      "contentLanguage": null,
+      "difficulty": null,
+      "estimatedMinutes": null,
+      "searchTerms": [
+        "linear equation",
+        "plot points",
+        "slope"
+      ],
+      "topics": [
+        {
+          "subject": "Algebra",
+          "chapter": "Linear equations",
+          "section": "Plotting linear equations"
+        }
+      ],
+      "attribution": {
+        "provider": "WeBWorK Open Problem Library",
+        "contributors": [
+          "Alex Jordan"
+        ],
+        "institution": null,
+        "sourceUrl": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/PCC/BasicAlgebra/EquationsAndInequalitiesInTwoVariables/PlotMXPlusB.pg"
+      },
+      "rights": {
+        "status": "review-required",
+        "label": "Source notices require review"
+      },
+      "availability": {
+        "canPractice": false,
+        "label": "Not available for practice"
+      }
+    }
+  ]
+}

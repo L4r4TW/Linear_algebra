@@ -1,0 +1,397 @@
+{
+  "version": 1,
+  "kind": "metadata-source-observations",
+  "observedAt": "2026-11-15T20:34:35.246Z",
+  "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+  "method": "Read-only lexical declaration and ancestor-notice inventory; no PG execution, student data, language inference, difficulty mapping or license clearance.",
+  "rootLicense": {
+    "path": "OPL_LICENSE",
+    "sha256": "42f623d31af8c3ee30acf0c16f8dbae37e16350352efdf3a186afab63685dcaf",
+    "reviewState": "conditional-default-evidence-not-clearance"
+  },
+  "entries": [
+    {
+      "legacyId": "dot-product-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg",
+        "sha256": "015a00eec3ad5bfd10568083fb0640a79c9f1ad1b59df740cca0d9832575460a"
+      },
+      "declarations": [
+        {
+          "field": "Institution",
+          "line": 11,
+          "argument": "Fort Lewis College",
+          "text": "## Institution(Fort Lewis College)"
+        },
+        {
+          "field": "Author",
+          "line": 12,
+          "argument": "Paul Pearson",
+          "text": "## Author(Paul Pearson)"
+        },
+        {
+          "field": "Level",
+          "line": 14,
+          "argument": "2",
+          "text": "## Level(2)"
+        },
+        {
+          "field": "TitleText1",
+          "line": 16,
+          "argument": "'Calculus'",
+          "text": "## TitleText1('Calculus')"
+        },
+        {
+          "field": "AuthorText1",
+          "line": 17,
+          "argument": "'Hughes-Hallett'",
+          "text": "## AuthorText1('Hughes-Hallett')"
+        },
+        {
+          "field": "KEYWORDS",
+          "line": 26,
+          "argument": "'Vector', 'Dot Product'",
+          "text": "## KEYWORDS('Vector', 'Dot Product')"
+        }
+      ],
+      "parentNoticeCandidates": [],
+      "individualAndAssetNoticeReview": "not-performed"
+    },
+    {
+      "legacyId": "compat-calculus-numeric-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/Rochester/setDerivatives2Formulas/c2s5p1.pg",
+        "sha256": "224502a030bf255614ea83ef58708627546abde879ba595a580277b67476c677"
+      },
+      "declarations": [
+        {
+          "field": "Institution",
+          "line": 10,
+          "argument": "Rochester",
+          "text": "## Institution(Rochester)"
+        },
+        {
+          "field": "Level",
+          "line": 11,
+          "argument": "3",
+          "text": "## Level(3)"
+        },
+        {
+          "field": "KEYWORDS",
+          "line": 13,
+          "argument": "'Derivative', 'Product', 'Chain'",
+          "text": "## KEYWORDS('Derivative', 'Product', 'Chain')"
+        }
+      ],
+      "parentNoticeCandidates": [],
+      "individualAndAssetNoticeReview": "not-performed"
+    },
+    {
+      "legacyId": "compat-calculus-formula-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/Union/setDervProductQuotientRule/ur_dr_2_1.pg",
+        "sha256": "4bbd5597c07ee42bd3824ad4a3b2727edb4cc162fe45ce336350e7255af52dfc"
+      },
+      "declarations": [
+        {
+          "field": "Institution",
+          "line": 11,
+          "argument": "UCSB",
+          "text": "## Institution(UCSB)"
+        },
+        {
+          "field": "Level",
+          "line": 12,
+          "argument": "2",
+          "text": "## Level(2)"
+        },
+        {
+          "field": "TitleText1",
+          "line": 14,
+          "argument": "'Calculus: Early Transcendentals'",
+          "text": "## TitleText1('Calculus: Early Transcendentals')"
+        },
+        {
+          "field": "AuthorText1",
+          "line": 15,
+          "argument": "'Stewart'",
+          "text": "## AuthorText1('Stewart')"
+        },
+        {
+          "field": "KEYWORDS",
+          "line": 24,
+          "argument": "'derivative' 'product' 'quotient','calculus', 'derivatives', 'quotient','Derivative','Product','Quotient','Differentiation'",
+          "text": "## KEYWORDS('derivative' 'product' 'quotient','calculus', 'derivatives', 'quotient','Derivative','Product','Quotient','Differentiation')"
+        }
+      ],
+      "parentNoticeCandidates": [],
+      "individualAndAssetNoticeReview": "not-performed"
+    },
+    {
+      "legacyId": "compat-matrix-grid-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/ASU-topics/set119MatrixAlgebra/p12.pg",
+        "sha256": "67cfe0c86359294d3753818e72ddc39d5a4a4efae1b6e9e4057588f79dd71cf2"
+      },
+      "declarations": [
+        {
+          "field": "Institution",
+          "line": 10,
+          "argument": "ASU",
+          "text": "## Institution(ASU)"
+        },
+        {
+          "field": "Level",
+          "line": 12,
+          "argument": "2",
+          "text": "## Level(2)"
+        },
+        {
+          "field": "KEYWORDS",
+          "line": 13,
+          "argument": "'Algebra' 'Matrix' 'Matrices'",
+          "text": "## KEYWORDS('Algebra' 'Matrix' 'Matrices')"
+        }
+      ],
+      "parentNoticeCandidates": [],
+      "individualAndAssetNoticeReview": "not-performed"
+    },
+    {
+      "legacyId": "compat-statistics-radio-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/ASU-topics/setStat/di12.pg",
+        "sha256": "ca848d241dda15054e1f675727344a5d8737b82512f02def4814d73f9ae62c91"
+      },
+      "declarations": [
+        {
+          "field": "Institution",
+          "line": 10,
+          "argument": "ASU",
+          "text": "## Institution(ASU)"
+        },
+        {
+          "field": "Level",
+          "line": 11,
+          "argument": "1",
+          "text": "## Level(1)"
+        },
+        {
+          "field": "KEYWORDS",
+          "line": 12,
+          "argument": "'Statistics','Hypothesis Testing', 'DEI'",
+          "text": "## KEYWORDS('Statistics','Hypothesis Testing', 'DEI')"
+        }
+      ],
+      "parentNoticeCandidates": [],
+      "individualAndAssetNoticeReview": "not-performed"
+    },
+    {
+      "legacyId": "compat-algebra-checkbox-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/LoyolaChicago/Precalc/Chap3Review/Q46.pg",
+        "sha256": "784601fbfd5562a91b86882750ad38810464d2e1278cbbb731c0dfbf4046fbe8"
+      },
+      "declarations": [
+        {
+          "field": "Institution",
+          "line": 8,
+          "argument": "Loyola University Chicago",
+          "text": "## Institution(Loyola University Chicago)"
+        },
+        {
+          "field": "Author",
+          "line": 9,
+          "argument": "Adam Spiegler",
+          "text": "## Author(Adam Spiegler)"
+        },
+        {
+          "field": "Level",
+          "line": 10,
+          "argument": "5",
+          "text": "## Level(5)"
+        },
+        {
+          "field": "TitleText1",
+          "line": 12,
+          "argument": "'Functions Modeling Change'",
+          "text": "## TitleText1('Functions Modeling Change')"
+        },
+        {
+          "field": "AuthorText1",
+          "line": 15,
+          "argument": "'Connally'",
+          "text": "## AuthorText1('Connally')"
+        },
+        {
+          "field": "KEYWORDS",
+          "line": 27,
+          "argument": "'exponential functions','growth rate','growth factor','continuous exponential growth','e','compound interest','graphs of exponential functions'",
+          "text": "## KEYWORDS('exponential functions','growth rate','growth factor','continuous exponential growth','e','compound interest','graphs of exponential functions')"
+        }
+      ],
+      "parentNoticeCandidates": [],
+      "individualAndAssetNoticeReview": "not-performed"
+    },
+    {
+      "legacyId": "compat-economics-popup-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/ASU-topics/setElasticity/p10.pg",
+        "sha256": "7109d85872e2ed9c6cf93ed20dfcfbdbc9312f318218535d13c5c4b1f5dd003d"
+      },
+      "declarations": [
+        {
+          "field": "Institution",
+          "line": 10,
+          "argument": "ASU",
+          "text": "## Institution(ASU)"
+        },
+        {
+          "field": "Level",
+          "line": 13,
+          "argument": "5",
+          "text": "## Level(5)"
+        },
+        {
+          "field": "KEYWORDS",
+          "line": 15,
+          "argument": "'calculus','elasticity','economics'",
+          "text": "## KEYWORDS('calculus','elasticity','economics')"
+        }
+      ],
+      "parentNoticeCandidates": [],
+      "individualAndAssetNoticeReview": "not-performed"
+    },
+    {
+      "legacyId": "compat-calculus-scaffold-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/Hope/Calc1/05-04-FTC/FTC_01.pg",
+        "sha256": "399cf94d53291f2994d287ff6cda4ea39bd7045bb3a77a1f8a305d01305a7b8e"
+      },
+      "declarations": [
+        {
+          "field": "Institution",
+          "line": 9,
+          "argument": "Hope College",
+          "text": "## Institution(Hope College)"
+        },
+        {
+          "field": "Author",
+          "line": 10,
+          "argument": "Paul Pearson",
+          "text": "## Author(Paul Pearson)"
+        },
+        {
+          "field": "Level",
+          "line": 11,
+          "argument": "2",
+          "text": "## Level(2)"
+        },
+        {
+          "field": "KEYWORDS",
+          "line": 12,
+          "argument": "'calculus', 'fundamental theorem of calculus'",
+          "text": "## KEYWORDS('calculus', 'fundamental theorem of calculus')"
+        }
+      ],
+      "parentNoticeCandidates": [],
+      "individualAndAssetNoticeReview": "not-performed"
+    },
+    {
+      "legacyId": "compat-algebra-image-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/ASU-topics/setAlgebraFunctions/beth2algfun.pg",
+        "sha256": "a6470e62683d0331d541a5df7f8fe8cc4eaa31fba7886fef1a8e5ea24f1984ae"
+      },
+      "declarations": [
+        {
+          "field": "Institution",
+          "line": 11,
+          "argument": "ASU",
+          "text": "## Institution(ASU)"
+        },
+        {
+          "field": "Level",
+          "line": 13,
+          "argument": "2",
+          "text": "## Level(2)"
+        },
+        {
+          "field": "TitleText1",
+          "line": 14,
+          "argument": "'College Algebra'",
+          "text": "## TitleText1('College Algebra')"
+        },
+        {
+          "field": "AuthorText1",
+          "line": 15,
+          "argument": "'Stewart, Redlin, Watson'",
+          "text": "## AuthorText1('Stewart, Redlin, Watson')"
+        },
+        {
+          "field": "KEYWORDS",
+          "line": 19,
+          "argument": "'algebra','function','graph', 'combining functions'",
+          "text": "## KEYWORDS('algebra','function','graph', 'combining functions')"
+        }
+      ],
+      "parentNoticeCandidates": [],
+      "individualAndAssetNoticeReview": "not-performed"
+    },
+    {
+      "legacyId": "compat-calculus-graph-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/270/setDerivatives1/ur_dr_1_7.pg",
+        "sha256": "b91bc436c92c6d68434c522d5bac40087af07bf75019b058710173ea8d0ca053"
+      },
+      "declarations": [
+        {
+          "field": "Level",
+          "line": 11,
+          "argument": "3",
+          "text": "## Level(3)"
+        },
+        {
+          "field": "KEYWORDS",
+          "line": 12,
+          "argument": "'Calculus','Derivatives'",
+          "text": "## KEYWORDS('Calculus','Derivatives')"
+        }
+      ],
+      "parentNoticeCandidates": [],
+      "individualAndAssetNoticeReview": "not-performed"
+    },
+    {
+      "legacyId": "compat-algebra-graphtool-01",
+      "source": {
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "path": "OpenProblemLibrary/PCC/BasicAlgebra/EquationsAndInequalitiesInTwoVariables/PlotMXPlusB.pg",
+        "sha256": "6c971d903bb786efb7869ed8f517a10f69646d9883e72c4d0e8e011cea4d8a4f"
+      },
+      "declarations": [],
+      "parentNoticeCandidates": [
+        {
+          "path": "OpenProblemLibrary/PCC/README",
+          "sha256": "d527e0b09f9f8e04c8989003ea4115d17504c6d63c42d5b91f9b56be4ce7573b",
+          "reviewState": "not-reviewed"
+        },
+        {
+          "path": "OpenProblemLibrary/PCC/README.txt",
+          "sha256": "34c204056aa5768e8c3a13c8845d059880db20c4fbfaa8f682ac69ed1ac041e8",
+          "reviewState": "not-reviewed"
+        }
+      ],
+      "individualAndAssetNoticeReview": "not-performed"
+    }
+  ],
+  "complete": true
+}

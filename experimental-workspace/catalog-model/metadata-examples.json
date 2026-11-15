@@ -1,0 +1,571 @@
+{
+    "version":  1,
+    "state":  "design-only-not-published",
+    "metadataRevision":  "catalog-metadata-v1-draft",
+    "interfaceLocale":  "en",
+    "scope":  "Eleven current examples, not imported full-library metadata or new editorial/compatibility approval.",
+    "entries":  [
+                    {
+                        "legacyId":  "dot-product-01",
+                        "appliesTo":  {
+                                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                          "path":  "OpenProblemLibrary/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg",
+                                          "sha256":  "015a00eec3ad5bfd10568083fb0640a79c9f1ad1b59df740cca0d9832575460a"
+                                      },
+                        "fields":  {
+                                       "title":  {
+                                                     "value":  "Dot products and vector operations",
+                                                     "locale":  "en",
+                                                     "reviewState":  "approved",
+                                                     "origin":  "legacy-catalog",
+                                                     "reference":  "workspace/server/exercise-catalog.json"
+                                                 },
+                                       "description":  {
+                                                           "value":  "Practice dot products and scalar multiplication using three-dimensional vectors.",
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "legacy-catalog",
+                                                           "reference":  "workspace/server/exercise-catalog.json"
+                                                       },
+                                       "searchTerms":  {
+                                                           "value":  [
+                                                                         "dot product",
+                                                                         "scalar product",
+                                                                         "vector operations"
+                                                                     ],
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "editorial-design-example",
+                                                           "reference":  "CATALOG_METADATA.md"
+                                                       },
+                                       "contentLanguage":  {
+                                                               "value":  null,
+                                                               "reviewState":  "missing",
+                                                               "origin":  "unknown"
+                                                           },
+                                       "difficulty":  {
+                                                          "value":  null,
+                                                          "scaleId":  null,
+                                                          "reviewState":  "missing",
+                                                          "origin":  "unknown"
+                                                      },
+                                       "estimatedMinutes":  {
+                                                                "value":  null,
+                                                                "reviewState":  "missing",
+                                                                "origin":  "unknown"
+                                                            }
+                                   }
+                    },
+                    {
+                        "legacyId":  "compat-calculus-numeric-01",
+                        "appliesTo":  {
+                                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                          "path":  "OpenProblemLibrary/Rochester/setDerivatives2Formulas/c2s5p1.pg",
+                                          "sha256":  "224502a030bf255614ea83ef58708627546abde879ba595a580277b67476c677"
+                                      },
+                        "fields":  {
+                                       "title":  {
+                                                     "value":  "Evaluate a derivative at a point",
+                                                     "locale":  "en",
+                                                     "reviewState":  "approved",
+                                                     "origin":  "legacy-catalog",
+                                                     "reference":  "workspace/server/exercise-catalog.json"
+                                                 },
+                                       "description":  {
+                                                           "value":  "Evaluate a derivative at a given point.",
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "legacy-catalog",
+                                                           "reference":  "workspace/server/exercise-catalog.json"
+                                                       },
+                                       "searchTerms":  {
+                                                           "value":  [
+                                                                         "derivative",
+                                                                         "rate of change",
+                                                                         "evaluate"
+                                                                     ],
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "editorial-design-example",
+                                                           "reference":  "CATALOG_METADATA.md"
+                                                       },
+                                       "contentLanguage":  {
+                                                               "value":  null,
+                                                               "reviewState":  "missing",
+                                                               "origin":  "unknown"
+                                                           },
+                                       "difficulty":  {
+                                                          "value":  null,
+                                                          "scaleId":  null,
+                                                          "reviewState":  "missing",
+                                                          "origin":  "unknown"
+                                                      },
+                                       "estimatedMinutes":  {
+                                                                "value":  null,
+                                                                "reviewState":  "missing",
+                                                                "origin":  "unknown"
+                                                            }
+                                   }
+                    },
+                    {
+                        "legacyId":  "compat-calculus-formula-01",
+                        "appliesTo":  {
+                                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                          "path":  "OpenProblemLibrary/Union/setDervProductQuotientRule/ur_dr_2_1.pg",
+                                          "sha256":  "4bbd5597c07ee42bd3824ad4a3b2727edb4cc162fe45ce336350e7255af52dfc"
+                                      },
+                        "fields":  {
+                                       "title":  {
+                                                     "value":  "Differentiate a quotient",
+                                                     "locale":  "en",
+                                                     "reviewState":  "approved",
+                                                     "origin":  "legacy-catalog",
+                                                     "reference":  "workspace/server/exercise-catalog.json"
+                                                 },
+                                       "description":  {
+                                                           "value":  "Practice differentiating a quotient.",
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "legacy-catalog",
+                                                           "reference":  "workspace/server/exercise-catalog.json"
+                                                       },
+                                       "searchTerms":  {
+                                                           "value":  [
+                                                                         "quotient rule",
+                                                                         "differentiate",
+                                                                         "derivative"
+                                                                     ],
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "editorial-design-example",
+                                                           "reference":  "CATALOG_METADATA.md"
+                                                       },
+                                       "contentLanguage":  {
+                                                               "value":  null,
+                                                               "reviewState":  "missing",
+                                                               "origin":  "unknown"
+                                                           },
+                                       "difficulty":  {
+                                                          "value":  null,
+                                                          "scaleId":  null,
+                                                          "reviewState":  "missing",
+                                                          "origin":  "unknown"
+                                                      },
+                                       "estimatedMinutes":  {
+                                                                "value":  null,
+                                                                "reviewState":  "missing",
+                                                                "origin":  "unknown"
+                                                            }
+                                   }
+                    },
+                    {
+                        "legacyId":  "compat-matrix-grid-01",
+                        "appliesTo":  {
+                                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                          "path":  "OpenProblemLibrary/ASU-topics/set119MatrixAlgebra/p12.pg",
+                                          "sha256":  "67cfe0c86359294d3753818e72ddc39d5a4a4efae1b6e9e4057588f79dd71cf2"
+                                      },
+                        "fields":  {
+                                       "title":  {
+                                                     "value":  "Add scaled matrices",
+                                                     "locale":  "en",
+                                                     "reviewState":  "approved",
+                                                     "origin":  "legacy-catalog",
+                                                     "reference":  "workspace/server/exercise-catalog.json"
+                                                 },
+                                       "description":  {
+                                                           "value":  "Add scaled matrices",
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "legacy-catalog",
+                                                           "reference":  "workspace/server/exercise-catalog.json"
+                                                       },
+                                       "searchTerms":  {
+                                                           "value":  [
+                                                                         "matrix addition",
+                                                                         "scalar multiplication",
+                                                                         "matrices"
+                                                                     ],
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "editorial-design-example",
+                                                           "reference":  "CATALOG_METADATA.md"
+                                                       },
+                                       "contentLanguage":  {
+                                                               "value":  null,
+                                                               "reviewState":  "missing",
+                                                               "origin":  "unknown"
+                                                           },
+                                       "difficulty":  {
+                                                          "value":  null,
+                                                          "scaleId":  null,
+                                                          "reviewState":  "missing",
+                                                          "origin":  "unknown"
+                                                      },
+                                       "estimatedMinutes":  {
+                                                                "value":  null,
+                                                                "reviewState":  "missing",
+                                                                "origin":  "unknown"
+                                                            }
+                                   }
+                    },
+                    {
+                        "legacyId":  "compat-statistics-radio-01",
+                        "appliesTo":  {
+                                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                          "path":  "OpenProblemLibrary/ASU-topics/setStat/di12.pg",
+                                          "sha256":  "ca848d241dda15054e1f675727344a5d8737b82512f02def4814d73f9ae62c91"
+                                      },
+                        "fields":  {
+                                       "title":  {
+                                                     "value":  "Classify hypothesis-test decisions",
+                                                     "locale":  "en",
+                                                     "reviewState":  "approved",
+                                                     "origin":  "legacy-catalog",
+                                                     "reference":  "workspace/server/exercise-catalog.json"
+                                                 },
+                                       "description":  {
+                                                           "value":  "Choose answers to statistics questions.",
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "legacy-catalog",
+                                                           "reference":  "workspace/server/exercise-catalog.json"
+                                                       },
+                                       "searchTerms":  {
+                                                           "value":  [
+                                                                         "hypothesis testing",
+                                                                         "type I error",
+                                                                         "type II error",
+                                                                         "power"
+                                                                     ],
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "editorial-design-example",
+                                                           "reference":  "CATALOG_METADATA.md"
+                                                       },
+                                       "contentLanguage":  {
+                                                               "value":  null,
+                                                               "reviewState":  "missing",
+                                                               "origin":  "unknown"
+                                                           },
+                                       "difficulty":  {
+                                                          "value":  null,
+                                                          "scaleId":  null,
+                                                          "reviewState":  "missing",
+                                                          "origin":  "unknown"
+                                                      },
+                                       "estimatedMinutes":  {
+                                                                "value":  null,
+                                                                "reviewState":  "missing",
+                                                                "origin":  "unknown"
+                                                            }
+                                   }
+                    },
+                    {
+                        "legacyId":  "compat-algebra-checkbox-01",
+                        "appliesTo":  {
+                                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                          "path":  "OpenProblemLibrary/LoyolaChicago/Precalc/Chap3Review/Q46.pg",
+                                          "sha256":  "784601fbfd5562a91b86882750ad38810464d2e1278cbbb731c0dfbf4046fbe8"
+                                      },
+                        "fields":  {
+                                       "title":  {
+                                                     "value":  "Compare population growth and explanations",
+                                                     "locale":  "en",
+                                                     "reviewState":  "approved",
+                                                     "origin":  "legacy-catalog",
+                                                     "reference":  "workspace/server/exercise-catalog.json"
+                                                 },
+                                       "description":  {
+                                                           "value":  "Combine calculations with multiple selections.",
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "legacy-catalog",
+                                                           "reference":  "workspace/server/exercise-catalog.json"
+                                                       },
+                                       "searchTerms":  {
+                                                           "value":  [
+                                                                         "population growth",
+                                                                         "exponential model",
+                                                                         "growth rate"
+                                                                     ],
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "editorial-design-example",
+                                                           "reference":  "CATALOG_METADATA.md"
+                                                       },
+                                       "contentLanguage":  {
+                                                               "value":  null,
+                                                               "reviewState":  "missing",
+                                                               "origin":  "unknown"
+                                                           },
+                                       "difficulty":  {
+                                                          "value":  null,
+                                                          "scaleId":  null,
+                                                          "reviewState":  "missing",
+                                                          "origin":  "unknown"
+                                                      },
+                                       "estimatedMinutes":  {
+                                                                "value":  null,
+                                                                "reviewState":  "missing",
+                                                                "origin":  "unknown"
+                                                            }
+                                   }
+                    },
+                    {
+                        "legacyId":  "compat-economics-popup-01",
+                        "appliesTo":  {
+                                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                          "path":  "OpenProblemLibrary/ASU-topics/setElasticity/p10.pg",
+                                          "sha256":  "7109d85872e2ed9c6cf93ed20dfcfbdbc9312f318218535d13c5c4b1f5dd003d"
+                                      },
+                        "fields":  {
+                                       "title":  {
+                                                     "value":  "Demand elasticity and revenue",
+                                                     "locale":  "en",
+                                                     "reviewState":  "approved",
+                                                     "origin":  "legacy-catalog",
+                                                     "reference":  "workspace/server/exercise-catalog.json"
+                                                 },
+                                       "description":  {
+                                                           "value":  "Demand elasticity and revenue",
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "legacy-catalog",
+                                                           "reference":  "workspace/server/exercise-catalog.json"
+                                                       },
+                                       "searchTerms":  {
+                                                           "value":  [
+                                                                         "elasticity of demand",
+                                                                         "revenue",
+                                                                         "economics"
+                                                                     ],
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "editorial-design-example",
+                                                           "reference":  "CATALOG_METADATA.md"
+                                                       },
+                                       "contentLanguage":  {
+                                                               "value":  null,
+                                                               "reviewState":  "missing",
+                                                               "origin":  "unknown"
+                                                           },
+                                       "difficulty":  {
+                                                          "value":  null,
+                                                          "scaleId":  null,
+                                                          "reviewState":  "missing",
+                                                          "origin":  "unknown"
+                                                      },
+                                       "estimatedMinutes":  {
+                                                                "value":  null,
+                                                                "reviewState":  "missing",
+                                                                "origin":  "unknown"
+                                                            }
+                                   }
+                    },
+                    {
+                        "legacyId":  "compat-calculus-scaffold-01",
+                        "appliesTo":  {
+                                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                          "path":  "OpenProblemLibrary/Hope/Calc1/05-04-FTC/FTC_01.pg",
+                                          "sha256":  "399cf94d53291f2994d287ff6cda4ea39bd7045bb3a77a1f8a305d01305a7b8e"
+                                      },
+                        "fields":  {
+                                       "title":  {
+                                                     "value":  "Integral and derivative in stages",
+                                                     "locale":  "en",
+                                                     "reviewState":  "approved",
+                                                     "origin":  "legacy-catalog",
+                                                     "reference":  "workspace/server/exercise-catalog.json"
+                                                 },
+                                       "description":  {
+                                                           "value":  "Integral and derivative in stages",
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "legacy-catalog",
+                                                           "reference":  "workspace/server/exercise-catalog.json"
+                                                       },
+                                       "searchTerms":  {
+                                                           "value":  [
+                                                                         "fundamental theorem of calculus",
+                                                                         "integral",
+                                                                         "derivative"
+                                                                     ],
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "editorial-design-example",
+                                                           "reference":  "CATALOG_METADATA.md"
+                                                       },
+                                       "contentLanguage":  {
+                                                               "value":  null,
+                                                               "reviewState":  "missing",
+                                                               "origin":  "unknown"
+                                                           },
+                                       "difficulty":  {
+                                                          "value":  null,
+                                                          "scaleId":  null,
+                                                          "reviewState":  "missing",
+                                                          "origin":  "unknown"
+                                                      },
+                                       "estimatedMinutes":  {
+                                                                "value":  null,
+                                                                "reviewState":  "missing",
+                                                                "origin":  "unknown"
+                                                            }
+                                   }
+                    },
+                    {
+                        "legacyId":  "compat-algebra-image-01",
+                        "appliesTo":  {
+                                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                          "path":  "OpenProblemLibrary/ASU-topics/setAlgebraFunctions/beth2algfun.pg",
+                                          "sha256":  "a6470e62683d0331d541a5df7f8fe8cc4eaa31fba7886fef1a8e5ea24f1984ae"
+                                      },
+                        "fields":  {
+                                       "title":  {
+                                                     "value":  "Combine functions from a supplied graph",
+                                                     "locale":  "en",
+                                                     "reviewState":  "approved",
+                                                     "origin":  "legacy-catalog",
+                                                     "reference":  "workspace/server/exercise-catalog.json"
+                                                 },
+                                       "description":  {
+                                                           "value":  "Combine functions from a supplied graph",
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "legacy-catalog",
+                                                           "reference":  "workspace/server/exercise-catalog.json"
+                                                       },
+                                       "searchTerms":  {
+                                                           "value":  [
+                                                                         "function composition",
+                                                                         "combine functions",
+                                                                         "graph"
+                                                                     ],
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "editorial-design-example",
+                                                           "reference":  "CATALOG_METADATA.md"
+                                                       },
+                                       "contentLanguage":  {
+                                                               "value":  null,
+                                                               "reviewState":  "missing",
+                                                               "origin":  "unknown"
+                                                           },
+                                       "difficulty":  {
+                                                          "value":  null,
+                                                          "scaleId":  null,
+                                                          "reviewState":  "missing",
+                                                          "origin":  "unknown"
+                                                      },
+                                       "estimatedMinutes":  {
+                                                                "value":  null,
+                                                                "reviewState":  "missing",
+                                                                "origin":  "unknown"
+                                                            }
+                                   }
+                    },
+                    {
+                        "legacyId":  "compat-calculus-graph-01",
+                        "appliesTo":  {
+                                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                          "path":  "OpenProblemLibrary/270/setDerivatives1/ur_dr_1_7.pg",
+                                          "sha256":  "b91bc436c92c6d68434c522d5bac40087af07bf75019b058710173ea8d0ca053"
+                                      },
+                        "fields":  {
+                                       "title":  {
+                                                     "value":  "Read a function and derivative graph",
+                                                     "locale":  "en",
+                                                     "reviewState":  "approved",
+                                                     "origin":  "legacy-catalog",
+                                                     "reference":  "workspace/server/exercise-catalog.json"
+                                                 },
+                                       "description":  {
+                                                           "value":  "Read a graph and estimate a derivative.",
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "legacy-catalog",
+                                                           "reference":  "workspace/server/exercise-catalog.json"
+                                                       },
+                                       "searchTerms":  {
+                                                           "value":  [
+                                                                         "derivative graph",
+                                                                         "increasing",
+                                                                         "decreasing"
+                                                                     ],
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "editorial-design-example",
+                                                           "reference":  "CATALOG_METADATA.md"
+                                                       },
+                                       "contentLanguage":  {
+                                                               "value":  null,
+                                                               "reviewState":  "missing",
+                                                               "origin":  "unknown"
+                                                           },
+                                       "difficulty":  {
+                                                          "value":  null,
+                                                          "scaleId":  null,
+                                                          "reviewState":  "missing",
+                                                          "origin":  "unknown"
+                                                      },
+                                       "estimatedMinutes":  {
+                                                                "value":  null,
+                                                                "reviewState":  "missing",
+                                                                "origin":  "unknown"
+                                                            }
+                                   }
+                    },
+                    {
+                        "legacyId":  "compat-algebra-graphtool-01",
+                        "appliesTo":  {
+                                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                          "path":  "OpenProblemLibrary/PCC/BasicAlgebra/EquationsAndInequalitiesInTwoVariables/PlotMXPlusB.pg",
+                                          "sha256":  "6c971d903bb786efb7869ed8f517a10f69646d9883e72c4d0e8e011cea4d8a4f"
+                                      },
+                        "fields":  {
+                                       "title":  {
+                                                     "value":  "Plot points on a linear equation",
+                                                     "locale":  "en",
+                                                     "reviewState":  "approved",
+                                                     "origin":  "legacy-catalog",
+                                                     "reference":  "workspace/server/exercise-catalog.json"
+                                                 },
+                                       "description":  {
+                                                           "value":  "Plot points on a linear equation",
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "legacy-catalog",
+                                                           "reference":  "workspace/server/exercise-catalog.json"
+                                                       },
+                                       "searchTerms":  {
+                                                           "value":  [
+                                                                         "linear equation",
+                                                                         "plot points",
+                                                                         "slope"
+                                                                     ],
+                                                           "locale":  "en",
+                                                           "reviewState":  "approved",
+                                                           "origin":  "editorial-design-example",
+                                                           "reference":  "CATALOG_METADATA.md"
+                                                       },
+                                       "contentLanguage":  {
+                                                               "value":  null,
+                                                               "reviewState":  "missing",
+                                                               "origin":  "unknown"
+                                                           },
+                                       "difficulty":  {
+                                                          "value":  null,
+                                                          "scaleId":  null,
+                                                          "reviewState":  "missing",
+                                                          "origin":  "unknown"
+                                                      },
+                                       "estimatedMinutes":  {
+                                                                "value":  null,
+                                                                "reviewState":  "missing",
+                                                                "origin":  "unknown"
+                                                            }
+                                   }
+                    }
+                ]
+}

@@ -1,0 +1,35 @@
+// Reference metadata projection/search for design fixtures. Not imported by the student application.
+const bounds={title:160,description:600,term:80,terms:20};
+const text=(value,max)=>typeof value==='string'&&value.trim().length&&value.trim().length<=max?value.trim():null;
+const exactSource=(a,b)=>['revision','path','sha256'].every(k=>a?.[k]===b?.[k]);
+export function normalizeMetadataSearch(value){return String(value??'').normalize('NFKC').toLocaleLowerCase('en').replace(/[^\p{L}\p{N}]+/gu,' ').trim().replace(/\s+/g,' ');}
+function approved(record,locale,localized=true){return record?.reviewState==='approved'&&(!localized||record.locale===locale);}
+function safeCreditUrl(value,source){
+ try{const url=new URL(value),expected='/openwebwork/webwork-open-problem-library/blob/'+source.revision+'/'+source.path;return url.protocol==='https:'&&url.hostname==='github.com'&&!url.port&&!url.username&&!url.password&&!url.search&&!url.hash&&decodeURI(url.pathname)===expected?url.href:null;}catch{return null;}
+}
+export function projectMetadata(entry,{source,credit={},topics=[],playable=false,locale='en'}={}){
+ const fields=exactSource(entry.appliesTo,source)?entry.fields:{},title=approved(fields.title,locale)?text(fields.title.value,bounds.title):null;
+ const description=approved(fields.description,locale)?text(fields.description.value,bounds.description):null;
+ const searchTerms=approved(fields.searchTerms,locale)&&Array.isArray(fields.searchTerms.value)?[...new Set(fields.searchTerms.value.map(v=>text(v,bounds.term)).filter(Boolean))].slice(0,bounds.terms):[];
+ let contentLanguage=null;if(approved(fields.contentLanguage,locale,false)&&typeof fields.contentLanguage.value==='string'){try{contentLanguage=Intl.getCanonicalLocales(fields.contentLanguage.value)[0]??null;}catch{}}
+ const difficulty=approved(fields.difficulty,locale,false)&&fields.difficulty.scaleId==='practice-difficulty-v1'&&Number.isInteger(fields.difficulty.value)&&fields.difficulty.value>=1&&fields.difficulty.value<=5?{value:fields.difficulty.value,scaleId:fields.difficulty.scaleId}:null;
+ const estimatedMinutes=approved(fields.estimatedMinutes,locale,false)&&Number.isFinite(fields.estimatedMinutes.value)&&fields.estimatedMinutes.value>0&&fields.estimatedMinutes.value<=480?fields.estimatedMinutes.value:null;
+ return {id:entry.legacyId,title:title??'Practice exercise',description,metadataLocale:title?locale:'en',requestedLocale:locale,contentLanguage,difficulty,estimatedMinutes,searchTerms,topics:topics.map(t=>({subject:text(t.subject,120),chapter:text(t.chapter,120),section:text(t.section,120)})).filter(t=>t.subject&&t.chapter&&t.section),attribution:{provider:'WeBWorK Open Problem Library',contributors:Array.isArray(credit.authors)?credit.authors.map(v=>text(v,200)).filter(Boolean):[],institution:text(credit.institution,200),sourceUrl:safeCreditUrl(credit.url,source)},rights:{status:'review-required',label:'Source notices require review'},availability:{canPractice:playable===true,label:playable===true?'Available in local practice':'Not available for practice'}};
+}
+export function searchMetadata(documents,query,{includeUnavailable=false}={}){
+ const terms=normalizeMetadataSearch(query).split(' ').filter(Boolean).slice(0,12);
+ return documents.filter(d=>includeUnavailable||d.availability.canPractice).map(d=>{
+ const title=normalizeMetadataSearch(d.title).split(' '),topics=normalizeMetadataSearch(d.topics.map(t=>[t.subject,t.chapter,t.section].join(' ')).join(' ')).split(' '),keywords=normalizeMetadataSearch(d.searchTerms.join(' ')).split(' '),description=normalizeMetadataSearch(d.description).split(' ');
+ const score=terms.reduce((sum,term)=>{const rank=title.some(t=>t.startsWith(term))?5:keywords.some(t=>t.startsWith(term))?4:topics.some(t=>t.startsWith(term))?3:description.some(t=>t.startsWith(term))?1:0;return rank===0?-Infinity:sum+rank;},0);
+ return {document:d,score};
+ }).filter(r=>Number.isFinite(r.score)).sort((a,b)=>b.score-a.score||a.document.id.localeCompare(b.document.id,'en')).map(r=>r.document);
+}
+export function metadataPreview(documents,observedAt){
+ const style=':root{font:16px system-ui;color:#172033;background:#f6f7fa}body{max-width:1040px;margin:auto;padding:24px}h1{margin-bottom:8px}p{line-height:1.6}.notice{padding:16px;border:1px solid #d5d8e2;border-radius:12px;background:#fff}input{box-sizing:border-box;width:100%;font:inherit;padding:14px;border:1px solid #b9bfcd;border-radius:12px}label{display:block;margin:18px 0 8px}.toggle{display:flex;align-items:center;gap:10px}.toggle input{width:22px;height:22px}#cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:16px}article{background:#fff;border:1px solid #d5d8e2;border-radius:16px;padding:20px;overflow-wrap:anywhere}h2{font-size:1.15rem}small{color:#4f5d73}.topics{color:#4738a3}.badge{display:inline-block;background:#eef0f6;padding:5px 10px;border-radius:20px;font-size:.8rem}a{color:#3342a3}:focus-visible{outline:3px solid #635bff;outline-offset:3px}summary{cursor:pointer;min-height:32px}dl{font-size:.85rem}dd{margin:0 0 8px}dt{font-weight:600}button{min-height:44px}';
+ const script=normalizeMetadataSearch.toString()+'\n'+searchMetadata.toString()+`\nconst documents=JSON.parse(document.querySelector('#data').textContent),query=document.querySelector('#query'),toggle=document.querySelector('#all'),cards=document.querySelector('#cards'),status=document.querySelector('#status');
+function add(parent,tag,content,className){const n=document.createElement(tag);n.textContent=content;if(className)n.className=className;parent.append(n);return n;}
+function draw(){const results=searchMetadata(documents,query.value,{includeUnavailable:toggle.checked});cards.replaceChildren();status.textContent=results.length+' exercise metadata cards';for(const d of results){const card=add(cards,'article','');add(card,'small',d.topics.map(t=>t.subject+' / '+t.chapter+' / '+t.section).join(' • '),'topics');add(card,'h2',d.title);if(d.description)add(card,'p',d.description);add(card,'p',d.availability.label,'badge');const details=add(card,'details','');add(details,'summary','Metadata and source credits');add(details,'p','Exercise language: '+(d.contentLanguage??'Not recorded'));add(details,'p','Difficulty: '+(d.difficulty?.value??'Not rated'));add(details,'p','Time estimate: '+(d.estimatedMinutes===null?'Not recorded':d.estimatedMinutes+' minutes'));add(details,'p',d.attribution.provider);add(details,'p',d.attribution.contributors.length?d.attribution.contributors.join('; '):'Problem author not recorded');if(d.attribution.institution)add(details,'p',d.attribution.institution);add(details,'p',d.rights.label);if(d.attribution.sourceUrl){const link=add(details,'a','Original source and notices');link.href=d.attribution.sourceUrl;link.target='_blank';link.rel='noopener noreferrer';}}}
+query.addEventListener('input',draw);toggle.addEventListener('change',draw);draw();`;
+ // Script/style CSP hashes and JSON escaping are filled by the operator builder, never PG HTML.
+ return {style,script,data:JSON.stringify(documents).replace(/</g,'\\u003c'),observedAt:String(observedAt)};
+}

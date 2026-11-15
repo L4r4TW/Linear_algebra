@@ -27,3 +27,19 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace
 The [runner](verify-taxonomy-examples.ps1) reads current eligible IDs from the workspace and runs [source/design checks](verify-taxonomy-examples.mjs) through stdin in the renderer. It checks both vocabulary hashes, all eleven PG hashes, source declarations, tree/assignment constraints and deduplicated counts. The extra source example is read from the pinned Git object; it is not added to the student catalog. No source bind mounts, PG evaluation, private session reads, schema writes, service interruption or network request are needed.
 
 Fresh [observations](taxonomy-design-observations.json): PASS for 30 nodes / 6 subjects / 11 catalog examples / 1 source-only example / 9 classification cases. Six distinct playable exercises have seven subject memberships because dot product is cross-listed. The report contains only public source metadata, design keys and check results. It is a design-tool result, not a browser/compatibility run or deployed schema guarantee. Re-running refreshes the sanitized observation file; review its diff before committing. Next: student-facing metadata design (5.4).
+
+## Student-facing metadata (5.4)
+
+Read [CATALOG_METADATA.md](../CATALOG_METADATA.md). [metadata-examples.json](metadata-examples.json) supplies provenance-aware example selections for all eleven entries; [metadata-contract.mjs](metadata-contract.mjs) implements reference display projection/search outside the live application. [metadata-public-examples.json](metadata-public-examples.json) is example DTO output, not a new API/allowlist. No language, calibrated difficulty or duration is invented.
+
+Open [catalog-metadata-preview.html](catalog-metadata-preview.html) in a browser for an interactive standalone card preview. It shows six playable snapshots by default, supports search and optionally includes five unavailable entries; it never starts sessions or grades. Labels and details remain plain text, with CSP-restricted scripts/styles and approved public source-credit links. This is not the live frontend.
+
+From the repository root, with the workspace/renderer running:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace/catalog-model/verify-metadata-contract.ps1 -CheckPreview
+```
+
+The [runner](verify-metadata-contract.ps1) invokes [source inspection](inspect-metadata-sources.mjs), [thirteen contract checks](verify-metadata-contract.mjs) and optional [Chromium preview checks](check-metadata-preview.mjs). If the existing QA image is absent, build browser-tests/Dockerfile as described in CATALOG_METADATA.md. No source bind mount, PG evaluation, private session access, SQL or application restart is needed. Re-running refreshes artifact timestamps; review their diffs.
+
+Fresh evidence: [source observations](metadata-source-observations.json) cover eleven hashes/header/notice inventories; [contract observations](metadata-contract-observations.json) pass thirteen cases; [preview observations](metadata-preview-observations.json) cover search, unavailable filtering, keyboard disclosure, unknown values, CSP, no load-time requests and 360 px fit. Parent notice discovery is not complete license review, and reviewed-looking fixture states are design examples, not new live editorial or compatibility approval. Next: task 5.5.

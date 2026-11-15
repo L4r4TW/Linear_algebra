@@ -1,0 +1,14 @@
+{
+    "result":  "PASS",
+    "observedAt":  "2026-11-15T20:34:39.340Z",
+    "scope":  "Generated preview only",
+    "initialCards":  6,
+    "indexedCards":  11,
+    "search":  true,
+    "unavailableFilter":  true,
+    "keyboardDisclosure":  true,
+    "unknownValues":  true,
+    "cspNoErrors":  true,
+    "noNetworkRequests":  true,
+    "narrowViewport":  360
+}
