@@ -1,6 +1,6 @@
 # Compatibility regression results
 
-Observed: 2026-11-15T12:44:42.911Z. Scope: complete default matrix.
+Observed: 2026-11-15T17:22:38.653Z. Scope: complete default matrix.
 
 Result: **FAIL**; 44/44 cases completed. 16 cases retain documented limitations.
 
@@ -51,7 +51,7 @@ A passing flow does not approve every capability or enable student catalog entri
 | compat-algebra-graphtool-01 | 1234 | desktop | 9/9 | passed-with-limitations | NARROW_FRAME_SCROLL |
 | compat-algebra-graphtool-01 | 1234 | mobile | 8/9 | failed | MOBILE_GRAPH_TOUCH_GRADING, NARROW_FRAME_SCROLL |
 | compat-algebra-graphtool-01 | 4321 | desktop | 9/9 | passed-with-limitations | NARROW_FRAME_SCROLL |
-| compat-algebra-graphtool-01 | 4321 | mobile | 4/9 | failed | NARROW_FRAME_SCROLL |
+| compat-algebra-graphtool-01 | 4321 | mobile | 8/9 | failed | MOBILE_GRAPH_TOUCH_GRADING, NARROW_FRAME_SCROLL |
 
 ## Known capability boundaries
 

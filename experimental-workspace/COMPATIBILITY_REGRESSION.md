@@ -93,3 +93,9 @@ The feedback-enabled runtime has renewed seeded evidence for the same six active
 Safe PG message presentation now preserves line breaks and reviewed explicit TeX while keeping HTML/unknown commands inert, including during widget MathJax rescans. See [FEEDBACK_PRESENTATION.md](FEEDBACK_PRESENTATION.md). The separate real-PG audit requires 22 cases plus two stale/revert checks; it includes a source-pinned equation-feedback fixture that remains outside the student activation manifest. Final runtime verification renews all 44 desktop/touch cases and the protected-geometry audit; keep mobile GraphTool failures visible and disabled.
 
 The final isolated presentation run completed 44 cases: 42 passed. Both failed cases are mobile GraphTool: seed 1234 reaches complete with QA_MOBILE_GRAPH_TOUCH_GRADING; seed 4321 fails QA_GRAPH_PARTIAL at graph-stale-feedback. Earlier concurrent refresh-timeout evidence was discarded, with no changed check/timeout. Publisher-generated evidence keeps all six enabled entries verified and all other candidates blocked.
+
+## Authored hint follow-up
+
+[AUTHORED_HINTS.md](AUTHORED_HINTS.md) adds availability-aware local disclosure, with PG visibility preserved and no grade/token mutation. The separate real hint audit covers 12 desktop/mobile cases and both seeds of the default six-entry catalog; its sources remain operator-only. Full runtime evidence must include the new projection/UI, all 44 original cases and the protected-geometry audit. Keep existing mobile GraphTool failures disabled; hint support is not permission to promote a candidate.
+
+The final authored-hint run completed all 44 cases: 42 passed. Both failed cases are mobile GraphTool, at seeds 1234/4321, phase complete with QA_MOBILE_GRAPH_TOUCH_GRADING. The same six entries remain enabled with publisher-generated matching evidence; all five candidates remain disabled. No check/timeout was changed. Hint fixtures stay outside the activation manifest.

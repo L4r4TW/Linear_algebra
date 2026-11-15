@@ -24,3 +24,10 @@ button:focus,a:focus{outline:3px solid #075e50;outline-offset:4px}
 #result-message{white-space:pre-wrap;overflow-wrap:anywhere}
 #result-message .feedback-math{display:inline-block;max-width:100%;overflow-x:auto;vertical-align:middle;white-space:normal}
 #result-message div.feedback-math{display:block}
+
+.practice-hint{margin:18px 0;padding:14px;border:1px solid #b8cebd;border-radius:10px;background:#fafcf8}
+#hint-message{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.65}
+#hint-message .feedback-math{display:inline-block;max-width:100%;overflow-x:auto;vertical-align:middle;white-space:normal}
+#hint-message div.feedback-math{display:block}
+#view-hint{min-height:44px}
+#view-hint:focus-visible{outline:3px solid #075e50;outline-offset:3px}

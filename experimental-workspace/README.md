@@ -4,7 +4,7 @@ Session handoff and next steps: [PROJECT_CONTEXT.md](../PROJECT_CONTEXT.md). Rep
 
 ## Current catalog scope
 
-Six exercises are enabled in the first local verified batch; five more candidates remain indexed and disabled. See [catalog compatibility rules](CATALOG_COMPATIBILITY.md), [eligibility record](compatibility/CATALOG_STATUS.md), and [server catalog](workspace/server/exercise-catalog.json). Source/runtime evidence and explicit batch membership govern availability. Current validation: 161 server tests, 52 browser checks, 14 publisher/report tests and the live six-entry API check pass. The full operator regression retains two failed mobile GraphTool cases. Earlier one-exercise counts below describe historical verification stages.
+Six exercises are enabled in the first local verified batch; five more candidates remain indexed and disabled. See [catalog compatibility rules](CATALOG_COMPATIBILITY.md), [eligibility record](compatibility/CATALOG_STATUS.md), and [server catalog](workspace/server/exercise-catalog.json). Source/runtime evidence and explicit batch membership govern availability. Current validation: 170 server tests, 54 browser checks, 14 publisher/report tests and the live six-entry API check pass. The full operator regression retains two failed mobile GraphTool cases. Earlier one-exercise counts below describe historical verification stages.
 
 To verify the enabled batch after rebuilding, run `docker compose exec -T workspace node server/check-catalog.mjs` from this directory. It checks listing, start, blank grading, restoration, ownership and rejection of disabled IDs. For the future full-library importer, start with [CATALOG_COMPATIBILITY.md](CATALOG_COMPATIBILITY.md); indexed exercises remain disabled until verified and included in an active batch.
 
@@ -497,4 +497,8 @@ docker compose down
 
 Both services belong to Compose project `linear-algebra-experimental`, on a dedicated network with localhost-only ports. No host source directories or application secrets are mounted. If Docker reports a missing engine pipe, start Docker Desktop and wait for its Linux engine to become ready.
 
-Safe PG feedback presentation is documented in [FEEDBACK_PRESENTATION.md](FEEDBACK_PRESENTATION.md). The real-PG feedback audit covers 22 cases plus two edit/revert checks, including actual authored equation notation after refresh. Added fixtures remain operator-only; the student catalog still enables six entries. Available authored hints and move-on controls are future work.
+Safe PG feedback presentation is documented in [FEEDBACK_PRESENTATION.md](FEEDBACK_PRESENTATION.md). The real-PG feedback audit covers 22 cases plus two edit/revert checks, including actual authored equation notation after refresh. Added fixtures remain operator-only; the student catalog still enables six entries. [Available authored hints](AUTHORED_HINTS.md) are implemented; protected move-on controls are next.
+
+## Available authored hints
+
+[AUTHORED_HINTS.md](AUTHORED_HINTS.md) records exact pinned behavior and verification. Owner-only session responses include exercise.hint.available and, only when available, a canonical message string. View hint appears only for actual supported PG hint output, preserves the live answers/session and performs no grading or renderer request. Hint notation uses the reviewed feedback renderer. Empty, withheld and unsupported hints have no action; marked solutions never become hints. No instructor mode or attempt-threshold override is added. The six enabled exercises currently have no authored hint at either verification seed, so no hint button appears for those entries. A separate source-pinned PCC fixture verifies the complete disclosure flow without entering the student catalog.

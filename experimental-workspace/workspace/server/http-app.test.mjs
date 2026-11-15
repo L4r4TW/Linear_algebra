@@ -233,7 +233,7 @@ test('serves picker assets without making server-side modules public', async (t)
     assert.equal(response.status, 200);
     assert.ok(response.headers.get('content-type').startsWith(type));
   }
-  for (const path of ['/server/exercise-catalog.json', '/server/catalog-compatibility-evidence.json', '/server/activation-batches.json', '/server/compatibility-profile.json', '/compatibility/CATALOG_STATUS.md', '/compatibility/draft-preview.mjs', '/compatibility/probe-token-errors.pl', '/compatibility/token-error-observations.json', '/compatibility/feedback-fixtures.json', '/compatibility/feedback-observations.json', '/compatibility/feedback-audit.mjs', '/compatibility/continuity-audit.json', '/server/exercise-sessions.mjs', '/assets/../server/renderer-client.mjs', '/compatibility/catalog.json', '/compatibility/observations.json', '/compatibility/probe.mjs']) {
+  for (const path of ['/server/exercise-catalog.json', '/server/catalog-compatibility-evidence.json', '/server/activation-batches.json', '/server/compatibility-profile.json', '/compatibility/CATALOG_STATUS.md', '/compatibility/draft-preview.mjs', '/compatibility/probe-token-errors.pl', '/compatibility/token-error-observations.json', '/compatibility/hint-fixtures.json','/compatibility/hint-audit.mjs','/compatibility/hint-observations.json','/server/authored-hints.mjs','/compatibility/feedback-fixtures.json', '/compatibility/feedback-observations.json', '/compatibility/feedback-audit.mjs', '/compatibility/continuity-audit.json', '/server/exercise-sessions.mjs', '/assets/../server/renderer-client.mjs', '/compatibility/catalog.json', '/compatibility/observations.json', '/compatibility/probe.mjs']) {
     assert.equal((await fetch(f.baseUrl + path)).status, 404);
   }
 });
@@ -484,4 +484,11 @@ test('visible feedback only exposes message and summary; notation survives gradi
  const response=await fetch(url+'/answers',{method:'POST',headers:{Cookie:cookie,'Content-Type':'application/json'},body:JSON.stringify({answers:[['AnSwEr0001','1']]})});assert.equal(response.status,200);
  const checked=await response.json();assert.deepEqual(checked.submission.feedback,{message:'Compare \\(x^2\\).',summary:'First line.\nSecond line.'});assert.doesNotMatch(JSON.stringify(checked),/PRIVATE|correct_ans|answerJWT/);
  const restored=await(await fetch(url,{headers:{Cookie:cookie}})).json();assert.deepEqual(restored.submission,checked.submission);
+});
+test('public hint uses actual authored content, removes live hints/solutions and never changes saved state on reads',async t=>{
+ const f=await fixture(t);const original=f.rendererClient.loadExercise;
+ const render=async input=>({...await original(input),hintExists:true,html:'<div id="problem_body"><input name="AnSwEr0001"><div class="hint accordion"><details class="accordion-item"><summary>Hint</summary><div class="accordion-body">Consider \\(x^2\\).</div></details></div><div class="solution">PRIVATE_SOLUTION</div></div>'});
+ f.rendererClient.loadExercise=render;f.rendererClient.restoreSession=render;
+ const started=await start(f),initial=await started.json(),cookie=cookieOf(started),path=join(f.directory,initial.session.id+'.json'),before=await readFile(path,'utf8');assert.equal(initial.exercise.hint.available,true);assert.equal(initial.exercise.hint.message,'Consider \\(x^2\\).');assert.doesNotMatch(initial.exercise.html,/accordion|PRIVATE_SOLUTION/);
+ const restored=await(await fetch(f.baseUrl+'/api/sessions/'+initial.session.id,{headers:{Cookie:cookie}})).json();assert.deepEqual(restored.exercise.hint,initial.exercise.hint);assert.equal(await readFile(path,'utf8'),before);assert.equal(f.calls.grade.length,0);
 });

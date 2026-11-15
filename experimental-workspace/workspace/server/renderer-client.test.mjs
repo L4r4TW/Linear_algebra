@@ -307,3 +307,9 @@ test('projects actual PG-style notation without answer claims, active HTML or hi
  const result=await createRendererClient({baseUrl,exerciseLookup:()=>({renderer:{sourceFilePath:'Library/operator.pg'}})}).submitAnswers({...input,sessionToken:'stored',answers:[['AnSwEr0001','1']]});
  assert.equal(result.fieldFeedback[0].message,'Your answer must be an equation:\n\\(y = m x + b\\) or \\(ax + by = c\\)');assert.doesNotMatch(JSON.stringify(result),/PRIVATE|correct_ans|correct_value|<script/);
 });
+test('authored hint flag is projected only from explicit renderer truth without changing hint/solution settings',async t=>{
+ let flag=1;const baseUrl=await serve(t,(_req,res)=>res.end(JSON.stringify({...valid(),flags:{error_flag:0,hintExists:flag,solutionExists:1}})));
+ const client=createRendererClient({baseUrl,exerciseLookup:()=>({renderer:{sourceFilePath:'Library/operator.pg'}})});
+ for(flag of [1,'1',true])assert.equal((await client.loadExercise(input)).hintExists,true);
+ for(flag of [0,'0',false,undefined,'false',{}])assert.equal((await client.loadExercise(input)).hintExists,undefined);
+});

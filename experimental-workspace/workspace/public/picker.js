@@ -29,6 +29,10 @@ const resultMessage = document.querySelector('#result-message');
 const resultStale = document.querySelector('#result-stale');
 const announcement = document.querySelector('#practice-announcement');
 const reviewButton = document.querySelector('#review-answers');
+const hintPanel=document.querySelector('#practice-hint');
+const hintButton=document.querySelector('#view-hint');
+const hintContent=document.querySelector('#hint-content');
+const hintMessage=document.querySelector('#hint-message');
 const welcome = content.firstElementChild.cloneNode(true);
 
 let exercises = [];
@@ -85,6 +89,8 @@ function updateControls() {
   controls.hidden = !frameState?.ready;
   checkButton.disabled = busy || submitting || !frameState?.ready || Boolean(frameState?.recoveryRequired);
   reviewButton.disabled = busy || !frameState?.ready;
+  hintPanel.hidden=!frameState?.ready||frameState.hint?.available!==true;
+  hintButton.disabled=busy||submitting||!frameState?.ready;
   checkButton.setAttribute('aria-busy', String(submitting));
   checkLabel.textContent = submitting ? 'Checking…' : 'Check answer';
   checkButton.querySelector('.spinner').hidden = !submitting;
@@ -92,6 +98,22 @@ function updateControls() {
   for (const button of catalog.querySelectorAll('.exercise-choice')) button.disabled = busy || submitting;
   for (const button of frameState?.warning.querySelectorAll('button') ?? []) button.disabled = submitting;
 }
+
+function displayHint(hint){
+ if(!frameState)return;
+ const next=hint?.available===true&&typeof hint.message==='string'&&hint.message.trim()?hint:{available:false};
+ const changed=frameState.hint?.message!==next.message;
+ frameState.hint=next;
+ if(changed||!next.available){hintContent.hidden=true;hintButton.textContent='View hint';hintButton.setAttribute('aria-expanded','false');hintMessage.replaceChildren();}
+ updateControls();
+}
+hintButton.addEventListener('click',()=>{
+ if(hintButton.disabled||frameState?.hint?.available!==true)return;
+ const opening=hintContent.hidden;hintContent.hidden=!opening;
+ hintButton.textContent=opening?'Hide hint':'View hint';hintButton.setAttribute('aria-expanded',String(opening));
+ if(opening){void renderFeedbackContent(hintMessage,frameState.hint.message,feedbackMathReady);announce('Authored hint shown. Your answers have not been checked or changed.');}
+ else{hintMessage.replaceChildren();announce('Hint hidden.');}
+});
 
 function displayResult(checked, entries) {
   resultPanel.hidden = !checked;
@@ -303,6 +325,7 @@ function clearFrame() {
   submission = undefined;
   submissionStatus.textContent = '';
   draftNotice('');
+  hintPanel.hidden=true;hintContent.hidden=true;hintMessage.replaceChildren();hintButton.textContent='View hint';hintButton.setAttribute('aria-expanded','false');
   resultPanel.hidden = true;
   delete resultPanel.dataset.submissionId;
   resultStale.hidden = true;
@@ -407,6 +430,7 @@ function displaySession(data, { focusAt = interaction, recoveryDraft } = {}) {
     },
   });
   frameState = { frame, channel, progress, warning, answerBridge, recoveryDraft, session: data.session, sessionId: data.session.id, lastSubmission: data.submission ?? null, focusAt };
+  displayHint(data.exercise.hint);
   frameTimer = setTimeout(() => {
     if (data.exercise.resources?.dependencies?.length) {
       frameState.resourceFailed=true;
@@ -500,6 +524,7 @@ async function submitCurrentAnswers() {
       throw new ExerciseRequestError('UNCONFIRMED_SUBMISSION',200,'The checking response could not be confirmed.');
     }
     current.lastSubmission = data.submission;
+    displayHint(data.exercise.hint);
     current.pendingDraft=null;
     persistDraft(current,current.answerBridge.getSnapshot()??snapshot.answers);
     current.answerBridge.showFeedback(data.submission.fieldFeedback ?? [], data.submission.answers);

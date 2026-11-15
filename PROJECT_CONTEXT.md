@@ -8,20 +8,30 @@ The active work is the independent **experimental-workspace/** WeBWorK integrati
 
 The goal has expanded to a multi-subject practice platform covering the whole OPL, using PG mathematical grading. Design the future catalog for all subjects, while validating playable exercises in batches. Build one complete, reliable exercise flow before broadly enabling large numbers of exercises.
 
-This handoff accompanies safe PG message presentation on `main`, following `4ab8d08` (consistent PG feedback outcomes). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
+This handoff accompanies authored hint support on `main`, following `cf072fe` (safe PG message presentation). Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
 
 
 ## Resume checklist
 
 1. Inspect `git log -1` and `git status --short`, then read [CATALOG_COMPATIBILITY.md](experimental-workspace/CATALOG_COMPATIBILITY.md) and [CATALOG_STATUS.md](experimental-workspace/compatibility/CATALOG_STATUS.md).
 2. Start Docker Desktop's Linux engine. From `experimental-workspace/`, run `docker compose up --build -d --wait --wait-timeout 240`. Open http://localhost:3100; six exercises should be available.
-3. Run `docker compose exec -T workspace npm test` and `docker compose exec -T workspace node server/check-catalog.mjs` for the ordinary catalog checks. The latest completed validation is 161 server tests, 52 browser checks and 14 publisher/report tests, plus live catalog and renderer/API smoke checks.
+3. Run `docker compose exec -T workspace npm test` and `docker compose exec -T workspace node server/check-catalog.mjs` for the ordinary catalog checks. The latest completed validation is 170 server tests, 54 browser checks and 14 publisher/report tests, plus live catalog and renderer/API smoke checks.
 4. Full `verify-compatibility.ps1` remains a deliberately failing gate: 42/44 cases pass; both mobile GraphTool cases fail. Keep those failures and the five disabled candidates visible. Do not treat a nonzero full gate as permission to weaken required checks.
 5. Finish runtime/profile edits before regenerating evidence. Fingerprints include source bytes and line endings, so a checkout that changes those bytes requires reverification. Use the documented publisher to produce reviewed metadata/evidence; do not manually rewrite evidence fingerprints to restore eligibility.
 
 The whole OPL remains in its Docker Linux volume. This change does not import the whole library, migrate catalog data into Supabase, or expose the renderer publicly. Continue with the blockers and importer steps below; preserve existing sessions and attribution.
 
-## Current work: safe and readable PG feedback
+## Current work: available authored hints
+
+Continuity subtask 6 is implemented. [AUTHORED_HINTS.md](experimental-workspace/AUTHORED_HINTS.md) documents the pinned renderer/PG source behavior, supported hint markup, actual availability rules and safe local disclosure. `hintExists` alone is insufficient: the app requires an explicit renderer flag plus a nonempty supported standard hint body. Withheld, absent, empty, unstructured and unsupported hints produce no action. Marked hint/solution blocks are removed from the live question; only canonical authored hint text is exposed separately, with the existing reviewed notation rules. Solutions and instructor/correct-answer data remain private.
+
+View hint is a local accessible disclosure. It does not call the renderer/session/grading APIs, collect or submit current answers, mutate tokens/counts, or replace the exercise frame. The same session and drafts survive. Grading refreshes availability; changed/withdrawn content closes, and refresh recomputes availability with the disclosure closed. No synthetic attempt threshold or hint explanation is invented. Standard PG HINT has no attempt-count threshold; source-authored conditions must actually return eligible content.
+
+The operator-only [hint audit](experimental-workspace/compatibility/hint-audit.mjs) requires 12 real-PG cases at seeds 1234/4321 and desktop/touch-mobile: a PCC/Alex Jordan hint with a separate withheld solution, the same source under actual signed `showHints=0` policy, and a no-hint dot-product control. It checks exact authored content, no solution disclosure, read-only view/hide, repeated-name checkbox drafts, grading/refresh/ownership, keyboard and mobile. It additionally probes all six enabled entries at both seeds. No new student exercise is activated. Unsupported graphical/interactive/unwrapped hint formats remain unapproved. Next work: deliberate move-on controls with unfinished-work protection.
+
+Validation for hint support: 170 server tests, 54 browser checks and 14 publisher/report tests pass, plus 12 real-PG hint cases, 12 enabled-catalog seed probes and 22 real-PG feedback cases with two stale/revert checks. The rebuilt normal workspace passed the live six-entry catalog check and required renderer/session/API/grading/submission-state smoke checks. Full compatibility was renewed via the publisher: 42/44 pass; both mobile GraphTool cases reach completion with touch-positive grading failures and remain disabled. All six enabled entries have matching fresh runtime evidence; no new exercise was activated. See AUTHORED_HINTS.md and the current sanitized reports for exact scope. This handoff accompanies the hint-support commit after `cf072fe`; inspect Git status/history for newer work.
+
+## Previous milestone: safe and readable PG feedback
 
 Continuity subtask 5 is implemented. [FEEDBACK_PRESENTATION.md](experimental-workspace/FEEDBACK_PRESENTATION.md) specifies the canonical student-message projection, reviewed TeX vocabulary and resource budgets, optional formatting fallback, privacy boundary and accessibility rules. Paragraphs/line breaks now survive. Explicit reviewed TeX typesets in field feedback and the overall result through the pinned MathJax library; arbitrary PG feedback HTML remains inert text. Unknown notation remains literal. HTML superscripts/subscripts retain readable text notation. No mathematical explanation is generated from expected answers.
 

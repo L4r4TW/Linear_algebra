@@ -49,6 +49,7 @@ function present(record, rendered) {
     submission,
     exercise: {
       ...(rendered.feedbackVisibility==='suppressed'||submission?.feedbackVisibility==='suppressed'?{feedbackVisibility:'suppressed'}:{}),
+      ...(rendered.hintExists?{hintExists:true}:{}),
       html: rendered.html,
       score: record.lastSubmission?.score ?? rendered.score,
       resources: rendered.resources,

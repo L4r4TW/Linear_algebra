@@ -42,6 +42,7 @@ function validateResponse(data, exerciseId, seed) {
 
   return {
     ...([false,0,'0'].includes(data.flags.showPartialCorrectAnswers)?{feedbackVisibility:'suppressed'}:{}),
+    ...([true,1,'1'].includes(data.flags.hintExists)?{hintExists:true}:{}),
     exerciseId,
     seed,
     html: data.renderedHTML,

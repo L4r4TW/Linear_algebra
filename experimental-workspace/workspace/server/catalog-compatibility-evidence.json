@@ -1,9 +1,9 @@
 {
   "version": 1,
   "complete": true,
-  "observedAt": "2026-11-15T12:44:42.911Z",
+  "observedAt": "2026-11-15T17:22:38.653Z",
   "profileVersion": "local-practice-v1",
-  "runtimeFingerprint": "5392a6676e1326f4333069b4bd05b75a6b06091009943cb098afdad6be0997ef",
+  "runtimeFingerprint": "f1646ff6903a2d6347cca1c4f872da366e6dc431acc9d0eb3e9057001e1bc3c9",
   "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
   "rendererRevision": "1134ffbbf5e656148e579f424f70bcd9f1d15936",
   "entries": {
@@ -1212,19 +1212,27 @@
           "viewport": "mobile",
           "sourceVerified": true,
           "passed": false,
-          "phase": "graph-stale-feedback",
+          "phase": "complete",
           "checks": {
             "rendering": true,
             "interaction": true,
-            "answerCapture": false,
+            "answerCapture": true,
             "grading": false,
-            "retries": false,
-            "refresh": false,
-            "ownership": false,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
             "keyboard": true,
             "mobile": true
           },
+          "correctScore": 0.888888888888889,
+          "clearedScore": 0,
           "limitations": [
+            {
+              "code": "MOBILE_GRAPH_TOUCH_GRADING",
+              "capability": "touch-graph-positive-answer",
+              "status": "unsupported",
+              "reason": "For fixture seeds 1234 and 4321, touch-mobile point placement does not reach the expected full score. Coordinate/interaction behavior needs investigation; these cases remain failed and are not waived by this policy."
+            },
             {
               "code": "NARROW_FRAME_SCROLL",
               "capability": "mobile-layout",
@@ -1232,7 +1240,14 @@
               "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
             }
           ],
-          "error": "QA_GRAPH_PARTIAL"
+          "error": "QA_MOBILE_GRAPH_TOUCH_GRADING",
+          "capabilityFailures": [
+            {
+              "code": "MOBILE_GRAPH_TOUCH_GRADING",
+              "expectedScore": 1,
+              "actualScore": 0.888888888888889
+            }
+          ]
         }
       ]
     }

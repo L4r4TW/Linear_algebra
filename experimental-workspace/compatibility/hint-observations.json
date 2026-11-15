@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-15T17:19:20.732Z",
+  "runtimeFingerprint": "f1646ff6903a2d6347cca1c4f872da366e6dc431acc9d0eb3e9057001e1bc3c9",
+  "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+  "rendererRevision": "1134ffbbf5e656148e579f424f70bcd9f1d15936",
+  "pgRevision": "4b3e564cf4e5a36807ca5a341734f8d604e8b77d",
+  "scope": "12 source-verified real-PG student-mode hint cases: two seeds and desktop/mobile. No instructor requests, solution content, tokens, entered pairs or raw messages are serialized.",
+  "cases": [
+    {
+      "id": "hint-authored-01",
+      "verificationSeed": 1234,
+      "viewport": "desktop",
+      "sourceVerified": true,
+      "phase": "complete",
+      "authoredExists": true,
+      "available": true,
+      "originalAuthoredMessageVerified": true,
+      "keyboardAndTouchVerified": true,
+      "noRendererRequestOrTokenChangeOnDisclosure": true,
+      "liveFrameAndDraftPreserved": true,
+      "sameSessionAndDraftAfterRefresh": true,
+      "noAdditionalGrade": true,
+      "solutionsWithheld": true,
+      "ownershipProtected": true,
+      "passed": true
+    },
+    {
+      "id": "hint-authored-01",
+      "verificationSeed": 1234,
+      "viewport": "mobile",
+      "sourceVerified": true,
+      "phase": "complete",
+      "authoredExists": true,
+      "available": true,
+      "originalAuthoredMessageVerified": true,
+      "keyboardAndTouchVerified": true,
+      "noRendererRequestOrTokenChangeOnDisclosure": true,
+      "liveFrameAndDraftPreserved": true,
+      "sameSessionAndDraftAfterRefresh": true,
+      "noAdditionalGrade": true,
+      "solutionsWithheld": true,
+      "ownershipProtected": true,
+      "passed": true
+    },
+    {
+      "id": "hint-authored-01",
+      "verificationSeed": 4321,
+      "viewport": "desktop",
+      "sourceVerified": true,
+      "phase": "complete",
+      "authoredExists": true,
+      "available": true,
+      "originalAuthoredMessageVerified": true,
+      "keyboardAndTouchVerified": true,
+      "noRendererRequestOrTokenChangeOnDisclosure": true,
+      "liveFrameAndDraftPreserved": true,
+      "sameSessionAndDraftAfterRefresh": true,
+      "noAdditionalGrade": true,
+      "solutionsWithheld": true,
+      "ownershipProtected": true,
+      "passed": true
+    },
+    {
+      "id": "hint-authored-01",
+      "verificationSeed": 4321,
+      "viewport": "mobile",
+      "sourceVerified": true,
+      "phase": "complete",
+      "authoredExists": true,
+      "available": true,
+      "originalAuthoredMessageVerified": true,
+      "keyboardAndTouchVerified": true,
+      "noRendererRequestOrTokenChangeOnDisclosure": true,
+      "liveFrameAndDraftPreserved": true,
+      "sameSessionAndDraftAfterRefresh": true,
+      "noAdditionalGrade": true,
+      "solutionsWithheld": true,
+      "ownershipProtected": true,
+      "passed": true
+    },
+    {
+      "id": "hint-disabled-01",
+      "verificationSeed": 1234,
+      "viewport": "desktop",
+      "sourceVerified": true,
+      "phase": "complete",
+      "authoredExists": true,
+      "available": false,
+      "noUnavailableAction": true,
+      "solutionsWithheld": true,
+      "ownershipProtected": true,
+      "passed": true
+    },
+    {
+      "id": "hint-disabled-01",
+      "verificationSeed": 1234,
+      "viewport": "mobile",
+      "sourceVerified": true,
+      "phase": "complete",
+      "authoredExists": true,
+      "available": false,
+      "noUnavailableAction": true,
+      "solutionsWithheld": true,
+      "ownershipProtected": true,
+      "passed": true
+    },
+    {
+      "id": "hint-disabled-01",
+      "verificationSeed": 4321,
+      "viewport": "desktop",
+      "sourceVerified": true,
+      "phase": "complete",
+      "authoredExists": true,
+      "available": false,
+      "noUnavailableAction": true,
+      "solutionsWithheld": true,
+      "ownershipProtected": true,
+      "passed": true
+    },
+    {
+      "id": "hint-disabled-01",
+      "verificationSeed": 4321,
+      "viewport": "mobile",
+      "sourceVerified": true,
+      "phase": "complete",
+      "authoredExists": true,
+      "available": false,
+      "noUnavailableAction": true,
+      "solutionsWithheld": true,
+      "ownershipProtected": true,
+      "passed": true
+    },
+    {
+      "id": "hint-absent-01",
+      "verificationSeed": 1234,
+      "viewport": "desktop",
+      "sourceVerified": true,
+      "phase": "complete",
+      "authoredExists": false,
+      "available": false,
+      "noUnavailableAction": true,
+      "solutionsWithheld": true,
+      "ownershipProtected": true,
+      "passed": true
+    },
+    {
+      "id": "hint-absent-01",
+      "verificationSeed": 1234,
+      "viewport": "mobile",
+      "sourceVerified": true,
+      "phase": "complete",
+      "authoredExists": false,
+      "available": false,
+      "noUnavailableAction": true,
+      "solutionsWithheld": true,
+      "ownershipProtected": true,
+      "passed": true
+    },
+    {
+      "id": "hint-absent-01",
+      "verificationSeed": 4321,
+      "viewport": "desktop",
+      "sourceVerified": true,
+      "phase": "complete",
+      "authoredExists": false,
+      "available": false,
+      "noUnavailableAction": true,
+      "solutionsWithheld": true,
+      "ownershipProtected": true,
+      "passed": true
+    },
+    {
+      "id": "hint-absent-01",
+      "verificationSeed": 4321,
+      "viewport": "mobile",
+      "sourceVerified": true,
+      "phase": "complete",
+      "authoredExists": false,
+      "available": false,
+      "noUnavailableAction": true,
+      "solutionsWithheld": true,
+      "ownershipProtected": true,
+      "passed": true
+    }
+  ],
+  "enabledCatalogHints": [
+    {
+      "id": "dot-product-01",
+      "verificationSeed": 1234,
+      "authoredExists": false,
+      "available": false
+    },
+    {
+      "id": "dot-product-01",
+      "verificationSeed": 4321,
+      "authoredExists": false,
+      "available": false
+    },
+    {
+      "id": "compat-calculus-numeric-01",
+      "verificationSeed": 1234,
+      "authoredExists": false,
+      "available": false
+    },
+    {
+      "id": "compat-calculus-numeric-01",
+      "verificationSeed": 4321,
+      "authoredExists": false,
+      "available": false
+    },
+    {
+      "id": "compat-calculus-formula-01",
+      "verificationSeed": 1234,
+      "authoredExists": false,
+      "available": false
+    },
+    {
+      "id": "compat-calculus-formula-01",
+      "verificationSeed": 4321,
+      "authoredExists": false,
+      "available": false
+    },
+    {
+      "id": "compat-statistics-radio-01",
+      "verificationSeed": 1234,
+      "authoredExists": false,
+      "available": false
+    },
+    {
+      "id": "compat-statistics-radio-01",
+      "verificationSeed": 4321,
+      "authoredExists": false,
+      "available": false
+    },
+    {
+      "id": "compat-algebra-checkbox-01",
+      "verificationSeed": 1234,
+      "authoredExists": false,
+      "available": false
+    },
+    {
+      "id": "compat-algebra-checkbox-01",
+      "verificationSeed": 4321,
+      "authoredExists": false,
+      "available": false
+    },
+    {
+      "id": "compat-calculus-graph-01",
+      "verificationSeed": 1234,
+      "authoredExists": false,
+      "available": false
+    },
+    {
+      "id": "compat-calculus-graph-01",
+      "verificationSeed": 4321,
+      "authoredExists": false,
+      "available": false
+    }
+  ],
+  "complete": true
+}

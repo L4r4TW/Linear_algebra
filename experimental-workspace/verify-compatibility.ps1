@@ -29,6 +29,7 @@ try {
     Invoke-DockerCheck @('build','-f','compatibility/Dockerfile','-t','linear-algebra-compatibility-qa','.')
     Invoke-DockerCheck @('run','--rm','linear-algebra-compatibility-qa','node','--test','compatibility/regression-report.test.mjs','compatibility/build-catalog.test.mjs')
     Invoke-DockerCheck @('run','--rm','--network','linear-algebra-experimental_default','--shm-size=1g','--mount','type=volume,source=linear-algebra-experimental_opl,target=/opl,readonly','--mount',('type=bind,source=' + $resolvedArtifacts + ',target=/artifacts'),'linear-algebra-compatibility-qa','node','compatibility/feedback-audit.mjs')
+    Invoke-DockerCheck @('run','--rm','--network','linear-algebra-experimental_default','--shm-size=1g','--mount','type=volume,source=linear-algebra-experimental_opl,target=/opl,readonly','--mount',('type=bind,source=' + $resolvedArtifacts + ',target=/artifacts'),'linear-algebra-compatibility-qa','node','compatibility/hint-audit.mjs')
     $arguments = @('run','--rm','--network','linear-algebra-experimental_default','--shm-size=1g','-e','COMPATIBILITY_REGRESSION=1')
     if ($ExerciseId) { $arguments += @('-e', ('WIDGET_FIXTURES=' + ($ExerciseId -join ','))) }
     if ($PSBoundParameters.ContainsKey('Seeds')) { $arguments += @('-e', ('COMPATIBILITY_SEEDS=' + (ConvertTo-Json -InputObject @($Seeds) -Compress))) }

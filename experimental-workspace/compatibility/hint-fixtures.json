@@ -1,0 +1,14 @@
+{
+ "version":1,
+ "purpose":"Operator-only authored hint availability verification; no student activation",
+ "sourceRevision":"0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+ "rendererRevision":"1134ffbbf5e656148e579f424f70bcd9f1d15936",
+ "pgRevision":"4b3e564cf4e5a36807ca5a341734f8d604e8b77d",
+ "verificationSeeds":[1234,4321],
+ "licenseEvidence":"OPL_LICENSE supplies a conditional default; individual and parent-directory notices require review before redistribution or commercial use.",
+ "exercises":[
+  {"id":"hint-authored-01","title":"Types of statistical data","policy":"upstream-default","expected":"available","authors":["Alex Jordan"],"institution":"PCC","source":{"path":"OpenProblemLibrary/PCC/Statistics/TypesOfData/DataTypes1.pg","sha256":"93898892f8cf3d2e546141035033ff36f2f444b885fcc05e6583453e73cfaa51","url":"https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/PCC/Statistics/TypesOfData/DataTypes1.pg"},"rendererPath":"Library/PCC/Statistics/TypesOfData/DataTypes1.pg","requiredCapabilities":["native-checkbox","authored-hint-prose"]},
+  {"id":"hint-disabled-01","title":"Authored hint disabled by renderer policy","policy":"upstream-disabled","expected":"unavailable","authors":["Alex Jordan"],"institution":"PCC","source":{"path":"OpenProblemLibrary/PCC/Statistics/TypesOfData/DataTypes1.pg","sha256":"93898892f8cf3d2e546141035033ff36f2f444b885fcc05e6583453e73cfaa51","url":"https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/PCC/Statistics/TypesOfData/DataTypes1.pg"},"rendererPath":"Library/PCC/Statistics/TypesOfData/DataTypes1.pg","requiredCapabilities":["native-checkbox","withheld-authored-hint"]},
+  {"id":"hint-absent-01","title":"Dot products without authored hints","policy":"upstream-default","expected":"absent","authors":["Paul Pearson"],"institution":"Fort Lewis College","source":{"path":"OpenProblemLibrary/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg","sha256":"015a00eec3ad5bfd10568083fb0640a79c9f1ad1b59df740cca0d9832575460a","url":"https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg"},"rendererPath":"Library/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg","requiredCapabilities":["native-text","no-authored-hint"]}
+ ]
+}

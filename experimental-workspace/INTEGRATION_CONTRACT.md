@@ -118,3 +118,7 @@ Before changing internal controls, preserve field identities and evaluator seman
 
 
 The [automated compatibility gate](COMPATIBILITY_REGRESSION.md) now covers both fixture seeds on desktop and touch-mobile. It preserves the default student catalog and private-parameter boundaries. Its explicit mobile GraphTool touch-positive failure demonstrates why desktop grading/style compatibility cannot establish every input mode. Read the current generated status before promoting fixtures.
+
+## Authored hint boundary
+
+The owned-session response now runs [authored-hints.mjs](workspace/server/authored-hints.mjs) before asset registration and problem HTML projection. Only explicit PG existence plus actual direct-child standard hint content can become separate canonical hint text. Marked hints/solutions are removed from the live question. Hidden, staged, custom and graphical hint structures stay unsupported. The picker discloses eligible content locally, preserving the frame, exact current pairs, drafts and saved grading/token state. See [AUTHORED_HINTS.md](AUTHORED_HINTS.md) for upstream rules and source-pinned evidence. The standalone problemHtml export still projects its input wrapper; the production API composes it with the prior hint/solution exclusion step.

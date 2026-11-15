@@ -1,3 +1,4 @@
+import {projectAuthoredHints} from './authored-hints.mjs';
 import { createServer } from 'node:http';
 import { randomBytes } from 'node:crypto';
 import { env } from 'node:process';
@@ -107,10 +108,11 @@ export function problemHtml(html) {
 }
 
 function publicSession(result, assets) {
-  let prepared, html;
+  let prepared, html, projected;
   try {
-    prepared = assets.prepare({html:result.exercise.html, resources:result.exercise.resources, identity:result.session.id});
-    html = prepared.project(problemHtml(result.exercise.html));
+    projected=projectAuthoredHints(result.exercise.html,{hintExists:result.exercise.hintExists===true});
+    prepared = assets.prepare({html:projected.html, resources:result.exercise.resources, identity:result.session.id});
+    html = prepared.project(problemHtml(projected.html));
   } catch { throw new ApiError(502,'UNSUPPORTED_EXERCISE_RESOURCE','The exercise requires a resource that is not supported yet.'); }
   return {
     session: {
@@ -133,6 +135,7 @@ function publicSession(result, assets) {
     } : null,
     exercise: {
       html,
+      hint:projected.hint,
       ...(result.exercise.feedbackVisibility==='suppressed'?{feedbackVisibility:'suppressed'}:{}),
       score: result.exercise.feedbackVisibility==='suppressed'?null:result.exercise.score,
       resources: {
