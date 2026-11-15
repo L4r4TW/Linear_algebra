@@ -107,6 +107,10 @@ These are findings about checked-in SQL and browser code, not claims about the l
 
 Migration order: first finalize identity and versions (5.2), raw/curated taxonomy (5.3), display metadata/provenance (5.4), evidence/activation (5.5), then private student relationships/access (5.6) and query/constraint design (5.7). Task 5.8 can produce additive migrations and fixtures after those decisions. Existing six entries and all student records remain unchanged during this audit.
 
+## Identity follow-up
+
+Task 5.2's decisions are now recorded in [EXERCISE_IDENTITY.md](EXERCISE_IDENTITY.md), with the unapplied [legacy bootstrap plan](catalog-model/identity-bootstrap-plan.json) and [source checks](catalog-model/README.md). The audit below remains a discovery record; follow-up identity rules do not migrate or certify existing sessions.
+
 ## Decisions carried into the next subtasks
 
 - Choose stable internal IDs, legacy aliases, conservative rename matching and duplicate representation; identical content hashes alone must not merge independently attributed exercises.

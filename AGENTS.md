@@ -64,7 +64,7 @@ Update PROJECT_CONTEXT.md when implementation status, verification, or next step
 
 ## Catalog model design
 
-Before whole-library schema/import work, read [CATALOG_MODEL_AUDIT.md](experimental-workspace/CATALOG_MODEL_AUDIT.md) and its observed metadata counts. Task 5.1 is discovery only; the next design step is identity/source versions (5.2). Preserve legacy authored courses and client-graded attempts; never relabel them PG-verified. Checked-in SQL is not evidence of deployed Supabase policy/grants. Audit reports must contain source metadata/aggregate record shapes only, never private session values. Finalize subsequent model decisions before additive migrations.
+Before whole-library schema/import work, read [CATALOG_MODEL_AUDIT.md](experimental-workspace/CATALOG_MODEL_AUDIT.md) and its observed metadata counts. Task 5.1 is discovery only. Task 5.2 is specified in [EXERCISE_IDENTITY.md](experimental-workspace/EXERCISE_IDENTITY.md): permanent UUID identities/aliases, immutable source versions, reviewed renames and retained history. Its bootstrap inventory is not a migration or new allowlist. Next design step is raw/curated taxonomy (5.3). Preserve legacy authored courses and client-graded attempts; never relabel them PG-verified. Checked-in SQL is not evidence of deployed Supabase policy/grants. Audit reports must contain source metadata/aggregate record shapes only, never private session values. Finalize subsequent model decisions before additive migrations.
 
 ## Catalog handoff
 

@@ -18,7 +18,7 @@ Current [continuity acceptance](CONTINUITY_VERIFICATION.md) covers refresh, lost
 
 ## Full-library model design
 
-[CATALOG_MODEL_AUDIT.md](CATALOG_MODEL_AUDIT.md) completes task 5.1 with a field-level reuse/migration mapping and [source metadata observations](catalog-audit/opl-metadata-observations.json). The installed checkout contains 40,541 regular PG files under OpenProblemLibrary, plus 29,624 in Contrib and 6,969 in Pending. These are source occurrences, not verified playable counts. Missing classification, authorship, friendly titles and calibrated difficulty need explicit treatment. No database or runtime change was made. Next task is stable identity/source-version design (5.2); preserve the existing six-entry activation batch.
+[CATALOG_MODEL_AUDIT.md](CATALOG_MODEL_AUDIT.md) completes task 5.1 with a field-level reuse/migration mapping and [source metadata observations](catalog-audit/opl-metadata-observations.json). The installed checkout contains 40,541 regular PG files under OpenProblemLibrary, plus 29,624 in Contrib and 6,969 in Pending. These are source occurrences, not verified playable counts. Missing classification, authorship, friendly titles and calibrated difficulty need explicit treatment. No database or runtime change was made. Task 5.2 is defined in [EXERCISE_IDENTITY.md](EXERCISE_IDENTITY.md), with an unapplied eleven-ID [bootstrap plan and source checks](catalog-model/README.md). No UUIDs or migrations are applied. Next is raw/curated taxonomy design (5.3); preserve the existing six-entry activation batch.
 
 ## Documentation and next work
 

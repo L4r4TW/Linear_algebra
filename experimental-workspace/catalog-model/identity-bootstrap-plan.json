@@ -1,0 +1,127 @@
+{
+    "version":  1,
+    "kind":  "identity-bootstrap-plan",
+    "status":  "design-only-not-applied",
+    "repositoryKey":  "openwebwork-opl",
+    "repositoryUrl":  "https://github.com/openwebwork/webwork-open-problem-library",
+    "aliasNamespace":  "experimental-opl",
+    "rules":  [
+                  "Allocate and persist one new internal UUID per existing catalog ID during the later migration.",
+                  "Never regenerate internal UUIDs from a path, hash, title or import run.",
+                  "Preserve every legacy ID as a permanent namespace-qualified alias.",
+                  "Source tuples are observations copied from the existing catalog, not proof of a historical session source.",
+                  "This plan does not allocate database IDs, activate exercises, bind existing sessions to source versions or replace runtime catalog files."
+              ],
+    "entries":  [
+                    {
+                        "legacyId":  "dot-product-01",
+                        "internalExerciseId":  null,
+                        "source":  {
+                                       "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                       "path":  "OpenProblemLibrary/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg",
+                                       "sha256":  "015a00eec3ad5bfd10568083fb0640a79c9f1ad1b59df740cca0d9832575460a"
+                                   },
+                        "existingRendererPath":  "Library/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg"
+                    },
+                    {
+                        "legacyId":  "compat-calculus-numeric-01",
+                        "internalExerciseId":  null,
+                        "source":  {
+                                       "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                       "path":  "OpenProblemLibrary/Rochester/setDerivatives2Formulas/c2s5p1.pg",
+                                       "sha256":  "224502a030bf255614ea83ef58708627546abde879ba595a580277b67476c677"
+                                   },
+                        "existingRendererPath":  "Library/Rochester/setDerivatives2Formulas/c2s5p1.pg"
+                    },
+                    {
+                        "legacyId":  "compat-calculus-formula-01",
+                        "internalExerciseId":  null,
+                        "source":  {
+                                       "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                       "path":  "OpenProblemLibrary/Union/setDervProductQuotientRule/ur_dr_2_1.pg",
+                                       "sha256":  "4bbd5597c07ee42bd3824ad4a3b2727edb4cc162fe45ce336350e7255af52dfc"
+                                   },
+                        "existingRendererPath":  "Library/Union/setDervProductQuotientRule/ur_dr_2_1.pg"
+                    },
+                    {
+                        "legacyId":  "compat-matrix-grid-01",
+                        "internalExerciseId":  null,
+                        "source":  {
+                                       "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                       "path":  "OpenProblemLibrary/ASU-topics/set119MatrixAlgebra/p12.pg",
+                                       "sha256":  "67cfe0c86359294d3753818e72ddc39d5a4a4efae1b6e9e4057588f79dd71cf2"
+                                   },
+                        "existingRendererPath":  "Library/ASU-topics/set119MatrixAlgebra/p12.pg"
+                    },
+                    {
+                        "legacyId":  "compat-statistics-radio-01",
+                        "internalExerciseId":  null,
+                        "source":  {
+                                       "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                       "path":  "OpenProblemLibrary/ASU-topics/setStat/di12.pg",
+                                       "sha256":  "ca848d241dda15054e1f675727344a5d8737b82512f02def4814d73f9ae62c91"
+                                   },
+                        "existingRendererPath":  "Library/ASU-topics/setStat/di12.pg"
+                    },
+                    {
+                        "legacyId":  "compat-algebra-checkbox-01",
+                        "internalExerciseId":  null,
+                        "source":  {
+                                       "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                       "path":  "OpenProblemLibrary/LoyolaChicago/Precalc/Chap3Review/Q46.pg",
+                                       "sha256":  "784601fbfd5562a91b86882750ad38810464d2e1278cbbb731c0dfbf4046fbe8"
+                                   },
+                        "existingRendererPath":  "Library/LoyolaChicago/Precalc/Chap3Review/Q46.pg"
+                    },
+                    {
+                        "legacyId":  "compat-economics-popup-01",
+                        "internalExerciseId":  null,
+                        "source":  {
+                                       "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                       "path":  "OpenProblemLibrary/ASU-topics/setElasticity/p10.pg",
+                                       "sha256":  "7109d85872e2ed9c6cf93ed20dfcfbdbc9312f318218535d13c5c4b1f5dd003d"
+                                   },
+                        "existingRendererPath":  "Library/ASU-topics/setElasticity/p10.pg"
+                    },
+                    {
+                        "legacyId":  "compat-calculus-scaffold-01",
+                        "internalExerciseId":  null,
+                        "source":  {
+                                       "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                       "path":  "OpenProblemLibrary/Hope/Calc1/05-04-FTC/FTC_01.pg",
+                                       "sha256":  "399cf94d53291f2994d287ff6cda4ea39bd7045bb3a77a1f8a305d01305a7b8e"
+                                   },
+                        "existingRendererPath":  "Library/Hope/Calc1/05-04-FTC/FTC_01.pg"
+                    },
+                    {
+                        "legacyId":  "compat-algebra-image-01",
+                        "internalExerciseId":  null,
+                        "source":  {
+                                       "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                       "path":  "OpenProblemLibrary/ASU-topics/setAlgebraFunctions/beth2algfun.pg",
+                                       "sha256":  "a6470e62683d0331d541a5df7f8fe8cc4eaa31fba7886fef1a8e5ea24f1984ae"
+                                   },
+                        "existingRendererPath":  "Library/ASU-topics/setAlgebraFunctions/beth2algfun.pg"
+                    },
+                    {
+                        "legacyId":  "compat-calculus-graph-01",
+                        "internalExerciseId":  null,
+                        "source":  {
+                                       "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                       "path":  "OpenProblemLibrary/270/setDerivatives1/ur_dr_1_7.pg",
+                                       "sha256":  "b91bc436c92c6d68434c522d5bac40087af07bf75019b058710173ea8d0ca053"
+                                   },
+                        "existingRendererPath":  "Library/270/setDerivatives1/ur_dr_1_7.pg"
+                    },
+                    {
+                        "legacyId":  "compat-algebra-graphtool-01",
+                        "internalExerciseId":  null,
+                        "source":  {
+                                       "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                                       "path":  "OpenProblemLibrary/PCC/BasicAlgebra/EquationsAndInequalitiesInTwoVariables/PlotMXPlusB.pg",
+                                       "sha256":  "6c971d903bb786efb7869ed8f517a10f69646d9883e72c4d0e8e011cea4d8a4f"
+                                   },
+                        "existingRendererPath":  "Library/PCC/BasicAlgebra/EquationsAndInequalitiesInTwoVariables/PlotMXPlusB.pg"
+                    }
+                ]
+}
