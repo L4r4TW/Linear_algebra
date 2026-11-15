@@ -233,7 +233,7 @@ test('serves picker assets without making server-side modules public', async (t)
     assert.equal(response.status, 200);
     assert.ok(response.headers.get('content-type').startsWith(type));
   }
-  for (const path of ['/server/exercise-catalog.json', '/server/catalog-compatibility-evidence.json', '/server/activation-batches.json', '/server/compatibility-profile.json', '/compatibility/CATALOG_STATUS.md', '/server/exercise-sessions.mjs', '/assets/../server/renderer-client.mjs', '/compatibility/catalog.json', '/compatibility/observations.json', '/compatibility/probe.mjs']) {
+  for (const path of ['/server/exercise-catalog.json', '/server/catalog-compatibility-evidence.json', '/server/activation-batches.json', '/server/compatibility-profile.json', '/compatibility/CATALOG_STATUS.md', '/compatibility/draft-preview.mjs', '/compatibility/continuity-audit.json', '/server/exercise-sessions.mjs', '/assets/../server/renderer-client.mjs', '/compatibility/catalog.json', '/compatibility/observations.json', '/compatibility/probe.mjs']) {
     assert.equal((await fetch(f.baseUrl + path)).status, 404);
   }
 });

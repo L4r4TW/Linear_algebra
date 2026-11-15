@@ -1,9 +1,9 @@
 {
   "fixtureCatalogFingerprint": "5cf24cefe4a9a23931cd5a0491610d795538d6db02df0ddf81b374351025e400",
-  "runtimeFingerprint": "b51e21e3f7766b26501b16f057cbf3f23b78a9ddc035e31b83d5bbd41cb8e6ed",
+  "runtimeFingerprint": "094b73c79f1a5b703582f528aff7b1f04fb557e0fdeb8d987732d63baede9495",
   "profileVersion": "local-practice-v1",
   "schemaVersion": 1,
-  "observedAt": "2026-11-15T00:07:55.633Z",
+  "observedAt": "2026-11-15T10:26:59.525Z",
   "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
   "rendererRevision": "1134ffbbf5e656148e579f424f70bcd9f1d15936",
   "scope": "Operator-only temporary HTTP application using injected server catalogs and the real renderer client, owned sessions, picker, sandbox, answer bridge, grading, feedback and persistence. Production defaults are unchanged. Positive fixtures use expected values only in operator memory.",
@@ -7109,7 +7109,7 @@
       "sourceVerified": true,
       "verificationSeed": 4321,
       "viewport": "mobile",
-      "phase": "blank",
+      "phase": "complete",
       "loadingRetry": {
         "passed": true,
         "sameSession": true
@@ -7171,31 +7171,108 @@
           "graph-tool"
         ]
       },
-      "graphDiagnostics": {
-        "feedback": [
+      "keyboard": {
+        "passed": true,
+        "reachableFieldCount": 1,
+        "expectedFieldCount": 1,
+        "editedControlTypes": [],
+        "graphPlotted": true
+      },
+      "hiddenChangeNotified": true,
+      "incorrect": {
+        "score": 0,
+        "statuses": [
+          "incorrect"
+        ],
+        "feedbackCount": 1
+      },
+      "staleFeedbackOnClear": true,
+      "partial": {
+        "score": 0.111111111111111,
+        "statuses": [
+          "partial"
+        ],
+        "feedbackCount": 1
+      },
+      "correct": {
+        "score": 0.277777777777778,
+        "statuses": [
+          "partial"
+        ],
+        "feedbackCount": 1
+      },
+      "capabilityFailures": [
+        {
+          "code": "MOBILE_GRAPH_TOUCH_GRADING",
+          "expectedScore": 1,
+          "actualScore": 0.277777777777778
+        }
+      ],
+      "fieldCount": 1,
+      "collection": {
+        "fieldCount": 1,
+        "pairCount": 1,
+        "repeatedPairs": 0,
+        "helperFieldsExcluded": true
+      },
+      "privateRendererDataOmitted": true,
+      "restoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 1
+      },
+      "retry": {
+        "passed": true,
+        "failedGradeUnchanged": true,
+        "inputsPreserved": true,
+        "noAutomaticRetry": true,
+        "explicitRetrySavedOnce": true,
+        "lostResponseRecoveredWithoutRegrading": true
+      },
+      "graphFocus": true,
+      "cleared": {
+        "score": 0,
+        "statuses": [
           "unanswered"
         ],
-        "nonempty": false,
-        "confirmButtons": 0,
-        "clearDisabled": true,
-        "confirmationContainers": 0,
-        "focusedTag": "BUTTON",
-        "action": "clear"
+        "feedbackCount": 1
       },
-      "error": "QA_GRAPH_TOOL_TAB_REACHABILITY",
+      "clearedRestoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 1
+      },
+      "ownershipProtected": true,
+      "gradingOwnershipProtected": true,
+      "ownerDataUnchanged": true,
+      "seedPreserved": true,
+      "pageErrors": 0,
       "passed": false,
+      "error": "QA_MOBILE_GRAPH_TOUCH_GRADING",
       "checks": {
         "rendering": true,
-        "interaction": false,
-        "answerCapture": false,
+        "interaction": true,
+        "answerCapture": true,
         "grading": false,
-        "retries": false,
-        "refresh": false,
-        "ownership": false,
-        "keyboard": false,
+        "retries": true,
+        "refresh": true,
+        "ownership": true,
+        "keyboard": true,
         "mobile": true
       },
       "limitations": [
+        {
+          "code": "MOBILE_GRAPH_TOUCH_GRADING",
+          "capability": "touch-graph-positive-answer",
+          "status": "unsupported",
+          "reason": "For fixture seeds 1234 and 4321, touch-mobile point placement does not reach the expected full score. Coordinate/interaction behavior needs investigation; these cases remain failed and are not waived by this policy."
+        },
         {
           "code": "NARROW_FRAME_SCROLL",
           "capability": "mobile-layout",

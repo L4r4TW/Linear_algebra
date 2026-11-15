@@ -1,5 +1,5 @@
 import { renderFieldFeedback, matchesSubmittedAnswers } from './field-feedback.js';
-import { collectAnswerFields, isAnswerFieldName } from './answer-fields.js';
+import { collectAnswerFields, restoreAnswerFields, isAnswerFieldName } from './answer-fields.js';
 import { graphAnswerControl, answerPresentation, installGraphAnswerAdapters } from './widget-answers.js';
 
 function escapeAttribute(value) {
@@ -79,6 +79,7 @@ const channel=${JSON.stringify(channel)};
 const parentOrigin=${JSON.stringify(scriptUrl.origin)};
 const isAnswerFieldName=${isAnswerFieldName.toString()};
 const collectAnswerFields=${collectAnswerFields.toString()};
+const restoreAnswerFields=${restoreAnswerFields.toString()};
 const matchesSubmittedAnswers=${matchesSubmittedAnswers.toString()};
 const graphAnswerControl=${graphAnswerControl.toString()};
 const answerPresentation=${answerPresentation.toString()};
@@ -88,6 +89,7 @@ const shouldSubmitOnEnter=${shouldSubmitOnEnter.toString()};
 const markPracticeControls=${markPracticeControls.toString()};
 let feedbackFields=[];
 let composing=false;
+let restoringDraft=false;
 let submittedEntries=[];
 function applyFeedback(){renderFieldFeedback(document.getElementById('problem_body'),feedbackFields,submittedEntries);}
 let answerRevision=0;
@@ -105,6 +107,11 @@ window.addEventListener('message',event=>{
   if(event.data.type==='collect-answers'&&typeof event.data.requestId==='string'){
     applyFeedback();
     answerMessage('answers',event.data.requestId);
+  }else if(event.data.type==='restore-draft'&&typeof event.data.requestId==='string'){
+    restoringDraft=true;
+    try{restoreAnswerFields(document.getElementById('problem_body'),event.data.snapshot);applyFeedback();answerMessage('answers-restored',event.data.requestId);resize();}
+    catch{parent.postMessage({channel,type:'answer-restore-error',requestId:event.data.requestId},parentOrigin);}
+    finally{restoringDraft=false;}
   }else if(event.data.type==='show-feedback'&&Array.isArray(event.data.fields)&&Array.isArray(event.data.entries)){
     feedbackFields=event.data.fields;
     submittedEntries=event.data.entries;
@@ -130,6 +137,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   window.addEventListener('pagehide',dispose,{once:true});
   applyFeedback();
   for(const type of ['focusin','pointerdown','keydown','input','change','wheel','touchstart'])document.addEventListener(type,()=>{
+    if(restoringDraft)return;
     parent.postMessage({channel,type:'exercise-interaction'},parentOrigin);
   },{capture:true,passive:true});
   document.addEventListener('compositionstart',()=>{composing=true;});

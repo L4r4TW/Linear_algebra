@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-11-15T10:09:50.672Z",
+  "runtimeFingerprint": "b51e21e3f7766b26501b16f057cbf3f23b78a9ddc035e31b83d5bbd41cb8e6ed",
+  "scope": "Default catalog browser audit; random session seeds; desktop Chromium. No positive-answer oracle or outage simulation.",
+  "exercises": [
+    {
+      "id": "dot-product-01",
+      "sameExerciseBeforeGrading": true,
+      "uncheckedDraftRestored": false,
+      "checkedAnswersRestored": true,
+      "feedbackSnapshotRestored": true,
+      "fieldFeedbackVisible": true,
+      "refreshDidNotGrade": true,
+      "sameExerciseAfterGrading": true,
+      "blankStatuses": [
+        "unanswered"
+      ],
+      "changedResultMarked": true,
+      "failedCheckPreservesInputs": true,
+      "noAutomaticGradeRetry": true,
+      "editsAfterCheckRestored": false,
+      "loadFailureRetrySameSession": true,
+      "invalidFieldMessageProvided": true,
+      "invalidFeedbackRestored": true,
+      "incorrectFieldMessageProvided": false,
+      "incorrectFeedbackRestored": true,
+      "numericInputClassification": "invalid and incorrect verified",
+      "passed": true
+    },
+    {
+      "id": "compat-calculus-numeric-01",
+      "sameExerciseBeforeGrading": true,
+      "uncheckedDraftRestored": false,
+      "checkedAnswersRestored": true,
+      "feedbackSnapshotRestored": true,
+      "fieldFeedbackVisible": true,
+      "refreshDidNotGrade": true,
+      "sameExerciseAfterGrading": true,
+      "blankStatuses": [
+        "unanswered"
+      ],
+      "changedResultMarked": true,
+      "failedCheckPreservesInputs": true,
+      "noAutomaticGradeRetry": true,
+      "editsAfterCheckRestored": false,
+      "loadFailureRetrySameSession": true,
+      "invalidFieldMessageProvided": true,
+      "invalidFeedbackRestored": true,
+      "incorrectFieldMessageProvided": false,
+      "incorrectFeedbackRestored": true,
+      "numericInputClassification": "invalid and incorrect verified",
+      "passed": true
+    },
+    {
+      "id": "compat-calculus-formula-01",
+      "sameExerciseBeforeGrading": true,
+      "uncheckedDraftRestored": false,
+      "checkedAnswersRestored": true,
+      "feedbackSnapshotRestored": true,
+      "fieldFeedbackVisible": true,
+      "refreshDidNotGrade": true,
+      "sameExerciseAfterGrading": true,
+      "blankStatuses": [
+        "unanswered"
+      ],
+      "changedResultMarked": true,
+      "failedCheckPreservesInputs": true,
+      "noAutomaticGradeRetry": true,
+      "editsAfterCheckRestored": false,
+      "loadFailureRetrySameSession": true,
+      "invalidFieldMessageProvided": true,
+      "invalidFeedbackRestored": true,
+      "incorrectFieldMessageProvided": false,
+      "incorrectFeedbackRestored": true,
+      "numericInputClassification": "invalid and incorrect verified",
+      "passed": true
+    },
+    {
+      "id": "compat-statistics-radio-01",
+      "sameExerciseBeforeGrading": true,
+      "uncheckedDraftRestored": false,
+      "checkedAnswersRestored": true,
+      "feedbackSnapshotRestored": true,
+      "fieldFeedbackVisible": true,
+      "refreshDidNotGrade": true,
+      "sameExerciseAfterGrading": true,
+      "blankStatuses": [
+        "unanswered"
+      ],
+      "changedResultMarked": true,
+      "failedCheckPreservesInputs": true,
+      "noAutomaticGradeRetry": true,
+      "editsAfterCheckRestored": false,
+      "loadFailureRetrySameSession": true,
+      "numericInputClassification": "not applicable to native radio choices",
+      "passed": true
+    },
+    {
+      "id": "compat-algebra-checkbox-01",
+      "sameExerciseBeforeGrading": true,
+      "uncheckedDraftRestored": false,
+      "checkedAnswersRestored": true,
+      "feedbackSnapshotRestored": true,
+      "fieldFeedbackVisible": true,
+      "refreshDidNotGrade": true,
+      "sameExerciseAfterGrading": true,
+      "blankStatuses": [
+        "unanswered"
+      ],
+      "changedResultMarked": true,
+      "failedCheckPreservesInputs": true,
+      "noAutomaticGradeRetry": true,
+      "editsAfterCheckRestored": false,
+      "loadFailureRetrySameSession": true,
+      "invalidFieldMessageProvided": true,
+      "invalidFeedbackRestored": true,
+      "incorrectFieldMessageProvided": false,
+      "incorrectFeedbackRestored": true,
+      "numericInputClassification": "invalid and incorrect verified",
+      "passed": true
+    },
+    {
+      "id": "compat-calculus-graph-01",
+      "sameExerciseBeforeGrading": true,
+      "uncheckedDraftRestored": false,
+      "checkedAnswersRestored": true,
+      "feedbackSnapshotRestored": true,
+      "fieldFeedbackVisible": true,
+      "refreshDidNotGrade": true,
+      "sameExerciseAfterGrading": true,
+      "blankStatuses": [
+        "unanswered"
+      ],
+      "changedResultMarked": true,
+      "failedCheckPreservesInputs": true,
+      "noAutomaticGradeRetry": true,
+      "editsAfterCheckRestored": false,
+      "loadFailureRetrySameSession": true,
+      "invalidFieldMessageProvided": true,
+      "invalidFeedbackRestored": true,
+      "incorrectFieldMessageProvided": false,
+      "incorrectFeedbackRestored": true,
+      "numericInputClassification": "invalid and incorrect verified",
+      "passed": true
+    }
+  ],
+  "complete": true
+}

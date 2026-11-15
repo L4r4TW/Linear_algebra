@@ -1,9 +1,9 @@
 {
   "version": 1,
   "complete": true,
-  "observedAt": "2026-11-15T00:07:55.633Z",
+  "observedAt": "2026-11-15T10:26:59.525Z",
   "profileVersion": "local-practice-v1",
-  "runtimeFingerprint": "b51e21e3f7766b26501b16f057cbf3f23b78a9ddc035e31b83d5bbd41cb8e6ed",
+  "runtimeFingerprint": "094b73c79f1a5b703582f528aff7b1f04fb557e0fdeb8d987732d63baede9495",
   "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
   "rendererRevision": "1134ffbbf5e656148e579f424f70bcd9f1d15936",
   "entries": {
@@ -1226,19 +1226,27 @@
           "viewport": "mobile",
           "sourceVerified": true,
           "passed": false,
-          "phase": "blank",
+          "phase": "complete",
           "checks": {
             "rendering": true,
-            "interaction": false,
-            "answerCapture": false,
+            "interaction": true,
+            "answerCapture": true,
             "grading": false,
-            "retries": false,
-            "refresh": false,
-            "ownership": false,
-            "keyboard": false,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
             "mobile": true
           },
+          "correctScore": 0.277777777777778,
+          "clearedScore": 0,
           "limitations": [
+            {
+              "code": "MOBILE_GRAPH_TOUCH_GRADING",
+              "capability": "touch-graph-positive-answer",
+              "status": "unsupported",
+              "reason": "For fixture seeds 1234 and 4321, touch-mobile point placement does not reach the expected full score. Coordinate/interaction behavior needs investigation; these cases remain failed and are not waived by this policy."
+            },
             {
               "code": "NARROW_FRAME_SCROLL",
               "capability": "mobile-layout",
@@ -1246,7 +1254,14 @@
               "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
             }
           ],
-          "error": "QA_GRAPH_TOOL_TAB_REACHABILITY"
+          "error": "QA_MOBILE_GRAPH_TOUCH_GRADING",
+          "capabilityFailures": [
+            {
+              "code": "MOBILE_GRAPH_TOUCH_GRADING",
+              "expectedScore": 1,
+              "actualScore": 0.277777777777778
+            }
+          ]
         }
       ]
     }

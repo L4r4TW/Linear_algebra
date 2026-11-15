@@ -15,13 +15,25 @@ This handoff accompanies the capability-gated catalog activation changes on `mai
 
 1. Inspect `git log -1` and `git status --short`, then read [CATALOG_COMPATIBILITY.md](experimental-workspace/CATALOG_COMPATIBILITY.md) and [CATALOG_STATUS.md](experimental-workspace/compatibility/CATALOG_STATUS.md).
 2. Start Docker Desktop's Linux engine. From `experimental-workspace/`, run `docker compose up --build -d --wait --wait-timeout 240`. Open http://localhost:3100; six exercises should be available.
-3. Run `docker compose exec -T workspace npm test` and `docker compose exec -T workspace node server/check-catalog.mjs` for the ordinary catalog checks. The latest completed validation is 100 server tests, 29 browser checks and 14 publisher/report tests, plus live catalog and renderer/API smoke checks.
+3. Run `docker compose exec -T workspace npm test` and `docker compose exec -T workspace node server/check-catalog.mjs` for the ordinary catalog checks. The latest completed validation is 108 server tests, 37 browser checks and 14 publisher/report tests, plus live catalog and renderer/API smoke checks.
 4. Full `verify-compatibility.ps1` remains a deliberately failing gate: 42/44 cases pass; both mobile GraphTool cases fail. Keep those failures and the five disabled candidates visible. Do not treat a nonzero full gate as permission to weaken required checks.
 5. Finish runtime/profile edits before regenerating evidence. Fingerprints include source bytes and line endings, so a checkout that changes those bytes requires reverification. Use the documented publisher to produce reviewed metadata/evidence; do not manually rewrite evidence fingerprints to restore eligibility.
 
 The whole OPL remains in its Docker Linux volume. This change does not import the whole library, migrate catalog data into Supabase, or expose the renderer publicly. Continue with the blockers and importer steps below; preserve existing sessions and attribution.
 
-## Current work: feedback and continuity audit
+## Current work: unfinished answer drafts
+
+Continuity subtask 2 is implemented locally. Read [DRAFT_PERSISTENCE.md](experimental-workspace/DRAFT_PERSISTENCE.md) for the per-tab storage contract and precedence rules. All six enabled native exercises preserve unfinished edits across refresh, including whitespace/vector strings, radio selections, repeated-name checkbox pairs and clearing. Drafts are isolated by original session/exercise and only applied after a successful owned-session response with matching fields.
+
+The server still stores graded submissions; browser `sessionStorage` stores unfinished drafts for the current tab's page session. Closing the tab or clearing browser data can remove drafts. Restored drafts take precedence over their checked baseline and mark prior feedback stale. Successful grading clears only the submitted version; newer edits remain a draft. A pending snapshot reconciles accepted-but-lost responses on refresh. An unrelated newer checked result wins over an older local draft. Storage/restore errors are visible without disabling editing or grading. Cross-device autosave and automatic multi-tab synchronization are not implemented.
+
+The original [audit evidence](experimental-workspace/compatibility/continuity-audit-before-drafts.json) remains historical. The revised [continuity audit](experimental-workspace/compatibility/continuity-audit.json) now requires drafts to survive refresh before/after checks and a failed load. Runtime and compatibility evidence are regenerated together; do not manually change fingerprints or delete saved sessions. This handoff accompanies the draft-persistence commit after `d383a3f`; inspect Git history and working-tree status for subsequent changes.
+
+Validation for draft implementation: 108 server tests, 37 browser checks and 14 publisher/report tests pass, plus the live six-entry API gate and revised six-exercise continuity audit. Full seeded compatibility was rerun: 42/44 pass; both mobile GraphTool positive-grading cases fail and remain disabled. All six active entries have renewed evidence for the new runtime fingerprint. No real renderer-outage or manual screen-reader review was rerun.
+
+Next task: recovery-specific next actions for permanent/unavailable/expired sessions and uncertain submissions, preserving ownership privacy. The pending-draft reconciliation here does not provide general grading-request idempotency. Continue to keep GraphTool/scaffold/layout candidates disabled under their existing compatibility limits.
+
+## Historical baseline: feedback and continuity audit
 
 The next product milestone is reliable feedback and continuity. Subtask 1 is complete locally: [CONTINUITY_FEEDBACK_AUDIT.md](experimental-workspace/CONTINUITY_FEEDBACK_AUDIT.md) separates working behavior from missing features, with a per-entry table and sanitized [fresh observations](experimental-workspace/compatibility/continuity-audit.json).
 
@@ -29,7 +41,7 @@ Fresh checks covered all six enabled exercises in the default application: same 
 
 Fresh validation: 100 server tests and the six-entry live API check passed. The earlier 24 seeded cases for these six entries and 29 browser-suite checks were reviewed, not rerun. No runtime, compatibility approval, original-app code or existing session records were changed; the audit creates its own normal sessions and records no private answer/session values. This handoff accompanies the audit commit after `0e2534e`; inspect Git history and working-tree status for subsequent changes.
 
-Immediate next task: implement session-bound drafts and restoration precedence (subtask 2), followed by recovery-specific next actions and uncertain-grade reconciliation, feedback/suppression rules, available authored hints, and protected move-on controls. Read the audit's missing-feature checklist and reproduction commands first. Preserve the known GraphTool/scaffold/layout blockers and the full gate's existing failures.
+At the time of that audit, the next task was draft saving. Subtask 2 is now implemented below; remaining work is recovery-specific next actions, feedback/suppression rules, available authored hints, and protected move-on controls. Read the audit's missing-feature checklist and reproduction commands first. Preserve the known GraphTool/scaffold/layout blockers and the full gate's existing failures.
 
 ## Capability-based exercise enablement (2026-11-15)
 

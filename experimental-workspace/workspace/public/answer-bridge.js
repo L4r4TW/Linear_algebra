@@ -41,12 +41,12 @@ export function createAnswerBridge({ frame, channel, onChange = () => {}, onSubm
     if (data.type === 'submit-answers') { onSubmit(); return; }
     if (data.type === 'answers-changed' && validSnapshot(data)) {
       remember(data);
-    } else if (data.type === 'answers' || data.type === 'answer-collection-error') {
+    } else if (data.type === 'answers' || data.type === 'answer-collection-error' || data.type === 'answers-restored' || data.type === 'answer-restore-error') {
       const request = pending.get(data.requestId);
-      if (!request) return;
+      if (!request || !request.types.includes(data.type)) return;
       clearTimeout(request.timer);
       pending.delete(data.requestId);
-      if (data.type === 'answer-collection-error' || !validSnapshot(data)) {
+      if (data.type === 'answer-collection-error' || data.type === 'answer-restore-error' || !validSnapshot(data)) {
         request.reject(new AnswerBridgeError('INVALID_RESPONSE', 'The answer fields could not be collected.'));
         return;
       }
@@ -77,12 +77,22 @@ export function createAnswerBridge({ frame, channel, onChange = () => {}, onSubm
           pending.delete(requestId);
           reject(new AnswerBridgeError('TIMEOUT', 'The exercise did not return its answers. Please try again.'));
         }, timeoutMs);
-        pending.set(requestId, { resolve, reject, timer });
+        pending.set(requestId, { resolve, reject, timer, types:['answers','answer-collection-error'] });
         // Opaque sandbox origins require '*'; the child verifies parent source/origin/channel.
         frame.contentWindow.postMessage({ channel, type: 'collect-answers', requestId }, '*');
       });
     },
 
+    restoreDraft(snapshot) {
+      if(closed)return Promise.reject(new AnswerBridgeError('FRAME_REPLACED','The exercise has changed.'));
+      if(!validSnapshot({...snapshot,revision:0}))return Promise.reject(new AnswerBridgeError('INVALID_DRAFT','The saved draft is invalid.'));
+      const requestId=crypto.randomUUID();
+      return new Promise((resolve,reject)=>{
+        const timer=setTimeout(()=>{pending.delete(requestId);reject(new AnswerBridgeError('TIMEOUT','The draft could not be restored.'));},timeoutMs);
+        pending.set(requestId,{resolve,reject,timer,types:['answers-restored','answer-restore-error']});
+        frame.contentWindow?.postMessage({channel,type:'restore-draft',requestId,snapshot},'*');
+      });
+    },
     destroy() {
       if (closed) return;
       closed = true;

@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 export const compatibilityRuntimeFiles=[
  'package-lock.json','server.mjs','server/exercise-assets.mjs','server/catalog-compatibility.mjs','server/compatibility-profile.json','server/exercise-catalog.mjs',
  'server/renderer-client.mjs','server/exercise-sessions.mjs','server/answer-contract.mjs','server/submission-state.mjs','server/grading-feedback.mjs','server/http-app.mjs',
- 'public/index.html','public/picker.js','public/picker.css','public/exercise-frame.js','public/exercise.css','public/answer-fields.js','public/answer-bridge.js','public/widget-answers.js','public/field-feedback.js'
+ 'public/index.html','public/picker.js','public/picker.css','public/exercise-frame.js','public/exercise.css','public/draft-answers.js','public/answer-fields.js','public/answer-bridge.js','public/widget-answers.js','public/field-feedback.js'
 ];
 export function runtimeFingerprint(){
  const digest=createHash('sha256');

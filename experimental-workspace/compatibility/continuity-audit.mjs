@@ -6,7 +6,7 @@ const catalog=JSON.parse(await readFile(new URL('../application/server/exercise-
 const expected=catalog.exercises.filter(e=>e.activation.state==='enabled').map(e=>e.id);
 const base='http://localhost:3100',backend=process.env.PICKER_BACKEND_URL??'http://workspace:3000';
 const output=process.env.COMPATIBILITY_OUTPUT??'/artifacts';
-const report={schemaVersion:1,observedAt:new Date().toISOString(),runtimeFingerprint:runtimeFingerprint(),scope:'Default catalog browser audit; random session seeds; desktop Chromium. No positive-answer oracle or outage simulation.',exercises:[]};
+const report={schemaVersion:1,observedAt:new Date().toISOString(),runtimeFingerprint:runtimeFingerprint(),scope:'Default catalog browser audit; random session seeds; desktop Chromium. Draft-enabled baseline. No positive-answer oracle or actual renderer outage.',exercises:[]};
 const check=(value,code)=>{if(!value)throw new Error('AUDIT_'+code);};
 const equal=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 const ready=page=>page.waitForFunction(()=>{const b=document.querySelector('#check-answer');return b&&!b.disabled&&!b.closest('[hidden]');});
@@ -38,7 +38,9 @@ try{
    await page.reload();await ready(page);
    row.sameExerciseBeforeGrading=identity(page)===session&&equal(await question(page),initialQuestion);
    row.uncheckedDraftRestored=equal(await collect(page),unchecked);
-   check(row.sameExerciseBeforeGrading&&!row.uncheckedDraftRestored&&equal(await collect(page),initial),'UNCHECKED_REFRESH');
+      check(row.sameExerciseBeforeGrading&&row.uncheckedDraftRestored,'UNCHECKED_REFRESH');
+   await frame(page).evaluate(()=>{for(const node of document.querySelectorAll('#problem_body input,#problem_body textarea')){if(['checkbox','radio'].includes(node.type))node.checked=false;else if(node.type==='text'||node.tagName==='TEXTAREA')node.value='';node.dispatchEvent(new Event('input',{bubbles:true}));node.dispatchEvent(new Event('change',{bubbles:true}));}});
+   check(equal(await collect(page),initial),'CLEAR_DRAFT');
    const grading=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/answers'));
    await page.locator('#check-answer').click();const response=await grading;check(response.status()===200,'BLANK_GRADE');
    const graded=await response.json();await ready(page);check(graded.submission.score===0,'BLANK_SCORE');
@@ -60,13 +62,13 @@ try{
    const calls=grades;await page.waitForTimeout(200);row.noAutomaticGradeRetry=grades===calls;
    check(row.failedCheckPreservesInputs&&row.noAutomaticGradeRetry,'FAILED_CHECK');await page.unroute(pattern,fail);
    await page.reload();await ready(page);row.editsAfterCheckRestored=equal(await collect(page),draft);
-   check(!row.editsAfterCheckRestored&&equal(await collect(page),submitted),'CHECKED_DRAFT_REFRESH');
+   check(row.editsAfterCheckRestored&&equal(await collect(page),draft),'CHECKED_DRAFT_REFRESH');
    const restorePattern='**/api/sessions/'+session;
    const unavailable=route=>route.fulfill({status:503,json:{error:{code:'RENDERER_UNAVAILABLE',message:'The exercise service is temporarily unavailable.'}}});
    await page.route(restorePattern,unavailable);await page.reload();await page.locator('#exercise-content [role=alert]').waitFor({state:'visible'});
    check(identity(page)===session&&starts===1,'RESTORE_FAILURE_REROLL');await page.unroute(restorePattern,unavailable);
    await page.locator('#exercise-content').getByRole('button',{name:'Try again',exact:true}).click();await ready(page);
-   row.loadFailureRetrySameSession=identity(page)===session&&starts===1&&equal(await collect(page),submitted);
+   row.loadFailureRetrySameSession=identity(page)===session&&starts===1&&equal(await collect(page),draft);
    check(row.loadFailureRetrySameSession,'RESTORE_RETRY');
    const text=frame(page).locator('#problem_body input[type=text],#problem_body input:not([type]),#problem_body textarea');
    if(await text.count()){

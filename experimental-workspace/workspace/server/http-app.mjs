@@ -166,6 +166,7 @@ const publicFiles = new Map([
   ['/assets/exercise-frame.js', ['exercise-frame.js', 'text/javascript; charset=utf-8']],
   ['/assets/widget-answers.js', ['widget-answers.js', 'text/javascript; charset=utf-8']],
   ['/assets/field-feedback.js', ['field-feedback.js', 'text/javascript; charset=utf-8']],
+  ['/assets/draft-answers.js', ['draft-answers.js', 'text/javascript; charset=utf-8']],
   ['/assets/answer-fields.js', ['answer-fields.js', 'text/javascript; charset=utf-8']],
   ['/assets/answer-bridge.js', ['answer-bridge.js', 'text/javascript; charset=utf-8']],
 ].map(([path, [file, contentType]]) => [path, {

@@ -962,3 +962,97 @@ test('approved multi-subject batch is selectable and disabled candidates stay pr
   const status=await page.evaluate(async exerciseId=>(await fetch('/api/sessions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({exerciseId})})).status,id);assert.equal(status,404);
  }
 });
+
+async function draftAnswers(page){return page.evaluate(async()=> (await (await import('/assets/picker.js')).collectCurrentAnswers()).answers);}
+async function draftReady(page){await page.waitForFunction(()=>{const button=document.querySelector('#check-answer');return button&&!button.disabled&&!button.closest('[hidden]');});}
+async function gradeDraft(page){const response=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/answers'));await page.locator('#check-answer').click();assert.equal((await response).status(),200);await draftReady(page);}
+
+test('drafts preserve every enabled native exercise, whitespace and repeated-name choices across refresh', {timeout:180_000}, async t=>{
+ const page=await pageFor(t,{width:390,height:844});await page.goto(baseUrl);await choices(page);
+ const exercises=await page.evaluate(async()=> (await fetch('/api/exercises')).json());
+ for(const exercise of exercises.exercises){
+  await page.locator('.exercise-choice[data-exercise-id="'+exercise.id+'"]').click();await draftReady(page);
+  const id=sessionId(page),frame=page.frameLocator('.exercise-frame');
+  for(const input of await frame.locator('#problem_body input[type=text],#problem_body input:not([type]),#problem_body textarea').all())await input.fill('  <1, 2, 3>  ');
+  const groups=await frame.locator('#problem_body input[type=radio]').evaluateAll(nodes=>[...new Set(nodes.map(n=>n.name))]);
+  for(const name of groups)await frame.locator('input[type=radio][name="'+name+'"]').first().check();
+  const boxes=frame.locator('#problem_body input[type=checkbox]');for(let i=0;i<Math.min(2,await boxes.count());i++)await boxes.nth(i).check();
+  const before=await draftAnswers(page);await page.locator('#draft-status').getByText(/Draft saved/).waitFor();
+  if(exercise.id==='compat-algebra-checkbox-01')assert.ok(before.entries.some(([name])=>before.entries.filter(([key])=>key===name).length>1));
+  await page.reload();await draftReady(page);assert.equal(sessionId(page),id);assert.deepEqual(await draftAnswers(page),before);
+  if(await boxes.count()){
+   for(const box of await boxes.all())await box.uncheck();const cleared=await draftAnswers(page);await page.reload();await draftReady(page);assert.deepEqual(await draftAnswers(page),cleared);
+  }
+ }
+});
+
+test('draft overrides checked answers, marks feedback stale, and clears only after those edits are checked', {timeout:90_000}, async t=>{
+ const page=await pageFor(t);await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();await draftReady(page);
+ await gradeDraft(page);const original=await ownedSnapshot(page),id=sessionId(page);
+ const input=page.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]');await input.fill(' 7 + 3 ');const draft=await draftAnswers(page);
+ await page.reload();await draftReady(page);assert.deepEqual(await draftAnswers(page),draft);await page.locator('#result-stale').waitFor({state:'visible'});
+ assert.deepEqual((await ownedSnapshot(page)).submission,original.submission);
+ await gradeDraft(page);assert.equal(await page.evaluate(id=>sessionStorage.getItem('practice-draft:v1:'+id),id),null);
+ const checked=await ownedSnapshot(page);await page.reload();await draftReady(page);assert.deepEqual(await draftAnswers(page),draft);assert.deepEqual((await ownedSnapshot(page)).submission,checked.submission);assert.equal(await page.locator('#result-stale').isVisible(),false);
+});
+
+test('draft retains edits made during accepted grading when the response is lost', {timeout:90_000}, async t=>{
+ const page=await pageFor(t);await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();await draftReady(page);
+ const input=page.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]');await input.fill('1');await draftAnswers(page);
+ let release;const waiting=new Promise(resolve=>{release=resolve;});let accept;const accepted=new Promise(resolve=>{accept=resolve;});
+ await page.route('**/api/sessions/*/answers',async route=>{const response=await route.fetch({url:route.request().url().replace(baseUrl,backendUrl)});assert.equal(response.status(),200);accept();await waiting;await route.abort('failed');});
+ await page.locator('#check-answer').click();await accepted;await input.fill(' 99 + 1 ');const newer=await draftAnswers(page);release();await page.locator('#submission-error').waitFor({state:'visible'});
+ const saved=await ownedSnapshot(page);await page.unroute('**/api/sessions/*/answers');await page.reload();await draftReady(page);
+ assert.deepEqual(await draftAnswers(page),newer);assert.deepEqual((await ownedSnapshot(page)).submission,saved.submission);await page.locator('#result-stale').waitFor({state:'visible'});
+});
+
+test('new versions and other owners never receive the original session draft', {timeout:90_000}, async t=>{
+ const page=await pageFor(t);await page.goto(baseUrl);await choices(page);const choice=page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'});await choice.click();await draftReady(page);
+ const oldId=sessionId(page);await page.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').fill('draft in original');const before=await draftAnswers(page);
+ const stored=await page.evaluate(id=>sessionStorage.getItem('practice-draft:v1:'+id),oldId);
+ await choice.click();await draftReady(page);assert.notEqual(sessionId(page),oldId);assert.ok((await draftAnswers(page)).entries.every(([,v])=>v===''));
+ await page.goBack();await draftReady(page);assert.equal(sessionId(page),oldId);assert.deepEqual(await draftAnswers(page),before);
+ const stranger=await pageFor(t);await stranger.addInitScript(({id,stored})=>sessionStorage.setItem('practice-draft:v1:'+id,stored),{id:oldId,stored});await stranger.goto(baseUrl+'/?session='+oldId);await stranger.locator('#exercise-content [role=alert]').waitFor();assert.equal(await stranger.locator('.exercise-frame').count(),0);assert.equal(await stranger.locator('#draft-status').isVisible(),false);
+});
+
+test('unavailable storage and corrupt drafts leave answers editable and report the problem', {timeout:90_000}, async t=>{
+ const page=await pageFor(t);await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();await draftReady(page);
+ const id=sessionId(page);await page.evaluate(id=>sessionStorage.setItem('practice-draft:v1:'+id,'{broken'),id);await page.reload();await draftReady(page);await page.locator('#draft-status').getByText(/could not be restored/).waitFor();
+ await page.evaluate(()=>{Storage.prototype.setItem=function(){throw new DOMException('Quota','QuotaExceededError');};});
+ await page.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').fill('keep me');await draftAnswers(page);await page.locator('#draft-status').getByText(/could not be saved/).waitFor();assert.equal(await page.locator('#check-answer').isEnabled(),true);assert.equal(await page.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').inputValue(),'keep me');
+});
+
+test('native draft adapter restores repeated values, cleared groups and selects atomically, rejecting helpers',async t=>{
+ const page=await pageFor(t);await page.goto(baseUrl);const result=await page.evaluate(async()=>{
+  const {collectAnswerFields,restoreAnswerFields}=await import('/assets/answer-fields.js');
+  const root=document.createElement('div');root.innerHTML='<input name="text" value="old"><input name="choices" type="checkbox" value="x"><input name="choices" type="checkbox" value="x"><input name="radio" type="radio" value="a"><input name="radio" type="radio" value="b"><select name="select" multiple><option>a</option><option>b</option></select><input name="sessionJWT" value="private-helper">';
+  const desired={fieldNames:['text','choices','radio','select'],entries:[['text',' <2, 3> '],['choices','x'],['choices','x'],['select','a'],['select','b']]};
+  restoreAnswerFields(root,desired);const restored=collectAnswerFields(root);let rejected=false;
+  try{restoreAnswerFields(root,{...desired,entries:[['text','tampered'],['choices','unknown']]});}catch{rejected=true;}
+  const unchanged=JSON.stringify(collectAnswerFields(root))===JSON.stringify(restored);
+  restoreAnswerFields(root,{...desired,entries:[['text','']]});
+  return {restored,rejected,unchanged,helper:root.querySelector('[name=sessionJWT]').value,cleared:collectAnswerFields(root)};
+ });assert.equal(result.rejected,true);assert.equal(result.unchanged,true);assert.equal(result.helper,'private-helper');assert.deepEqual(result.restored.entries,[['text',' <2, 3> '],['choices','x'],['choices','x'],['select','a'],['select','b']]);assert.deepEqual(result.cleared.entries,[['text','']]);
+});
+
+test('a newer checked result wins over an older draft in this tab', {timeout:90_000},async t=>{
+ const page=await pageFor(t);await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice').filter({hasText:'Dot products and vector operations'}).click();await draftReady(page);await gradeDraft(page);
+ await page.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').fill('older local draft');await draftAnswers(page);
+ const id=sessionId(page),advanced=await page.evaluate(async id=>{
+  const response=await fetch('/api/sessions/'+id+'/answers',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({answers:[['AnSwEr0001','2']]})});if(!response.ok)throw new Error('Could not advance saved result');return response.json();
+ },id);
+ await page.reload();await draftReady(page);await page.locator('#draft-status').getByText(/newer checked result/).waitFor();
+ assert.equal(await page.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').inputValue(),'2');assert.deepEqual((await ownedSnapshot(page)).submission,advanced.submission);assert.equal(await page.locator('#result-stale').isVisible(),false);
+});
+
+test('native input events autosave without requesting collection or grading', {timeout:90_000},async t=>{
+ const page=await pageFor(t);await page.goto(baseUrl);await choices(page);await page.locator('.exercise-choice[data-exercise-id="compat-algebra-checkbox-01"]').click();await draftReady(page);
+ let grades=0;page.on('request',r=>{if(r.method()==='POST'&&r.url().endsWith('/answers'))grades++;});
+ const frame=page.frameLocator('.exercise-frame'),text=frame.locator('#problem_body input[type=text]').first(),box=frame.locator('#problem_body input[type=checkbox]').first();
+ const textName=await text.getAttribute('name'),boxName=await box.getAttribute('name'),boxValue=await box.getAttribute('value'),id=sessionId(page);
+ await text.fill('  preserve this exactly  ');await box.check();
+ await page.waitForFunction(({id,textName,boxName,boxValue})=>{
+  const record=JSON.parse(sessionStorage.getItem('practice-draft:v1:'+id)||'null');return record?.answers.entries.some(([name,value])=>name===textName&&value==='  preserve this exactly  ')&&record.answers.entries.some(([name,value])=>name===boxName&&value===boxValue);
+ },{id,textName,boxName,boxValue});
+ await page.reload();await draftReady(page);assert.equal(await text.inputValue(),'  preserve this exactly  ');assert.equal(await box.isChecked(),true);assert.equal(grades,0);
+});

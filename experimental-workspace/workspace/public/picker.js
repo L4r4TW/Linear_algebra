@@ -1,3 +1,4 @@
+import {createDraftStore,planDraftRestoration,sameEntries} from '/assets/draft-answers.js';
 import { matchesSubmittedAnswers } from '/assets/field-feedback.js';
 import { createAnswerBridge, AnswerBridgeError } from '/assets/answer-bridge.js';
 import { buildExerciseDocument } from '/assets/exercise-frame.js';
@@ -10,6 +11,8 @@ const panel = document.querySelector('#practice');
 const count = document.querySelector('#exercise-count');
 const savedLabel = document.querySelector('#session-status');
 const notice = document.querySelector('#exercise-notice');
+const draftStatus = document.querySelector('#draft-status');
+const draftStore=createDraftStore();
 const controls = document.querySelector('#practice-controls');
 const checkButton = document.querySelector('#check-answer');
 const checkLabel = document.querySelector('#check-answer-label');
@@ -213,10 +216,59 @@ async function loadCatalog() {
   }
 }
 
+function draftNotice(message) {
+  draftStatus.hidden=!message;
+  if(draftStatus.textContent!==message)draftStatus.textContent=message;
+}
+function persistDraft(state,answers) {
+  if(frameState!==state||!state.draftReady||!answers)return;
+  state.lastDraftSnapshot=structuredClone(answers);
+  try{
+    const baseline=state.lastSubmission?.answers??state.initialAnswers.entries;
+    if(!state.pendingDraft&&sameEntries(answers.entries,baseline)){
+      draftStore.remove(state.session);
+      draftNotice(state.lastSubmission?'Checked answers saved. No unfinished changes.':'');
+    }else{
+      draftStore.write(state.session,state.lastSubmission,answers,state.pendingDraft??null);
+      draftNotice('Draft saved in this tab. Changes have not been checked.');
+    }
+  }catch{
+    draftNotice('Draft could not be saved in this tab. Keep this page open to avoid losing unfinished answers.');
+  }
+}
+async function initializeDraft(state) {
+  const initial=await state.answerBridge.collect();
+  if(frameState!==state)return;
+  state.initialAnswers=initial;
+  let restored;
+  try{
+    const record=draftStore.read(state.session);
+    const plan=planDraftRestoration(record,state.session,state.lastSubmission,initial.fieldNames);
+    if(plan.action==='restore'){
+      restored=await state.answerBridge.restoreDraft(plan.answers);
+      if(frameState!==state)return;
+      state.pendingDraft=plan.pending;
+      draftNotice('Draft restored in this tab. Changes have not been checked.');
+    }else if(plan.action==='clear')draftStore.remove(state.session);
+    else if(plan.action==='ignore')draftNotice(plan.reason==='newer-result'
+      ?'A newer checked result is available. This tab’s older draft was not applied.'
+      :'The saved draft does not match these answer fields. Checked answers are shown.');
+  }catch{
+    draftNotice('The saved draft could not be restored. Checked answers are shown; keep this page open while editing.');
+  }
+  if(frameState!==state)return;
+  state.draftReady=true;
+  state.lastDraftSnapshot=restored??initial;
+  if(restored){
+    try{draftStore.write(state.session,state.lastSubmission,restored,state.pendingDraft??null);}
+    catch{draftNotice('Draft restored, but further changes cannot be saved in this tab. Keep this page open.');}
+  }
+}
 function clearFrame() {
   submission?.controller.abort();
   submission = undefined;
   submissionStatus.textContent = '';
+  draftNotice('');
   resultPanel.hidden = true;
   delete resultPanel.dataset.submissionId;
   resultStale.hidden = true;
@@ -245,7 +297,15 @@ function resetPanel() {
   selectCurrent();
 }
 
-function finishFrame(error = false) {
+async function finishFrame(error = false) {
+  const state=frameState;
+  if(!state||state.resourceFailed||state.initializing)return;
+  if(!state.draftReady){
+    state.initializing=true;
+    try{await initializeDraft(state);}catch{draftNotice('Draft saving is unavailable. Keep this page open to preserve unfinished answers.');}
+    finally{state.initializing=false;}
+    if(frameState!==state||state.resourceFailed)return;
+  }
   if (!frameState || frameState.resourceFailed) return;
   clearTimeout(frameTimer);
   const firstReady = !frameState.ready;
@@ -294,7 +354,7 @@ function displaySession(data, { focusAt = interaction } = {}) {
   const warning = element('div', undefined, 'notice');
   warning.setAttribute('role', 'alert');
   warning.hidden = true;
-  warning.append(element('span', 'Math formatting could not load.'), action('Retry formatting', () => frameState?.resourceFailed ? void openExercise({sessionId:data.session.id}) : displaySession(data)));
+  warning.append(element('span', 'Math formatting could not load.'), action('Retry formatting', () => void openExercise({sessionId:data.session.id})));
   content.replaceChildren(progress, warning, frame);
   const answerBridge = createAnswerBridge({
     frame,
@@ -304,13 +364,14 @@ function displaySession(data, { focusAt = interaction } = {}) {
     onChange(answers) {
       if (frameState?.frame !== frame) return;
       displayResult(frameState.lastSubmission, answers.entries);
+      persistDraft(frameState,answers);
       panel.dispatchEvent(new CustomEvent('exercise-answers-change', {
         bubbles: true,
         detail: { sessionId: data.session.id, answers },
       }));
     },
   });
-  frameState = { frame, channel, progress, warning, answerBridge, sessionId: data.session.id, lastSubmission: data.submission ?? null, focusAt };
+  frameState = { frame, channel, progress, warning, answerBridge, session: data.session, sessionId: data.session.id, lastSubmission: data.submission ?? null, focusAt };
   frameTimer = setTimeout(() => {
     if (data.exercise.resources?.dependencies?.length) {
       frameState.resourceFailed=true;
@@ -392,6 +453,8 @@ async function submitCurrentAnswers() {
   try {
     const snapshot = await collectCurrentAnswers();
     if (submission !== attempt || frameState !== current) return;
+    current.pendingDraft=snapshot.answers;
+    persistDraft(current,snapshot.answers);
     const data = await request('/api/sessions/' + encodeURIComponent(current.sessionId) + '/answers', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -403,6 +466,8 @@ async function submitCurrentAnswers() {
       throw new Error('The checking response could not be confirmed.');
     }
     current.lastSubmission = data.submission;
+    current.pendingDraft=null;
+    persistDraft(current,current.answerBridge.getSnapshot()??snapshot.answers);
     current.answerBridge.showFeedback(data.submission.fieldFeedback ?? [], data.submission.answers);
     displayResult(data.submission, current.answerBridge.getSnapshot()?.entries);
     submissionStatus.textContent = 'Submitted answers checked and saved.';

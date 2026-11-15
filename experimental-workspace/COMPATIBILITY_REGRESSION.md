@@ -75,3 +75,7 @@ The preceding 2026-11-15 baseline run completed all 44 cases: **42 passed and 2 
 ## Catalog activation verification
 
 The latest fingerprinted run attempted all 44 cases: 42 passed and both touch-mobile GraphTool cases failed. Seed 1234 failed positive grading; seed 4321 failed earlier at keyboard Tab reachability. The full sanitized report and per-case phases/checks retain those exact failures; the strict command still exits nonzero. Six individually verified exercises are now enabled through the reviewed local batch, while all five candidates with limits or failures remain disabled. See [CATALOG_STATUS.md](compatibility/CATALOG_STATUS.md). The publisher verifies both runtime and exact fixture-manifest fingerprints before producing reviewable evidence. Existing manual release checks and the separate real renderer-outage check still apply.
+
+## Draft-enabled runtime verification
+
+After native tab drafts were implemented, all 44 seeded cases were rerun against the new runtime fingerprint. Forty-two pass; both mobile GraphTool positive-grading cases fail. The full gate remains nonzero, the six active entries have renewed matching evidence, and the same five limited/unsupported candidates remain disabled. Current checks pass 108 server tests, 37 browser checks, 14 publisher/report tests and the revised six-entry continuity audit. Read [DRAFT_PERSISTENCE.md](DRAFT_PERSISTENCE.md) for tab scope and precedence. Earlier seed-4321 keyboard failure details above describe the prior run.
