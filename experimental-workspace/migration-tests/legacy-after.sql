@@ -1,0 +1,4 @@
+DO $$ DECLARE t record;fingerprint text;BEGIN FOR t IN SELECT * FROM migration_test.legacy_fingerprints LOOP EXECUTE format('SELECT md5(coalesce(jsonb_agg(to_jsonb(x) ORDER BY id)::text,''[]'')) FROM public.%I x',t.name) INTO fingerprint;PERFORM migration_test.ok('Legacy data preserved: '||t.name,fingerprint=t.digest);END LOOP;END $$;
+
+SELECT migration_test.reject('Legacy student cannot self-assign admin',$q$SET LOCAL ROLE authenticated;SELECT set_config('request.jwt.claim.sub','11111111-1111-4111-8111-111111111111',true);UPDATE public.profiles SET role='admin' WHERE id='11111111-1111-4111-8111-111111111111'$q$,'42501');
+SELECT migration_test.actor_ok('Legacy own-profile edits remain available','11111111-1111-4111-8111-111111111111',$q$WITH edited AS(UPDATE public.profiles SET username=username WHERE id='11111111-1111-4111-8111-111111111111' RETURNING id) SELECT count(*)=1 FROM edited$q$);

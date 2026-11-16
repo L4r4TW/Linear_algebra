@@ -1,0 +1,5 @@
+# Keep additive migration evidence hashes stable across Windows/Linux checkouts.
+supabase/migrations/20261116*.sql text eol=lf
+experimental-workspace/migration-tests/*.sql text eol=lf
+experimental-workspace/migration-tests/*.ps1 text eol=lf
+experimental-workspace/migration-tests/*.json text eol=lf

@@ -2,6 +2,8 @@
 
 This project uses Supabase Postgres, Supabase Auth, and row-level security policies.
 
+The new full-library catalog/private practice migrations are documented separately in [DATABASE_MIGRATIONS.md](experimental-workspace/DATABASE_MIGRATIONS.md) and [migration ordering](supabase/migrations/README.md). They have local fresh/upgrade evidence and are not deployed or connected to the apps. The setup below describes the original authored app; do not run its destructive base schema to upgrade an existing database.
+
 The database files are split into:
 
 - `supabase/schema.sql`: base development schema.

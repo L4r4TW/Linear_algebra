@@ -29,7 +29,17 @@ The new verify-continuity.ps1 runs the server/catalog/browser suite and real des
 
 Next release checks: actual NVDA/VoiceOver listening and physical mobile devices. Before account/public scale, decide draft conflict recovery, cross-device persistence, durable attempt history, request idempotency and distributed locking. Keep the future whole-library importer behind capability verification; this milestone enables no additional exercises. Run git status/log to confirm commit and push state.
 
-## Current work: database constraints and query patterns (5.7)
+## Current milestone: additive migrations and validation (5.8)
+
+Task 5.7 was committed/pushed as `df5c369`. Task 5.8 is implemented in [DATABASE_MIGRATIONS.md](experimental-workspace/DATABASE_MIGRATIONS.md), with [five ordered additive migrations](supabase/migrations/README.md). They create the catalog/provenance/taxonomy/metadata/evidence groups and private ownership/practice records, forced RLS and narrowly projected catalog/owner RPCs, immutable published evidence/release boundaries, computed eligibility, publication CAS and backend-only claim/draft/submission transaction functions. Existing public authored data remains separate; browser role self-promotion is blocked by an additive profile trigger.
+
+Fresh [migration observations](experimental-workspace/migration-tests/migration-observations.json): **134 PostgreSQL checks pass** (63 fresh / 71 legacy upgrade), including six legacy-table fingerprints, cross-account access, direct private-data/function denial, suppressed-feedback redaction, incomplete/failed evidence rejection, atomic accepted-result/token persistence and rollback, explicit claims, bootstrap replay and actual two-connection draft-lock/CAS races in both databases. There are 57 new tables and eleven retained aliases. The inspected digest-pinned PostgreSQL 16.16 container has no network, ports, host/application volumes and is removed in finally. Only synthetic Auth/users/answers are used; this is SQL role/RLS evidence, not hosted Supabase or HTTP JWT verification.
+
+Reproduce from the root with `powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace/migration-tests/verify-migrations.ps1`. Exact migration/test hashes are recorded. The eleven-entry bootstrap publishes metadata only, with no database activation or fabricated compatibility/account/session history. Neither app has a new database adapter; the experimental UI still uses its six enabled JSON entries and existing anonymous session persistence. No hosted project, live student work, OPL/session volume, renderer or running app was changed. Earlier renderer/browser counts remain historical. Inspect Git status/log for commit/push state.
+
+Next: a restartable full-library metadata importer and server database adapter, followed by paginated topic/search discovery and the planned home/subject-chapter-section UI. Keep unknown classifications/metadata explicit and imported entries disabled until exact capability evidence and publication exist. Before applying these migrations to a hosted project, inspect its version/history/roles/API exposure and rehearse on staging; never use the destructive base schema or 5.7 lab SQL as an upgrade. Account/guest proof verification, HTTP/RPC integration, encryption/retention and end-to-end service orchestration remain integration work.
+
+## Completed model: database constraints and query patterns (5.7)
 
 Task 5.6 was committed/pushed as `a62617a`. Task 5.7 is defined in [DATABASE_DESIGN.md](experimental-workspace/DATABASE_DESIGN.md), with concrete keys/FKs/checks, indexes, pagination/search/ownership queries, lock/CAS/idempotency protocols and a clear boundary between prototype coverage and remaining production DDL. The guarded database-lab SQL is an isolated prototype, not a Supabase migration or a complete production schema.
 
@@ -37,7 +47,7 @@ Fresh [database observations](experimental-workspace/catalog-model/database-desi
 
 Reproduce from the root with catalog-model/verify-database-design.ps1; the existing workspace/renderer need not run. The lab requires Docker and its pinned PostgreSQL image, uses temporary memory-backed data/WAL settings and records SQL hashes/configuration. Do not run model_lab/schema SQL in Supabase or replace legacy public tables. Existing renderer/browser compatibility counts remain historical; inspect Git status/log for this task's commit/push state.
 
-Next: **5.8 — additive migrations and database validation**. Confirm target PostgreSQL/Supabase version, actual migration state and intended roles/schema exposure; implement remaining import/metadata/evidence/event/credential groups and production grants/RLS/immutable-publication procedures. Test fresh setup plus non-destructive upgrades/backfills, actual authorization and service transaction races before connecting the importer/accounts/discovery UI.
+The additive migration follow-up (5.8) is now implemented and validated locally; see the current milestone above. Hosted deployment and operational importer/account/discovery integration remain separate.
 
 ## Completed model: student-record relationships and privacy (5.6)
 

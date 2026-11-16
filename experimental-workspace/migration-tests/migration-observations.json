@@ -1,0 +1,627 @@
+{
+    "version":  1,
+    "observedAt":  "2026-11-16T11:29:48.4814969Z",
+    "imageDigest":  "postgres@sha256:a49f7438ba03589f9b1ca062f2da82e899b48ea1dc50d2449fa09a70be83ebca",
+    "scope":  "Fresh and authored-app upgrade on isolated PostgreSQL with test-only Auth context, not hosted Supabase or HTTP JWT validation",
+    "network":  "none",
+    "hostOrApplicationVolumesMounted":  false,
+    "liveStudentRecordsRead":  0,
+    "actualConcurrentRaceVerified":  true,
+    "testSourceHashes":  [
+                             {
+                                 "name":  "checks.sql",
+                                 "sha256":  "6ff3673262bc0b66b410302663dd62d9c6ffe59a2c4d5d0ad42f0771a5a6783e"
+                             },
+                             {
+                                 "name":  "legacy-after.sql",
+                                 "sha256":  "b8f01968a866efcd26e2b75975774aba80b23836032c3a77e67f1b3592f9c1aa"
+                             },
+                             {
+                                 "name":  "legacy-before.sql",
+                                 "sha256":  "159281b9942f720669f6204a1a3bbcc914090f6a6dbc676a4910a5490dc4d37a"
+                             },
+                             {
+                                 "name":  "model-fixtures.sql",
+                                 "sha256":  "7221060a6fc6b72f2c6f737cfad592a072f4a8c4dc704b05d4584e9995416568"
+                             },
+                             {
+                                 "name":  "negative-evidence.sql",
+                                 "sha256":  "b5d4bda8723c03dbeccef4211c8d3507069634614ac9a6398e6d08e9b0f4bd2d"
+                             },
+                             {
+                                 "name":  "platform.sql",
+                                 "sha256":  "1ad5b75c51891454fe5ae548daef1e09d5a1a23e299d4e7237508940c9201f05"
+                             },
+                             {
+                                 "name":  "race-a.sql",
+                                 "sha256":  "d1d1744799f3eac8a65421e7c4c1ec6412a6603b510e2b873c6ad20971a08fff"
+                             },
+                             {
+                                 "name":  "race-b.sql",
+                                 "sha256":  "4bb56b860bac2be9c4b7cdb0b7c443dc6ac0bfd30e99a531e7fe47a9d69634f1"
+                             },
+                             {
+                                 "name":  "verify-migrations.ps1",
+                                 "sha256":  "4659186a56e7e96f2bf17ea5a092b2640b75ec2ec15be3517c2b915574984f1a"
+                             }
+                         ],
+    "reports":  [
+                    {
+                        "checks":  [
+                                       {
+                                           "name":  "Accepted attempt and renderer generation persist together",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Accepted-response replay does not create another attempt",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Account A reads only its own session rows",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Account B cannot read account A session",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "All definer functions pin their search path",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "All new tables have forced row security",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "A newly checked baseline blocks old draft save",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Anonymous role cannot execute owner RPC",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "A second account still sees only its own work",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Authenticated role cannot select even owned raw scores",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Authenticated role cannot select renderer seeds",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Bootstrap replay preserves permanent alias identities",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Browser cannot call backend claim function",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Browser roles have no membership in reader role",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Canonical feedback rejects missing keys and out-of-range scores",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Canonical feedback validators reject private/incorrect shapes",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Catalog source aliases indexed without activation",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Claimed work joins only the owning account view",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Claim is blocked while renderer execution is uncertain",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Claim replay is idempotent",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Claim retires the old credential",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Closed verification runs cannot gain cases",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Complete synthetic evidence passes strict eligibility",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Concurrent draft writer A creates one revision",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Concurrent stale draft writer B cannot overwrite revision",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Consent for another account cannot claim the principal",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Cross-owner draft references are denied",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Disabled account loses native and claimed views",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Draft save creates its first revision",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Eligibility rejects failed-ownership",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Eligibility rejects missing-dimension",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Eligibility rejects observed-limitation",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Eligibility rejects source-unverified",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Eligibility rejects string-true",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Explicit claim links once without copying sessions",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "No automatic legacy or unknown history was fabricated",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "No fresh operation after withdrawal",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "No new function is executable by PUBLIC",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Null publication generation cannot bypass CAS",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Null withdrawal generation cannot bypass CAS",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Other account cannot retrieve saved answers",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Owner ordered answers restore without flattening choices",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Public metadata is opt-in unavailable listing",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Published member becomes available without enabling other entries",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Published metadata cannot reopen as draft",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Publishing explicit verified release advances generation",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Raw correct-answer feedback fields are rejected",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Reader role cannot read private tokens",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Reader role has no superuser, login or RLS bypass",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Real two-connection draft race preserves single revision",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Rejected feedback rolls back token, attempt and operation changes",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Repeated request key resolves the same operation",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Same request key cannot accept a different payload",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Sealed profile dimensions cannot be changed",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Second active operation is fenced",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Selected assessment evidence cannot be deleted",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Source identities cannot be rebound",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Stale publication generation conflicts",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Stale tab cannot overwrite server draft",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Started session source binding cannot be altered",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Suppressed grades and field messages are redacted for owner",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Unauthenticated Auth context sees no private sessions",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Withdrawing a release retains owner history but blocks new starts",
+                                           "passed":  true
+                                       }
+                                   ],
+                        "aliases":  11,
+                        "complete":  true,
+                        "newTables":  57,
+                        "databaseMode":  "migration_fresh",
+                        "postgresVersion":  "16.16 (Debian 16.16-1.pgdg12+1)"
+                    },
+                    {
+                        "checks":  [
+                                       {
+                                           "name":  "Accepted attempt and renderer generation persist together",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Accepted-response replay does not create another attempt",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Account A reads only its own session rows",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Account B cannot read account A session",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "All definer functions pin their search path",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "All new tables have forced row security",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "A newly checked baseline blocks old draft save",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Anonymous role cannot execute owner RPC",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "A second account still sees only its own work",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Authenticated role cannot select even owned raw scores",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Authenticated role cannot select renderer seeds",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Bootstrap replay preserves permanent alias identities",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Browser cannot call backend claim function",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Browser roles have no membership in reader role",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Canonical feedback rejects missing keys and out-of-range scores",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Canonical feedback validators reject private/incorrect shapes",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Catalog source aliases indexed without activation",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Claimed work joins only the owning account view",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Claim is blocked while renderer execution is uncertain",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Claim replay is idempotent",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Claim retires the old credential",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Closed verification runs cannot gain cases",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Complete synthetic evidence passes strict eligibility",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Concurrent draft writer A creates one revision",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Concurrent stale draft writer B cannot overwrite revision",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Consent for another account cannot claim the principal",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Cross-owner draft references are denied",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Disabled account loses native and claimed views",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Draft save creates its first revision",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Eligibility rejects failed-ownership",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Eligibility rejects missing-dimension",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Eligibility rejects observed-limitation",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Eligibility rejects source-unverified",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Eligibility rejects string-true",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Explicit claim links once without copying sessions",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Legacy data preserved: attempts",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Legacy data preserved: exercises",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Legacy data preserved: profiles",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Legacy data preserved: subthemes",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Legacy data preserved: themes",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Legacy data preserved: units",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Legacy own-profile edits remain available",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Legacy student cannot self-assign admin",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "No automatic legacy or unknown history was fabricated",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "No fresh operation after withdrawal",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "No new function is executable by PUBLIC",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Null publication generation cannot bypass CAS",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Null withdrawal generation cannot bypass CAS",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Other account cannot retrieve saved answers",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Owner ordered answers restore without flattening choices",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Public metadata is opt-in unavailable listing",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Published member becomes available without enabling other entries",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Published metadata cannot reopen as draft",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Publishing explicit verified release advances generation",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Raw correct-answer feedback fields are rejected",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Reader role cannot read private tokens",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Reader role has no superuser, login or RLS bypass",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Real two-connection draft race preserves single revision",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Rejected feedback rolls back token, attempt and operation changes",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Repeated request key resolves the same operation",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Same request key cannot accept a different payload",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Sealed profile dimensions cannot be changed",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Second active operation is fenced",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Selected assessment evidence cannot be deleted",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Source identities cannot be rebound",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Stale publication generation conflicts",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Stale tab cannot overwrite server draft",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Started session source binding cannot be altered",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Suppressed grades and field messages are redacted for owner",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Unauthenticated Auth context sees no private sessions",
+                                           "passed":  true
+                                       },
+                                       {
+                                           "name":  "Withdrawing a release retains owner history but blocks new starts",
+                                           "passed":  true
+                                       }
+                                   ],
+                        "aliases":  11,
+                        "complete":  true,
+                        "newTables":  57,
+                        "databaseMode":  "migration_upgrade",
+                        "postgresVersion":  "16.16 (Debian 16.16-1.pgdg12+1)"
+                    }
+                ],
+    "complete":  true,
+    "migrations":  [
+                       {
+                           "name":  "202611160001_catalog_and_practice_foundation.sql",
+                           "sha256":  "e5e8ae2d3a92953f4c4c08a2e04230bb369e98ee6f2fa3c2bb1593ee348ac89d"
+                       },
+                       {
+                           "name":  "202611160002_catalog_provenance_and_evidence.sql",
+                           "sha256":  "dddc585fc72a7d089c8a2b59d242073e592cfe5c2458cfa087b47a44e7818978"
+                       },
+                       {
+                           "name":  "202611160003_catalog_access_and_publication.sql",
+                           "sha256":  "1d8698064e10fc1cc108fa35dfba756c86df728e910ffcdf1e904d5c7d155718"
+                       },
+                       {
+                           "name":  "202611160004_bootstrap_existing_opl_metadata.sql",
+                           "sha256":  "96dcc401cb04eaed6752f4b4f9c8b79750f54b735e08117afbc5634e797fd3f4"
+                       },
+                       {
+                           "name":  "202611160005_practice_atomic_operations.sql",
+                           "sha256":  "25c898cffe9785c9a0c7133cbdfb208b05b0487af83bdfd6f4fde0c8902cb4a1"
+                       }
+                   ]
+}

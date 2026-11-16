@@ -141,3 +141,6 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace
 The image is digest-pinned in the script; Docker may download it on first use. The runner checks isolation, waits for the final PostgreSQL server (not its temporary init server), loads synthetic SQL, validates the coordinated race, records natural query plans and copies only sanitized observations. It does not require the existing workspace/renderer to run and never mounts their data.
 
 Before task 5.8: confirm the target PostgreSQL/Supabase version, actual existing migration state and intended schema/role exposure; preserve root authored data and existing aliases. Convert the agreed design into additive ordered migrations, implement the remaining groups/permission/immutable-publication guards, and test fresh install plus upgrades/backfills on disposable databases. Validate actual RLS/RPC and concurrent service protocols before connecting accounts/importer/UI. Do not run database-lab/schema.sql or the destructive root supabase/schema.sql as an upgrade.
+
+
+The follow-up is now implemented as [additive migrations and validation (5.8)](DATABASE_MIGRATIONS.md). The 5.7 results above remain prototype evidence; use the new migration runner for the actual additive DDL and access controls.
