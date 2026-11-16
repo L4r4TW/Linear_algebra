@@ -1,0 +1,114 @@
+{
+    "version":  1,
+    "observedAt":  "2026-11-16T23:37:38.676Z",
+    "scope":  "Task 9 real catalog chooser and temporary owned prototype session; no activation or account assertions",
+    "desktopColumns":  true,
+    "dependentSelection":  true,
+    "urlHistory":  true,
+    "keyboard":  true,
+    "libraryNoPractice":  true,
+    "mobileStack":  true,
+    "missingMetadata":  true,
+    "staleRecovery":  true,
+    "definedPlanStart":  true,
+    "blockedStorageNoStart":  true,
+    "complete":  true,
+    "sourceHashes":  [
+                         {
+                             "file":  "catalog.mjs",
+                             "sha256":  "0158c73367c1444d24c01f2c7addd23057ea99a2fd659b510e6f5c5edead08b4"
+                         },
+                         {
+                             "file":  "chooser.mjs",
+                             "sha256":  "58167f6d3a498603087e67bdbe19325e538caf54c8bf222d4e1e3d450c9e6301"
+                         },
+                         {
+                             "file":  "server.mjs",
+                             "sha256":  "2332d158682b3ab19bfdb3ed565c6effba38ec8233d8f4b4d441b1e459b49cde"
+                         },
+                         {
+                             "file":  "practice-metadata.json",
+                             "sha256":  "4068fd65c363f111f9762271f15c2e52b64baeb072b41a5fbe9be77339587f43"
+                         },
+                         {
+                             "file":  "package.json",
+                             "sha256":  "13096eaeaa0beaa4bea61d639199c063fad4eef097cc0ffb1380592c82326c02"
+                         },
+                         {
+                             "file":  "public/index.html",
+                             "sha256":  "87b73021e923bcb89025153b9d920822f8e30b7c8bb8dc7a2a37252ebef37526"
+                         },
+                         {
+                             "file":  "public/home.js",
+                             "sha256":  "b545b3d51035af47482da920d70ba995cbed134f6461975c6803a0ef23e79648"
+                         },
+                         {
+                             "file":  "public/home.css",
+                             "sha256":  "0e05588b2a64798f466b81b86f8ec89ef477853da77191f8b5e3fc3cea639b3f"
+                         },
+                         {
+                             "file":  "public/chooser.html",
+                             "sha256":  "5c2862a3f5835f084d35e06de95b44dc7eb815ee5d724f03e685bd76583901c4"
+                         },
+                         {
+                             "file":  "public/chooser.js",
+                             "sha256":  "6cbc49f548e290035160fca6664e20f7fa01e38c8b89fe07e699b34e35b1d752"
+                         },
+                         {
+                             "file":  "public/chooser.css",
+                             "sha256":  "3384d77479da0bbaa8de2765aeb648076fa2d0d01c1e1c44cab1da45d3cb9fbd"
+                         },
+                         {
+                             "file":  "public/practice-plan-store.js",
+                             "sha256":  "414237e32fe8241058cbd9f88ca09ed853dc8ea936b5127d6daac7bb9c6d21b4"
+                         },
+                         {
+                             "file":  "catalog.test.mjs",
+                             "sha256":  "b10e81abf9bc3d86dceab563d6ae728abfe5c827b1e6a125e0e794201cc86c6e"
+                         },
+                         {
+                             "file":  "chooser.test.mjs",
+                             "sha256":  "248838413d12a165afed58d63fdc0913a651fabad90e689aec534ef7035a14f3"
+                         },
+                         {
+                             "file":  "server.test.mjs",
+                             "sha256":  "8c43ec0128b4271525e65a9c5fe57784cffd5d16167351e1d28867bd06c10a02"
+                         },
+                         {
+                             "file":  "catalog.integration.mjs",
+                             "sha256":  "7b0f237ca8f167d047ea90365d0eea1b378dfcbf23bb2fede5d944dc7cc6f883"
+                         },
+                         {
+                             "file":  "browser.test.mjs",
+                             "sha256":  "b3580e31cdad911b388a7fdae53d6af94d71f2ef4a692054a1c94ea68cda3ada"
+                         },
+                         {
+                             "file":  "chooser.browser.mjs",
+                             "sha256":  "f8ffad6c5c4b7bdd75af7ebc321d4ca09e86e48aad0b17688777a823e51d091e"
+                         },
+                         {
+                             "file":  "Dockerfile",
+                             "sha256":  "3550dff197e515d3610d4f537781e7f7cbe3914f34cb5f2c896d1ace4fa72922"
+                         },
+                         {
+                             "file":  "Browser.Dockerfile",
+                             "sha256":  "8d0e33d22eaec77b2adb358e7354ebfb5b69fa97cd0c59963b9bfe81923978c7"
+                         },
+                         {
+                             "file":  "compose.yaml",
+                             "sha256":  "f436633886b6334d3ee4eb5c78b5def72f587f69cac31223dc3d96573fcde147"
+                         },
+                         {
+                             "file":  "setup.ps1",
+                             "sha256":  "710d71b07d02d01abba58ffa462b306a0ac0c29379e11773919f4ab9fdc17aca"
+                         },
+                         {
+                             "file":  "verify.ps1",
+                             "sha256":  "ef312f022309ccec9d62f470cb9ecd5fea1c9a60ddbbc9d241eb477ea6131597"
+                         }
+                     ],
+    "serverTests":  13,
+    "realDatabaseTests":  1,
+    "browserTests":  5,
+    "imageId":  "sha256:4dbd5ee15c67e647a419c6287c6576fd00d6d8fa6ff069b6475def538c0701d1"
+}

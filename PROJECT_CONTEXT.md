@@ -5,7 +5,7 @@ Updated 2026-11-17. Start with this handoff, [AGENTS.md](AGENTS.md), and the det
 
 ## Active work: milestones 9–13
 
-Authorized 2026-11-17. See [the integration roadmap](experimental-workspace/INTEGRATION_ROADMAP.md) for exact scope, checkpoint status and constraints. Begin with 9.1: dependent chooser API. Existing applications/data and strict eligibility gates stay intact.
+Authorized 2026-11-17. See [the integration roadmap](experimental-workspace/INTEGRATION_ROADMAP.md) for exact scope, checkpoint status and constraints. Task 9 is complete at /browse; continue with task 10 practice-shell candidate and fresh runtime verification. Existing applications/data and strict eligibility gates stay intact.
 
 ## Completed milestone: home and discovery (8.1–8.4)
 
@@ -666,3 +666,5 @@ The conversion from editor input to runtime JSON happens in `src/app/admin/exerc
 9.1 implemented: dependent chooser/count API and bounded server-selected plan contract. Real library and prototype probes pass; thirteen unit/server tests are the checkpoint check. UI and plan launch follow. See INTEGRATION_ROADMAP.md for current scope and discovery/README.md for API details.
 
 9.2–9.3 implemented: /browse desktop/mobile dependent chooser, shareable selections/history, keyboard semantics and real plan-first launch. Five focused real browser checks pass. Plans/session references are currently tab-local; durable sequencing remains task 11. Final 9.4 combined acceptance is next.
+
+9.4 complete: combined 13 unit/server, 1 actual database and 12 browser checks pass. Reports in discovery/ include 23 exact source hashes. Original live catalog still passes six enabled/five disabled. Next: 10.1–10.2 candidate shell; do not deploy changed runtime until evidence is regenerated through the existing workflow.
