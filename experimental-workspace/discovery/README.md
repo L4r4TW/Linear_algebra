@@ -75,3 +75,11 @@ The [sanitized observations](discovery-observations.json) record source hashes, 
 Desktop and mobile home screenshots were visually inspected before answer entry; screenshots and browser profiles are not committed. Actual screen-reader listening and physical-device review remain manual release checks. This is focused home/gateway acceptance; the original 173-server/62-browser and 42/44 compatibility figures remain historical and were not relabelled as new results.
 
 The imported database still has zero practice-ready exercises. The new home does not resolve PG provenance or supply independent approvals. Future work includes reviewed curated taxonomy/navigation, database-backed session adapters, approved batches, accounts/progress and production deployment. Keep indexed discovery separate from practice authorization.
+
+## Task 9: dependent chooser and topic plans
+
+9.1 adds GET /api/discovery/chooser with view, subject/chapter/section and subjectFind/chapterFind/sectionFind. It returns three dependent columns, at most forty nodes per column, matched totals, exact selection breadcrumbs and separate prototype-available/indexed counts. Filtering reaches nodes beyond the initial bound. Unknown/repeated/control parameters and stale or nonexistent selections are rejected. Missing levels are retained explicitly; no artificial sections are invented.
+
+POST /api/discovery/practice-plans is the sole discovery mutation and requires the home Origin plus a bounded JSON object containing only view/subject/chapter/section strings. It freezes up to twenty currently live-allowlisted exercises in exercise-ID order, with a random plan ID, friendly metadata and null session slots. It neither starts renderer sessions nor activates imported sources. Library-only plans fail. The plan is initially a tab-local sequencing contract; durable owner-bound persistence/navigation is milestone 11.
+
+9.1 validation: thirteen unit/server groups and actual indexed/live API probes pass. Linear algebra has 2,640 indexed classified sources across nine chapters and zero imported playable entries; the live prototype's linear-algebra plan contains its one enabled exercise. The chooser UI and plan launch are the next checkpoint. Earlier discovery-observations.json remains historical milestone-8 evidence until refreshed acceptance.

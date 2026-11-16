@@ -4,6 +4,6 @@
     "type":  "module",
     "scripts":  {
                     "start":  "node server.mjs",
-                    "test":  "node --test catalog.test.mjs server.test.mjs"
+                    "test":  "node --test catalog.test.mjs server.test.mjs chooser.test.mjs"
                 }
 }

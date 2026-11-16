@@ -52,3 +52,15 @@ test('oversized practice requests fail before reaching the player',async t=>{
  const response=await fetch(base+'/api/sessions',{method:'POST',headers:{Origin:'http://localhost:3105','Content-Type':'application/json'},body:JSON.stringify({exerciseId:'x'.repeat(9000)})});
  assert.equal(response.status,413);assert.equal((await response.json()).error.code,'BODY_TOO_LARGE');
 });
+
+test('chooser plans are origin-checked, server-selected and reject renderer settings',async t=>{
+ const catalog={...metadata,practice:async()=>[{id:'dot-product-01',title:'Dot products',subject:'Math',chapter:'Vectors',section:null,canPractice:true}]};
+ const server=createHome({origin:'http://localhost:3105',catalog});
+ await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));t.after(()=>new Promise(resolve=>{server.closeAllConnections();server.close(resolve);}));
+ const base='http://127.0.0.1:'+server.address().port,headers={Origin:'http://localhost:3105','Content-Type':'application/json'};
+ let response=await fetch(base+'/api/discovery/practice-plans',{method:'POST',headers,body:JSON.stringify({subject:'Math',sourceFilePath:'private'})});assert.equal(response.status,400);
+ response=await fetch(base+'/api/discovery/practice-plans',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});assert.equal(response.status,403);
+ response=await fetch(base+'/api/discovery/practice-plans',{method:'POST',headers,body:JSON.stringify({subject:'Math',chapter:'Vectors'})});assert.equal(response.status,201);
+ const {plan}=await response.json();assert.equal(plan.total,1);assert.equal(plan.items[0].exerciseId,'dot-product-01');assert.equal(plan.items[0].sessionId,null);
+ response=await fetch(base+'/api/discovery/chooser?subject=Math&chapter=Missing');assert.equal(response.status,409);
+});

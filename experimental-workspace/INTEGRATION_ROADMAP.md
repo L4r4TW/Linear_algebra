@@ -46,4 +46,4 @@ The local six-exercise player remains usable. The 77,134-source imported catalog
 ## Checkpoint log
 
 - Start: 8.4 pushed as 0d0f616; existing services healthy. Only the saved practice-design note in PROJECT_CONTEXT.md was uncommitted, and it is preserved.
-- Current implementation: 9.1. No milestone 9 feature is complete yet.
+- 9.1 implemented: bounded dependent chooser API and live-allowlist plans. Validation: thirteen unit/server groups plus actual indexed/practice API probes. Next: 9.2 desktop/mobile chooser and 9.3 tab-local plan launch.

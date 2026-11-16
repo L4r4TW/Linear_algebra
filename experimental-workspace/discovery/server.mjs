@@ -2,6 +2,7 @@ import {createServer} from 'node:http';
 import {readFileSync} from 'node:fs';
 import {pathToFileURL} from 'node:url';
 import {createCatalog,filters,DiscoveryError} from './catalog.mjs';
+import {chooser,chooserInput,createPracticePlan} from './chooser.mjs';
 
 const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
 const secureHeaders={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'};
@@ -45,6 +46,21 @@ export function createHome({origin=process.env.HOME_ORIGIN??'http://localhost:31
     }
     res.writeHead(200,{...secureHeaders,'Content-Security-Policy':homePolicy,'Content-Type':type+'; charset=utf-8'});
     res.end(readFileSync(new URL('./public/'+file,import.meta.url)));return;
+   }
+   if(url.pathname==='/api/discovery/practice-plans'){
+    if(req.method!=='POST')throw new DiscoveryError('METHOD_NOT_ALLOWED',405);
+    if(req.headers.origin!==origin)throw new DiscoveryError('ORIGIN_REJECTED',403);
+    if(req.headers['content-type']?.split(';')[0]!=='application/json')throw new DiscoveryError('INVALID_TOPIC');
+    let body='',length=0;
+    try{for await(const chunk of req.iterator({destroyOnReturn:false})){length+=chunk.length;if(length>2048)throw new DiscoveryError('BODY_TOO_LARGE',413);body+=chunk;}}finally{req.resume();}
+    let input;try{input=JSON.parse(body);}catch{throw new DiscoveryError('INVALID_TOPIC');}
+    if(!input||typeof input!=='object'||Array.isArray(input)||Object.entries(input).some(([key,value])=>!['view','subject','chapter','section'].includes(key)||typeof value!=='string'))throw new DiscoveryError('INVALID_TOPIC');
+    const selection=chooserInput(new URLSearchParams(input));
+    return send(res,201,{plan:createPracticePlan(await catalog.practice(),selection)});
+   }
+   if(url.pathname==='/api/discovery/chooser'){
+    if(req.method!=='GET')throw new DiscoveryError('METHOD_NOT_ALLOWED',405);
+    return send(res,200,await chooser(catalog,chooserInput(url.searchParams)));
    }
    if(url.pathname.startsWith('/api/discovery/')){
     if(req.method!=='GET')throw new DiscoveryError('METHOD_NOT_ALLOWED',405);
