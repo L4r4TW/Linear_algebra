@@ -1,3 +1,4 @@
+import {readBookmarks,toggleBookmark} from '/assets/bookmarks.js';
 import {unfinishedAnswers,nextActionText} from '/assets/practice-actions.js';
 import {renderFeedbackContent,feedbackMathReady} from '/assets/feedback-content.js';
 import {feedbackOutcome} from '/assets/feedback-model.js';
@@ -53,6 +54,29 @@ let historyIndex=Number.isSafeInteger(history.state?.practiceStep)?history.state
 history.replaceState({...history.state,practiceStep:historyIndex},'',location.href);
 let committedUrl=location.href;
 
+
+const bookmarkButton=document.querySelector('#bookmark-exercise');
+const bookmarkStatus=document.querySelector('#bookmark-status');
+const breadcrumb=document.querySelector('#practice-breadcrumb');
+function updatePracticeShell(){
+ const exercise=exercises.find(entry=>entry.id===selectedId),active=Boolean(frameState?.session?.exerciseId===selectedId);
+ panel.classList.toggle('has-session',active);
+ bookmarkButton.hidden=!active;bookmarkButton.disabled=busy||Boolean(submission)||navigationPending||!frameState?.ready;
+ breadcrumb.replaceChildren();
+ const home=element('a','Mathematics');home.href='/';breadcrumb.append(home);
+ if(exercise?.topic){breadcrumb.append(element('span',' / '),element('span',exercise.topic));}
+ if(!active){bookmarkButton.setAttribute('aria-pressed','false');return;}
+ try{bookmarkButton.setAttribute('aria-pressed',String(readBookmarks(localStorage).includes(selectedId)));}
+ catch{bookmarkButton.setAttribute('aria-pressed','false');}
+}
+bookmarkButton.addEventListener('click',()=>{
+ if(bookmarkButton.disabled||!frameState?.ready)return;
+ try{
+  const saved=toggleBookmark(selectedId,localStorage);bookmarkButton.setAttribute('aria-pressed',String(saved));
+  bookmarkStatus.textContent=saved?'Bookmarked on this browser. Account syncing is not connected yet.':'Bookmark removed from this browser.';
+ }catch{bookmarkStatus.textContent='Bookmarks could not be saved in this browser. Your exercise and answers have been kept.';}
+});
+
 function announce(message) {
   if (announcement.textContent !== message) announcement.textContent = message;
 }
@@ -92,6 +116,7 @@ function loading(message) {
 }
 
 function updateControls() {
+  updatePracticeShell();
   const submitting = Boolean(submission);
   chooseButton.disabled=busy||submitting||navigationPending||!frameState?.ready;
   controls.hidden = !frameState?.ready;

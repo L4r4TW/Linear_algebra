@@ -168,6 +168,7 @@ function failure(error) {
 
 const publicFiles = new Map([
   ['/', ['index.html', 'text/html; charset=utf-8']],
+  ['/assets/bookmarks.js', ['bookmarks.js', 'text/javascript; charset=utf-8']],
   ['/assets/picker.js', ['picker.js', 'text/javascript; charset=utf-8']],
   ['/assets/exercise.css', ['exercise.css', 'text/css; charset=utf-8']],
   ['/assets/picker.css', ['picker.css', 'text/css; charset=utf-8']],
