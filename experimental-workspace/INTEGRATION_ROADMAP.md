@@ -53,3 +53,5 @@ The local six-exercise player remains usable. The 77,134-source imported catalog
 - 9.4 complete: 13 unit/server + 1 real database + 12 browser checks and existing live catalog pass. /browse is ready. Next: 10.1–10.2 practice-shell candidate, isolated verification before deployment.
 
 - 10.1–10.2 candidate source implemented; NOT deployed. Full isolated 44-case proof is running in linear-algebra-practice-shell-gate. Preserve old live player until publisher/server/browser checks pass; see PRACTICE_SHELL.md.
+
+- 11.1 standalone persistence groundwork implemented/tested while task-10 proof runs. No HTTP/UI integration yet; see PRACTICE_SETS.md.
