@@ -1,9 +1,13 @@
 # Project context and session handoff
 
-Updated 2026-11-16. Start with this handoff, [AGENTS.md](AGENTS.md), and the detailed [experimental workspace README](experimental-workspace/README.md). Product direction is in [Project_goals.md](Project_goals.md).
+Updated 2026-11-17. Start with this handoff, [AGENTS.md](AGENTS.md), and the detailed [experimental workspace README](experimental-workspace/README.md). Product direction is in [Project_goals.md](Project_goals.md).
 
 
-## Current milestone: home and discovery (8.1–8.4)
+## Active work: milestones 9–13
+
+Authorized 2026-11-17. See [the integration roadmap](experimental-workspace/INTEGRATION_ROADMAP.md) for exact scope, checkpoint status and constraints. Begin with 9.1: dependent chooser API. Existing applications/data and strict eligibility gates stay intact.
+
+## Completed milestone: home and discovery (8.1–8.4)
 
 The [home/discovery milestone](experimental-workspace/discovery/README.md) is implemented through 8.4 in an independent local service. Open **http://localhost:3105**. The screenshot-directed shell offers real nonempty subject cards, search, topic/source filters, twelve-entry cursor pages, shareable URLs/history and owner-checked Continue practicing. Six existing verified exercises can be launched, graded and resumed at /practice through the same home origin. The explicit Indexed library view searches 77,134 imported sources without enabling them; database practice-ready count remains zero.
 
@@ -11,6 +15,14 @@ Checkpoints 8.1, 8.2 and 8.3 were pushed separately as 390cee2, 4fe745c and 9fce
 
 Use discovery/setup.ps1 and discovery/verify.ps1 from the repository root. The guide documents fixed-upstream routing, ownership, explicit recovery and browser-origin draft limits: existing localhost:3100 tab drafts remain there; new home/practice navigation uses 3105. No account progress or database-backed exercise-start adapter is claimed. Continue with reviewed navigation/taxonomy and database-practice integration while resolving provenance and independent review before activating imported batches. Actual screen-reader listening and physical-device checks remain manual.
 
+
+## Saved practice-screen design goal (2026-11-17)
+
+The user explicitly wants the exercise panel redesigned toward the previously attached Exercise.png, with Homescreen.png and Category_chooser.png as the shared visual direction. Implement this at the appropriate practice-integration checkpoint; do not treat milestone 8's home as completion of the practice redesign. Target: neutral thin-bordered shell, subject/topic breadcrumbs, clear title, generous question/math spacing, prominent Check answer beneath the exercise, authored Hint only when available, and deliberate previous/skip controls where their session/navigation behavior exists. Progress indicators must reflect actual session/queue state; do not invent an exercise total, bookmarks, or account progress.
+
+Preserve PG's varied native answer fields, scripts, graphs and widget structures unless a narrowly supported replacement is verified. The vector-component inputs in the mockup illustrate one problem type, not a universal answer form. Follow STYLING_CONTRACT.md and existing compatibility gates; verify grading, drafts, restoration, ownership, keyboard and narrow layouts after runtime changes. Reproduce the meaningful visual direction even if the original local Desktop image paths are unavailable in a future session; ask for the images again only if needed for an exact visual comparison.
+
+The user authorizes choosing the appropriate implementation timing for this design goal. On 2026-11-17 they supplied and authorized milestones 9–13; follow [INTEGRATION_ROADMAP.md](experimental-workspace/INTEGRATION_ROADMAP.md), document/test/push feature checkpoints and save state on interruption. The earlier suggestion of 100 playable exercises at milestone 9 is a proposed target, not verified capacity or a guarantee.
 
 ## Where development stands
 
