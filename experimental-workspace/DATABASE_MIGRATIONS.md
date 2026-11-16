@@ -63,3 +63,5 @@ The checks cover fresh/upgrade application; checksum-ledger replay; actual boots
 ## Next integration
 
 Build the restartable full-library metadata importer and a server database adapter against these contracts. Import source/classification/provenance in bounded batches with checkpoints and diagnostics; retain unresolved fields and disable entries without evidence. Then connect paginated topic/search discovery and the planned home/subject-chapter-section chooser to safe metadata APIs, clearly distinguishing indexed and practice-ready counts. Connect practice/account persistence only after staged Auth/ownership/failure tests; do not silently migrate anonymous JSON sessions or relabel old client grades as renderer-verified.
+
+Task 6 follow-up is complete in [opl-importer/README.md](opl-importer/README.md). Apply additive files 202611160006 through 202611160010 after the foundation, in order. Fresh/legacy checks now cover all ten files and 60 catalog/private tables; the original five-file foundation counts above describe 5.8. The separate local catalog contains the full pinned source inventory but is not hosted or connected to either app.

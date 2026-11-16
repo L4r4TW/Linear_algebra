@@ -1,6 +1,6 @@
 {
     "version":  1,
-    "observedAt":  "2026-11-16T11:29:48.4814969Z",
+    "observedAt":  "2026-11-16T12:09:18.7792905Z",
     "imageDigest":  "postgres@sha256:a49f7438ba03589f9b1ca062f2da82e899b48ea1dc50d2449fa09a70be83ebca",
     "scope":  "Fresh and authored-app upgrade on isolated PostgreSQL with test-only Auth context, not hosted Supabase or HTTP JWT validation",
     "network":  "none",
@@ -303,7 +303,7 @@
                                    ],
                         "aliases":  11,
                         "complete":  true,
-                        "newTables":  57,
+                        "newTables":  60,
                         "databaseMode":  "migration_fresh",
                         "postgresVersion":  "16.16 (Debian 16.16-1.pgdg12+1)"
                     },
@@ -596,7 +596,7 @@
                                    ],
                         "aliases":  11,
                         "complete":  true,
-                        "newTables":  57,
+                        "newTables":  60,
                         "databaseMode":  "migration_upgrade",
                         "postgresVersion":  "16.16 (Debian 16.16-1.pgdg12+1)"
                     }
@@ -622,6 +622,26 @@
                        {
                            "name":  "202611160005_practice_atomic_operations.sql",
                            "sha256":  "25c898cffe9785c9a0c7133cbdfb208b05b0487af83bdfd6f4fde0c8902cb4a1"
+                       },
+                       {
+                           "name":  "202611160006_opl_import_identity.sql",
+                           "sha256":  "f07ae602cfbcc550e0ddff4e9f961528f1bae3df66c393ddca5cafcadb3dc5b8"
+                       },
+                       {
+                           "name":  "202611160007_opl_import_workflow.sql",
+                           "sha256":  "56d4534fde381d57699e6bac70d37a24cf1a0876fcd30f0e560f2d87a37236bb"
+                       },
+                       {
+                           "name":  "202611160008_opl_search.sql",
+                           "sha256":  "cc6ff573c2026a991ecf85a2df3686643bd115aa5adff2d02953a9626ed2682c"
+                       },
+                       {
+                           "name":  "202611160009_opl_search_guard.sql",
+                           "sha256":  "a716e8b5b736b55e4a3af43a8e28aa5b49b10576c5a18d7291b9cd4fda26c047"
+                       },
+                       {
+                           "name":  "202611160010_opl_count_projection.sql",
+                           "sha256":  "46fab6f86a83bc66b09d633c31d82604b9de6cff5e14dfc1bb00b975bf359a18"
                        }
                    ]
 }

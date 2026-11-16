@@ -28,3 +28,15 @@ test('Bad batch rolls back every row and a resumed staged run finishes',()=>{
  assert.throws(()=>stage(id,[input.entries[0],{...input.entries[1],path:'../bad.pg'}]),/DATABASE_QUERY_FAILED/);
  assert.equal(status(id).staged,0);assert.equal(runImport(input,opts).imported,2);
 });
+
+test('Reconciliation-phase interruption, out-of-order staging, and immutable completed history',()=>{
+ const opts=options(),input=data('8',[entry('first.pg','first'),entry('second.pg','second')]);
+ const id=open(input,opts);stage(id,[input.entries[1]]);
+ const paused=runImport(input,{...opts,stopAfterBatches:2});
+ assert.equal(paused.phase,'reconciliation');assert.equal(paused.pending,1);assert.equal(paused.sealed,true);
+ const saved=sql(`SELECT exercise_id FROM catalog.import_entries WHERE run_id=${literal(id)} AND state='imported';`);
+ const result=runImport(input,opts);assert.equal(result.total,2);
+ assert.equal(sql(`SELECT count(*) FROM catalog.import_entries WHERE run_id=${literal(id)} AND exercise_id=${literal(saved)}::uuid;`),'1');
+ assert.throws(()=>sql(`UPDATE catalog.import_entries SET metadata='{}' WHERE run_id=${literal(id)};`),/DATABASE_QUERY_FAILED/);
+ assert.throws(()=>stage(id,[input.entries[0]]),/DATABASE_QUERY_FAILED/);
+});

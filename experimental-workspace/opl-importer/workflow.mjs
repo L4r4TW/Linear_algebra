@@ -29,9 +29,11 @@ export function runImport(data,{batch=500,stopAfterBatches=Infinity,registry,url
  const id=open(data,{registry,url});let state=status(id),batches=0;
  if(state.state==='completed')return {...state.report,replayed:true};
  if(!state.sealed){
-  // Use committed path prefix as a resume checkpoint; each batch is transactional.
-  for(let i=state.staged;i<data.entries.length;i+=batch){
-   stage(id,data.entries.slice(i,i+batch));batches++;
+  // Query committed paths so out-of-order or repeated staging also resumes safely.
+  const existing=new Set(json(`SELECT coalesce(jsonb_agg(path),'[]') FROM catalog.import_entries WHERE run_id=${literal(id)}::uuid;`));
+  const remaining=data.entries.filter(entry=>!existing.has(entry.path));
+  for(let i=0;i<remaining.length;i+=batch){
+   try{stage(id,remaining.slice(i,i+batch));}catch(error){throw Error('STAGE_BATCH_FAILED run='+id+' first='+JSON.stringify(remaining[i]?.path)+' last='+JSON.stringify(remaining[Math.min(i+batch,remaining.length)-1]?.path)+' '+error.message);}batches++;
    if(batches>=stopAfterBatches)return {runId:id,interrupted:true,phase:'staging',...status(id)};
   }
   seal(id);

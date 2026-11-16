@@ -8,8 +8,18 @@ The active work is the independent **experimental-workspace/** WeBWorK integrati
 
 The goal has expanded to a multi-subject practice platform covering the whole OPL, using PG mathematical grading. Design the future catalog for all subjects, while validating playable exercises in batches. Build one complete, reliable exercise flow before broadly enabling large numbers of exercises.
 
-Latest implementation: `3eefcbb` (continuity acceptance), pushed to `origin/main` on 2026-11-15. This documentation refresh follows that commit; it does not change runtime behavior or rerun its tests. Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
+Latest practice-runtime implementation: `3eefcbb` (continuity acceptance), pushed to `origin/main` on 2026-11-15. The subsequent database/importer milestones below preserve that runtime; their tests are separate. Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
 
+
+## Current milestone: repeatable OPL importer (6.1–6.7)
+
+All seven importer subtasks are implemented. Separate commits/pushes completed 6.1 through 6.6 (`c95e7f7`, `e6048d1`, `f7a2302`, `3de215c`, `32698f5`, `988b81f`); inspect Git for the final 6.7 commit. The [importer guide](experimental-workspace/opl-importer/README.md) contains exact setup, recovery, search and test commands. Its independent local PostgreSQL catalog uses a separate persistent volume/internal network with no published ports, reading OPL read-only. No existing application/session volume or hosted Supabase was changed.
+
+The [full import report](experimental-workspace/opl-importer/full-import-observations.json) records **77,134 indexed regular PG sources** at revision 0d42812d6d02960c846fc0f89215e0d4f1e761b1: 40,541 OpenProblemLibrary, 29,624 Contrib, 6,969 Pending. All eleven bootstrap aliases/UUIDs are preserved; 77,123 new identities were allocated. No PG executes and no approval/activation is created. Source/generated metadata has explicit provenance and unknown fields; 38,740 classifications match source taxonomy and 38,394 remain missing/partial/conflicting/malformed/unmapped. Eighteen sources have invalid UTF-8 metadata. Diagnostics and operator actions remain available without silently guessing labels.
+
+Fresh verification: **9 importer test groups, 13 full-library assertions, 134 fresh/legacy-upgrade database checks** pass. An actual Docker kill after 1,000 committed staging rows with no published head was followed by successful same-run recovery. Completed reruns preserve the exact identity digest and source/version/event/classification counts. Natural browse and GIN plans are recorded. Migrations through 202611160010 cover 60 catalog/private tables. Synthetic tests use a separate disposable database; full inventories/database data remain in Docker, with only sanitized observations checked in. Earlier renderer/browser counts remain historical.
+
+The full catalog is searchable via server-only adapter/CLI and safe database RPCs, with filters, counts and generation-bound cursors. It is **not wired to the existing frontend or hosted Supabase**. The new database currently has zero practice-ready entries; the unchanged practice UI still enables six verified JSON entries. Next is the HTTP discovery adapter and planned home/search/Subject → Chapter → Section UI, then reviewed mappings/identity decisions and verification batches. Account/practice persistence remains separate. Do not infer approval from an import, source hash or metadata match.
 
 ## Resume checklist
 
@@ -19,7 +29,7 @@ Latest implementation: `3eefcbb` (continuity acceptance), pushed to `origin/main
 4. Full `verify-compatibility.ps1` remains a deliberately failing gate: 42/44 cases pass; both mobile GraphTool cases fail. Keep those failures and the five disabled candidates visible. Do not treat a nonzero full gate as permission to weaken required checks.
 5. Finish runtime/profile edits before regenerating evidence. Fingerprints include source bytes and line endings, so a checkout that changes those bytes requires reverification. Use the documented publisher to produce reviewed metadata/evidence; do not manually rewrite evidence fingerprints to restore eligibility.
 
-The whole OPL remains in its Docker Linux volume. This change does not import the whole library, migrate catalog data into Supabase, or expose the renderer publicly. Continue with the blockers and importer steps below; preserve existing sessions and attribution.
+The whole OPL remains in its Docker Linux volume. Task 6 now indexes the pinned library in a separate local catalog database; hosted Supabase and the existing practice frontend remain unchanged. Continue with HTTP discovery/UI integration and verification batches; preserve existing sessions and attribution.
 
 ## Completed milestone: failure and navigation continuity acceptance
 

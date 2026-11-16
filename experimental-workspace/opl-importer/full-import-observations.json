@@ -1,0 +1,328 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-16T12:14:52.521Z",
+  "scope": "Isolated local PostgreSQL catalog; pinned Git source metadata only; no PG execution, hosted Supabase or application/session-volume changes",
+  "nodeVersion": "v22.23.5",
+  "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+  "treeOid": "9f63674a9de27de78c001b7880a1e17bcc6f40b2",
+  "manifestDigest": "b31e06e1b564d161249f5d21ed0feb66f9758f4f48d49de939c7a93780fed3eb",
+  "counts": {
+    "areas": {
+      "Contrib": 29624,
+      "Pending": 6969,
+      "OpenProblemLibrary": 40541
+    },
+    "runId": "fa805a18-f7ed-4c6e-9023-b75b455c26d9",
+    "indexed": 77134,
+    "generation": 1,
+    "unclassified": 38394,
+    "practiceReady": 0,
+    "identityReview": 0
+  },
+  "import": {
+    "runId": "fa805a18-f7ed-4c6e-9023-b75b455c26d9",
+    "total": 77134,
+    "parser": "opl-header-v1",
+    "changes": {
+      "new": 77123,
+      "unchanged": 11
+    },
+    "removed": 0,
+    "imported": 77134,
+    "generation": 1,
+    "snapshotId": "0a99c7df-720d-4b58-8fc8-b592e7f11c1c",
+    "identityReview": 0,
+    "manifestDigest": "b31e06e1b564d161249f5d21ed0feb66f9758f4f48d49de939c7a93780fed3eb",
+    "classifications": {
+      "matched": 38740,
+      "missing": 4495,
+      "partial": 5936,
+      "unmapped": 27781,
+      "malformed": 101,
+      "conflicting": 81
+    },
+    "activationCreated": false
+  },
+  "classifications": {
+    "matched": 38740,
+    "missing": 4495,
+    "partial": 5936,
+    "conflicting": 81,
+    "malformed": 101,
+    "unmapped": 27781
+  },
+  "diagnosticCounts": {
+    "INVALID_UTF8": 18,
+    "CLASSIFICATION_MISSING": 4495,
+    "CLASSIFICATION_PARTIAL": 5936,
+    "CLASSIFICATION_UNMAPPED": 27781,
+    "CLASSIFICATION_MALFORMED": 83,
+    "CLASSIFICATION_CONFLICTING": 81,
+    "REPEATED_CLASSIFICATION_TAG": 103,
+    "MALFORMED_CLASSIFICATION_TAG": 83
+  },
+  "checkpointRecovery": {
+    "runId": "fa805a18-f7ed-4c6e-9023-b75b455c26d9",
+    "phase": "staging",
+    "committedRows": 1000,
+    "originalRunPreserved": true
+  },
+  "rerun": {
+    "replayed": true,
+    "before": {
+      "head": "fa805a18-f7ed-4c6e-9023-b75b455c26d9",
+      "events": 77134,
+      "versions": 77134,
+      "generation": 1,
+      "identities": 77134,
+      "identityDigest": "27f37087e94914d58dfc5c03b751d61b",
+      "classifications": 77134
+    },
+    "after": {
+      "head": "fa805a18-f7ed-4c6e-9023-b75b455c26d9",
+      "events": 77134,
+      "versions": 77134,
+      "generation": 1,
+      "identities": 77134,
+      "identityDigest": "27f37087e94914d58dfc5c03b751d61b",
+      "classifications": 77134
+    }
+  },
+  "checks": [
+    {
+      "name": "Pinned complete library is published",
+      "passed": true
+    },
+    {
+      "name": "Current pinned inventory contains all three roots",
+      "passed": true
+    },
+    {
+      "name": "No imports become practice-ready without evidence/activation",
+      "passed": true
+    },
+    {
+      "name": "Completed rerun returns its stored report without duplicate identities/versions/events",
+      "passed": true
+    },
+    {
+      "name": "All initial paths have distinct stable exercise identities",
+      "passed": true
+    },
+    {
+      "name": "All eleven bootstrap aliases retain their original exact source identity",
+      "passed": true
+    },
+    {
+      "name": "Full-text search returns source metadata across subjects",
+      "passed": true
+    },
+    {
+      "name": "Keyset pages have no repeated entries",
+      "passed": true
+    },
+    {
+      "name": "Public rows contain no source controls, raw headers, or renderer state",
+      "passed": true
+    },
+    {
+      "name": "Normalized topic counts cover exactly matched sources",
+      "passed": true
+    },
+    {
+      "name": "The completed run resumed its original committed checkpoint",
+      "passed": true
+    },
+    {
+      "name": "Natural browse plan uses the catalog browse index",
+      "passed": true
+    },
+    {
+      "name": "Natural text search uses the GIN index",
+      "passed": true
+    }
+  ],
+  "queryPlans": {
+    "browse": {
+      "indexes": [
+        "import_entry_browse"
+      ],
+      "planningMilliseconds": 0.643,
+      "executionMilliseconds": 0.059
+    },
+    "search": {
+      "indexes": [
+        "import_entry_search"
+      ],
+      "planningMilliseconds": 0.896,
+      "executionMilliseconds": 0.133
+    }
+  },
+  "operatorIssueSamples": [
+    {
+      "path": "Contrib/AlfredUniv/AUCI/chapter1/intro/quiz/basicoperations.pg",
+      "action": "Review raw triple against pinned taxonomy and propose an explicit mapping",
+      "review": [],
+      "change_kind": "new",
+      "diagnostics": [
+        "CLASSIFICATION_UNMAPPED"
+      ],
+      "classification_state": "unmapped"
+    },
+    {
+      "path": "Contrib/AlfredUniv/AUCI/chapter1/intro/quiz/exponents.pg",
+      "action": "Review raw triple against pinned taxonomy and propose an explicit mapping",
+      "review": [],
+      "change_kind": "new",
+      "diagnostics": [
+        "CLASSIFICATION_UNMAPPED"
+      ],
+      "classification_state": "unmapped"
+    },
+    {
+      "path": "Contrib/AlfredUniv/AUCI/chapter1/intro/quiz/inputtingarithmetic.pg",
+      "action": "Review raw triple against pinned taxonomy and propose an explicit mapping",
+      "review": [],
+      "change_kind": "new",
+      "diagnostics": [
+        "CLASSIFICATION_UNMAPPED"
+      ],
+      "classification_state": "unmapped"
+    },
+    {
+      "path": "Contrib/AlfredUniv/AUCI/chapter1/lesson1/change1.pg",
+      "action": "Review raw triple against pinned taxonomy and propose an explicit mapping",
+      "review": [],
+      "change_kind": "new",
+      "diagnostics": [
+        "CLASSIFICATION_UNMAPPED"
+      ],
+      "classification_state": "unmapped"
+    },
+    {
+      "path": "Contrib/AlfredUniv/AUCI/chapter1/lesson1/quiz/question1.pg",
+      "action": "Review raw triple against pinned taxonomy and propose an explicit mapping",
+      "review": [],
+      "change_kind": "new",
+      "diagnostics": [
+        "CLASSIFICATION_UNMAPPED"
+      ],
+      "classification_state": "unmapped"
+    }
+  ],
+  "sourceHashes": [
+    {
+      "name": "cli.mjs",
+      "sha256": "a9c77bd9437aade5559981430463bb4b0b8f96b6332c8d921663871156ea8147"
+    },
+    {
+      "name": "crash-probe.mjs",
+      "sha256": "c6067c5c94ada9cbc68ca8d0855e22c424c5b38c2c3ee24f6e78652335fb086a"
+    },
+    {
+      "name": "db.mjs",
+      "sha256": "687664b13341ef28f2cfc03d000764d4b3f82135004638e0e9e230172e648bf9"
+    },
+    {
+      "name": "db.test.mjs",
+      "sha256": "aedfc19aeb0d485f889eeafae6c2e9a0270ef10d0569059f5fec5bcee9dfe8d6"
+    },
+    {
+      "name": "identity-checks.sql",
+      "sha256": "5b7c153ebc1e3da03c42126933b955bd9828ca46a058d5409fd92fc03e81dc06"
+    },
+    {
+      "name": "identity.test.mjs",
+      "sha256": "39fb95d98a8b9e9363a550916516d194026f75ff0d795ac8552c711661640625"
+    },
+    {
+      "name": "inventory.mjs",
+      "sha256": "b6d51e50720b2908a8522425045baf23431b7ab742444a38802fe0b0271f650e"
+    },
+    {
+      "name": "inventory.test.mjs",
+      "sha256": "aaca479b347098706307a31b22e2af59ec3695a9f17bfaa342a3fe82930c320f"
+    },
+    {
+      "name": "metadata.mjs",
+      "sha256": "d32439480d2581b7068c4388ce3956919d57a6014d80032f05b58e9bbaad6e58"
+    },
+    {
+      "name": "metadata.test.mjs",
+      "sha256": "9ed6520e52eb39bdb6b9343d48efe5c3cddf16a29cfd52100dbfc0a10dfc1662"
+    },
+    {
+      "name": "platform-local.sql",
+      "sha256": "4cbdda8667e1c2e99e3ec54923bbbedcb70b009a4c873f9aece1ef7f0de913c4"
+    },
+    {
+      "name": "search.mjs",
+      "sha256": "6500ea88df4a5972e9656c94c0c2809f1f219614cec46d5a16906cc59424ae2c"
+    },
+    {
+      "name": "search.test.mjs",
+      "sha256": "952682e4942eafd4f4e5a33ab78470df838ef657c5e8f15bc488a587d1c7128d"
+    },
+    {
+      "name": "setup-local.mjs",
+      "sha256": "75e799bc5b54137a2982f01f75cc0e02a13aad1ef357570a5a3aafb412c6b1ac"
+    },
+    {
+      "name": "setup-test.mjs",
+      "sha256": "5b30335bc191347687054eb343ee63a985360faadf94356167fe9e1256d95a9c"
+    },
+    {
+      "name": "verify-full.mjs",
+      "sha256": "383ebb8ca55019949f372573dbeadd69dd7db132fc503743cc8afb2747762ad1"
+    },
+    {
+      "name": "workflow.mjs",
+      "sha256": "4397bbd408a6a6256c99c78048f1e4e8e04ea7213ef4007a423408223c27b923"
+    },
+    {
+      "name": "workflow.test.mjs",
+      "sha256": "52acc2f5b0c9439911b027597fce90d120b6ce971bbbe5351ad50b4afa79fae6"
+    },
+    {
+      "name": "202611160001_catalog_and_practice_foundation.sql",
+      "sha256": "e5e8ae2d3a92953f4c4c08a2e04230bb369e98ee6f2fa3c2bb1593ee348ac89d"
+    },
+    {
+      "name": "202611160002_catalog_provenance_and_evidence.sql",
+      "sha256": "dddc585fc72a7d089c8a2b59d242073e592cfe5c2458cfa087b47a44e7818978"
+    },
+    {
+      "name": "202611160003_catalog_access_and_publication.sql",
+      "sha256": "1d8698064e10fc1cc108fa35dfba756c86df728e910ffcdf1e904d5c7d155718"
+    },
+    {
+      "name": "202611160004_bootstrap_existing_opl_metadata.sql",
+      "sha256": "96dcc401cb04eaed6752f4b4f9c8b79750f54b735e08117afbc5634e797fd3f4"
+    },
+    {
+      "name": "202611160005_practice_atomic_operations.sql",
+      "sha256": "25c898cffe9785c9a0c7133cbdfb208b05b0487af83bdfd6f4fde0c8902cb4a1"
+    },
+    {
+      "name": "202611160006_opl_import_identity.sql",
+      "sha256": "f07ae602cfbcc550e0ddff4e9f961528f1bae3df66c393ddca5cafcadb3dc5b8"
+    },
+    {
+      "name": "202611160007_opl_import_workflow.sql",
+      "sha256": "56d4534fde381d57699e6bac70d37a24cf1a0876fcd30f0e560f2d87a37236bb"
+    },
+    {
+      "name": "202611160008_opl_search.sql",
+      "sha256": "cc6ff573c2026a991ecf85a2df3686643bd115aa5adff2d02953a9626ed2682c"
+    },
+    {
+      "name": "202611160009_opl_search_guard.sql",
+      "sha256": "a716e8b5b736b55e4a3af43a8e28aa5b49b10576c5a18d7291b9cd4fda26c047"
+    },
+    {
+      "name": "202611160010_opl_count_projection.sql",
+      "sha256": "46fab6f86a83bc66b09d633c31d82604b9de6cff5e14dfc1bb00b975bf359a18"
+    }
+  ],
+  "complete": true
+}
