@@ -70,7 +70,8 @@ export function createHome({origin=process.env.HOME_ORIGIN??'http://localhost:31
    if(req.method==='POST'){
     if(req.headers.origin!==origin)throw new DiscoveryError('ORIGIN_REJECTED',403);
     const chunks=[];let length=0;
-    for await(const chunk of req){length+=chunk.length;if(length>8192)throw new DiscoveryError('BODY_TOO_LARGE',413);chunks.push(chunk);}
+    try{for await(const chunk of req.iterator({destroyOnReturn:false})){length+=chunk.length;if(length>8192)throw new DiscoveryError('BODY_TOO_LARGE',413);chunks.push(chunk);}}
+    finally{req.resume();}
     body=Buffer.concat(chunks);
    }
    let response;

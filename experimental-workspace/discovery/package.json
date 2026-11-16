@@ -1,9 +1,9 @@
 {
-  "name": "mathpractice-discovery",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "start": "node server.mjs",
-    "test": "node --test *.test.mjs"
-  }
+    "name":  "mathpractice-discovery",
+    "private":  true,
+    "type":  "module",
+    "scripts":  {
+                    "start":  "node server.mjs",
+                    "test":  "node --test catalog.test.mjs server.test.mjs"
+                }
 }

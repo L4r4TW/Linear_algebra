@@ -41,3 +41,13 @@ The screenshot-directed shell is implemented: prominent search, nonempty subject
 Subject options initialize directly from shared URLs while overview counts load independently. Short-lived (15-second), bounded topic caches deduplicate repeated requests. Available-practice subjects come from the live player, not from imported coverage. The UI follows the reference's neutral cards, thin borders and prominent dark actions; it introduces no account/progress placeholders that imply implemented features.
 
 Initial desktop/mobile visual review and the home/search browser checks passed. Full acceptance and the saved source-bound report are recorded in checkpoint 8.4.
+
+## 8.3: practice and continuation
+
+Practice opens at /practice?session=… on the home origin. The gateway forwards only fixed existing player routes (approved assets, exercise list, session start/restore/answers); it accepts no upstream URL or renderer path. Browser origins are checked before translating to the configured upstream origin. Ownership cookies, server validation, answer contracts and native player navigation/draft protection remain authoritative. The proxy preserves body limits, private cache behavior and renderer-token redaction; no exercise HTML or interaction code is injected or rewritten.
+
+A successful owned session response records only an opaque recent-session ID in an HttpOnly cookie scoped to /api/sessions. GET /api/sessions/recent validates that hint using the existing owner-checked restore endpoint before returning a friendly title and resume link. Missing/unowned records reveal no title. Outages and unavailable sessions retain an explicit link to the original session's recovery screen; they never start a replacement. Opening the home may restore that session upstream for validation, but does not grade it.
+
+Continue is local to this browser's most recent gateway session, not account history or a progress model. Drafts remain tab/session-bound and use sessionStorage. Existing drafts entered at localhost:3100 remain on that origin; they are not silently copied to 3105. Start and resume through 3105 to keep the new flow together. Multiple tabs retain the player's existing independent-draft behavior.
+
+Real browser acceptance covers grading/restoration, leaving via the player's home link, resuming the exact session with unsubmitted edits, and a different owner's rejection. Failed starts retain search and permit explicit retry; a pending start prevents duplicate submissions. No existing player source or compatibility fingerprint was edited.

@@ -24,7 +24,7 @@ export function decodeCursor(input){
  try{
   if(!/^[A-Za-z0-9_-]+$/.test(input.cursor))throw Error();
   const value=JSON.parse(Buffer.from(input.cursor,'base64url'));
-  if(value.binding!==binding(input)||!uuid.test(value.id)||!uuid.test(value.runId)||typeof value.title!=='string'||value.title.length>1000)throw Error();
+  if(value.binding!==binding(input)||!uuid.test(value.id)||!uuid.test(value.runId)||typeof value.title!=='string'||value.title.length>1000||/[\x00-\x1f\x7f]/.test(value.title))throw Error();
   return value;
  }catch{throw new DiscoveryError('INVALID_CURSOR');}
 }
@@ -54,7 +54,7 @@ export function publicEntry(row){
  repository:'WeBWorK Open Problem Library',rightsState:'review-required'}};
 }
 export function createCatalog({query=queryDatabase,practiceOrigin='http://workspace:3000',fetcher=fetch}={}){
- let cache;
+ let cache;const topicCache=new Map();
  async function practice(){
   try{
    const response=await fetcher(practiceOrigin+'/api/exercises',{signal:AbortSignal.timeout(4500)});
@@ -96,7 +96,14 @@ export function createCatalog({query=queryDatabase,practiceOrigin='http://worksp
   if(input.view==='practice'){
    const entries=await practice();return {topics:entries.filter(e=>!input.subject||input.subject===e.subject).map(e=>({subject:e.subject,chapter:e.chapter,section:null,indexed:0}))};
   }
-  return {topics:await query("SELECT coalesce(jsonb_agg(to_jsonb(x)),'[]') FROM catalog_api.opl_topics("+literal(input.subject)+","+literal(input.chapter)+")x")};
+  const key=JSON.stringify([input.subject,input.chapter]);
+  let cached=topicCache.get(key);
+  if(!cached||cached.until<Date.now()){
+   if(topicCache.size>=64)topicCache.clear();
+   cached={until:Date.now()+15000,promise:query("SELECT coalesce(jsonb_agg(to_jsonb(x)),'[]') FROM catalog_api.opl_topics("+literal(input.subject)+","+literal(input.chapter)+")x")};
+   topicCache.set(key,cached);cached.promise.catch(()=>{if(topicCache.get(key)===cached)topicCache.delete(key);});
+  }
+  return {topics:await cached.promise};
  }
  return {practice,overview,search,topics};
 }
