@@ -573,3 +573,7 @@ The conversion from editor input to runtime JSON happens in `src/app/admin/exerc
 - Original-app grading is mostly client-side and exact-match based. Server-side PG grading exists only in the separate sandbox.
 - Some exercise formats rely on JSON config in the admin editor, so authoring UX may still need polish.
 - The original Next.js app has lint/admin smoke checks; the separate PG sandbox has its own server and browser suites.
+
+## OPL importer checkpoints (task 6)
+
+6.1: server-only psql adapter and isolated persistent Docker catalog database are implemented. See [importer guide](experimental-workspace/opl-importer/README.md). Migrations and SQL-literal injection round-trip passed locally; the existing applications, OPL source and student/session volumes remain intact. Tasks 6.2–6.7 continue in this session. Hosted Supabase is not configured.

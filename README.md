@@ -180,3 +180,5 @@ The root layout only shows the Admin navigation link when the signed-in user has
 ## Current Development Notes
 
 See `PROJECT_CONTEXT.md` for a fuller handoff, including known gaps and suggested next work.
+
+The [repeatable OPL importer](experimental-workspace/opl-importer/README.md) now has its own local database and server-only adapter (6.1). Full inventory/import/search work follows; this does not change the six-exercise practice UI.

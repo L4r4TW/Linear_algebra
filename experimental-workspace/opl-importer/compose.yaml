@@ -1,0 +1,40 @@
+name: linear-algebra-opl-catalog
+services:
+  database:
+    image: postgres@sha256:a49f7438ba03589f9b1ca062f2da82e899b48ea1dc50d2449fa09a70be83ebca
+    environment:
+      POSTGRES_DB: opl_catalog
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - catalog:/var/lib/postgresql/data
+    networks: [catalog]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U postgres -d opl_catalog]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  importer:
+    build:
+      context: ../..
+      dockerfile: experimental-workspace/opl-importer/Dockerfile
+    environment:
+      PGHOST: database
+      PGUSER: postgres
+      PGDATABASE: opl_catalog
+    volumes:
+      - type: volume
+        source: opl
+        target: /opl
+        read_only: true
+    networks: [catalog]
+    depends_on:
+      database:
+        condition: service_healthy
+networks:
+  catalog:
+    internal: true
+volumes:
+  catalog:
+  opl:
+    external: true
+    name: linear-algebra-experimental_opl
