@@ -29,7 +29,17 @@ The new verify-continuity.ps1 runs the server/catalog/browser suite and real des
 
 Next release checks: actual NVDA/VoiceOver listening and physical mobile devices. Before account/public scale, decide draft conflict recovery, cross-device persistence, durable attempt history, request idempotency and distributed locking. Keep the future whole-library importer behind capability verification; this milestone enables no additional exercises. Run git status/log to confirm commit and push state.
 
-## Current work: student-record relationships and privacy (5.6)
+## Current work: database constraints and query patterns (5.7)
+
+Task 5.6 was committed/pushed as `a62617a`. Task 5.7 is defined in [DATABASE_DESIGN.md](experimental-workspace/DATABASE_DESIGN.md), with concrete keys/FKs/checks, indexes, pagination/search/ownership queries, lock/CAS/idempotency protocols and a clear boundary between prototype coverage and remaining production DDL. The guarded database-lab SQL is an isolated prototype, not a Supabase migration or a complete production schema.
+
+Fresh [database observations](experimental-workspace/catalog-model/database-design-observations.json): **59 PostgreSQL checks**, six parsed/executed parameterized query shapes, three natural EXPLAIN ANALYZE index plans, and an actual blocked two-connection draft CAS race pass. The digest-pinned PostgreSQL 16.16 container used 100000 synthetic search documents and 20004 synthetic sessions, no network/ports/host or application volumes, and was removed in finally. [Query plans](experimental-workspace/catalog-model/database-query-plans.json) are warm synthetic evidence, not production SLOs. No hosted database, private student record, OPL/session volume, running app, account or activation was changed.
+
+Reproduce from the root with catalog-model/verify-database-design.ps1; the existing workspace/renderer need not run. The lab requires Docker and its pinned PostgreSQL image, uses temporary memory-backed data/WAL settings and records SQL hashes/configuration. Do not run model_lab/schema SQL in Supabase or replace legacy public tables. Existing renderer/browser compatibility counts remain historical; inspect Git status/log for this task's commit/push state.
+
+Next: **5.8 — additive migrations and database validation**. Confirm target PostgreSQL/Supabase version, actual migration state and intended roles/schema exposure; implement remaining import/metadata/evidence/event/credential groups and production grants/RLS/immutable-publication procedures. Test fresh setup plus non-destructive upgrades/backfills, actual authorization and service transaction races before connecting the importer/accounts/discovery UI.
+
+## Completed model: student-record relationships and privacy (5.6)
 
 Task 5.5 was committed/pushed as `a4fdeaa`. Task 5.6 is defined in [STUDENT_RECORDS_PRIVACY.md](experimental-workspace/STUDENT_RECORDS_PRIVACY.md): student principals and explicit unique guest/account claim links; owned practice sets/items, pinned sessions, private renderer state, submission operations, append-only attempts, draft branches, bookmarks and progress. It includes a relationship diagram and public/owner/backend/operator access matrix. Claims preserve IDs/history and retire old guest-only authority; catalog roles do not grant private student access.
 
@@ -37,7 +47,7 @@ The [synthetic fixture](experimental-workspace/catalog-model/student-record-exam
 
 Reproduce with catalog-model/verify-student-record-model.ps1 from the repo root. New claim/API routes, account login integration, server draft sync, distributed idempotency/transactions and deployed RLS remain unimplemented. Current anonymous ownership/tab drafts and six enabled exercises stay unchanged; earlier app/browser/compatibility counts remain historical. Inspect Git status/log for this model's commit/push state.
 
-Next: **5.7 — constraints and query patterns**, including parent-consistent FKs, unique claim/idempotency keys, CAS/publication generations, owner-scoped query/index design and retained-history/deletion rules. Task 5.8 implements additive migrations and database validation before importer/account/discovery integration.
+The constraint/query follow-up (5.7) is now defined in DATABASE_DESIGN.md, including parent-consistent FKs, unique claim/idempotency keys, CAS/publication generations, owner-scoped query/index design and retained-history/deletion rules. Task 5.8 implements additive migrations and database validation before importer/account/discovery integration.
 
 ## Completed model: compatibility evidence and activation (5.5)
 

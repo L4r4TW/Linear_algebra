@@ -67,3 +67,17 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace
 ```
 
 The [runner](verify-student-record-model.ps1) and [checks](verify-student-record-model.mjs) use synthetic records in a separate Node process. They do not read session volumes, query Supabase/PG, transfer accounts or apply SQL. [Observations](student-record-observations.json) contain 22 passing scenario names/outcomes and source-code reference hashes, no entered pairs or private record values. Cases cover claims/replay/old-cookie retirement, disabled principals, cross-owner/version denial, stale drafts, ordered answers, secret-field exclusion, unknown/uncertain versus suppressed feedback, legacy grading provenance and progress deduplication. Next: constraints/query design (5.7), then actual additive migrations (5.8).
+
+## Database constraints and queries (5.7)
+
+Read [DATABASE_DESIGN.md](../DATABASE_DESIGN.md). [database-lab/schema.sql](database-lab/schema.sql) is a guarded prototype of critical keys/FKs/checks/permissions, not a production/Supabase migration. [Synthetic fixtures](database-lab/fixtures.sql), [integrity checks](database-lab/checks.sql), [six query contracts](database-lab/queries.sql) and [two](database-lab/race-a.sql) [draft writers](database-lab/race-b.sql) execute on a fresh PostgreSQL container, never an existing database.
+
+From the repository root with Docker's Linux engine running:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace/catalog-model/verify-database-design.ps1
+```
+
+The [runner](verify-database-design.ps1) uses a digest-pinned PostgreSQL 16.16 image, no network/ports/host or application volumes, memory-backed temporary data, and finally removes its unique container. The existing renderer/workspace need not run. It validates isolation, performs 59 checks on 100000 synthetic metadata documents / 20004 sessions, observes actual blocking between independent draft writers and captures three natural query plans without forcing indexes.
+
+[Database observations](database-design-observations.json) include engine/image identity, configuration, SQL hashes and check outcomes; [query plans](database-query-plans.json) are warm synthetic measurements, not a latency promise or proof of hosted Supabase RLS. No real students, PG rendering, library files, account transfers, runtime activation or existing schemas are touched. The lab only covers its declared subset; remaining record groups/production permissions and upgrade migrations belong to 5.8. Re-running changes observation timestamps/plans; review both artifacts together.

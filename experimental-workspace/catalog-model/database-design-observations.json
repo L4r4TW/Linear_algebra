@@ -1,0 +1,288 @@
+{
+    "kind":  "database-design-lab-observations",
+    "scope":  "Disposable synthetic PostgreSQL lab, not Supabase integration or a deployed migration",
+    "checks":  [
+                   {
+                       "name":  "100000 synthetic search documents loaded",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Accepted attempt cannot be edited",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "A claim cannot be silently reassigned",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "A claim target must be an account principal",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Alias target cannot be rebound",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "An anonymous principal can be claimed only once",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "An uncertain operation cannot be an accepted attempt",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "A session owner cannot be rebound even with a known account ID",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "A started practice item cannot silently lose its session",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "At most one primary assignment",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Blank legacy aliases cannot be registered",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Browse keyset has no duplicate boundary row",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Browser role cannot call the account-owner resolver",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Catalog deletion cannot cascade into history",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Claimed bookmarks are deduplicated by exercise",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Concurrent draft revision advanced only once",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Concurrent draft worker A changes exactly one row",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Concurrent stale draft worker B changes zero rows",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Cross-list counts deduplicate source exercise identity",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Deferred check requires a primary when assignments remain",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Deleting a claim cannot revive anonymous authority",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Disabling account principal removes claimed union access",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Draft owner must match session owner",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Every search token must match",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Exercise assignment must target a section",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Failed assessment cannot enter verified publication",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Idempotency key is unique within the session",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Identical bytes do not merge exercise identities",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "JSON arrays retain repeated answer names and whitespace",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Last-attempt pointer must refer to the same owned session",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Legacy nullable binding cannot bypass parent exercise identity",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Linux source path case is preserved",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Malformed ordered answer-pair payloads rejected",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Only one authoritative exercise version per snapshot",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Owner union includes native and claimed principals only",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Permanent alias cannot be recycled",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Pinned sessions require explicit source and environment",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Practice item cannot reference another student session",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Publication compare-and-swap accepts one expected generation",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Public browser role can select only the safe catalog projection",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Release member cannot borrow another environment",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Repository traversal paths rejected",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Requirements cannot be borrowed from another source version",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Root slugs use NULLS NOT DISTINCT uniqueness",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Scalar-product synonym uses approved metadata",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Search query budget is enforced",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Session source and environment snapshots must agree",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Sibling slugs may recur under different parents",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Six parameterized query contracts parse and execute",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Snapshot path uniquely identifies an occurrence",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Source versions cannot be overwritten",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Stale checked baseline cannot save draft",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Stale publication generation cannot overwrite head",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Taxonomy parent must have the immediately preceding level",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Two database connections exhibit actual row-lock blocking",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Unbound legacy history cannot be labeled new pinned PG proof",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Uncertain operation fences another submission",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Unknown or suppressed grades do not earn visible correctness",
+                       "passed":  true
+                   },
+                   {
+                       "name":  "Withdrawal hides discovery without deleting source or evidence",
+                       "passed":  true
+                   }
+               ],
+    "version":  1,
+    "complete":  true,
+    "sessions":  20004,
+    "serverVersion":  "16.16 (Debian 16.16-1.pgdg12+1)",
+    "searchDocuments":  100000,
+    "realStudentRecordsRead":  0,
+    "existingDatabasesChanged":  false,
+    "hostOrApplicationVolumesMounted":  false,
+    "temporaryDataLimitMiB":  1536,
+    "sharedBuffers":  "64MB",
+    "maxWalSize":  "128MB",
+    "sourceSqlHashes":  [
+                            {
+                                "file":  "schema.sql",
+                                "sha256":  "f1dfeb0b8071eab6ef440f078cc5a6f46f8d14c63ec97789834b58ced3c7faf4"
+                            },
+                            {
+                                "file":  "fixtures.sql",
+                                "sha256":  "e6780c52ed7098675c8af54f672c0f742fe89ef39138361cc0a14d4d9220a942"
+                            },
+                            {
+                                "file":  "checks.sql",
+                                "sha256":  "c92da2f365dd60876c104e9e71938431cd6d26b5a26131bdd846deb419db8349"
+                            },
+                            {
+                                "file":  "race-a.sql",
+                                "sha256":  "8d4816efe7d44736d78a0b5b1dce59024944fa4d42e2df552e40d21af41d7c2a"
+                            },
+                            {
+                                "file":  "race-b.sql",
+                                "sha256":  "351d32e71bba10c68368735ac21597a72a9bf63334161d34e28705738d5a95e3"
+                            },
+                            {
+                                "file":  "summary.sql",
+                                "sha256":  "460a2261312272b0df7a9677ea8a4fa6db53ae07fd6ab6b95f7692a67eb361ba"
+                            },
+                            {
+                                "file":  "queries.sql",
+                                "sha256":  "670839ace76f721bd68925d0daaa2f445b6c957e68c42bf5cda76d1303d9a919"
+                            }
+                        ],
+    "observedAt":  "2026-11-16T10:48:23.0103552Z",
+    "imageDigest":  "postgres@sha256:a49f7438ba03589f9b1ca062f2da82e899b48ea1dc50d2449fa09a70be83ebca",
+    "containerNetwork":  "none",
+    "queryPlansChecked":  3,
+    "actualConcurrentRaceVerified":  true
+}
