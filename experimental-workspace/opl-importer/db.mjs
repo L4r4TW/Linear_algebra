@@ -6,9 +6,9 @@ export function literal(value) {
  return "'"+text.replaceAll("'","''")+"'";
 }
 export function sql(statement) {
- const result=spawnSync('psql',['-X','-q','-t','-A','-v','ON_ERROR_STOP=1'],{
+ const result=spawnSync('psql',['-X','-q','-t','-A','-v','ON_ERROR_STOP=1','-v','VERBOSITY=sqlstate'],{
  input:"SET standard_conforming_strings=on;\n"+statement,encoding:'utf8',maxBuffer:64*1024*1024,env:process.env,timeout:120000});
- if(result.error||result.status!==0) throw Error('DATABASE_QUERY_FAILED: check database/schema configuration; SQL payload omitted');
+ if(result.error||result.status!==0) {const code=result.stderr?.match(/ERROR:\s+([A-Z0-9]{5})/)?.[1]??'UNKNOWN';const action=({'55P03':'Resume the existing import before starting another','40001':'Reload the current head and retry the same import','23514':'Check inventory completeness, payload shape or immutable source binding','42501':'Check database role grants','55000':'Resume/reconcile the import before publication'})[code]??'Check schema/configuration and migration history';throw Error('DATABASE_QUERY_FAILED ['+code+']: '+action+'; SQL payload omitted');}
  return result.stdout.trim();
 }
 export function json(statement) {return JSON.parse(sql(statement));}

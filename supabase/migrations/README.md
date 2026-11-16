@@ -17,3 +17,5 @@ Each file is transactional; use tracked migration history to resume after a fail
 Importer follow-up: apply 202611160006_opl_import_identity.sql after the five foundation files. This creates backend-only staging and identity reconciliation; the subsequent importer guide records workflow/publication migrations and local verification.
 
 Next apply 202611160007_opl_import_workflow.sql for durable import staging/sealing/publication. It does not enable renderer exercises.
+
+Then apply 202611160008_opl_search.sql, 202611160009_opl_search_guard.sql and 202611160010_opl_count_projection.sql in order. These add full-library discovery and correct generated-field/reader-column boundaries. The importer setup tracks all 20261116 migrations by filename and checksum.
