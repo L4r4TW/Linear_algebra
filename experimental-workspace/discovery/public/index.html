@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Find your next mathematics exercise. Browse topics, explore the library, and practice at your own pace.">
+<title>MathPractice · Find your next idea</title>
+<link rel="icon" href="data:,"><link rel="stylesheet" href="/home.css"><script type="module" src="/home.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to mathematics</a>
+<div class="app-shell">
+<header><a href="/" class="brand" aria-label="MathPractice home"><span aria-hidden="true">∑</span> MathPractice</a><nav aria-label="Main"><a href="/practice">Practice space <span aria-hidden="true">↗</span></a></nav></header>
+<main id="main">
+<section class="hero" aria-labelledby="home-title"><p class="eyebrow">MAKE ROOM FOR UNDERSTANDING</p><h1 id="home-title">What would you like to practice?</h1><p class="intro">Find a topic. Try an idea. Take it at your own pace.</p>
+<form id="search-form" role="search"><label class="sr-only" for="query">Search topics and exercises</label><div class="search-bar"><span aria-hidden="true">⌕</span><input id="query" name="q" type="search" maxlength="200" placeholder="Search topics and exercises…" autocomplete="off"><button type="submit">Search <span aria-hidden="true">→</span></button></div></form>
+</section>
+<div class="browse-toolbar"><div class="view-switch" role="group" aria-label="Choose collection"><button id="practice-view" type="button" aria-pressed="true">Available practice</button><button id="library-view" type="button" aria-pressed="false">Indexed library</button></div><p id="coverage" class="muted" role="status">Loading collections…</p></div>
+<p id="collection-note" class="collection-note">Choose an exercise from the verified practice collection.</p>
+<section aria-labelledby="subjects-title"><div class="section-heading"><h2 id="subjects-title">Browse mathematics</h2><button id="retry-overview" class="text-button" hidden type="button">Retry collections</button></div>
+<div id="subjects" class="subjects" aria-busy="true"><p class="muted">Loading subjects…</p></div></section>
+<section id="search-results" class="results-section" aria-labelledby="results-title">
+<div class="section-heading"><div><p class="eyebrow">YOUR NEXT IDEA</p><h2 id="results-title">Ready to practice</h2></div><button id="clear" class="text-button" type="button" hidden>Clear filters</button></div>
+<form id="filters" class="filters" aria-label="Filter exercises">
+<div><label for="subject">Subject</label><select id="subject" name="subject"><option value="">All subjects</option></select></div>
+<div><label for="chapter">Chapter / topic</label><select id="chapter" name="chapter" disabled><option value="">All topics</option></select></div>
+<div><label for="section">Section</label><select id="section" name="section" disabled><option value="">All sections</option></select></div>
+<div id="area-control" hidden><label for="area">Library collection</label><select id="area" name="area"><option value="">All collections</option><option>OpenProblemLibrary</option><option>Contrib</option><option>Pending</option></select></div>
+</form>
+<p id="results-status" class="muted" role="status" aria-live="polite" aria-atomic="true"></p>
+<div id="results" class="results" aria-busy="true"><div class="skeleton" aria-hidden="true"></div><p>Loading exercises…</p></div>
+<nav id="pagination" class="pagination" aria-label="Search result pages" hidden><button id="previous" class="secondary" type="button">First page</button><button id="next" class="secondary" type="button">Next page <span aria-hidden="true">→</span></button></nav>
+<p id="start-status" class="muted" role="status" aria-live="polite"></p><div id="start-error" class="notice error" role="alert" hidden></div>
+</section>
+<section id="continue" class="continue-section" aria-labelledby="continue-title" aria-busy="true"><div><h2 id="continue-title">Continue practicing</h2><p id="continue-description" class="muted">Looking for your last exercise…</p></div><a id="continue-link" class="continue-link" hidden><span id="continue-label">Resume exercise</span><span aria-hidden="true">→</span></a></section>
+</main>
+<footer>A little practice, a clearer understanding.</footer>
+</div>
+<noscript><p class="notice">Enable JavaScript to search the catalog. You can also <a href="/practice">open the practice space</a>.</p></noscript>
+</body></html>

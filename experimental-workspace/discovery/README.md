@@ -33,3 +33,11 @@ docker compose -f experimental-workspace/discovery/compose.yaml exec -T home npm
 Setup creates only a local discovery_home login inheriting anon and default read-only/4-second query settings. It does not apply migrations, import sources, change publication or grant private-table access. Docker networking is trusted local development; use managed credentials and restricted admission before deployment.
 
 GET /api/discovery/overview separates live prototype availability from database coverage. GET /api/discovery/search accepts q, view=practice|library, subject, chapter, section, area and cursor; pages contain at most twelve entries. GET /api/discovery/topics supplies normalized source classifications. Unknown/repeated parameters and malformed/changed-filter cursors are rejected. Existing database import-generation checks reject stale cursors.
+
+## 8.2: home and search
+
+The screenshot-directed shell is implemented: prominent search, nonempty subject cards, practice/library switch, results, dependent subject/chapter/section and source-area filters, and twelve-entry cursor pagination. Search/filter/cursor state lives in the URL and browser back/forward restores it. Clear filters, retry, stale-cursor restart, loading, empty and dependency-unavailable states are explicit. Source strings use text nodes rather than HTML.
+
+Subject options initialize directly from shared URLs while overview counts load independently. Short-lived (15-second), bounded topic caches deduplicate repeated requests. Available-practice subjects come from the live player, not from imported coverage. The UI follows the reference's neutral cards, thin borders and prominent dark actions; it introduces no account/progress placeholders that imply implemented features.
+
+Initial desktop/mobile visual review and the home/search browser checks passed. Full acceptance and the saved source-bound report are recorded in checkpoint 8.4.
