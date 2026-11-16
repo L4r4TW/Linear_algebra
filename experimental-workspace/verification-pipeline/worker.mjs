@@ -12,6 +12,7 @@ export async function boundedChild(script,args,{timeoutMs=600000,onHeartbeat=()=
  });
 }
 export async function runWorker({loop=false,count=1}={}){
+ if(!loop&&(!Number.isInteger(count)||count<1||count>20))throw Error('WORKER_COUNT_1_TO_20');
  const worker='worker-'+randomUUID();let processed=0,stopping=false;
  process.once('SIGTERM',()=>{stopping=true;});process.once('SIGINT',()=>{stopping=true;});
  while(!stopping&&(loop||processed<count)){
@@ -24,7 +25,7 @@ export async function runWorker({loop=false,count=1}={}){
     result=child.error?{technicalState:'error',error:child.error,cases:[],elapsedMs:Date.now()-started}:JSON.parse(await readFile(join(dir,'result.json'),'utf8'));
    }
    const accepted=finish(job.jobId,job.token,result);console.log(JSON.stringify({jobId:job.jobId,accepted,technicalState:result.technicalState}));
-  }catch{finish(job.jobId,job.token,{technicalState:'error',error:'WORKER_RESULT_ERROR',cases:[],elapsedMs:0});}
+  }catch{try{finish(job.jobId,job.token,{technicalState:'error',error:'WORKER_RESULT_ERROR',cases:[],elapsedMs:0});}catch{console.error('WORKER_DATABASE_ERROR: lease retained for recovery');}}
   finally{await rm(dir,{recursive:true,force:true});}
   processed++;
  }

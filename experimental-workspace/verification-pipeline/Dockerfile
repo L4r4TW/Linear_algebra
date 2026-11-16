@@ -10,3 +10,4 @@ COPY supabase/migrations/ /migrations/
 COPY experimental-workspace/migration-tests/platform.sql /test-platform.sql
 ENTRYPOINT ["node","pipeline/cli.mjs"]
 RUN ln -s /qa/importer /importer
+COPY experimental-workspace/compatibility/catalog.json /qa/pipeline/reference-fixtures.json

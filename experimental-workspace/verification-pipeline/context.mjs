@@ -2,7 +2,11 @@ import {readFileSync,readdirSync} from 'node:fs';
 import {json,sql,literal} from '../importer/db.mjs';
 import {runtimeFingerprint} from '../application/server/catalog-compatibility.mjs';
 import {VERSION,digest} from './contract.mjs';
-export function runnerDigest(){return digest(readdirSync('/qa/pipeline').filter(n=>n.endsWith('.mjs')&&!n.endsWith('.test.mjs')).sort().map(n=>[n,digest(readFileSync('/qa/pipeline/'+n).toString())]));}
+export function runnerDigest(){
+ const files=readdirSync('/qa/pipeline').filter(n=>n.endsWith('.mjs')&&!n.endsWith('.test.mjs')).sort().map(n=>['pipeline/'+n,digest(readFileSync('/qa/pipeline/'+n).toString())]);
+ for(const n of readdirSync('/qa/compatibility').filter(n=>n.endsWith('.mjs')||n==='unsupported-capabilities.json').sort())files.push(['compatibility/'+n,digest(readFileSync('/qa/compatibility/'+n).toString())]);
+ files.push(['reference-fixtures',digest(readFileSync('/qa/pipeline/reference-fixtures.json').toString())]);return digest(files);
+}
 export function registerContext(input){
  if(input.attestation?.rendererRevision!=='1134ffbbf5e656148e579f424f70bcd9f1d15936'||!/^[a-f0-9]{40}$/.test(input.attestation?.pgRevision??'')||
  !/^[a-f0-9]{64}$/.test(input.attestation?.installedPgDigest??'')||!/^sha256:[a-f0-9]{64}$/.test(input.rendererImage??''))throw Error('MEASURED_RENDERER_ATTESTATION_REQUIRED');
