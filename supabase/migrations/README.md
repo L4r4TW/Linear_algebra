@@ -13,3 +13,5 @@ The additive full-library foundation consists of these files, applied once in th
 Read [DATABASE_MIGRATIONS.md](../../experimental-workspace/DATABASE_MIGRATIONS.md) before applying them. It documents prerequisites, access boundaries, fresh/upgrade validation, transaction/recovery behavior and integration limits. Do not apply the legacy reset or the isolated design-lab SQL to upgrade a database. These migrations are checked in and tested locally, not deployed to a hosted project.
 
 Each file is transactional; use tracked migration history to resume after a failure. The first rejects existing new namespaces to prevent accidental overwrites. Only the metadata bootstrap is independently replayable. Retain unknown metadata, private student state and historical evidence. Do not expose private schemas or service-role credentials to browsers.
+
+Importer follow-up: apply 202611160006_opl_import_identity.sql after the five foundation files. This creates backend-only staging and identity reconciliation; the subsequent importer guide records workflow/publication migrations and local verification.

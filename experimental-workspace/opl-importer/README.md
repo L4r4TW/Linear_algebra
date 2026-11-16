@@ -18,3 +18,7 @@ Run the importer inventory command (optional exact revision argument). It verifi
 ## 6.3 metadata checkpoint
 
 Run metadata to extract line-local comment declarations without executing Perl/PG. It preserves raw declarations and source line numbers, normalizes Unicode/whitespace/case against both pinned taxonomy files, and flags missing/partial/conflicting/malformed/unmapped data. Source or generated titles remain labeled; textbook authors/titles remain bibliographic. Description text is bounded/plain. Language, calibrated difficulty and duration remain unknown. Full pinned results: 38,740 matched, 4,495 missing, 5,936 partial, 81 conflicting, 101 malformed and 27,781 unmapped classifications. Both vocabulary files parse without malformed lines. This parser intentionally flags nonstandard/multiline syntax instead of interpreting Perl.
+
+## 6.4 identity checkpoint
+
+Migration 202611160006 adds backend-only staged observations, per-repository heads/leases and bounded identity reconciliation. Exact existing snapshot/path bindings retain bootstrap UUIDs; changed and unchanged paths preserve identity but receive source observations for each new snapshot. Identical simultaneous copies get separate IDs. Possible renames against vanished baseline paths and absent-path reappearances stay identity-review candidates without automatic merges. Raw classification history is retained. Publication/removal decisions require the complete-run workflow added in 6.5. Transactional tests cover all these cases and roll back synthetic records.
