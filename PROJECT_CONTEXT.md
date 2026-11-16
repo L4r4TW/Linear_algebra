@@ -609,3 +609,5 @@ The conversion from editor input to runtime JSON happens in `src/app/admin/exerc
 7.4 complete: separate private renderer and bounded worker runtime/context registration are implemented and eight test groups pass. PG revision is measured as 4b3e564cf4e5a36807ca5a341734f8d604e8b77d; installed-tree mismatch keeps the initial context uncertified. It is a visible publication blocker, not a fabricated approval. No student/application service was restarted.
 
 7.5 complete: the generalized queued runner passed 8 real cases (dot product and derivative, two seeds/two viewports) through all nine existing checks. Both jobs remain needs-review; no approvals/activation occurred. Strict result projection/DB shape guards and eight automated unit/database groups pass. Old cancelled attempts remain retained.
+
+7.6 complete: independent review categories, latest-decision ordering/revocation, protected fixed-seed previews and cookie isolation pass tests. Nine unit/database groups and both preview smoke checks pass. Real jobs remain unapproved pending human mathematical/interaction/deployment review; none was invented.

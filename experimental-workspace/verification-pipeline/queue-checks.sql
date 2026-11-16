@@ -17,6 +17,15 @@ DO $$ DECLARE source catalog.source_versions;repo uuid;run uuid;ctx uuid;manifes
  next_work:=catalog.claim_verification('worker-b',2,1);
  IF catalog.finish_verification(j,(work->>'token')::uuid,'{"technicalState":"error","error":"SYNTHETIC","cases":[]}') THEN RAISE EXCEPTION 'Stale worker accepted';END IF;
  IF NOT catalog.finish_verification(j,(next_work->>'token')::uuid,'{"technicalState":"error","error":"SYNTHETIC","cases":[]}') THEN RAISE EXCEPTION 'Current worker rejected';END IF;
+ UPDATE catalog.verification_jobs SET technical_state='passed',state='needs-review' WHERE id=j;
+ PERFORM catalog.review_verification(j,'requirements','accepted','synthetic','Synthetic requirements reviewed',true);
+ IF catalog.verification_reviews_complete(j,(next_work->>'attemptId')::uuid) THEN RAISE EXCEPTION 'One review approved every category';END IF;
+ PERFORM catalog.review_verification(j,'mathematical','accepted','synthetic','Synthetic mathematical review',true);
+ PERFORM catalog.review_verification(j,'interaction','accepted','synthetic','Synthetic interaction review',true);
+ PERFORM catalog.review_verification(j,'deployment','accepted','synthetic','Synthetic deployment review',true);
+ IF NOT catalog.verification_reviews_complete(j,(next_work->>'attemptId')::uuid) THEN RAISE EXCEPTION 'Four reviews not complete';END IF;
+ PERFORM catalog.review_verification(j,'mathematical','rejected','synthetic','Synthetic review revocation',true);
+ IF catalog.verification_reviews_complete(j,(next_work->>'attemptId')::uuid) THEN RAISE EXCEPTION 'Revocation did not take effect';END IF;
  IF (SELECT count(*) FROM catalog.verification_attempts WHERE job_id=j)<>2 THEN RAISE EXCEPTION 'Attempt lost';END IF;
  BEGIN UPDATE catalog.verification_attempts SET result='{}' WHERE job_id=j;EXCEPTION WHEN SQLSTATE '55000' THEN rejected:=true;END;
  IF NOT rejected THEN RAISE EXCEPTION 'Old attempt modified';END IF;

@@ -66,6 +66,31 @@ services:
     depends_on:
       renderer:
         condition: service_healthy
+  preview1234: &preview
+    image: linear-algebra-verification
+    init: true
+    entrypoint: [node, pipeline/preview.mjs]
+    environment:
+      <<: *database
+      PREVIEW_SEED: 1234
+      PREVIEW_ORIGIN: http://localhost:3103
+      RENDERER_URL: http://renderer:3000
+    networks: [catalog, private]
+    ports: ["127.0.0.1:3103:3003"]
+    mem_limit: 768m
+    tmpfs: ["/tmp:rw,size=128m"]
+    volumes: [operator:/secrets]
+    depends_on:
+      renderer:
+        condition: service_healthy
+  preview4321:
+    <<: *preview
+    environment:
+      <<: *database
+      PREVIEW_SEED: 4321
+      PREVIEW_ORIGIN: http://localhost:3104
+      RENDERER_URL: http://renderer:3000
+    ports: ["127.0.0.1:3104:3003"]
 networks:
   private:
     internal: true
@@ -73,6 +98,7 @@ networks:
     external: true
     name: linear-algebra-opl-catalog_catalog
 volumes:
+  operator:
   opl:
     external: true
     name: linear-algebra-experimental_opl
