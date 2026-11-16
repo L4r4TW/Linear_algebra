@@ -17,7 +17,7 @@ export async function runWorker({loop=false,count=1}={}){
  const worker='worker-'+randomUUID();let processed=0,stopping=false;
  process.once('SIGTERM',()=>{stopping=true;});process.once('SIGINT',()=>{stopping=true;});
  while(!stopping&&(loop||processed<count)){
-  await observeRenderer();refreshAffected({requeue:true,limit:20});const job=claim(worker);if(!job){if(!loop)break;await new Promise(r=>setTimeout(r,1000));continue;}
+  await observeRenderer();refreshAffected({requeue:true,limit:20});const job=claim(worker);if(!job){if(!loop)break;await new Promise(r=>setTimeout(r,5000));continue;}
   const dir=await mkdtemp(join(tmpdir(),'queued-verification-'));let result;
   try{
    if(!existsSync('/qa/pipeline/run-job.mjs'))result={technicalState:'error',error:'RUNNER_NOT_INSTALLED',cases:[],elapsedMs:0};

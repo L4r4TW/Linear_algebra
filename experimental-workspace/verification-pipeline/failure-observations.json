@@ -1,0 +1,10 @@
+{
+    "privateRendererOutage":  true,
+    "explicitRecovery":  true,
+    "workerKilled":  true,
+    "leaseRecovered":  true,
+    "concurrentClaimPrevented":  true,
+    "lateWorkerFenced":  true,
+    "retainedAttempts":  4,
+    "complete":  true
+}

@@ -2,6 +2,10 @@
 
 Session handoff and next steps: [PROJECT_CONTEXT.md](../PROJECT_CONTEXT.md). Repository-wide guidance: [AGENTS.md](../AGENTS.md).
 
+## Operator verification pipeline
+
+The separate [verification pipeline](verification-pipeline/README.md) now provides a protected console at localhost:3102, fixed-seed review pages, durable batch jobs, real isolated browser/PG checks, immutable evidence and reviewed publication/withdrawal. It uses separate test sessions and no student-session mount. Strict PG certification and independent review currently block real activation; the six-entry practice UI below is unchanged. See its guide for operator credentials and acceptance commands.
+
 ## Current catalog scope
 
 Six exercises are enabled in the first local verified batch; five more candidates remain indexed and disabled. See [catalog compatibility rules](CATALOG_COMPATIBILITY.md), [eligibility record](compatibility/CATALOG_STATUS.md), and [server catalog](workspace/server/exercise-catalog.json). Source/runtime evidence and explicit batch membership govern availability. Latest implementation validation (`3eefcbb`, 2026-11-15): 173 server tests, 62 browser checks, six focused continuity cases, two actual outage viewport cases and the live six-entry API check pass. The 14 publisher/report checks and full seeded gate are prior evidence for the unchanged runtime. The full operator regression retains two failed mobile GraphTool cases. Earlier one-exercise counts below describe historical verification stages.

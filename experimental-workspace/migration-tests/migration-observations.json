@@ -1,6 +1,6 @@
 {
     "version":  1,
-    "observedAt":  "2026-11-16T12:09:18.7792905Z",
+    "observedAt":  "2026-11-16T15:46:05.7651372Z",
     "imageDigest":  "postgres@sha256:a49f7438ba03589f9b1ca062f2da82e899b48ea1dc50d2449fa09a70be83ebca",
     "scope":  "Fresh and authored-app upgrade on isolated PostgreSQL with test-only Auth context, not hosted Supabase or HTTP JWT validation",
     "network":  "none",
@@ -303,7 +303,7 @@
                                    ],
                         "aliases":  11,
                         "complete":  true,
-                        "newTables":  60,
+                        "newTables":  70,
                         "databaseMode":  "migration_fresh",
                         "postgresVersion":  "16.16 (Debian 16.16-1.pgdg12+1)"
                     },
@@ -596,7 +596,7 @@
                                    ],
                         "aliases":  11,
                         "complete":  true,
-                        "newTables":  60,
+                        "newTables":  70,
                         "databaseMode":  "migration_upgrade",
                         "postgresVersion":  "16.16 (Debian 16.16-1.pgdg12+1)"
                     }
@@ -642,6 +642,42 @@
                        {
                            "name":  "202611160010_opl_count_projection.sql",
                            "sha256":  "46fab6f86a83bc66b09d633c31d82604b9de6cff5e14dfc1bb00b975bf359a18"
+                       },
+                       {
+                           "name":  "202611160011_verification_detection.sql",
+                           "sha256":  "aff97354da251063e617d3e31bbe8ae1bf8cf1a667bc953397362c15d06ca6b9"
+                       },
+                       {
+                           "name":  "202611160012_verification_queue.sql",
+                           "sha256":  "d369a22fba0d2335321e7f80484e3231e41308840fcc73be18ac622835aa55a5"
+                       },
+                       {
+                           "name":  "202611160013_verification_claim_fix.sql",
+                           "sha256":  "801a33ed55cccdca575f3b2161a2e5dad0cde50188df621175397624f83ae001"
+                       },
+                       {
+                           "name":  "202611160014_verification_results.sql",
+                           "sha256":  "f7fb59e159459c9e00e0d7bac8166e09293fe44dc47f8513f99fb8a1319b49b8"
+                       },
+                       {
+                           "name":  "202611160015_verification_result_guard_fix.sql",
+                           "sha256":  "7ccde8638a94d9ac411f77a4b69f048ccc7805b2cd7bdf920e7aaf65756d59eb"
+                       },
+                       {
+                           "name":  "202611160016_verification_reviews.sql",
+                           "sha256":  "1b41e951eb7210bc594630f702169387ad1e1bfaccc28f8132663d9302fc2311"
+                       },
+                       {
+                           "name":  "202611160017_verification_review_order.sql",
+                           "sha256":  "b1ad9b072d7abb328617b2143072bd4e8f2ecd73aae0b75a6c3202a3fdf49abf"
+                       },
+                       {
+                           "name":  "202611160018_verification_evidence.sql",
+                           "sha256":  "f63cd317b0b44872e16fb0b7bbbf38b2cbe7cf1163f07f5288fa8da0959864e5"
+                       },
+                       {
+                           "name":  "202611160019_verification_publication.sql",
+                           "sha256":  "d773cf91ab20d19f6debc491df2391b4e6437ef2c50607235571b5dd019ab2f9"
                        }
                    ]
 }

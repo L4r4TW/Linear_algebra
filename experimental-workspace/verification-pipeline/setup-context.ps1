@@ -10,6 +10,7 @@ $image=docker inspect $renderer --format '{{.Image}}'
 $source=docker compose -f $compose run --rm tools source-doctor
 if($LASTEXITCODE -ne 0){throw 'Source snapshot check failed'}
 $source=($source -join "`n")|ConvertFrom-Json
-$input=[ordered]@{attestation=$attestation;rendererImage=$image;sourceRevision=$source.revision;sourceClean=$source.clean}|ConvertTo-Json -Depth 8 -Compress
+$workerImage=docker image inspect linear-algebra-verification --format '{{.Id}}'
+$input=[ordered]@{attestation=$attestation;rendererImage=$image;workerImage=$workerImage;sourceRevision=$source.revision;sourceClean=$source.clean}|ConvertTo-Json -Depth 8 -Compress
 $input|docker compose -f $compose run --rm -T tools register-context
 if($LASTEXITCODE -ne 0){throw 'Context registration failed'}

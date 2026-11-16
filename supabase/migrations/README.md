@@ -21,3 +21,5 @@ Next apply 202611160007_opl_import_workflow.sql for durable import staging/seali
 Then apply 202611160008_opl_search.sql, 202611160009_opl_search_guard.sql and 202611160010_opl_count_projection.sql in order. These add full-library discovery and correct generated-field/reader-column boundaries. The importer setup tracks all 20261116 migrations by filename and checksum.
 
 All ten additive migrations now pass 134 fresh/legacy-upgrade checks. See the [completed importer guide](../../experimental-workspace/opl-importer/README.md) for the 77,134-source local import, nine test groups, full-library acceptance and deployment limits.
+
+Task 7 adds files 202611160011 through 202611160019 in filename order for manifests, queue/fencing, sanitized results, independent reviews, immutable evidence/freshness and publication. See the [verification guide](../../experimental-workspace/verification-pipeline/README.md). Local migration history is checksum-tracked; hosted Supabase is untouched. All nineteen files pass the fresh/legacy 134-check suite; the catalog/private schemas contain 70 forced-RLS tables.

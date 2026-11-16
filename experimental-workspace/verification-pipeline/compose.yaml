@@ -75,7 +75,7 @@ services:
       PREVIEW_SEED: 1234
       PREVIEW_ORIGIN: http://localhost:3103
       RENDERER_URL: http://renderer:3000
-    networks: [catalog, private]
+    networks: [catalog, private, console]
     ports: ["127.0.0.1:3103:3003"]
     mem_limit: 768m
     tmpfs: ["/tmp:rw,size=128m"]
@@ -99,7 +99,7 @@ services:
       <<: *database
       OPERATOR_ORIGIN: http://localhost:3102
       RENDERER_URL: http://renderer:3000
-    networks: [catalog, private]
+    networks: [catalog, private, console]
     ports: ["127.0.0.1:3102:3002"]
     mem_limit: 1024m
     shm_size: 256m
@@ -110,6 +110,7 @@ services:
       renderer:
         condition: service_healthy
 networks:
+  console: {}
   private:
     internal: true
   catalog:

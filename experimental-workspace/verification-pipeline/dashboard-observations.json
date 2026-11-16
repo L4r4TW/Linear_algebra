@@ -1,12 +1,12 @@
 {
-    "operatorAuth":  true,
-    "privateApiDenied":  true,
-    "csrfDenied":  true,
-    "indexedToggle":  true,
-    "practiceReadyDefault":  true,
-    "evidenceDialogKeyboard":  true,
-    "mobile360":  true,
-    "uncertifiedPublicationBlocked":  true,
-    "pageErrors":  0,
-    "complete":  true
+  "operatorAuth": true,
+  "privateApiDenied": true,
+  "csrfDenied": true,
+  "indexedToggle": true,
+  "practiceReadyDefault": true,
+  "evidenceDialogKeyboard": true,
+  "mobile360": true,
+  "uncertifiedPublicationBlocked": true,
+  "pageErrors": 0,
+  "complete": true
 }

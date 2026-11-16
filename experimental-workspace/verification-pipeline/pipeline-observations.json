@@ -1,0 +1,1171 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-16T16:13:22.609Z",
+  "scope": "Private verification renderer; temporary operator sessions; no student/session volume, existing runtime or hosted Supabase changes",
+  "nodeVersion": "v26.13.1",
+  "context": {
+    "id": "ff2116d9-7cc5-498b-bf59-71edf550589a",
+    "health": "MATCHING_RENDERER",
+    "certified": false,
+    "pgRevision": "4b3e564cf4e5a36807ca5a341734f8d604e8b77d",
+    "workerImage": "sha256:c6545805c62dae1eb0c55237fea13f4eca4230c18dba13695ffb5996e4e56ef0",
+    "runnerDigest": "710f00bd1cc4b7c1659a6d0b43bf97d7be5008e04954b303a0589817a9e5de22",
+    "runtimeDigest": "8ff066dd7e957a03850b3f23cda907a3285b9dd536cd60ad0f396a20aa9d879e",
+    "workerRuntime": {
+      "arch": "x64",
+      "node": "v26.13.1",
+      "parse5": "8.1.1",
+      "platform": "linux",
+      "playwright": "1.65.1",
+      "browserBinaryDigest": "045558b2f167db04624e36d952496705418a85d87ff9b5fb55a8c40cc59201ae"
+    },
+    "rendererRevision": "1134ffbbf5e656148e579f424f70bcd9f1d15936"
+  },
+  "profile": {
+    "checks": [
+      "rendering",
+      "interaction",
+      "answerCapture",
+      "grading",
+      "retries",
+      "refresh",
+      "ownership",
+      "keyboard",
+      "mobile"
+    ],
+    "seeds": [
+      1234,
+      4321
+    ],
+    "viewports": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "catalog": {
+    "areas": {
+      "Contrib": 29624,
+      "Pending": 6969,
+      "OpenProblemLibrary": 40541
+    },
+    "runId": "fa805a18-f7ed-4c6e-9023-b75b455c26d9",
+    "indexed": 77134,
+    "generation": 1,
+    "unclassified": 38394,
+    "practiceReady": 0,
+    "identityReview": 0
+  },
+  "batch": {
+    "targets": 11,
+    "states": {
+      "needs-review": 7,
+      "unsupported": 2,
+      "failed": 2
+    },
+    "executedCases": 36,
+    "passingCases": 28,
+    "failedOrLimitedCases": 8,
+    "unsupportedTargets": 2,
+    "totalWorkerElapsedMs": 304826,
+    "serialTargetsPerMinute": 2.17,
+    "note": "Measured bounded reference batch, not full-library throughput or an all-passing compatibility gate. Unsupported/failed/limited results remain ineligible."
+  },
+  "jobs": [
+    {
+      "jobId": "60c4a2a3-b8a3-4b85-bb00-0edd94cdde16",
+      "exerciseId": "compat-algebra-checkbox-01",
+      "state": "needs-review",
+      "technicalState": "passed",
+      "attemptCount": 1,
+      "cases": [
+        {
+          "seed": 1234,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "desktop",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 1234,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "mobile",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 4321,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "desktop",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 4321,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "mobile",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        }
+      ],
+      "error": null
+    },
+    {
+      "jobId": "7dbf00ce-54fc-429c-ad22-ced65a2f7096",
+      "exerciseId": "compat-algebra-graphtool-01",
+      "state": "unsupported",
+      "technicalState": "unsupported",
+      "attemptCount": 1,
+      "cases": [],
+      "error": "UNSUPPORTED_CAPABILITY"
+    },
+    {
+      "jobId": "d803357f-8b85-4881-8daf-274be3447098",
+      "exerciseId": "compat-algebra-image-01",
+      "state": "failed",
+      "technicalState": "failed",
+      "attemptCount": 1,
+      "cases": [
+        {
+          "seed": 1234,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "desktop",
+          "limitations": [
+            "NARROW_FRAME_SCROLL"
+          ],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 1234,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "mobile",
+          "limitations": [
+            "NARROW_FRAME_SCROLL"
+          ],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 4321,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "desktop",
+          "limitations": [
+            "NARROW_FRAME_SCROLL"
+          ],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 4321,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "mobile",
+          "limitations": [
+            "NARROW_FRAME_SCROLL"
+          ],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        }
+      ],
+      "error": null
+    },
+    {
+      "jobId": "23c02974-4e65-44d0-9764-9c3e4c0ba969",
+      "exerciseId": "compat-calculus-formula-01",
+      "state": "needs-review",
+      "technicalState": "passed",
+      "attemptCount": 1,
+      "cases": [
+        {
+          "seed": 1234,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "desktop",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 1234,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "mobile",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 4321,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "desktop",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 4321,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "mobile",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        }
+      ],
+      "error": null
+    },
+    {
+      "jobId": "8e14b928-b0a9-4420-9a98-654a2a3503cf",
+      "exerciseId": "compat-calculus-graph-01",
+      "state": "needs-review",
+      "technicalState": "passed",
+      "attemptCount": 1,
+      "cases": [
+        {
+          "seed": 1234,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "desktop",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 1234,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "mobile",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 4321,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "desktop",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 4321,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "mobile",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        }
+      ],
+      "error": null
+    },
+    {
+      "jobId": "e3d8c04d-94dd-4996-a110-2fe94796bdbd",
+      "exerciseId": "compat-calculus-numeric-01",
+      "state": "needs-review",
+      "technicalState": "passed",
+      "attemptCount": 1,
+      "cases": [
+        {
+          "seed": 1234,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "desktop",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 1234,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "mobile",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 4321,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "desktop",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 4321,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "mobile",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        }
+      ],
+      "error": null
+    },
+    {
+      "jobId": "2ba39d63-b52f-43a8-b4c4-e293773eecc3",
+      "exerciseId": "compat-calculus-scaffold-01",
+      "state": "unsupported",
+      "technicalState": "unsupported",
+      "attemptCount": 1,
+      "cases": [],
+      "error": "UNSUPPORTED_CAPABILITY"
+    },
+    {
+      "jobId": "ed7b4c90-2f6d-4d25-a88e-8f89d77c2cb5",
+      "exerciseId": "compat-economics-popup-01",
+      "state": "needs-review",
+      "technicalState": "passed",
+      "attemptCount": 1,
+      "cases": [
+        {
+          "seed": 1234,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "desktop",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 1234,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "mobile",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 4321,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "desktop",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 4321,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "mobile",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        }
+      ],
+      "error": null
+    },
+    {
+      "jobId": "0c689402-3a42-460b-b334-426528f62aef",
+      "exerciseId": "compat-matrix-grid-01",
+      "state": "failed",
+      "technicalState": "failed",
+      "attemptCount": 1,
+      "cases": [
+        {
+          "seed": 1234,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "desktop",
+          "limitations": [
+            "NARROW_FRAME_SCROLL"
+          ],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 1234,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "mobile",
+          "limitations": [
+            "NARROW_FRAME_SCROLL"
+          ],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 4321,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "desktop",
+          "limitations": [
+            "NARROW_FRAME_SCROLL"
+          ],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 4321,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "mobile",
+          "limitations": [
+            "NARROW_FRAME_SCROLL"
+          ],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        }
+      ],
+      "error": null
+    },
+    {
+      "jobId": "38f5ed8c-befe-45ad-965b-a02701e6650a",
+      "exerciseId": "compat-statistics-radio-01",
+      "state": "needs-review",
+      "technicalState": "passed",
+      "attemptCount": 1,
+      "cases": [
+        {
+          "seed": 1234,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "desktop",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 1234,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "mobile",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 4321,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "desktop",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 4321,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "mobile",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        }
+      ],
+      "error": null
+    },
+    {
+      "jobId": "7145c52c-0ba3-4502-9d32-b8532a2d3897",
+      "exerciseId": "dot-product-01",
+      "state": "needs-review",
+      "technicalState": "passed",
+      "attemptCount": 1,
+      "cases": [
+        {
+          "seed": 1234,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "desktop",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 1234,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "mobile",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 4321,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "desktop",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        },
+        {
+          "seed": 4321,
+          "error": null,
+          "checks": {
+            "mobile": true,
+            "grading": true,
+            "refresh": true,
+            "retries": true,
+            "keyboard": true,
+            "ownership": true,
+            "rendering": true,
+            "interaction": true,
+            "answerCapture": true
+          },
+          "outcome": "passed",
+          "viewport": "mobile",
+          "limitations": [],
+          "clearedScore": 0,
+          "correctScore": 1,
+          "sourceVerified": true
+        }
+      ],
+      "error": null
+    }
+  ],
+  "checks": {
+    "allTargetsAccounted": true,
+    "exactBaselinePreserved": true,
+    "technicalPassesHaveAllRequiredProof": true,
+    "noRealApprovals": true,
+    "noUncertifiedActivation": true,
+    "existingCatalogStillIndexed": true
+  },
+  "knownBlockers": [
+    "Strict tracked PG provenance remains uncertified; generated lockfile differs. No certification exception was authorized.",
+    "Independent mathematical/manual/deployment reviews remain pending.",
+    "Known graph/scaffold/narrow-layout limitations remain explicit."
+  ],
+  "sourceHashes": [
+    {
+      "file": "acceptance-fixture.mjs",
+      "sha256": "83b0d2586d4e46020bc4a18be4237d53afbf8f2dec0ec49e2af8bd6fc2dc0d4b"
+    },
+    {
+      "file": "attest-renderer.sh",
+      "sha256": "74a199ff1b806fb22a7338229d93d0241de82ee536758c3b27b74e2c7a8c0f90"
+    },
+    {
+      "file": "auth.mjs",
+      "sha256": "020264a52d43b7d4bd4e6edaff31cb02b448719caf03384d10dd5acd6e8ca54f"
+    },
+    {
+      "file": "auth.test.mjs",
+      "sha256": "fc860d952badc6c478b39d2c65aa468aba7b69b026e7856cc1ea6b6e8be583f4"
+    },
+    {
+      "file": "cli.mjs",
+      "sha256": "e4e2c2ce1be127dea7a81f9a4e92755764edffcff1779f21800fac0426e415c2"
+    },
+    {
+      "file": "context.mjs",
+      "sha256": "2797f31bb1329b1a7a82313619442f95fa5903eb98bd59204a45dec8f3eeea5d"
+    },
+    {
+      "file": "contract.mjs",
+      "sha256": "2b573544b4ebcfc684cb5d34b85c7e1349efff17710a4e75f819724a6d3d5b0f"
+    },
+    {
+      "file": "contract.test.mjs",
+      "sha256": "3c026f3a3079dd36a6e76aa2445d49b9975bf97dfb2795ac4b4558bd87374335"
+    },
+    {
+      "file": "dashboard-check.mjs",
+      "sha256": "84d86b465c7a058018815c6e75284adb5602e269f40910eb31293aa1579016f4"
+    },
+    {
+      "file": "detect.mjs",
+      "sha256": "c9c9491dbb5ce4c4815a0cf895dc041014820cdd1d48b94d8d3d99789a3bf8f5"
+    },
+    {
+      "file": "detect.test.mjs",
+      "sha256": "6f2635b592aee6bbfd5e8c5a26ce4323d5b57a6be66cdc90f040d8cc2af81ff8"
+    },
+    {
+      "file": "evidence.mjs",
+      "sha256": "49ee84df26a86b831671532062082b052f52c9330fdaed859ef1750d0b5fb892"
+    },
+    {
+      "file": "health.mjs",
+      "sha256": "690e23fcb9e27d8c05fdceae97b8cff0ff2dc57552edc76f646bf571383b5501"
+    },
+    {
+      "file": "health.test.mjs",
+      "sha256": "1dc32cd454d94111318e7c307c54896ac41b27832e83ddce59db11b4f8912d96"
+    },
+    {
+      "file": "operator-key.mjs",
+      "sha256": "81b58fd12c565b55e1a511d15e23758f66bfbe5fa31af27c82d6d1aca0c1e089"
+    },
+    {
+      "file": "preview-smoke.mjs",
+      "sha256": "1e75d4d5de6fd976b8a061422136445501e491e03ef2d81e84e5d30038666445"
+    },
+    {
+      "file": "preview.mjs",
+      "sha256": "7069b44591ea1f4a54e71b9f3580fffd1ab35d6f75e9a284debbfd5116521528"
+    },
+    {
+      "file": "publication-checks.sql",
+      "sha256": "ca9ea57a2a60bcbfd3fbe58fda865e9dc9d985896aedccbae0aac0c253ba3ca9"
+    },
+    {
+      "file": "publication.test.mjs",
+      "sha256": "31ca0e0c203d9de2bebcecb7cf6bbe340d12b05cde723b4bfdd53fce0a58dc17"
+    },
+    {
+      "file": "publish.mjs",
+      "sha256": "70c36bcfd4ed2896d58e2ae759d42e544efbd540f2570728b675eb98b6fe2553"
+    },
+    {
+      "file": "queue-checks.sql",
+      "sha256": "64c108051cc6d6e98da6a9a5e89e822e24f10c213f73e1be4d24e15135539a5c"
+    },
+    {
+      "file": "queue.mjs",
+      "sha256": "66c63d146ac9df563c2f1c2e8d7724b53063be2ebfe22e938c9605c568a1de86"
+    },
+    {
+      "file": "queue.test.mjs",
+      "sha256": "8ec14fed93e5e297cb44067bbad75dcfe206595aef96061b471357ddf4a2eade"
+    },
+    {
+      "file": "reference-aliases.mjs",
+      "sha256": "c9825367cc696553fa6a572309f0b13d90b13b306f394ab27164571e91dacf3f"
+    },
+    {
+      "file": "report.mjs",
+      "sha256": "4190dc904c06794ac1d7530e02672845c22582bbb51d128d130b65df390dea62"
+    },
+    {
+      "file": "run-job.mjs",
+      "sha256": "6e2bbc4f3fea1c804182ba36dd7a25791dc8f8b303d38d34e9f7f30e229a34d1"
+    },
+    {
+      "file": "runtime.mjs",
+      "sha256": "ee20aaf126892f05692c19f7447fa5b6913b526d5a3c04c14061c13bcc9ebb87"
+    },
+    {
+      "file": "server.mjs",
+      "sha256": "ae28971a18cc520c133e1ba8bc835504c0e9c760685debe34f524a38cab0e517"
+    },
+    {
+      "file": "worker-hang-fixture.mjs",
+      "sha256": "ecd0835b4e2198ba6874b86a435cc0211780c30759bdf31cbc55476499b7ccef"
+    },
+    {
+      "file": "worker.mjs",
+      "sha256": "eb1899806e06ac0dc1db20a2c565aa1d91b722a7b0e1ecdfc3e54be073a9f01b"
+    },
+    {
+      "file": "worker.test.mjs",
+      "sha256": "58f6314b8c34e2d76d378106c04d3e69301c4faf99fed59d6eb935b9012516d8"
+    },
+    {
+      "file": "202611160001_catalog_and_practice_foundation.sql",
+      "sha256": "e5e8ae2d3a92953f4c4c08a2e04230bb369e98ee6f2fa3c2bb1593ee348ac89d"
+    },
+    {
+      "file": "202611160002_catalog_provenance_and_evidence.sql",
+      "sha256": "dddc585fc72a7d089c8a2b59d242073e592cfe5c2458cfa087b47a44e7818978"
+    },
+    {
+      "file": "202611160003_catalog_access_and_publication.sql",
+      "sha256": "1d8698064e10fc1cc108fa35dfba756c86df728e910ffcdf1e904d5c7d155718"
+    },
+    {
+      "file": "202611160004_bootstrap_existing_opl_metadata.sql",
+      "sha256": "96dcc401cb04eaed6752f4b4f9c8b79750f54b735e08117afbc5634e797fd3f4"
+    },
+    {
+      "file": "202611160005_practice_atomic_operations.sql",
+      "sha256": "25c898cffe9785c9a0c7133cbdfb208b05b0487af83bdfd6f4fde0c8902cb4a1"
+    },
+    {
+      "file": "202611160006_opl_import_identity.sql",
+      "sha256": "f07ae602cfbcc550e0ddff4e9f961528f1bae3df66c393ddca5cafcadb3dc5b8"
+    },
+    {
+      "file": "202611160007_opl_import_workflow.sql",
+      "sha256": "56d4534fde381d57699e6bac70d37a24cf1a0876fcd30f0e560f2d87a37236bb"
+    },
+    {
+      "file": "202611160008_opl_search.sql",
+      "sha256": "cc6ff573c2026a991ecf85a2df3686643bd115aa5adff2d02953a9626ed2682c"
+    },
+    {
+      "file": "202611160009_opl_search_guard.sql",
+      "sha256": "a716e8b5b736b55e4a3af43a8e28aa5b49b10576c5a18d7291b9cd4fda26c047"
+    },
+    {
+      "file": "202611160010_opl_count_projection.sql",
+      "sha256": "46fab6f86a83bc66b09d633c31d82604b9de6cff5e14dfc1bb00b975bf359a18"
+    },
+    {
+      "file": "202611160011_verification_detection.sql",
+      "sha256": "aff97354da251063e617d3e31bbe8ae1bf8cf1a667bc953397362c15d06ca6b9"
+    },
+    {
+      "file": "202611160012_verification_queue.sql",
+      "sha256": "d369a22fba0d2335321e7f80484e3231e41308840fcc73be18ac622835aa55a5"
+    },
+    {
+      "file": "202611160013_verification_claim_fix.sql",
+      "sha256": "801a33ed55cccdca575f3b2161a2e5dad0cde50188df621175397624f83ae001"
+    },
+    {
+      "file": "202611160014_verification_results.sql",
+      "sha256": "f7fb59e159459c9e00e0d7bac8166e09293fe44dc47f8513f99fb8a1319b49b8"
+    },
+    {
+      "file": "202611160015_verification_result_guard_fix.sql",
+      "sha256": "7ccde8638a94d9ac411f77a4b69f048ccc7805b2cd7bdf920e7aaf65756d59eb"
+    },
+    {
+      "file": "202611160016_verification_reviews.sql",
+      "sha256": "1b41e951eb7210bc594630f702169387ad1e1bfaccc28f8132663d9302fc2311"
+    },
+    {
+      "file": "202611160017_verification_review_order.sql",
+      "sha256": "b1ad9b072d7abb328617b2143072bd4e8f2ecd73aae0b75a6c3202a3fdf49abf"
+    },
+    {
+      "file": "202611160018_verification_evidence.sql",
+      "sha256": "f63cd317b0b44872e16fb0b7bbbf38b2cbe7cf1163f07f5288fa8da0959864e5"
+    },
+    {
+      "file": "202611160019_verification_publication.sql",
+      "sha256": "d773cf91ab20d19f6debc491df2391b4e6437ef2c50607235571b5dd019ab2f9"
+    }
+  ],
+  "complete": true
+}
