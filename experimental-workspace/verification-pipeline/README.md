@@ -8,3 +8,6 @@ The next checkpoints implement detection (7.2), leases (7.3), isolated workers (
 
 ## 7.2 detection checkpoint
 Versioned immutable candidate manifests now cover all 77,134 current source versions. 1,414 have potentially unsupported capabilities; dynamic macros/assets/scripts and unreviewed PG behavior stay explicit. Detection never certifies dependency closure or marks requirements complete. Five contract/detection test groups pass. Read-only source inspection adds no activation or PG execution.
+
+## 7.3 queue checkpoint
+Durable source/manifest/context jobs deduplicate enqueue requests, claim with SKIP LOCKED and serialized global concurrency limits, renew fenced leases, retain expired/finished attempts, cap retries, and audit explicit retry/cancel actions. Stale/late/cancelled workers cannot finish another lease. Seven test groups pass in disposable databases, including browser-role denial. Queue jobs are not approvals.
