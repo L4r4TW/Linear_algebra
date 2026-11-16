@@ -15,3 +15,5 @@ Read [DATABASE_MIGRATIONS.md](../../experimental-workspace/DATABASE_MIGRATIONS.m
 Each file is transactional; use tracked migration history to resume after a failure. The first rejects existing new namespaces to prevent accidental overwrites. Only the metadata bootstrap is independently replayable. Retain unknown metadata, private student state and historical evidence. Do not expose private schemas or service-role credentials to browsers.
 
 Importer follow-up: apply 202611160006_opl_import_identity.sql after the five foundation files. This creates backend-only staging and identity reconciliation; the subsequent importer guide records workflow/publication migrations and local verification.
+
+Next apply 202611160007_opl_import_workflow.sql for durable import staging/sealing/publication. It does not enable renderer exercises.

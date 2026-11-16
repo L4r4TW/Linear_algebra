@@ -22,3 +22,9 @@ Run metadata to extract line-local comment declarations without executing Perl/P
 ## 6.4 identity checkpoint
 
 Migration 202611160006 adds backend-only staged observations, per-repository heads/leases and bounded identity reconciliation. Exact existing snapshot/path bindings retain bootstrap UUIDs; changed and unchanged paths preserve identity but receive source observations for each new snapshot. Identical simultaneous copies get separate IDs. Possible renames against vanished baseline paths and absent-path reappearances stay identity-review candidates without automatic merges. Raw classification history is retained. Publication/removal decisions require the complete-run workflow added in 6.5. Transactional tests cover all these cases and roll back synthetic records.
+
+## 6.5 durable workflow checkpoint
+
+Migration 202611160007 adds transactional open/stage/seal/complete primitives. A durable per-repository lease prevents competing imports; the same manifest/parser request resumes committed batches. Publication compares the baseline generation and requires complete scope coverage with no staged entries. Only then are removals recorded and the current source head moved. Existing versions/events remain intact. Full replay returns the stored report without new identities, events or generation changes. Invalid batches roll back as a unit. Concurrent workers may need to retry after a seal/conflict; no automatic lease stealing or PG execution occurs.
+
+Run importer metadata, then importer import. Optional --batch=500 controls bounded transactions; --stop-after-batches=N provides a deliberate recovery checkpoint. Repeating import resumes automatically. The seven current Node tests run in an independently created disposable database via verify.ps1, removed in finally; they cover interruption, lease conflicts, atomic rollback, changed/removed files and identity review.

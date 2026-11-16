@@ -5,3 +5,4 @@ WORKDIR /importer
 COPY experimental-workspace/opl-importer/ ./
 COPY supabase/migrations/ /migrations/
 ENTRYPOINT ["node", "cli.mjs"]
+COPY experimental-workspace/migration-tests/platform.sql /test-platform.sql

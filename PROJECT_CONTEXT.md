@@ -583,3 +583,5 @@ The conversion from editor input to runtime JSON happens in `src/app/admin/exerc
 6.3 complete: lexical metadata/taxonomy extraction and edge-case tests pass; the full 77,134-source metadata inventory remains in the importer state volume. Classification counts and limitations are in its README. Missing and ambiguous values are retained, not guessed or approved. Source execution/compatibility is not established.
 
 6.4 complete: additive import identity schema and bounded reconciliation tested against stable/replayed/changed/unchanged/copy/rename/reappearance fixtures. No bulk import or current source-head movement yet. New records do not inherit compatibility. Full workflow/checkpoint publication follows in 6.5.
+
+6.5 complete: durable import orchestration and CLI are implemented with transactional staging, leases, complete-scope sealing, generation checks and atomic publication/removal/reporting. Seven test groups pass in a disposable database, including interruption/resume and bad-batch rollback. The real full-library metadata is prepared but not yet imported; 6.6 adds safe search and 6.7 runs final full-library verification.
