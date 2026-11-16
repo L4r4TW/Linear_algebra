@@ -113,8 +113,8 @@ async function load(focus=false){
  }catch(error){
   if(signal.aborted||sequence!==requestId)return;
   $('results-status').textContent='Exercises could not be loaded.';
-  const changed=error.code==='CATALOG_CHANGED'||error.code==='INVALID_CURSOR';
-  $('results').replaceChildren(notice(changed?'This search needs a fresh start':'We could not load this collection',error.message,()=>changed?go({cursor:null}):void load(),changed?'Restart search':'Retry loading'));
+  const changed=error.code==='CATALOG_CHANGED'||error.code==='INVALID_CURSOR',invalid=error.code==='INVALID_FILTER';
+  $('results').replaceChildren(notice(changed||invalid?'This search needs a fresh start':'We could not load this collection',error.message,()=>invalid?go({view:'practice',q:null,subject:null,chapter:null,section:null,area:null,cursor:null}):changed?go({cursor:null}):void load(),changed||invalid?'Restart search':'Retry loading'));
  }finally{if(sequence===requestId)$('results').setAttribute('aria-busy','false');}
 }
 async function loadContinue(){

@@ -51,3 +51,27 @@ A successful owned session response records only an opaque recent-session ID in 
 Continue is local to this browser's most recent gateway session, not account history or a progress model. Drafts remain tab/session-bound and use sessionStorage. Existing drafts entered at localhost:3100 remain on that origin; they are not silently copied to 3105. Start and resume through 3105 to keep the new flow together. Multiple tabs retain the player's existing independent-draft behavior.
 
 Real browser acceptance covers grading/restoration, leaving via the player's home link, resuming the exact session with unsubmitted edits, and a different owner's rejection. Failed starts retain search and permit explicit retry; a pending start prevents duplicate submissions. No existing player source or compatibility fingerprint was edited.
+
+## 8.4: acceptance and continuation
+
+Run the complete local acceptance from the repository root:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File experimental-workspace/discovery/verify.ps1
+```
+
+The runner validates Compose, starts/rebuilds only discovery, runs nine server/contract tests, one actual read-only database test, seven browser tests, and the unchanged player's live six-entry catalog check. It uses the existing pinned Playwright QA image (building it when absent). Its own random QA container is removed in finally. No OPL checkout, student volume cleanup, hosted migration, importer run or publication is performed.
+
+The [sanitized observations](discovery-observations.json) record source hashes, image identity and passing checks for:
+
+- Six playable exercises and four nonempty practice subjects; 77,134 separately indexed sources.
+- Read-only anon-scoped queries, base-table denial, distinct cursor pages and real stale-generation rejection.
+- Search, dependent topic/source filters, refreshable URLs, pagination and back/forward navigation.
+- Loading, empty, failure/retry, stale-cursor restart and partial catalog-outage recovery.
+- Text-only source metadata and fixed-upstream/origin/body-size gateway boundaries.
+- Actual exercise launch, PG grading, saved-result refresh, same-session unsubmitted edits across home navigation, and ownership rejection.
+- Duplicate-start prevention, failed-start recovery, keyboard/labels/live-region semantics and 360px mobile layout without page overflow.
+
+Desktop and mobile home screenshots were visually inspected before answer entry; screenshots and browser profiles are not committed. Actual screen-reader listening and physical-device review remain manual release checks. This is focused home/gateway acceptance; the original 173-server/62-browser and 42/44 compatibility figures remain historical and were not relabelled as new results.
+
+The imported database still has zero practice-ready exercises. The new home does not resolve PG provenance or supply independent approvals. Future work includes reviewed curated taxonomy/navigation, database-backed session adapters, approved batches, accounts/progress and production deployment. Keep indexed discovery separate from practice authorization.
