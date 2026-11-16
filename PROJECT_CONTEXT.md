@@ -597,3 +597,7 @@ The conversion from editor input to runtime JSON happens in `src/app/admin/exerc
 6.5 complete: durable import orchestration and CLI are implemented with transactional staging, leases, complete-scope sealing, generation checks and atomic publication/removal/reporting. Seven test groups pass in a disposable database, including interruption/resume and bad-batch rollback. The real full-library metadata is prepared but not yet imported; 6.6 adds safe search and 6.7 runs final full-library verification.
 
 6.6 complete: full-text/topic database discovery, source/generated metadata labels, indexed-versus-ready counts, generation-bound cursors and operator issues are implemented. Eight disposable-database test groups pass, including public projection and private-access denial. Apply migrations through 202611160010 (generated-field guard and reader-column fixes included). Full real-library import and report validation follow in 6.7; neither app UI is wired to this catalog yet.
+
+## Verification pipeline checkpoints (task 7)
+
+7.1: verification contract implemented in [verification-pipeline/README.md](experimental-workspace/verification-pipeline/README.md). It retains the nine mandatory checks, two seeds/two viewports, separates technical outcomes from four explicit review categories, and allowlists stored diagnostics. Three contract test groups pass. Subsequent queue/worker/dashboard/publication work continues in this session; no existing activation or student data changed.
