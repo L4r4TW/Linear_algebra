@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "state": "synthetic-design-only-not-applied",
+  "scope": "Symbolic references only; no real student IDs, credentials, seeds, answers or saved records.",
+  "principals": [
+    {"key":"guest-a","kind":"anonymous","accountKey":null,"state":"active"},
+    {"key":"guest-b","kind":"anonymous","accountKey":null,"state":"active"},
+    {"key":"account-a","kind":"account","accountKey":"student-a","state":"active"},
+    {"key":"account-b","kind":"account","accountKey":"student-b","state":"active"}
+  ],
+  "claims": [],
+  "sessions": [
+    {"key":"demo-guest-session","ownerPrincipalKey":"guest-a","exerciseKey":"demo-exercise","sourceVersionKey":"demo-source-v1","environmentKey":"demo-environment-v1","sourceBinding":"pinned","lastSubmissionKey":null},
+    {"key":"demo-account-session-a","ownerPrincipalKey":"account-a","exerciseKey":"demo-exercise","sourceVersionKey":"demo-source-v1","environmentKey":"demo-environment-v1","sourceBinding":"pinned","lastSubmissionKey":"demo-checked-a"},
+    {"key":"demo-account-session-b","ownerPrincipalKey":"account-b","exerciseKey":"demo-exercise","sourceVersionKey":"demo-source-v1","environmentKey":"demo-environment-v1","sourceBinding":"pinned","lastSubmissionKey":null},
+    {"key":"demo-legacy-session","ownerPrincipalKey":"account-a","exerciseKey":"demo-legacy-exercise","sourceVersionKey":null,"environmentKey":null,"sourceBinding":"legacy-unbound","lastSubmissionKey":null},
+    {"key":"demo-operator-record","ownerPrincipalKey":null,"exerciseKey":"demo-exercise","sourceVersionKey":null,"environmentKey":null,"sourceBinding":"legacy-unbound","lastSubmissionKey":null}
+  ],
+  "practiceSets": [
+    {"key":"demo-set-a","ownerPrincipalKey":"account-a","taxonomyReleaseKey":"demo-taxonomy-release","items":[
+      {"key":"demo-item-a","position":1,"exerciseKey":"demo-exercise","sourceVersionKey":"demo-source-v1","environmentKey":"demo-environment-v1","sessionKey":"demo-account-session-a"},
+      {"key":"demo-item-b","position":2,"exerciseKey":"demo-exercise-two","sourceVersionKey":"demo-source-v2","environmentKey":"demo-environment-v1","sessionKey":null}
+    ]}
+  ],
+  "principles": [
+    "Ownership comes from trusted authentication or verified anonymous credential proof, never a client-supplied owner ID or profile role.",
+    "Claim links are unique per anonymous principal and never silently transferred to another account.",
+    "Child records must match the parent session/set ownership and pinned identity.",
+    "Drafts, accepted attempts and private renderer state are separate entities.",
+    "Suppressed feedback must not leak through progress or completion badges.",
+    "Legacy client grades and unbound source history are not recertified as pinned PG results."
+  ]
+}

@@ -55,3 +55,15 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace
 ```
 
 The [runner](verify-compatibility-model.ps1) and [checks](verify-compatibility-model.mjs) compare every decision against the live catalog module and exercise hypothetical changes only in cloned memory. Fresh [observations](compatibility-model-observations.json): 15 checks pass, 11 indexed / 6 enabled, with 42 historical required passes and 2 retained mobile GraphTool failures. No new renderer/browser run, session reads, activation or SQL writes. Do not replace workspace/server/catalog-compatibility-evidence.json with these design artifacts. Next: student-record relationships/privacy boundaries (5.6).
+
+## Student records and privacy boundaries (5.6)
+
+Read [STUDENT_RECORDS_PRIVACY.md](../STUDENT_RECORDS_PRIVACY.md). [student-record-examples.json](student-record-examples.json) uses symbolic, synthetic principals/session/set references only. [student-record-policy.mjs](student-record-policy.mjs) demonstrates owner/child consistency, explicit claim planning, draft revision/baseline conflicts, owner-only field projection and suppression-aware summaries. It is not authentication, deployed RLS, a claim API or a concurrency lock; its trusted actor facts must never be accepted from a browser body.
+
+From the repository root, with the workspace running:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File ./experimental-workspace/catalog-model/verify-student-record-model.ps1
+```
+
+The [runner](verify-student-record-model.ps1) and [checks](verify-student-record-model.mjs) use synthetic records in a separate Node process. They do not read session volumes, query Supabase/PG, transfer accounts or apply SQL. [Observations](student-record-observations.json) contain 22 passing scenario names/outcomes and source-code reference hashes, no entered pairs or private record values. Cases cover claims/replay/old-cookie retirement, disabled principals, cross-owner/version denial, stale drafts, ordered answers, secret-field exclusion, unknown/uncertain versus suppressed feedback, legacy grading provenance and progress deduplication. Next: constraints/query design (5.7), then actual additive migrations (5.8).

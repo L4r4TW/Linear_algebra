@@ -151,4 +151,4 @@ Fresh [model observations](catalog-model/compatibility-model-observations.json):
 
 These checks do not implement SQL, a queue, atomic database release, historical worker authentication or the future in-flight grading protocol. Existing 173-server/62-browser and 42/44 seeded results remain historical implementation evidence. Public deployment still needs the manual/device, ownership/persistence and hardening work already recorded.
 
-Next: **5.6 — student-record relationships and privacy boundaries**, followed by **5.7 — constraints/query patterns** and **5.8 — additive migrations and model validation** before connecting the full-library importer and discovery UI.
+Task 5.6 is now specified in [STUDENT_RECORDS_PRIVACY.md](STUDENT_RECORDS_PRIVACY.md). Next: **5.7 — constraints/query patterns** and **5.8 — additive migrations and model validation** before connecting the full-library importer and discovery UI.

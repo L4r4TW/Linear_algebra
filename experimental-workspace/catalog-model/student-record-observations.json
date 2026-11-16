@@ -1,0 +1,138 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-16T10:13:19.028Z",
+  "kind": "student-record-design-observations",
+  "state": "synthetic-design-only-not-applied",
+  "sourceReferences": [
+    {
+      "path": "experimental-workspace/workspace/server/exercise-sessions.mjs",
+      "sha256": "4f22d74cc5e045fa221f2b93b71ef26f1dd9f8066abc2e2e9e481287250d434c"
+    },
+    {
+      "path": "experimental-workspace/workspace/server/http-app.mjs",
+      "sha256": "e0a4a2ee13c60e1e9f27f1cd9cc9922b56baf9237c65886c81edd9b9a98665d0"
+    },
+    {
+      "path": "experimental-workspace/workspace/public/draft-answers.js",
+      "sha256": "64942b344952349a06460d4b829e74980e3e10757586879c595ba4cea0f02446"
+    },
+    {
+      "path": "supabase/schema.sql",
+      "sha256": "a70e2e510152059891a9e10ca1a29dd22be66383581398bb536954c9f223dd83"
+    },
+    {
+      "path": "supabase/migrations/20260221_admin_exercise_panel.sql",
+      "sha256": "a32952dac6c671444a184ba1ea388215d6c23fc061c8382ecd27db39acd7c506"
+    },
+    {
+      "path": "supabase/migrations/20260221_admin_structure_rls.sql",
+      "sha256": "c1c627fa441646017ec6dcb290b92abe8dfe1ff59681724bcbc0128953f77d75"
+    },
+    {
+      "path": "supabase/migrations/20260221_remove_archived_status.sql",
+      "sha256": "042c62b8f5f324c7d27b3e3b13f5b23685b5f5e964ff36b13ba8b82690fdff5c"
+    },
+    {
+      "path": "src/app/practice/[topic]/exercise-attempt-card.tsx",
+      "sha256": "7171d2e7966730e1733071b4484d2097f862d31d78ca63c00ebf90c4ffa79f57"
+    }
+  ],
+  "syntheticPrincipals": 4,
+  "syntheticSessionRelationships": 5,
+  "checks": [
+    {
+      "name": "Every symbolic owner and pinned session/set relationship is explicit",
+      "passed": true
+    },
+    {
+      "name": "Accounts access only their own account-owned session",
+      "passed": true
+    },
+    {
+      "name": "Anonymous ownership requires verified credential context, not a supplied owner label",
+      "passed": true
+    },
+    {
+      "name": "Admin/editor/worker labels do not grant student-record access",
+      "passed": true
+    },
+    {
+      "name": "Legacy unowned operator records stay unavailable to students",
+      "passed": true
+    },
+    {
+      "name": "A child cannot forge an owner while referencing another student session",
+      "passed": true
+    },
+    {
+      "name": "Claim requires account authentication, source proof, consent and origin checks",
+      "passed": true
+    },
+    {
+      "name": "Pending or uncertain grading blocks a new claim until reconciliation",
+      "passed": true
+    },
+    {
+      "name": "Claim preserves record identity while old cookie authority ends",
+      "passed": true
+    },
+    {
+      "name": "Repeated claim is idempotent for the same account and cannot transfer to another",
+      "passed": true
+    },
+    {
+      "name": "Ambiguous, revoked or disabled principals fail closed without restoring cookie access",
+      "passed": true
+    },
+    {
+      "name": "Draft compare-and-swap prevents a second tab from overwriting a newer revision",
+      "passed": true
+    },
+    {
+      "name": "A newer checked baseline conflicts instead of silently overwriting unfinished work",
+      "passed": true
+    },
+    {
+      "name": "Foreign draft access hides revision/baseline details",
+      "passed": true
+    },
+    {
+      "name": "Owner answer restoration preserves whitespace and ordered repeated-name pairs",
+      "passed": true
+    },
+    {
+      "name": "Private renderer, ownership and correct-answer fields are not projected",
+      "passed": true
+    },
+    {
+      "name": "Uncertain submission cannot be presented as an accepted mathematical grade",
+      "passed": true
+    },
+    {
+      "name": "Suppressed private scores cannot leak through feedback or progress correctness",
+      "passed": true
+    },
+    {
+      "name": "Legacy client grades and unbound snapshots never become pinned renderer progress",
+      "passed": true
+    },
+    {
+      "name": "Progress excludes foreign owners and cross-version session bindings",
+      "passed": true
+    },
+    {
+      "name": "Retakes do not duplicate credit for the same pinned exercise version",
+      "passed": true
+    },
+    {
+      "name": "Synthetic policy evaluation does not mutate fixture data or allocate real IDs",
+      "passed": true
+    }
+  ],
+  "complete": true,
+  "noSavedStudentRecordsRead": true,
+  "noSupabaseCalls": true,
+  "noRendererCalls": true,
+  "noSqlOrRuntimeChanges": true,
+  "scope": "Reference relationship/access/claim/projection checks only. Not deployed authentication, RLS, migrations, transactions or real account transfer."
+}

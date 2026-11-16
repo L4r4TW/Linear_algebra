@@ -1,6 +1,6 @@
 # Project context and session handoff
 
-Updated 2026-11-15. Start with this handoff, [AGENTS.md](AGENTS.md), and the detailed [experimental workspace README](experimental-workspace/README.md). Product direction is in [Project_goals.md](Project_goals.md).
+Updated 2026-11-16. Start with this handoff, [AGENTS.md](AGENTS.md), and the detailed [experimental workspace README](experimental-workspace/README.md). Product direction is in [Project_goals.md](Project_goals.md).
 
 ## Where development stands
 
@@ -29,7 +29,17 @@ The new verify-continuity.ps1 runs the server/catalog/browser suite and real des
 
 Next release checks: actual NVDA/VoiceOver listening and physical mobile devices. Before account/public scale, decide draft conflict recovery, cross-device persistence, durable attempt history, request idempotency and distributed locking. Keep the future whole-library importer behind capability verification; this milestone enables no additional exercises. Run git status/log to confirm commit and push state.
 
-## Current work: compatibility evidence and activation model (5.5)
+## Current work: student-record relationships and privacy (5.6)
+
+Task 5.5 was committed/pushed as `a4fdeaa`. Task 5.6 is defined in [STUDENT_RECORDS_PRIVACY.md](experimental-workspace/STUDENT_RECORDS_PRIVACY.md): student principals and explicit unique guest/account claim links; owned practice sets/items, pinned sessions, private renderer state, submission operations, append-only attempts, draft branches, bookmarks and progress. It includes a relationship diagram and public/owner/backend/operator access matrix. Claims preserve IDs/history and retire old guest-only authority; catalog roles do not grant private student access.
+
+The [synthetic fixture](experimental-workspace/catalog-model/student-record-examples.json) and [reference policy](experimental-workspace/catalog-model/student-record-policy.mjs) are design tools, not authentication, RLS or production authorization. Fresh [observations](experimental-workspace/catalog-model/student-record-observations.json): 22 checks pass for owner/foreign/guest/role access, parent consistency, consent/proof/replayed/blocked claims, retired-cookie and disabled-account behavior, stale draft revisions/baselines, ordered answer pairs, private-field redaction, uncertain/unknown visibility, suppression-aware progress, legacy provenance and retake deduplication. No real student records, Supabase/PG calls, claims, SQL or runtime changes occurred; only checked-in code-reference hashes and synthetic outcomes are recorded.
+
+Reproduce with catalog-model/verify-student-record-model.ps1 from the repo root. New claim/API routes, account login integration, server draft sync, distributed idempotency/transactions and deployed RLS remain unimplemented. Current anonymous ownership/tab drafts and six enabled exercises stay unchanged; earlier app/browser/compatibility counts remain historical. Inspect Git status/log for this model's commit/push state.
+
+Next: **5.7 — constraints and query patterns**, including parent-consistent FKs, unique claim/idempotency keys, CAS/publication generations, owner-scoped query/index design and retained-history/deletion rules. Task 5.8 implements additive migrations and database validation before importer/account/discovery integration.
+
+## Completed model: compatibility evidence and activation (5.5)
 
 Task 5.4 was committed/pushed as `9665c50`. Task 5.5 is defined in [COMPATIBILITY_DATA_MODEL.md](experimental-workspace/COMPATIBILITY_DATA_MODEL.md): source-version requirements, immutable profile/environment identity, declared run targets, retained attempts, reviewed evidence bundles, computed assessments and version-pinned activation/withdrawal records. Compatibility, metadata publication, technical availability and deployment/rights policy stay separate. No current gate rule was changed.
 
@@ -37,7 +47,7 @@ The [read-only normalizer](experimental-workspace/catalog-model/compatibility-mo
 
 Fresh [model observations](experimental-workspace/catalog-model/compatibility-model-observations.json): 15 contract checks pass, including cloned-memory withdrawal, stale source/runtime, incomplete/duplicate coverage, missing proof, failed ownership and retained retry failures. Reproduce with catalog-model/verify-compatibility-model.ps1 from the repo root. There were no new PG requests, session reads, service restarts, SQL, activation or application-runtime changes. The 42/44 gate and 173-server/62-browser results remain historical evidence, not reruns. Inspect Git status/log for this design's commit/push state.
 
-Next: 5.6, student-record relationships and privacy boundaries; then constraints/queries (5.7) and additive migrations (5.8), before operational importer/discovery integration. Dynamic publication concurrency, worker authentication, public deployment policy and in-flight withdrawal/grading behavior are specified as later implementation requirements, not already deployed features.
+The student-record/privacy follow-up (5.6) is now defined in STUDENT_RECORDS_PRIVACY.md; next are constraints/queries (5.7) and additive migrations (5.8), before operational importer/discovery integration. Dynamic publication concurrency, worker authentication, public deployment policy and in-flight withdrawal/grading behavior are specified as later implementation requirements, not already deployed features.
 
 ## Completed model: student-facing catalog metadata (5.4)
 
