@@ -22,6 +22,7 @@ services:
       PGUSER: postgres
       PGDATABASE: opl_catalog
     volumes:
+      - state:/state
       - type: volume
         source: opl
         target: /opl
@@ -35,6 +36,7 @@ networks:
     internal: true
 volumes:
   catalog:
+  state:
   opl:
     external: true
     name: linear-algebra-experimental_opl

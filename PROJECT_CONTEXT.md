@@ -577,3 +577,5 @@ The conversion from editor input to runtime JSON happens in `src/app/admin/exerc
 ## OPL importer checkpoints (task 6)
 
 6.1: server-only psql adapter and isolated persistent Docker catalog database are implemented. See [importer guide](experimental-workspace/opl-importer/README.md). Migrations and SQL-literal injection round-trip passed locally; the existing applications, OPL source and student/session volumes remain intact. Tasks 6.2–6.7 continue in this session. Hosted Supabase is not configured.
+
+6.2 complete: pinned Git-object inventory verified 77,134 regular PG sources across all three roots. Full inventory stays in the importer state volume; only aggregate reports belong in Git. Repeatability/dirty-worktree/symlink/wrong-pin tests pass. No database source import or activation yet.
