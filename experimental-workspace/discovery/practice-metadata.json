@@ -1,0 +1,46 @@
+[
+    {
+        "id":  "dot-product-01",
+        "subject":  "Linear algebra"
+    },
+    {
+        "id":  "compat-calculus-numeric-01",
+        "subject":  "Calculus - single variable"
+    },
+    {
+        "id":  "compat-calculus-formula-01",
+        "subject":  "Calculus - single variable"
+    },
+    {
+        "id":  "compat-matrix-grid-01",
+        "subject":  "Linear algebra"
+    },
+    {
+        "id":  "compat-statistics-radio-01",
+        "subject":  "Statistics"
+    },
+    {
+        "id":  "compat-algebra-checkbox-01",
+        "subject":  "Algebra"
+    },
+    {
+        "id":  "compat-economics-popup-01",
+        "subject":  "Calculus - single variable"
+    },
+    {
+        "id":  "compat-calculus-scaffold-01",
+        "subject":  "Calculus - single variable"
+    },
+    {
+        "id":  "compat-algebra-image-01",
+        "subject":  "Algebra"
+    },
+    {
+        "id":  "compat-calculus-graph-01",
+        "subject":  "Calculus - single variable"
+    },
+    {
+        "id":  "compat-algebra-graphtool-01",
+        "subject":  "Algebra"
+    }
+]

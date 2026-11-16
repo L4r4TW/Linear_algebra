@@ -2,6 +2,11 @@
 
 Updated 2026-11-16. Start with this handoff, [AGENTS.md](AGENTS.md), and the detailed [experimental workspace README](experimental-workspace/README.md). Product direction is in [Project_goals.md](Project_goals.md).
 
+
+## Current milestone: home and discovery (8.1–8.4)
+
+Task 8 is split into four checkpoints in the [discovery guide](experimental-workspace/discovery/README.md). 8.1 implements bounded read-only catalog/search/topic APIs, filter-bound generation cursors and an independent Docker home service at localhost:3105. Real queries confirm 77,134 indexed sources, zero database-ready entries and six existing launchable practice exercises across four subjects. Four contract tests pass. The new frontend is under implementation; browser/practice gateway acceptance follows. No existing practice runtime files, evidence gates, sessions or app services were changed. Task 7.10 was pushed as 8debfa8.
+
 ## Where development stands
 
 The active work is the independent **experimental-workspace/** WeBWorK integration. The existing root Next.js/Supabase application remains separate. Its earlier context is retained below; do not confuse its grading, tests, or authentication with the sandbox.
@@ -11,7 +16,7 @@ The goal has expanded to a multi-subject practice platform covering the whole OP
 Latest practice-runtime implementation: `3eefcbb` (continuity acceptance), pushed to `origin/main` on 2026-11-15. The subsequent database/importer milestones below preserve that runtime; their tests are separate. Run `git log -1` and `git status --short` before continuing, and preserve newer local work.
 
 
-## Current milestone: queued compatibility verification (7.1–7.10)
+## Completed milestone: queued compatibility verification (7.1–7.10)
 
 The [verification pipeline](experimental-workspace/verification-pipeline/README.md) now adds conservative capability/dependency manifests, a durable fenced queue, bounded isolated workers/private renderer, real browser/PG checks, independent review, immutable evidence, stale-context requeue, an authenticated dashboard, and controlled database publication/withdrawal. Checkpoints 7.1–7.9 were separately committed/pushed (`6d646aa`, `037a489`, `8b3945a`, `b695c72`, `1006944`, `e836a38`, `7d08cb3`, `79b6c89`, `f39ca47`); inspect Git for the final 7.10 acceptance commit.
 

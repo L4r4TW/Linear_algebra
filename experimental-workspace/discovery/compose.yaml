@@ -1,0 +1,37 @@
+name: linear-algebra-discovery
+services:
+  home:
+    image: linear-algebra-discovery
+    build:
+      context: ../..
+      dockerfile: experimental-workspace/discovery/Dockerfile
+    init: true
+    environment:
+      HOME_ORIGIN: http://localhost:3105
+      PRACTICE_URL: http://linear-algebra-experimental-workspace-1:3000
+      PRACTICE_ORIGIN: http://localhost:3100
+      PGHOST: linear-algebra-opl-catalog-database-1
+      PGDATABASE: opl_catalog
+      PGUSER: discovery_home
+      PGCONNECT_TIMEOUT: 3
+    ports: ["127.0.0.1:3105:3005"]
+    networks: [catalog, practice, console]
+    read_only: true
+    tmpfs: ["/tmp:rw,noexec,nosuid,size=16m"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 64
+    mem_limit: 256m
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://localhost:3005/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+networks:
+  console: {}
+  catalog:
+    external: true
+    name: linear-algebra-opl-catalog_catalog
+  practice:
+    external: true
+    name: linear-algebra-experimental_default
