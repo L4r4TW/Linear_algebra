@@ -605,3 +605,5 @@ The conversion from editor input to runtime JSON happens in `src/app/admin/exerc
 7.2 complete: conservative capability/dependency detection produced 77,134 immutable manifests, including 1,414 potentially unsupported candidates. No new exercise was enabled; dynamic/unreviewed behavior remains explicit. Five contract/detection tests pass.
 
 7.3 complete: durable queue, concurrency/lease fencing, expiry recovery, retained retries/cancellation and access tests pass (seven groups). Additive migrations through 202611160013 are applied only to the isolated local catalog; no existing application/data was reset.
+
+7.4 complete: separate private renderer and bounded worker runtime/context registration are implemented and eight test groups pass. PG revision is measured as 4b3e564cf4e5a36807ca5a341734f8d604e8b77d; installed-tree mismatch keeps the initial context uncertified. It is a visible publication blocker, not a fabricated approval. No student/application service was restarted.

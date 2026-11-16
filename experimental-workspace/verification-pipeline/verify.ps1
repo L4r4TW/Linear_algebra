@@ -6,6 +6,6 @@ try {
  if($LASTEXITCODE -ne 0){throw 'Test database create failed'};$created=$true
  docker compose -f $compose run --rm -e "PGDATABASE=$db" --entrypoint node tools importer/setup-test.mjs
  if($LASTEXITCODE -ne 0){throw 'Pipeline test migrations failed'}
- docker compose -f $compose run --rm -e "PGDATABASE=$db" --entrypoint node tools --test pipeline/contract.test.mjs pipeline/detect.test.mjs pipeline/queue.test.mjs
+ docker compose -f $compose run --rm -e "PGDATABASE=$db" --entrypoint node tools --test pipeline/contract.test.mjs pipeline/detect.test.mjs pipeline/queue.test.mjs pipeline/worker.test.mjs
  if($LASTEXITCODE -ne 0){throw 'Pipeline tests failed'}
 }finally{if($created){docker compose -f $catalog exec -T database dropdb -U postgres $db;if($LASTEXITCODE -ne 0){throw 'Test database cleanup failed'}}}

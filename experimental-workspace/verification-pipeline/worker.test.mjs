@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {boundedChild} from './worker.mjs';
+test('Isolated child deadlines terminate the process group and return only a diagnostic code',async()=>{const result=await boundedChild('/qa/pipeline/worker-hang-fixture.mjs',[],{timeoutMs:100});assert.equal(result.error,'JOB_TIMEOUT');assert.equal(Object.hasOwn(result,'stdout'),false);});

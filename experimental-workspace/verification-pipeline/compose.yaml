@@ -5,7 +5,7 @@ services:
     build:
       context: ../..
       dockerfile: experimental-workspace/verification-pipeline/Dockerfile
-    environment:
+    environment: &database
       PGHOST: linear-algebra-opl-catalog-database-1
       PGUSER: postgres
       PGDATABASE: opl_catalog
@@ -15,7 +15,60 @@ services:
         source: opl
         target: /opl
         read_only: true
+  renderer:
+    image: linear-algebra-verification-renderer
+    build:
+      context: ../..
+      dockerfile: experimental-workspace/verification-pipeline/Renderer.Dockerfile
+    init: true
+    command: [/bin/sh, -c, "rm -f /usr/app/script/hypnotoad.pid && exec hypnotoad -f ./script/render_app"]
+    environment:
+      MOJO_MODE: development
+      SITE_HOST: http://renderer:3000
+    networks: [private]
+    cpus: 1
+    mem_limit: 1500m
+    pids_limit: 128
+    security_opt: [no-new-privileges:true]
+    volumes:
+      - type: volume
+        source: opl
+        target: /usr/app/webwork-open-problem-library
+        read_only: true
+        volume:
+          nocopy: true
+          subpath: webwork-open-problem-library
+    healthcheck:
+      test: [CMD, curl, --fail, --silent, "http://localhost:3000/health"]
+      interval: 5s
+      timeout: 4s
+      retries: 30
+      start_period: 30s
+  worker:
+    image: linear-algebra-verification
+    init: true
+    command: [worker, --loop]
+    environment:
+      <<: *database
+      RENDERER_URL: http://renderer:3000
+    networks: [catalog, private]
+    cpus: 1.5
+    mem_limit: 1800m
+    shm_size: 512m
+    pids_limit: 300
+    security_opt: [no-new-privileges:true]
+    tmpfs: ["/tmp:rw,size=768m"]
+    volumes:
+      - type: volume
+        source: opl
+        target: /opl
+        read_only: true
+    depends_on:
+      renderer:
+        condition: service_healthy
 networks:
+  private:
+    internal: true
   catalog:
     external: true
     name: linear-algebra-opl-catalog_catalog

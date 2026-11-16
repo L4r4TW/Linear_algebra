@@ -11,3 +11,6 @@ Versioned immutable candidate manifests now cover all 77,134 current source vers
 
 ## 7.3 queue checkpoint
 Durable source/manifest/context jobs deduplicate enqueue requests, claim with SKIP LOCKED and serialized global concurrency limits, renew fenced leases, retain expired/finished attempts, cap retries, and audit explicit retry/cancel actions. Stale/late/cancelled workers cannot finish another lease. Seven test groups pass in disposable databases, including browser-role denial. Queue jobs are not approvals.
+
+## 7.4 isolated worker checkpoint
+A dedicated renderer has no published port and uses the OPL volume read-only. Workers have CPU/memory/PID limits, isolated temporary sessions, process-group deadlines and lease heartbeats; they never mount the student session volume or Docker socket. setup-context.ps1 records measured renderer-image/PG/source/runtime identities. The installed PG tree currently differs from its pinned upstream submodule, so this first context is explicitly uncertified and cannot authorize publication; later freshness/evidence work retains that blocker. Eight tests pass, including actual child timeout termination. Only the separate verification renderer was started.
