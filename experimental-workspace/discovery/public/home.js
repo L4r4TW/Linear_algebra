@@ -48,11 +48,11 @@ function renderSubjects(){
  if(!subjects.length){container.append(notice('No subjects available here yet',mode==='practice'?'Verified practice will appear here when it is available. You can explore indexed coverage in the library.':'No classified subjects have been indexed. Search can still find unclassified sources.'));return;}
  const icons=[['algebra','⊞'],['calculus','∫'],['geometry','∠'],['statistics','▥'],['equations','∂']];
  for(const subject of subjects){
-  const a=node('a',undefined,'subject-card'),url=new URL(location.href);url.search='';if(mode==='library')url.searchParams.set('view','library');url.searchParams.set('subject',subject.subject);a.href=url.pathname+url.search;
+  const a=node('a',undefined,'subject-card'),url=new URL(location.href);url.search='';if(mode==='library')url.searchParams.set('view','library');url.searchParams.set('subject',subject.subject);a.href='/browse'+url.search;
   const top=node('div',undefined,'subject-top'),icon=node('span',icons.find(([term])=>subject.subject.toLowerCase().includes(term))?.[1]??'∑','subject-icon');icon.setAttribute('aria-hidden','true');
   top.append(icon,node('span',subject.subject,'subject-name'));
   const meta=node('div',undefined,'subject-meta');meta.append(node('span',mode==='practice'?number(subject.practice)+(subject.practice===1?' exercise':' exercises')+' · Explore topics':number(subject.indexed)+' indexed sources · Browse coverage'),node('span','→'));a.append(top,meta);
-  a.addEventListener('click',event=>{if(event.button||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();go({q:null,subject:subject.subject,chapter:null,section:null,area:null},{focus:true});});
+  a.addEventListener('click',event=>{if(event.button||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();location.assign(a.href);});
   container.append(a);
  }
 }

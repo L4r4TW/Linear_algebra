@@ -47,3 +47,5 @@ The local six-exercise player remains usable. The 77,134-source imported catalog
 
 - Start: 8.4 pushed as 0d0f616; existing services healthy. Only the saved practice-design note in PROJECT_CONTEXT.md was uncommitted, and it is preserved.
 - 9.1 implemented: bounded dependent chooser API and live-allowlist plans. Validation: thirteen unit/server groups plus actual indexed/practice API probes. Next: 9.2 desktop/mobile chooser and 9.3 tab-local plan launch.
+
+- 9.2–9.3 implemented and focused browser-verified. Next: 9.4 combined regression/report, then task 10 practice shell.
