@@ -1,0 +1,25 @@
+name: linear-algebra-verification
+services:
+  tools:
+    image: linear-algebra-verification
+    build:
+      context: ../..
+      dockerfile: experimental-workspace/verification-pipeline/Dockerfile
+    environment:
+      PGHOST: linear-algebra-opl-catalog-database-1
+      PGUSER: postgres
+      PGDATABASE: opl_catalog
+    networks: [catalog]
+    volumes:
+      - type: volume
+        source: opl
+        target: /opl
+        read_only: true
+networks:
+  catalog:
+    external: true
+    name: linear-algebra-opl-catalog_catalog
+volumes:
+  opl:
+    external: true
+    name: linear-algebra-experimental_opl

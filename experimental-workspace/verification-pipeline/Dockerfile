@@ -9,3 +9,4 @@ COPY experimental-workspace/verification-pipeline/ ./pipeline/
 COPY supabase/migrations/ /migrations/
 COPY experimental-workspace/migration-tests/platform.sql /test-platform.sql
 ENTRYPOINT ["node","pipeline/cli.mjs"]
+RUN ln -s /qa/importer /importer

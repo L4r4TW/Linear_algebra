@@ -601,3 +601,5 @@ The conversion from editor input to runtime JSON happens in `src/app/admin/exerc
 ## Verification pipeline checkpoints (task 7)
 
 7.1: verification contract implemented in [verification-pipeline/README.md](experimental-workspace/verification-pipeline/README.md). It retains the nine mandatory checks, two seeds/two viewports, separates technical outcomes from four explicit review categories, and allowlists stored diagnostics. Three contract test groups pass. Subsequent queue/worker/dashboard/publication work continues in this session; no existing activation or student data changed.
+
+7.2 complete: conservative capability/dependency detection produced 77,134 immutable manifests, including 1,414 potentially unsupported candidates. No new exercise was enabled; dynamic/unreviewed behavior remains explicit. Five contract/detection tests pass.
