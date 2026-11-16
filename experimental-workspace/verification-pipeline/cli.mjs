@@ -14,6 +14,8 @@ try{
   if(!names.length||names.length>20)throw Error('ALIAS_BATCH_1_TO_20');
   const sources=json(`SELECT coalesce(jsonb_agg(e.source_version_id),'[]') FROM catalog.aliases a JOIN catalog.import_entries e ON e.exercise_id=a.exercise_id JOIN catalog.import_heads h ON h.run_id=e.run_id WHERE a.namespace='experimental-opl' AND a.external_id IN (${names.map(literal).join(',')});`);
   if(sources.length!==names.length)throw Error('UNKNOWN_OR_AMBIGUOUS_ALIAS');console.log(JSON.stringify({jobs:enqueue(sources)}));
+ }else if(command==='refresh'){const {refreshAffected}=await import('./evidence.mjs');console.log(JSON.stringify(refreshAffected({requeue:arg==='--enqueue'})));
+ }else if(command==='heartbeat'){const {observeRenderer}=await import('./health.mjs');console.log(JSON.stringify(await observeRenderer()));
  }else if(command==='queue'){
   const {summary}=await import('./queue.mjs');console.log(JSON.stringify(summary()));
  }else if(command==='migrate')await import('../importer/setup-local.mjs');

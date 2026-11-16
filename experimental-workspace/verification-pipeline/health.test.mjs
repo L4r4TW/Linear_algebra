@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {sameAttestation} from './health.mjs';
+test('Attestation comparison ignores JSON object key order but preserves every value',()=>{assert.equal(sameAttestation({pg:'a',clean:false},{clean:false,pg:'a'}),true);assert.equal(sameAttestation({pg:'a',clean:false},{pg:'a',clean:true}),false);assert.equal(sameAttestation({pg:'a',clean:false},{pg:'a'}),false);});

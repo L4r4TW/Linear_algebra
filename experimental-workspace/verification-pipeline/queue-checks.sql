@@ -34,6 +34,10 @@ DO $$ DECLARE source catalog.source_versions;repo uuid;run uuid;ctx uuid;manifes
  IF catalog.finish_verification(j,(work->>'token')::uuid,'{"technicalState":"error","error":"SYNTHETIC","cases":[]}') THEN RAISE EXCEPTION 'Cancelled worker accepted';END IF;
  rejected:=false;BEGIN PERFORM catalog.control_verification(j,'retry','synthetic','Attempt cap');EXCEPTION WHEN SQLSTATE '55000' THEN rejected:=true;END;
  IF NOT rejected THEN RAISE EXCEPTION 'Attempt cap bypass';END IF;
+ IF NOT catalog.verification_job_current(j) THEN RAISE EXCEPTION 'Applicable job marked stale';END IF;
+ INSERT INTO catalog.verifier_contexts(snapshot_id,digest,payload) VALUES(source.snapshot_id,repeat('d',64),'{"synthetic":true}') RETURNING id INTO ctx;
+ UPDATE catalog.verifier_heads SET context_id=ctx,generation=generation+1 WHERE scope='local-practice';
+ IF catalog.refresh_verification()<>1 OR catalog.verification_job_current(j) THEN RAISE EXCEPTION 'Changed context stayed applicable';END IF;
 END $$;
 SELECT 'true'::json;
 ROLLBACK;
