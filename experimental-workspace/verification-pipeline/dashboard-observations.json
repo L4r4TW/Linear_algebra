@@ -6,6 +6,7 @@
     "practiceReadyDefault":  true,
     "evidenceDialogKeyboard":  true,
     "mobile360":  true,
+    "uncertifiedPublicationBlocked":  true,
     "pageErrors":  0,
     "complete":  true
 }

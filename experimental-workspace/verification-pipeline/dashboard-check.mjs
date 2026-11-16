@@ -13,10 +13,16 @@ try{
  await page.locator('#library-query').fill('"><script>throw new Error(1)</script>');await page.getByRole('button',{name:'Search library',exact:true}).click();await page.waitForTimeout(100);
  await page.getByRole('button',{name:'Verification queue',exact:true}).click();await page.locator('#jobs button').first().click();await page.locator('#detail').waitFor({state:'visible'});
  assert.ok((await page.locator('#evidence').textContent()).includes('technicalState'));await page.keyboard.press('Escape');await page.locator('#detail').waitFor({state:'hidden'});
+ await page.getByRole('button',{name:'Publication',exact:true}).click();
+ const listing=await page.evaluate(async()=>await(await fetch('/api/jobs')).json());
+ await page.locator('#release-jobs').fill(listing[0].id);await page.locator('#release-reason').fill('Verify that uncertified publication is blocked');
+ await page.getByRole('button',{name:'Prepare release',exact:true}).click();
+ await page.getByText('PUBLICATION_BLOCKED: ENVIRONMENT_UNCERTIFIED',{exact:true}).waitFor();
+ assert.equal(await page.locator('#publish-release').isVisible(),false);
  const cookies=(await context.cookies()).map(c=>c.name+'='+c.value).join('; ');
  assert.equal((await fetch(base+'/api/refresh',{method:'POST',headers:{cookie:cookies,origin:'http://attacker.invalid','content-type':'application/json'},body:'{"requeue":true}'})).status,403);
  await page.setViewportSize({width:360,height:800});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true);
  assert.equal(pageErrors,0);
- writeFileSync('/tmp/dashboard-observations.json',JSON.stringify({operatorAuth:true,privateApiDenied:true,csrfDenied:true,indexedToggle:true,practiceReadyDefault:true,evidenceDialogKeyboard:true,mobile360:true,pageErrors,complete:true},null,2));
+ writeFileSync('/tmp/dashboard-observations.json',JSON.stringify({operatorAuth:true,privateApiDenied:true,csrfDenied:true,indexedToggle:true,practiceReadyDefault:true,evidenceDialogKeyboard:true,mobile360:true,uncertifiedPublicationBlocked:true,pageErrors,complete:true},null,2));
  console.log('PASS: authenticated desktop/mobile dashboard, library toggle, evidence dialog, CSRF and no script execution.');
 }finally{await browser.close();}

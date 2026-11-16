@@ -1,0 +1,52 @@
+-- Entirely synthetic evidence in a disposable database; never authorizes a real exercise.
+BEGIN;
+DO $$ DECLARE s catalog.source_versions;repo uuid;run uuid;ctx uuid;j uuid;work jsonb;cases jsonb;meta jsonb;release uuid;release2 uuid;assessment uuid;old_assessment uuid;owner_key uuid;account_key uuid;session_key uuid;blocked boolean;
+BEGIN
+ IF current_database() NOT LIKE 'opl_importer_test_%' THEN RAISE EXCEPTION 'Disposable database required';END IF;
+ SELECT * INTO s FROM catalog.source_versions ORDER BY path LIMIT 1;SELECT repository_id INTO repo FROM catalog.snapshots WHERE id=s.snapshot_id;
+ INSERT INTO catalog.import_runs(snapshot_id,request_key,scope,manifest_digest,scanner_version,state,expected_count,parser_version) VALUES(s.snapshot_id,'publication-test-'||gen_random_uuid(),'{}',repeat('a',64),'synthetic','running',1,'synthetic') RETURNING id INTO run;
+ INSERT INTO catalog.import_entries(run_id,path,blob_oid,sha256,byte_count,metadata,state,exercise_id,source_version_id) VALUES(run,s.path,repeat('a',40),s.sha256,1,'{"title":"Synthetic publication source","state":"missing"}','imported',s.exercise_id,s.id);
+ UPDATE catalog.import_runs SET state='completed',coverage_complete=true,inventory_sealed=true WHERE id=run;
+ INSERT INTO catalog.import_heads(repository_id,run_id) VALUES(repo,run);
+ INSERT INTO catalog.capability_manifests(source_version_id,detector_version,digest,manifest) VALUES(s.id,'publication-test',repeat('b',64),'{"candidateCapabilities":["native-text"],"unsupported":[]}');
+ meta:=jsonb_build_object('certified',true,'profileDigest',repeat('d',64),'dependencyDigest',repeat('b',64),'runtimeDigest',repeat('c',64),'manifest',repeat('a',64),
+ 'attestation',jsonb_build_object('rendererRevision',repeat('e',40),'pgRevision',repeat('f',40)),'profile','{"capabilities":{"native-text":{"status":"verified"}}}'::jsonb);
+ INSERT INTO catalog.verifier_contexts(snapshot_id,digest,payload) VALUES(s.snapshot_id,repeat('c',64),meta) RETURNING id INTO ctx;
+ INSERT INTO catalog.verifier_heads VALUES('local-practice',ctx,1);INSERT INTO catalog.verifier_health VALUES('local-practice',ctx,true,now(),'SYNTHETIC');
+ SELECT id INTO j FROM catalog.enqueue_verification(ARRAY[s.id],ctx,'synthetic','Synthetic reviewed publication')id;
+ work:=catalog.claim_verification('synthetic-worker');
+ SELECT jsonb_agg(jsonb_build_object('seed',seed,'viewport',viewport,'outcome','passed','sourceVerified',true,'correctScore',1,'clearedScore',0,'limitations','[]'::jsonb,'error',NULL,
+ 'checks','{"rendering":true,"interaction":true,"answerCapture":true,"grading":true,"retries":true,"refresh":true,"ownership":true,"keyboard":true,"mobile":true}'::jsonb)) INTO cases FROM unnest(ARRAY[1234,4321])seed CROSS JOIN unnest(ARRAY['desktop','mobile'])viewport;
+ IF NOT catalog.finish_verification(j,(work->>'token')::uuid,jsonb_build_object('technicalState','passed','cases',cases,'elapsedMs',1,'error',NULL)) THEN RAISE EXCEPTION 'Synthetic finish failed';END IF;
+ old_assessment:=catalog.materialize_verification(j);IF catalog.materialize_verification(j)<>old_assessment OR (SELECT count(*) FROM catalog.case_attempts)<>4 THEN RAISE EXCEPTION 'Evidence replay duplicated cases';END IF;
+ IF catalog.assessment_is_eligible(old_assessment) THEN RAISE EXCEPTION 'Unreviewed proof activated';END IF;
+ blocked:=false;BEGIN PERFORM catalog.prepare_verification_release(ARRAY[j],'synthetic','Missing review test');EXCEPTION WHEN SQLSTATE '23514' THEN blocked:=true;END;
+ IF NOT blocked THEN RAISE EXCEPTION 'Missing reviews bypassed';END IF;
+ PERFORM catalog.review_verification(j,'requirements','accepted','synthetic','Synthetic requirements confirmed',true);
+ PERFORM catalog.review_verification(j,'mathematical','accepted','synthetic','Synthetic independent mathematics',true);
+ PERFORM catalog.review_verification(j,'interaction','accepted','synthetic','Synthetic manual interaction review',true);
+ PERFORM catalog.review_verification(j,'deployment','accepted','synthetic','Synthetic local deployment review',true);
+ UPDATE catalog.verifier_health SET matches=false WHERE scope='local-practice';
+ blocked:=false;BEGIN PERFORM catalog.prepare_verification_release(ARRAY[j],'synthetic','Bad renderer health test');EXCEPTION WHEN SQLSTATE '23514' THEN blocked:=true;END;
+ IF NOT blocked THEN RAISE EXCEPTION 'Mismatched renderer activated';END IF;
+ UPDATE catalog.verifier_health SET matches=true WHERE scope='local-practice';
+ release:=catalog.prepare_verification_release(ARRAY[j],'synthetic','Exact reviewed synthetic batch');
+ SELECT assessment_id INTO assessment FROM catalog.verification_approvals WHERE job_id=j;
+ IF NOT catalog.assessment_is_eligible(assessment) THEN RAISE EXCEPTION 'Reviewed evidence ineligible';END IF;
+ IF catalog.publish_release(release,0,'synthetic','Publish synthetic fixture')<>1 THEN RAISE EXCEPTION 'Publish generation';END IF;
+ IF NOT catalog.is_playable(s.exercise_id,s.id,'local-practice') OR (SELECT count(*) FROM catalog_api.practice_opl())<>1 THEN RAISE EXCEPTION 'Playable-first discovery failed';END IF;
+ account_key:=gen_random_uuid();INSERT INTO auth.users(id,email) VALUES(account_key,'synthetic@example.invalid');INSERT INTO practice_private.principals(kind,account_id,state) VALUES('account',account_key,'active') RETURNING id INTO owner_key;
+ INSERT INTO practice_private.sessions(owner_id,exercise_id,binding,source_version_id,environment_id,snapshot_id) SELECT owner_key,s.exercise_id,'pinned',s.id,environment_id,s.snapshot_id FROM catalog.verification_evidence WHERE job_id=j RETURNING id INTO session_key;
+ blocked:=false;BEGIN PERFORM catalog.withdraw_release('local-practice',0,'synthetic','Stale generation conflict');EXCEPTION WHEN SQLSTATE '40001' THEN blocked:=true;END;
+ IF NOT blocked THEN RAISE EXCEPTION 'Stale generation accepted';END IF;
+ IF catalog.withdraw_release('local-practice',1,'synthetic','Withdraw without deleting history')<>2 OR NOT EXISTS(SELECT 1 FROM practice_private.sessions WHERE id=session_key) THEN RAISE EXCEPTION 'Withdrawal removed history';END IF;
+ IF (SELECT count(*) FROM catalog_api.practice_opl())<>0 OR (SELECT count(*) FROM catalog_api.practice_opl('',true))<>1 THEN RAISE EXCEPTION 'Library and playability conflated';END IF;
+ release2:=catalog.prepare_verification_release(ARRAY[j],'synthetic','Explicit new reviewed publication');PERFORM catalog.publish_release(release2,2,'synthetic','Explicit republish after withdrawal');
+ PERFORM catalog.review_verification(j,'mathematical','rejected','synthetic','Synthetic review revocation',true);
+ IF catalog.is_playable(s.exercise_id,s.id,'local-practice') OR (SELECT active FROM catalog.deployment_heads WHERE scope='local-practice') THEN RAISE EXCEPTION 'Revocation failed to withdraw';END IF;
+ PERFORM catalog.review_verification(j,'mathematical','accepted','synthetic','Synthetic review reinstated',true);
+ IF catalog.is_playable(s.exercise_id,s.id,'local-practice') THEN RAISE EXCEPTION 'Review silently reactivated old batch';END IF;
+ IF NOT EXISTS(SELECT 1 FROM practice_private.sessions WHERE id=session_key) OR (SELECT count(*) FROM catalog.case_attempts)<>4 THEN RAISE EXCEPTION 'Retained records lost';END IF;
+END $$;
+SELECT 'true'::json;
+ROLLBACK;
