@@ -15,6 +15,6 @@ try{
  await db.transaction({...restored,guestDigest:guest.guestDigest},client=>client.query("UPDATE practice_runtime.principals SET kind='claimed',account_id=$1 WHERE id=$2 AND account_id IS NULL",[restored.accountId,guest.principalId]));
  await assert.rejects(()=>accounts.resolveGuest(guestToken),/GUEST_CLAIMED/);report.claimedGuestCannotReauthenticate=true;
  const reset=await accounts.logout(first.cookie);assert.notEqual(reset,guestToken);await assert.rejects(()=>accounts.resolveSession(first.cookie),/AUTH_REQUIRED/);
- // Supabase global logout can revoke the other refresh session; no claim about unexpired access-token revocation is fabricated.
+ assert.ok((await accounts.resolveSession(second.cookie)).accountId===restored.accountId);report.otherDeviceRemainsSignedIn=true;
  report.bffLogoutImmediate=true;report.complete=true;await mkdir('/artifacts',{recursive:true});await writeFile('/artifacts/bff-observations.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({complete:true,credentialsDisclosed:false}));
 }finally{await db.close();}

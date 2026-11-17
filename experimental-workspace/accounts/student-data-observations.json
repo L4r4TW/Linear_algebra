@@ -1,6 +1,6 @@
 {
     "version":  1,
-    "observedAt":  "2026-11-17T01:09:52.348Z",
+    "observedAt":  "2026-11-17T01:18:39.236Z",
     "scope":  "Actual Supabase users and forced-RLS storage, controlled renderer double; no public UI or live PG claim",
     "stableSetOrderAndSessions":  true,
     "ownerCheckedSets":  true,
@@ -16,6 +16,18 @@
     "explicitGuestClaimRetiresOldAuthority":  true,
     "complete":  true,
     "sourceHashes":  [
+                         {
+                             "file":  "legacy-import.mjs",
+                             "sha256":  "e78a9f1674e6536e0e1c88557f9935fc8424f68f7ac75557c8bf6627c8ee9d86"
+                         },
+                         {
+                             "file":  "legacy-probe.mjs",
+                             "sha256":  "ed93c8669a64336b88006e12f7061fd43e40fd7734f9352508794e3a9840acd2"
+                         },
+                         {
+                             "file":  "bff-probe.mjs",
+                             "sha256":  "fc613fc0551453b85f603712463519a901d221bfc2562cab676028f85ae6a0b3"
+                         },
                          {
                              "file":  "record-store.mjs",
                              "sha256":  "79ff07d9f6e24e8d5558a131398b0dcc5ec5c45db545096543f99e9059abd4a9"
@@ -42,7 +54,7 @@
                          },
                          {
                              "file":  "auth.mjs",
-                             "sha256":  "f218cfe74c1c715be21f7d67734df77095c36df0313da3ef79f04a0b065cd95f"
+                             "sha256":  "809ed974b1f83fd38139aa90c98617cf9ed6544608e349f1512e98585569e220"
                          },
                          {
                              "file":  "crypto.mjs",
@@ -70,7 +82,7 @@
                          },
                          {
                              "file":  "verify-adapters.ps1",
-                             "sha256":  "e76117afdd467b427e846ce9e69e85f16a74497635b03dbd884b10391803d4e3"
+                             "sha256":  "c4e3b696c4fbe5ccf3d7127b7ea22deb685e5cf311851efbba0bede7e92344f4"
                          },
                          {
                              "file":  "../workspace/server/exercise-sessions.mjs",

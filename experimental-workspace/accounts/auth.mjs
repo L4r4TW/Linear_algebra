@@ -70,7 +70,7 @@ export function createAccounts({db,vault,authUrl='http://auth:9999',fetcher=fetc
   if(opaque(cookie)){const authDigest=hash(cookie);await db.transaction({authDigest},async client=>{
    const row=(await client.query('SELECT * FROM practice_runtime.auth_sessions WHERE id_digest=$1 AND revoked_at IS NULL FOR UPDATE',[authDigest])).rows[0];if(!row)return;
    await client.query("SELECT set_config('practice.account_id',$1,true)",[row.account_id]);
-   try{const tokens=vault.open(row.encrypted_tokens,'auth:'+authDigest);await call('/logout?scope=global',{},tokens.accessToken);}catch{}
+   try{const tokens=vault.open(row.encrypted_tokens,'auth:'+authDigest);await call('/logout?scope=local',{},tokens.accessToken);}catch{}
    await client.query('UPDATE practice_runtime.auth_sessions SET revoked_at=now() WHERE id_digest=$1',[authDigest]);
   });}
   return randomBytes(32).toString('base64url');

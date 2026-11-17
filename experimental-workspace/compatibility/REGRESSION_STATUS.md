@@ -1,8 +1,8 @@
 # Compatibility regression results
 
-Observed: 2026-11-17T00:00:19.472Z. Scope: complete default matrix.
+Observed: 2026-11-17T01:01:28.472Z. Scope: complete default matrix.
 
-Result: **FAIL**; 44/44 cases completed. 16 cases retain documented limitations.
+Result: **PASS**; 44/44 cases completed. 16 cases retain documented limitations.
 
 A passing flow does not approve every capability or enable student catalog entries.
 
@@ -51,7 +51,7 @@ A passing flow does not approve every capability or enable student catalog entri
 | compat-algebra-graphtool-01 | 1234 | desktop | 9/9 | passed-with-limitations | NARROW_FRAME_SCROLL |
 | compat-algebra-graphtool-01 | 1234 | mobile | 9/9 | passed-with-limitations | NARROW_FRAME_SCROLL |
 | compat-algebra-graphtool-01 | 4321 | desktop | 9/9 | passed-with-limitations | NARROW_FRAME_SCROLL |
-| compat-algebra-graphtool-01 | 4321 | mobile | 2/9 | failed | NARROW_FRAME_SCROLL |
+| compat-algebra-graphtool-01 | 4321 | mobile | 9/9 | passed-with-limitations | NARROW_FRAME_SCROLL |
 
 ## Known capability boundaries
 
@@ -64,7 +64,3 @@ A passing flow does not approve every capability or enable student catalog entri
 - **screen-reader-listening** (manual): Automated focus and semantics checks do not replace NVDA/VoiceOver listening.
 - **physical-mobile-devices** (manual): Touch and viewport emulation are tested in Chromium; physical device keyboards and browsers still need review.
 - **all-PG-widgets-and-macros** (unsupported): The selected fixtures do not cover file uploads, arbitrary custom editors, compound matrix editors or every GraphTool tool/evaluator.
-
-## Failures
-
-- CASE_FAILED:compat-algebra-graphtool-01:4321:mobile

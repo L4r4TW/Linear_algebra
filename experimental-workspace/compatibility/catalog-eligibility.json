@@ -1,7 +1,7 @@
 {
   "profileVersion": "local-practice-v1",
-  "observedAt": "2026-11-17T00:00:19.472Z",
-  "runtimeFingerprint": "20fb8629d71be21f0886a47ae17a5ac21d4a5c0f8c0d2df7622dc6eb259e63ad",
+  "observedAt": "2026-11-17T01:01:28.472Z",
+  "runtimeFingerprint": "64937b5079d36a921afa38fa8d98963c1a24b5e86d74d718b493945d296d1dc8",
   "exercises": [
     {
       "id": "dot-product-01",
@@ -121,22 +121,6 @@
           "message": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved.",
           "capability": "mobile-layout",
           "status": "limited"
-        },
-        {
-          "code": "REGRESSION_FAILURE",
-          "message": "A required regression check failed.",
-          "verificationSeed": 4321,
-          "viewport": "mobile",
-          "failedChecks": [
-            "interaction",
-            "answerCapture",
-            "grading",
-            "retries",
-            "refresh",
-            "ownership",
-            "keyboard"
-          ],
-          "failure": "QA_GRAPH_TOOL_TAB_REACHABILITY"
         },
         {
           "code": "ACTIVATION_DISABLED",

@@ -1,9 +1,9 @@
 {
   "version": 1,
   "complete": true,
-  "observedAt": "2026-11-17T00:00:19.472Z",
+  "observedAt": "2026-11-17T01:01:28.472Z",
   "profileVersion": "local-practice-v1",
-  "runtimeFingerprint": "20fb8629d71be21f0886a47ae17a5ac21d4a5c0f8c0d2df7622dc6eb259e63ad",
+  "runtimeFingerprint": "64937b5079d36a921afa38fa8d98963c1a24b5e86d74d718b493945d296d1dc8",
   "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
   "rendererRevision": "1134ffbbf5e656148e579f424f70bcd9f1d15936",
   "entries": {
@@ -1197,19 +1197,21 @@
           "verificationSeed": 4321,
           "viewport": "mobile",
           "sourceVerified": true,
-          "passed": false,
-          "phase": "blank",
+          "passed": true,
+          "phase": "complete",
           "checks": {
             "rendering": true,
-            "interaction": false,
-            "answerCapture": false,
-            "grading": false,
-            "retries": false,
-            "refresh": false,
-            "ownership": false,
-            "keyboard": false,
+            "interaction": true,
+            "answerCapture": true,
+            "grading": true,
+            "retries": true,
+            "refresh": true,
+            "ownership": true,
+            "keyboard": true,
             "mobile": true
           },
+          "correctScore": 1,
+          "clearedScore": 0,
           "limitations": [
             {
               "code": "NARROW_FRAME_SCROLL",
@@ -1217,8 +1219,7 @@
               "status": "limited",
               "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
             }
-          ],
-          "error": "QA_GRAPH_TOOL_TAB_REACHABILITY"
+          ]
         }
       ]
     }
