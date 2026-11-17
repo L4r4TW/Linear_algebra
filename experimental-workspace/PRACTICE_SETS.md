@@ -1,5 +1,18 @@
 # Durable local practice sets (11.1 groundwork)
 
+## Current checkpoint: deployed and verified (10 + 11.4)
+
+The combined shell and durable-set runtime is deployed on localhost:3100 and through the home at localhost:3105. Its measured fingerprint is 20fb8629d71be21f0886a47ae17a5ac21d4a5c0f8c0d2df7622dc6eb259e63ad. Fresh publisher evidence enables only the same six previously approved local exercises.
+
+Validation passes 182 server tests, all 62 existing browser checks, seven home plus five chooser browser checks, actual PG three-item set navigation/restoration, final desktop/mobile shell/bookmark checks and the live six-entry eligibility check. The complete 44-case operator run retains 43 passes and one mobile GraphTool keyboard failure (seed 4321); its command remains nonzero and that fixture stays disabled. Sixteen cases retain declared capability/layout limitations. No unsupported candidate or imported database batch was enabled.
+
+The four failures from the first shell browser run were resolved: mobile actions retain 48px comfortable sizes, keyboard coverage now explicitly visits the bookmark control, and flex children stretch within bounded widths so feedback math scrolls instead of overflowing. PG internal geometry/style rules were not reset.
+
+The final evidence/status files live in compatibility/ and workspace/server/catalog-compatibility-evidence.json. Durable sets live only in the existing private session volume's practice-sets.sqlite (Node 22 built-in SQLite); no data volumes were removed. Home Continue can retain the saved set/item context through the owner's recent pointer. The later task-12 Supabase account adapter is separate work, not an already implemented migration.
+
+Earlier candidate notes below are historical checkpoints, not instructions to keep the now-verified image undeployed.
+
+
 The standalone server/practice-sets.mjs module is implemented and tested, but is not imported into the player yet. HTTP/UI integration is next after task 10's current verification/deployment checkpoint. It does not change catalog eligibility or the task-10 runtime fingerprint while unused.
 
 It uses Node's built-in SQLite (experimental in the pinned local Node 22 image), an owner-hashed private file, WAL transactions and bounded immutable membership. The intended local filename is under the existing private sessions directory; no new discovery mount or database grants are required. This is a local prototype adapter, not the later Supabase account store.

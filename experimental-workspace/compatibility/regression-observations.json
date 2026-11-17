@@ -1,9 +1,9 @@
 {
   "fixtureCatalogFingerprint": "5cf24cefe4a9a23931cd5a0491610d795538d6db02df0ddf81b374351025e400",
-  "runtimeFingerprint": "64c691132e983b71a2e9c2d4c39f0914a93841b62941e2d098ff8efa4343702e",
+  "runtimeFingerprint": "20fb8629d71be21f0886a47ae17a5ac21d4a5c0f8c0d2df7622dc6eb259e63ad",
   "profileVersion": "local-practice-v1",
   "schemaVersion": 1,
-  "observedAt": "2026-11-16T23:41:20.437Z",
+  "observedAt": "2026-11-17T00:00:19.472Z",
   "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
   "rendererRevision": "1134ffbbf5e656148e579f424f70bcd9f1d15936",
   "scope": "Operator-only temporary HTTP application using injected server catalogs and the real renderer client, owned sessions, picker, sandbox, answer bridge, grading, feedback and persistence. Production defaults are unchanged. Positive fixtures use expected values only in operator memory.",
@@ -34,8 +34,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -198,8 +198,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -361,8 +361,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -525,8 +525,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -688,8 +688,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -840,8 +840,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -991,8 +991,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -1143,8 +1143,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -1294,8 +1294,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -1446,8 +1446,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -1597,8 +1597,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -1749,8 +1749,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -1900,8 +1900,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -2091,8 +2091,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -2281,8 +2281,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -2472,8 +2472,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -2662,8 +2662,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -2826,8 +2826,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -2989,8 +2989,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -3153,8 +3153,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -3316,8 +3316,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -3477,8 +3477,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -3638,8 +3638,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -3799,8 +3799,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -3960,8 +3960,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -4125,8 +4125,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -4290,8 +4290,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -4455,8 +4455,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -4620,8 +4620,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -4801,8 +4801,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -4982,8 +4982,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -5163,8 +5163,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -5344,8 +5344,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -5507,8 +5507,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -5669,8 +5669,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -5832,8 +5832,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -5994,8 +5994,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -6146,8 +6146,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -6297,8 +6297,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -6449,8 +6449,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -6600,8 +6600,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -6767,8 +6767,8 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
+            "frameWidth": 702,
+            "documentWidth": 702,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -6834,19 +6834,12 @@
         "feedbackCount": 1
       },
       "correct": {
-        "score": 0.444444444444444,
+        "score": 1,
         "statuses": [
-          "partial"
+          "correct"
         ],
         "feedbackCount": 1
       },
-      "capabilityFailures": [
-        {
-          "code": "MOBILE_GRAPH_TOUCH_GRADING",
-          "expectedScore": 1,
-          "actualScore": 0.444444444444444
-        }
-      ],
       "fieldCount": 1,
       "collection": {
         "fieldCount": 1,
@@ -6892,13 +6885,12 @@
       "ownerDataUnchanged": true,
       "seedPreserved": true,
       "pageErrors": 0,
-      "passed": false,
-      "error": "QA_MOBILE_GRAPH_TOUCH_GRADING",
+      "passed": true,
       "checks": {
         "rendering": true,
         "interaction": true,
         "answerCapture": true,
-        "grading": false,
+        "grading": true,
         "retries": true,
         "refresh": true,
         "ownership": true,
@@ -6907,11 +6899,275 @@
       },
       "limitations": [
         {
-          "code": "MOBILE_GRAPH_TOUCH_GRADING",
-          "capability": "touch-graph-positive-answer",
-          "status": "unsupported",
-          "reason": "For fixture seeds 1234 and 4321, touch-mobile point placement does not reach the expected full score. Coordinate/interaction behavior needs investigation; these cases remain failed and are not waived by this policy."
+          "code": "NARROW_FRAME_SCROLL",
+          "capability": "mobile-layout",
+          "status": "limited",
+          "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
+        }
+      ],
+      "status": "passed-with-limitations"
+    },
+    {
+      "id": "compat-algebra-graphtool-01",
+      "interaction": "graph-tool",
+      "seedPolicy": "fixed operator seed preserved in private session",
+      "sourceVerified": true,
+      "verificationSeed": 4321,
+      "viewport": "desktop",
+      "phase": "complete",
+      "loadingRetry": {
+        "passed": true,
+        "sameSession": true
+      },
+      "styling": {
+        "boundary": {
+          "differences": [],
+          "protectedNodeCount": 11,
+          "protectedGeometryEqual": true,
+          "fieldStructureEqual": true,
+          "protectedUnmarked": true,
+          "nativeStyledCount": 0,
+          "tableFieldCount": 0,
+          "graphIconCount": 2
         },
+        "layouts": [
+          {
+            "viewport": 820,
+            "frameWidth": 702,
+            "documentWidth": 702,
+            "horizontalFrameScroll": false,
+            "nativeTextTargets": true,
+            "widgetMathUnmarked": true
+          },
+          {
+            "viewport": 320,
+            "frameWidth": 260,
+            "documentWidth": 363,
+            "horizontalFrameScroll": true,
+            "nativeTextTargets": true,
+            "widgetMathUnmarked": true
+          }
+        ]
+      },
+      "rendering": {
+        "problemPresent": true,
+        "mathEngineReady": true,
+        "unprocessedMathMarkers": 0,
+        "mathCount": 3,
+        "imageCount": 0,
+        "imagesLoaded": true,
+        "graphBoards": 3,
+        "sandboxed": true
+      },
+      "initialFieldCount": 1,
+      "blank": {
+        "score": 0,
+        "statuses": [
+          "unanswered"
+        ],
+        "feedbackCount": 1
+      },
+      "mobile": {
+        "viewport": 320,
+        "frameWidth": 260,
+        "documentWidth": 363,
+        "horizontalFrameScroll": true,
+        "nativeTextTargets": true,
+        "widgetMathUnmarked": true,
+        "passed": true,
+        "layoutOnly": true
+      },
+      "keyboard": {
+        "passed": true,
+        "reachableFieldCount": 1,
+        "expectedFieldCount": 1,
+        "editedControlTypes": [],
+        "graphPlotted": true
+      },
+      "hiddenChangeNotified": true,
+      "incorrect": {
+        "score": 0,
+        "statuses": [
+          "incorrect"
+        ],
+        "feedbackCount": 1
+      },
+      "staleFeedbackOnClear": true,
+      "partial": {
+        "score": 0.111111111111111,
+        "statuses": [
+          "partial"
+        ],
+        "feedbackCount": 1
+      },
+      "correct": {
+        "score": 1,
+        "statuses": [
+          "correct"
+        ],
+        "feedbackCount": 1
+      },
+      "fieldCount": 1,
+      "collection": {
+        "fieldCount": 1,
+        "pairCount": 1,
+        "repeatedPairs": 0,
+        "helperFieldsExcluded": true
+      },
+      "privateRendererDataOmitted": true,
+      "restoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 1
+      },
+      "retry": {
+        "passed": true,
+        "failedGradeUnchanged": true,
+        "inputsPreserved": true,
+        "noAutomaticRetry": true,
+        "explicitRetrySavedOnce": true,
+        "lostResponseRecoveredWithoutRegrading": true
+      },
+      "graphFocus": true,
+      "cleared": {
+        "score": 0,
+        "statuses": [
+          "unanswered"
+        ],
+        "feedbackCount": 1
+      },
+      "clearedRestoration": {
+        "sameAvailableAnswers": true,
+        "removedBlankFieldCount": 0,
+        "sameSession": true,
+        "sameSubmission": true,
+        "noNewGrade": true,
+        "feedbackCount": 1
+      },
+      "ownershipProtected": true,
+      "gradingOwnershipProtected": true,
+      "ownerDataUnchanged": true,
+      "seedPreserved": true,
+      "pageErrors": 0,
+      "passed": true,
+      "checks": {
+        "rendering": true,
+        "interaction": true,
+        "answerCapture": true,
+        "grading": true,
+        "retries": true,
+        "refresh": true,
+        "ownership": true,
+        "keyboard": true,
+        "mobile": true
+      },
+      "limitations": [
+        {
+          "code": "NARROW_FRAME_SCROLL",
+          "capability": "mobile-layout",
+          "status": "limited",
+          "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
+        }
+      ],
+      "status": "passed-with-limitations"
+    },
+    {
+      "id": "compat-algebra-graphtool-01",
+      "interaction": "graph-tool",
+      "seedPolicy": "fixed operator seed preserved in private session",
+      "sourceVerified": true,
+      "verificationSeed": 4321,
+      "viewport": "mobile",
+      "phase": "blank",
+      "loadingRetry": {
+        "passed": true,
+        "sameSession": true
+      },
+      "styling": {
+        "boundary": {
+          "differences": [],
+          "protectedNodeCount": 11,
+          "protectedGeometryEqual": true,
+          "fieldStructureEqual": true,
+          "protectedUnmarked": true,
+          "nativeStyledCount": 0,
+          "tableFieldCount": 0,
+          "graphIconCount": 2
+        },
+        "layouts": [
+          {
+            "viewport": 820,
+            "frameWidth": 702,
+            "documentWidth": 702,
+            "horizontalFrameScroll": false,
+            "nativeTextTargets": true,
+            "widgetMathUnmarked": true
+          },
+          {
+            "viewport": 320,
+            "frameWidth": 260,
+            "documentWidth": 363,
+            "horizontalFrameScroll": true,
+            "nativeTextTargets": true,
+            "widgetMathUnmarked": true
+          }
+        ]
+      },
+      "rendering": {
+        "problemPresent": true,
+        "mathEngineReady": true,
+        "unprocessedMathMarkers": 0,
+        "mathCount": 3,
+        "imageCount": 0,
+        "imagesLoaded": true,
+        "graphBoards": 3,
+        "sandboxed": true
+      },
+      "initialFieldCount": 1,
+      "blank": {
+        "score": 0,
+        "statuses": [
+          "unanswered"
+        ],
+        "feedbackCount": 1
+      },
+      "mobile": {
+        "frameWidth": 330,
+        "contentWidth": 363,
+        "horizontalFrameScroll": true,
+        "passed": true,
+        "touchControlTypes": [
+          "graph-tool"
+        ]
+      },
+      "graphDiagnostics": {
+        "feedback": [
+          "unanswered"
+        ],
+        "nonempty": false,
+        "confirmButtons": 0,
+        "clearDisabled": true,
+        "confirmationContainers": 0,
+        "focusedTag": "BODY",
+        "action": "clear"
+      },
+      "error": "QA_GRAPH_TOOL_TAB_REACHABILITY",
+      "passed": false,
+      "checks": {
+        "rendering": true,
+        "interaction": false,
+        "answerCapture": false,
+        "grading": false,
+        "retries": false,
+        "refresh": false,
+        "ownership": false,
+        "keyboard": false,
+        "mobile": true
+      },
+      "limitations": [
         {
           "code": "NARROW_FRAME_SCROLL",
           "capability": "mobile-layout",
@@ -6920,339 +7176,6 @@
         }
       ],
       "status": "failed"
-    },
-    {
-      "id": "compat-algebra-graphtool-01",
-      "interaction": "graph-tool",
-      "seedPolicy": "fixed operator seed preserved in private session",
-      "sourceVerified": true,
-      "verificationSeed": 4321,
-      "viewport": "desktop",
-      "phase": "complete",
-      "loadingRetry": {
-        "passed": true,
-        "sameSession": true
-      },
-      "styling": {
-        "boundary": {
-          "differences": [],
-          "protectedNodeCount": 11,
-          "protectedGeometryEqual": true,
-          "fieldStructureEqual": true,
-          "protectedUnmarked": true,
-          "nativeStyledCount": 0,
-          "tableFieldCount": 0,
-          "graphIconCount": 2
-        },
-        "layouts": [
-          {
-            "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
-            "horizontalFrameScroll": false,
-            "nativeTextTargets": true,
-            "widgetMathUnmarked": true
-          },
-          {
-            "viewport": 320,
-            "frameWidth": 260,
-            "documentWidth": 363,
-            "horizontalFrameScroll": true,
-            "nativeTextTargets": true,
-            "widgetMathUnmarked": true
-          }
-        ]
-      },
-      "rendering": {
-        "problemPresent": true,
-        "mathEngineReady": true,
-        "unprocessedMathMarkers": 0,
-        "mathCount": 3,
-        "imageCount": 0,
-        "imagesLoaded": true,
-        "graphBoards": 3,
-        "sandboxed": true
-      },
-      "initialFieldCount": 1,
-      "blank": {
-        "score": 0,
-        "statuses": [
-          "unanswered"
-        ],
-        "feedbackCount": 1
-      },
-      "mobile": {
-        "viewport": 320,
-        "frameWidth": 260,
-        "documentWidth": 363,
-        "horizontalFrameScroll": true,
-        "nativeTextTargets": true,
-        "widgetMathUnmarked": true,
-        "passed": true,
-        "layoutOnly": true
-      },
-      "keyboard": {
-        "passed": true,
-        "reachableFieldCount": 1,
-        "expectedFieldCount": 1,
-        "editedControlTypes": [],
-        "graphPlotted": true
-      },
-      "hiddenChangeNotified": true,
-      "incorrect": {
-        "score": 0,
-        "statuses": [
-          "incorrect"
-        ],
-        "feedbackCount": 1
-      },
-      "staleFeedbackOnClear": true,
-      "partial": {
-        "score": 0.111111111111111,
-        "statuses": [
-          "partial"
-        ],
-        "feedbackCount": 1
-      },
-      "correct": {
-        "score": 1,
-        "statuses": [
-          "correct"
-        ],
-        "feedbackCount": 1
-      },
-      "fieldCount": 1,
-      "collection": {
-        "fieldCount": 1,
-        "pairCount": 1,
-        "repeatedPairs": 0,
-        "helperFieldsExcluded": true
-      },
-      "privateRendererDataOmitted": true,
-      "restoration": {
-        "sameAvailableAnswers": true,
-        "removedBlankFieldCount": 0,
-        "sameSession": true,
-        "sameSubmission": true,
-        "noNewGrade": true,
-        "feedbackCount": 1
-      },
-      "retry": {
-        "passed": true,
-        "failedGradeUnchanged": true,
-        "inputsPreserved": true,
-        "noAutomaticRetry": true,
-        "explicitRetrySavedOnce": true,
-        "lostResponseRecoveredWithoutRegrading": true
-      },
-      "graphFocus": true,
-      "cleared": {
-        "score": 0,
-        "statuses": [
-          "unanswered"
-        ],
-        "feedbackCount": 1
-      },
-      "clearedRestoration": {
-        "sameAvailableAnswers": true,
-        "removedBlankFieldCount": 0,
-        "sameSession": true,
-        "sameSubmission": true,
-        "noNewGrade": true,
-        "feedbackCount": 1
-      },
-      "ownershipProtected": true,
-      "gradingOwnershipProtected": true,
-      "ownerDataUnchanged": true,
-      "seedPreserved": true,
-      "pageErrors": 0,
-      "passed": true,
-      "checks": {
-        "rendering": true,
-        "interaction": true,
-        "answerCapture": true,
-        "grading": true,
-        "retries": true,
-        "refresh": true,
-        "ownership": true,
-        "keyboard": true,
-        "mobile": true
-      },
-      "limitations": [
-        {
-          "code": "NARROW_FRAME_SCROLL",
-          "capability": "mobile-layout",
-          "status": "limited",
-          "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
-        }
-      ],
-      "status": "passed-with-limitations"
-    },
-    {
-      "id": "compat-algebra-graphtool-01",
-      "interaction": "graph-tool",
-      "seedPolicy": "fixed operator seed preserved in private session",
-      "sourceVerified": true,
-      "verificationSeed": 4321,
-      "viewport": "mobile",
-      "phase": "complete",
-      "loadingRetry": {
-        "passed": true,
-        "sameSession": true
-      },
-      "styling": {
-        "boundary": {
-          "differences": [],
-          "protectedNodeCount": 11,
-          "protectedGeometryEqual": true,
-          "fieldStructureEqual": true,
-          "protectedUnmarked": true,
-          "nativeStyledCount": 0,
-          "tableFieldCount": 0,
-          "graphIconCount": 2
-        },
-        "layouts": [
-          {
-            "viewport": 820,
-            "frameWidth": 597,
-            "documentWidth": 597,
-            "horizontalFrameScroll": false,
-            "nativeTextTargets": true,
-            "widgetMathUnmarked": true
-          },
-          {
-            "viewport": 320,
-            "frameWidth": 260,
-            "documentWidth": 363,
-            "horizontalFrameScroll": true,
-            "nativeTextTargets": true,
-            "widgetMathUnmarked": true
-          }
-        ]
-      },
-      "rendering": {
-        "problemPresent": true,
-        "mathEngineReady": true,
-        "unprocessedMathMarkers": 0,
-        "mathCount": 3,
-        "imageCount": 0,
-        "imagesLoaded": true,
-        "graphBoards": 3,
-        "sandboxed": true
-      },
-      "initialFieldCount": 1,
-      "blank": {
-        "score": 0,
-        "statuses": [
-          "unanswered"
-        ],
-        "feedbackCount": 1
-      },
-      "mobile": {
-        "frameWidth": 330,
-        "contentWidth": 363,
-        "horizontalFrameScroll": true,
-        "passed": true,
-        "touchControlTypes": [
-          "graph-tool"
-        ]
-      },
-      "keyboard": {
-        "passed": true,
-        "reachableFieldCount": 1,
-        "expectedFieldCount": 1,
-        "editedControlTypes": [],
-        "graphPlotted": true
-      },
-      "hiddenChangeNotified": true,
-      "incorrect": {
-        "score": 0,
-        "statuses": [
-          "incorrect"
-        ],
-        "feedbackCount": 1
-      },
-      "staleFeedbackOnClear": true,
-      "partial": {
-        "score": 0.111111111111111,
-        "statuses": [
-          "partial"
-        ],
-        "feedbackCount": 1
-      },
-      "correct": {
-        "score": 1,
-        "statuses": [
-          "correct"
-        ],
-        "feedbackCount": 1
-      },
-      "fieldCount": 1,
-      "collection": {
-        "fieldCount": 1,
-        "pairCount": 1,
-        "repeatedPairs": 0,
-        "helperFieldsExcluded": true
-      },
-      "privateRendererDataOmitted": true,
-      "restoration": {
-        "sameAvailableAnswers": true,
-        "removedBlankFieldCount": 0,
-        "sameSession": true,
-        "sameSubmission": true,
-        "noNewGrade": true,
-        "feedbackCount": 1
-      },
-      "retry": {
-        "passed": true,
-        "failedGradeUnchanged": true,
-        "inputsPreserved": true,
-        "noAutomaticRetry": true,
-        "explicitRetrySavedOnce": true,
-        "lostResponseRecoveredWithoutRegrading": true
-      },
-      "graphFocus": true,
-      "cleared": {
-        "score": 0,
-        "statuses": [
-          "unanswered"
-        ],
-        "feedbackCount": 1
-      },
-      "clearedRestoration": {
-        "sameAvailableAnswers": true,
-        "removedBlankFieldCount": 0,
-        "sameSession": true,
-        "sameSubmission": true,
-        "noNewGrade": true,
-        "feedbackCount": 1
-      },
-      "ownershipProtected": true,
-      "gradingOwnershipProtected": true,
-      "ownerDataUnchanged": true,
-      "seedPreserved": true,
-      "pageErrors": 0,
-      "passed": true,
-      "checks": {
-        "rendering": true,
-        "interaction": true,
-        "answerCapture": true,
-        "grading": true,
-        "retries": true,
-        "refresh": true,
-        "ownership": true,
-        "keyboard": true,
-        "mobile": true
-      },
-      "limitations": [
-        {
-          "code": "NARROW_FRAME_SCROLL",
-          "capability": "mobile-layout",
-          "status": "limited",
-          "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
-        }
-      ],
-      "status": "passed-with-limitations"
     }
   ],
   "expectedCases": [
@@ -7485,7 +7408,7 @@
     "expectedCases": 44,
     "completedCases": 44,
     "failures": [
-      "CASE_FAILED:compat-algebra-graphtool-01:1234:mobile"
+      "CASE_FAILED:compat-algebra-graphtool-01:4321:mobile"
     ],
     "limitedCases": 16
   },

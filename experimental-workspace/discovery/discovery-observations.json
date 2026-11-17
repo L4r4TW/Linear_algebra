@@ -1,6 +1,6 @@
 {
     "version":  1,
-    "observedAt":  "2026-11-16T23:37:45.343Z",
+    "observedAt":  "2026-11-17T00:20:24.677Z",
     "scope":  "Real catalog and unchanged practice gateway; temporary anonymous test sessions; sanitized booleans only",
     "realCatalog":  true,
     "playableDefault":  true,
@@ -32,7 +32,7 @@
                          },
                          {
                              "file":  "server.mjs",
-                             "sha256":  "2332d158682b3ab19bfdb3ed565c6effba38ec8233d8f4b4d441b1e459b49cde"
+                             "sha256":  "5debee4ed6652022d7e4e865a8766d4e1a78d9c584f8a7fc143ea5c40a805f35"
                          },
                          {
                              "file":  "practice-metadata.json",
@@ -60,7 +60,7 @@
                          },
                          {
                              "file":  "public/chooser.js",
-                             "sha256":  "6cbc49f548e290035160fca6664e20f7fa01e38c8b89fe07e699b34e35b1d752"
+                             "sha256":  "b0da4fd84f4ab25f281b0cf18e865acc4a0f44fef5baccc0314aa70704272952"
                          },
                          {
                              "file":  "public/chooser.css",
@@ -118,5 +118,5 @@
     "serverTests":  13,
     "realDatabaseTests":  1,
     "browserTests":  7,
-    "imageId":  "sha256:4dbd5ee15c67e647a419c6287c6576fd00d6d8fa6ff069b6475def538c0701d1"
+    "imageId":  "sha256:2341c49c8ec59d6759cbebea70bfcabaa9e6d19530a90263ac131a1715d258b0"
 }

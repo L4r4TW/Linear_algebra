@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "observedAt": "2026-11-16T23:47:31.228Z",
+  "observedAt": "2026-11-17T00:27:50.440Z",
   "scope": "Isolated operator shell acceptance, no production session volume or activation",
-  "runtimeFingerprint": "64c691132e983b71a2e9c2d4c39f0914a93841b62941e2d098ff8efa4343702e",
+  "runtimeFingerprint": "20fb8629d71be21f0886a47ae17a5ac21d4a5c0f8c0d2df7622dc6eb259e63ad",
   "viewports": [
     {
       "width": 1280,

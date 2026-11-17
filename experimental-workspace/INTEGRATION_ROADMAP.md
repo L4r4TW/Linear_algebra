@@ -59,3 +59,5 @@ The local six-exercise player remains usable. The 77,134-source imported catalog
 - 11.2–11.3 candidate integrated: owned APIs + chooser + real position/guarded navigation. Focused three-exercise PG check passes. Combined full gate/browser verification still running; do not redeploy host source before proof. Task 12 environment preference: new local Supabase (explicit user answer).
 
 - 12.1 user-selected local Supabase Auth/Postgres environment healthy; nine actual Auth checks pass. Separate private volumes only. Backend account/saved-work integration remains pending.
+
+- Tasks 10 and 11.4 complete/deployed: runtime 20fb8629d71be21f0886a47ae17a5ac21d4a5c0f8c0d2df7622dc6eb259e63ad, 182 server + 62 browser + 12 home/chooser checks, actual set and shell reviews. Full operator matrix 43/44 retains seed-4321 mobile GraphTool keyboard failure and all limitations. Same six exercises enabled. Next: 12.2 backend account storage/claim; 12.1 real local Auth foundation already verified. Task 13 release/manual checks remain pending.

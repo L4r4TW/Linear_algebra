@@ -1,7 +1,7 @@
 {
   "profileVersion": "local-practice-v1",
-  "observedAt": "2026-11-16T23:41:20.437Z",
-  "runtimeFingerprint": "64c691132e983b71a2e9c2d4c39f0914a93841b62941e2d098ff8efa4343702e",
+  "observedAt": "2026-11-17T00:00:19.472Z",
+  "runtimeFingerprint": "20fb8629d71be21f0886a47ae17a5ac21d4a5c0f8c0d2df7622dc6eb259e63ad",
   "exercises": [
     {
       "id": "dot-product-01",
@@ -125,18 +125,18 @@
         {
           "code": "REGRESSION_FAILURE",
           "message": "A required regression check failed.",
-          "verificationSeed": 1234,
+          "verificationSeed": 4321,
           "viewport": "mobile",
           "failedChecks": [
-            "grading"
+            "interaction",
+            "answerCapture",
+            "grading",
+            "retries",
+            "refresh",
+            "ownership",
+            "keyboard"
           ],
-          "failure": "QA_MOBILE_GRAPH_TOUCH_GRADING"
-        },
-        {
-          "code": "MOBILE_GRAPH_TOUCH_GRADING",
-          "message": "For fixture seeds 1234 and 4321, touch-mobile point placement does not reach the expected full score. Coordinate/interaction behavior needs investigation; these cases remain failed and are not waived by this policy.",
-          "capability": "touch-graph-positive-answer",
-          "status": "unsupported"
+          "failure": "QA_GRAPH_TOOL_TAB_REACHABILITY"
         },
         {
           "code": "ACTIVATION_DISABLED",

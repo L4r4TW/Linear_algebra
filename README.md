@@ -10,6 +10,10 @@ Units -> Themes -> Subthemes -> Exercises
 
 Students can browse topics, solve exercises, and save progress. Admin users can manage the course structure and author exercises.
 
+## Practice screen and retained sets
+
+The [planned practice shell](experimental-workspace/PRACTICE_SHELL.md) now includes topic breadcrumbs, a browser-local bookmark action, readable PG content and prominent Check answer controls. Topic practice starts a [durable ordered set](experimental-workspace/PRACTICE_SETS.md) with real position, Previous, Skip, Next and same-session restoration. Use **http://localhost:3105/browse**. Accounts/progress are the next integration; local Supabase Auth is verified but not connected to student work yet.
+
 ## Topic browser
 
 Open **http://localhost:3105/browse** for the subject → chapter → section chooser. It supports dependent columns, stacked mobile navigation, URL/history restoration, separate availability/coverage counts and bounded plan-first Practice. Follow the [integration roadmap](experimental-workspace/INTEGRATION_ROADMAP.md) for tasks 9–13.

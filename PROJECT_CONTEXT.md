@@ -5,7 +5,7 @@ Updated 2026-11-17. Start with this handoff, [AGENTS.md](AGENTS.md), and the det
 
 ## Active work: milestones 9–13
 
-Authorized 2026-11-17. See [the integration roadmap](experimental-workspace/INTEGRATION_ROADMAP.md) for exact scope, checkpoint status and constraints. Task 9 is complete at /browse; continue with task 10 practice-shell candidate and fresh runtime verification. Existing applications/data and strict eligibility gates stay intact.
+Authorized 2026-11-17. See [the integration roadmap](experimental-workspace/INTEGRATION_ROADMAP.md) for exact scope, checkpoint status and constraints. Tasks 9–11 are complete and deployed; task 12.1 actual local Auth is verified. Continue with 12.2 account-backed private persistence/claim, then 13 deployment/release gates. Existing applications/data and strict eligibility gates stay intact.
 
 ## Completed milestone: home and discovery (8.1–8.4)
 
@@ -676,3 +676,5 @@ Task 10 candidate: surrounding shell and browser-local exercise bookmarks implem
 11.2–11.3 candidate integrated and focused real-renderer set check passes; not yet deployed. Current combined full gate: linear-algebra-practice-sets-gate; 62-browser isolated staging: linear-algebra-practice-staging. See PRACTICE_SETS.md for checks, earlier four shell browser failures and their candidate fixes. The user selected a NEW LOCAL Supabase development environment for task 12. Preserve all prior data.
 
 12.1 local Auth foundation implemented: user-authorized separate Supabase GoTrue/Postgres stack is healthy with Docker-volume-only generated secrets and no host ports/data reuse. Nine actual Auth lifecycle/JWT-rejection checks pass. No account practice ownership, transfer, saved history or progress is exposed yet. Follow accounts/README.md and verify-auth.ps1; do not print secret volume values. Task 10/11 combined gate/deployment is still running separately.
+
+Current completion: tasks 10–11 deployed, verified fingerprint 20fb8629d71be21f0886a47ae17a5ac21d4a5c0f8c0d2df7622dc6eb259e63ad. 182 server tests, 62 browser checks, 12 home/chooser checks, actual three-item PG set navigation and final two-viewport shell/bookmark review pass. Full 44-case gate has 43 passes and seed-4321 mobile GraphTool keyboard failure; keep it disabled and preserve the 16 limited cases. Earlier candidate/stale-evidence notes above are historical; current host/live proof matches. Next: account-backed persistence and explicit guest claim in the new local Supabase environment.
