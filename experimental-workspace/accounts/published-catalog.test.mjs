@@ -1,3 +1,4 @@
+import {readFileSync} from 'node:fs';
 import test from 'node:test';import assert from 'node:assert/strict';import {createPublishedCatalog,projectPublished,mergeExerciseLists} from './published-catalog.mjs';
 const id=n=>'00000000-0000-4000-8000-'+String(n).padStart(12,'0'),revision='a'.repeat(40),runtimeDigest='b'.repeat(64);
 const context={id:id(1),certified:true,runtimeDigest,attestation:{pgTrackedClean:true,build:'fixture'}};
@@ -32,3 +33,10 @@ test('identical bytes at different source paths cannot substitute for legacy sou
 });
 
 test('older projections without alias authority cannot grant practice',async()=>{const c=setup({query:async()=>({context,entries:[]})});await c.refresh();assert.equal(c.status().available,false);assert.throws(()=>c.legacy({id:'legacy-one'}),{code:'NETWORK_ERROR'});});
+
+test('friendly titles are bound to the reviewed source version and hash, without granting admission',()=>{
+ const display=JSON.parse(readFileSync(new URL('./reviewed-display.json',import.meta.url),'utf8'))[0];
+ const input={...row,source_version_id:display.sourceVersionId,revision:display.revision,sha256:display.sha256};
+ assert.equal(projectPublished(input,{context,sourceRevision:display.revision}).title,display.title);
+ assert.equal(projectPublished({...input,sha256:'e'.repeat(64)},{context,sourceRevision:display.revision}).title,row.metadata.title);
+});

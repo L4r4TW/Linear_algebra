@@ -86,3 +86,5 @@ test('account Continue uses server-owned continuation and never another anonymou
  let value=await(await fetch(base+'/api/sessions/recent',{headers})).json();assert.equal(value.status,'available');assert.ok(value.href.includes(id));
  authenticated=false;value=await(await fetch(base+'/api/sessions/recent',{headers})).json();assert.equal(value.status,'authentication-required');assert.equal(value.href,'/account');
 });
+
+test('source credits and license notices are readable without upstream access',async t=>{const base=await app(t,()=>{throw Error('Unexpected upstream');});const r=await fetch(base+'/sources');assert.equal(r.status,200);const html=await r.text();assert.ok(html.includes('creativecommons.org/licenses/by-nc-sa/3.0/'));assert.ok(html.includes('OPL_LICENSE'));assert.ok(r.headers.get('content-security-policy').includes('default-src'));});

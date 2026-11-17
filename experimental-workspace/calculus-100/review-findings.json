@@ -1,0 +1,239 @@
+{
+    "version":  1,
+    "observedAt":  "2026-11-17T18:48:25.9302771Z",
+    "reviewer":  "Codex source analysis and independent student-question oracles",
+    "scope":  "Proposal for local noncommercial practice only",
+    "sourceReviewed":  [
+                           {
+                               "id":  "0e41bf3b-5568-4b60-a90d-76f6be780425",
+                               "sourceVersionId":  "5dd50d1e-6c30-463d-8a11-c0902fecebd2",
+                               "sha256":  "7deeb4d991533102eeeef08ff18bda7d5b3ddce1e8234d30bec0fd951605710b",
+                               "path":  "OpenProblemLibrary/AlfredUniv/anton8e/chapter2/2.2/prob1.pg",
+                               "title":  "Apply the laws of limits",
+                               "method":  "Limit laws checked symbolically; the quotient denominator stays positive over the authored parameter range."
+                           },
+                           {
+                               "id":  "f15b0c27-1666-4d0b-8a4e-1399e174baec",
+                               "sourceVersionId":  "0e84b731-e72a-4530-b9f0-5cd991a7c032",
+                               "sha256":  "04e1a739114a57221dde70374488255ffb1ea4baf6564e7983c9459d6a7d3209",
+                               "path":  "OpenProblemLibrary/AlfredUniv/anton8e/chapter3/3.2/m3.pg",
+                               "title":  "Derive a reciprocal function from first principles",
+                               "method":  "Difference quotient, common denominator, cancellation and limit checked independently, retaining the original excluded points."
+                           },
+                           {
+                               "id":  "3efe7179-771d-4aa4-bf28-24665ead4ce8",
+                               "sourceVersionId":  "a118bbbb-76d9-4816-8d29-d689765aca3c",
+                               "sha256":  "e2b2349a87d6d6be221b81ee0b77270a8c489542696cd1d376067d25f802c15a",
+                               "path":  "OpenProblemLibrary/270/setDerivatives1/s2_1_19.pg",
+                               "title":  "Differentiate a linear function",
+                               "method":  "Constant slope of an affine function independently derived; evaluation point does not affect it."
+                           },
+                           {
+                               "id":  "d3588ec0-77c9-4b8b-a407-26be62a1fcbe",
+                               "sourceVersionId":  "a09a43e0-fe92-45cd-98dd-ad47e6c31161",
+                               "sha256":  "5c7c7d4f8006a15e37454a2cf9be2755be182b140f104303e6bd81b36379b70c",
+                               "path":  "OpenProblemLibrary/270/setDerivatives13Higher/ur_dr_13_7.pg",
+                               "title":  "Differentiate x sin(x) twice",
+                               "method":  "Two applications of the product rule checked, with trigonometric arguments interpreted in radians."
+                           },
+                           {
+                               "id":  "4d9f4d06-0fbd-4097-9da3-b267085be9e3",
+                               "sourceVersionId":  "29844c01-1b15-47e2-8922-a4d11f4190d2",
+                               "sha256":  "f3cd2cafd724b7d60461359c3f097e16cf6919f7b6511d933d5fa3adafc5ae49",
+                               "path":  "OpenProblemLibrary/AlfredUniv/anton8e/chapter3/3.7/prob18.pg",
+                               "title":  "Related rates for a linear relationship",
+                               "method":  "Differentiated the stated time-dependent linear relationship using the chain rule; unused evaluation point is harmless."
+                           },
+                           {
+                               "id":  "ce9eae4e-dc48-4237-8637-621f3403611a",
+                               "sourceVersionId":  "31a0b935-ba5a-44bc-ab75-ba58cbf7f861",
+                               "sha256":  "d6a389872e3be6994bd922934404edf70c514a1b48a76164aafae1019cee0ec6",
+                               "path":  "OpenProblemLibrary/AlfredUniv/anton8e/chapter3/3.8/prob1.pg",
+                               "title":  "Compare a differential with the exact change",
+                               "method":  "Differential and exact polynomial increment independently expanded and distinguished."
+                           },
+                           {
+                               "id":  "c149c8de-ac39-4b27-9948-d5ea241a29db",
+                               "sourceVersionId":  "c9778036-d9e5-4fd1-aa7b-cf5bf7be7d90",
+                               "sha256":  "5508c315b0880e1cbf38df2f537d12a19738837bb01d14aed33d9e1aa3660d92",
+                               "path":  "OpenProblemLibrary/AlfredUniv/anton8e/chapter3/3.3/prob1.pg",
+                               "title":  "Differentiate a power function",
+                               "method":  "Power rule checked over all authored integer exponents and nonzero coefficient choices."
+                           },
+                           {
+                               "id":  "6cb5fe11-8719-4879-a5df-8ff18adeae3b",
+                               "sourceVersionId":  "45087b15-be8b-4009-b4af-2a8cd53285e9",
+                               "sha256":  "c7dce16c8713b49825f6720b1c40c2768117d262b37e10eac8c3465c45bc77c9",
+                               "path":  "OpenProblemLibrary/Hope/Calc1/03-08-Logs/Logs-01.pg",
+                               "title":  "Simplify a logarithm and differentiate",
+                               "method":  "Logarithm laws and differentiation checked on both signs of the nonzero input domain."
+                           },
+                           {
+                               "id":  "d1262dc7-5683-43dd-849c-ee7f2cef6879",
+                               "sourceVersionId":  "21865ada-675b-4deb-83e2-5eea3ae29987",
+                               "sha256":  "b8f14b1c08d3548a7d4480de0593335545b694ce5c19e41501a6e902db4bc60e",
+                               "path":  "OpenProblemLibrary/ma122DB/set1/ns2_7_4.pg",
+                               "title":  "Read a function and derivative from a tangent line",
+                               "method":  "Function value read from the tangency point and slope computed from two distinct abscissae."
+                           },
+                           {
+                               "id":  "cf59cb5c-67f5-44f4-b251-538c1585aaf9",
+                               "sourceVersionId":  "6f7ba7e3-b051-441d-9dae-8326660d7351",
+                               "sha256":  "dc56d37c1bbd8458e9af15931929d67e9bdb6dd8f61dc53500ce300afeb42055",
+                               "path":  "OpenProblemLibrary/ASU-topics/setRateChange/s1_2_23.pg",
+                               "title":  "Estimate a tangent slope using a limit",
+                               "method":  "Cubic difference quotient independently factored before taking its limit."
+                           }
+                       ],
+    "independentOracleCases":  40,
+    "technicalSourceDefects":  [
+                                   {
+                                       "path":  "OpenProblemLibrary/AlfredUniv/anton8e/chapter4/4.1/prob11.pg",
+                                       "reason":  "The authored tangency point does not lie on the stated curve."
+                                   },
+                                   {
+                                       "path":  "OpenProblemLibrary/270/setDerivatives1/ur_dr_1_7.pg",
+                                       "reason":  "Fixed plotted graphs are generally inconsistent with the randomized stated function."
+                                   }
+                               ],
+    "scopeExclusions":  [
+                            {
+                                "id":  "d7db0f0a-80f4-4558-95d1-53cd4fb91df0",
+                                "path":  "OpenProblemLibrary/ASU-topics/setIntegrationParts/sc5_6_11B.pg",
+                                "sha256":  "2c9942daf8e643b8f4982701543299acc70637f3ae9246d3eb3e94cd0aa8c710",
+                                "chapter":  "Techniques of integration",
+                                "reason":  "Outside the requested chapter scope; keyword overlap is not approval"
+                            },
+                            {
+                                "id":  "4fc2d668-a6b8-4350-801b-bb758f9c157f",
+                                "path":  "OpenProblemLibrary/CSUN/Calculus/Integration_substitution_1.pg",
+                                "sha256":  "720447e637cb38c9e76a6db8c9609ebf5ec8ceeb2db9c9d2c34f3c0095d2c6ad",
+                                "chapter":  "Integrals",
+                                "reason":  "Outside the requested chapter scope; keyword overlap is not approval"
+                            },
+                            {
+                                "id":  "bb3a7a7e-b287-4005-b987-0b3f7eb728a1",
+                                "path":  "OpenProblemLibrary/ASU-topics/setCalc2/tracogna48.pg",
+                                "sha256":  "7c74e94a58a484ad9f7b289dad13e18faafc011b991d144c873ed5a7944ff334",
+                                "chapter":  "Infinite sequences and series",
+                                "reason":  "Outside the requested chapter scope; keyword overlap is not approval"
+                            },
+                            {
+                                "id":  "78ccf273-c816-4077-a128-2648b2cdb0ba",
+                                "path":  "OpenProblemLibrary/CSUOhio/calculus/trigonometric_substitution/trigSub1.pg",
+                                "sha256":  "fcece12c390cfe1d8bdb9908f2cc00f83ba7d11871e49d5b2d463b21998d7eb7",
+                                "chapter":  "Techniques of integration",
+                                "reason":  "Outside the requested chapter scope; keyword overlap is not approval"
+                            },
+                            {
+                                "id":  "8d96ce67-aeea-405e-bf04-742a892b58c2",
+                                "path":  "OpenProblemLibrary/FortLewis/Calc2/10-1-Taylor-polynomials/Taylor-polynomials-01.pg",
+                                "sha256":  "80d3c08714d52f5976269dc7b109edf293651183abd9bf0118d4dec2e67f4665",
+                                "chapter":  "Infinite sequences and series",
+                                "reason":  "Outside the requested chapter scope; keyword overlap is not approval"
+                            },
+                            {
+                                "id":  "7d05bf22-b558-46c4-b088-b9f5eafc34ab",
+                                "path":  "OpenProblemLibrary/Indiana/Indiana_setDerivatives20Antideriv/s3_10_13.pg",
+                                "sha256":  "8fa502eed00fa0b25de6bef5fbf5cd23018dfa6770807704142d055c78db1b00",
+                                "chapter":  "Integrals",
+                                "reason":  "Outside the requested chapter scope; keyword overlap is not approval"
+                            },
+                            {
+                                "id":  "54944759-4b15-4c4a-b39f-8f3e753cd47f",
+                                "path":  "OpenProblemLibrary/Indiana/Indiana_setIntegrals3Definite/c4s4p6.pg",
+                                "sha256":  "73838ac771e5d19524d90b9526a040ce164e5e203cf3828bf260eb8558025178",
+                                "chapter":  "Integrals",
+                                "reason":  "Outside the requested chapter scope; keyword overlap is not approval"
+                            },
+                            {
+                                "id":  "077ac4af-e552-4c5c-89fc-445c64f3c1f3",
+                                "path":  "OpenProblemLibrary/Indiana/Indiana_setSeries9Taylor/benny_taylor1.pg",
+                                "sha256":  "514f689338c4024e7cf4f3c9820a96f10b721bcc3c9c5013bf7bcef3a1b928cf",
+                                "chapter":  "Infinite sequences and series",
+                                "reason":  "Outside the requested chapter scope; keyword overlap is not approval"
+                            },
+                            {
+                                "id":  "527ac8c8-6e21-4fc6-ba81-b201c0ef76b7",
+                                "path":  "OpenProblemLibrary/ma123DB/set8/s10_2_13.pg",
+                                "sha256":  "20c876ab3decf428e212b2574592b89d700f5271d1098aeb2aa2aae0e745ae3c",
+                                "chapter":  "Parametric",
+                                "reason":  "Outside the requested chapter scope; keyword overlap is not approval"
+                            },
+                            {
+                                "id":  "81fa382d-89db-40d8-a511-f3676765f7a8",
+                                "path":  "OpenProblemLibrary/ma123DB/set13/s11_11_1.pg",
+                                "sha256":  "128c9b51f460996deaacc050fcfafe1c239a866ed8730b60974c1d13ed49e5dd",
+                                "chapter":  "Infinite sequences and series",
+                                "reason":  "Outside the requested chapter scope; keyword overlap is not approval"
+                            },
+                            {
+                                "id":  "cfd0f0f5-4783-4dcf-8a5e-9b5317914fc0",
+                                "path":  "OpenProblemLibrary/NAU/setCalcI/antiExp.pg",
+                                "sha256":  "6e3ae3372637d18d5fac30fcaeeb18350701d0b5667ab2919bbe24ed49a0a7bb",
+                                "chapter":  "Techniques of integration",
+                                "reason":  "Outside the requested chapter scope; keyword overlap is not approval"
+                            },
+                            {
+                                "id":  "1f1700aa-290f-41a6-a8e0-960f9b125289",
+                                "path":  "OpenProblemLibrary/Michigan/Chap10Sec1/Q23.pg",
+                                "sha256":  "b77622a3bb597df99a67c6cae1a6c0b498b0be31657755700e140f9a83fba14e",
+                                "chapter":  "Infinite sequences and series",
+                                "reason":  "Outside the requested chapter scope; keyword overlap is not approval"
+                            },
+                            {
+                                "id":  "4fe7aaea-0091-46f2-ab96-d9ec9e43d670",
+                                "path":  "OpenProblemLibrary/UMN/calculusStewartCCC/s_11_12_10.pg",
+                                "sha256":  "b5eb2a5f7baf7b89339efa08fd7de7c7fd1297e45bfd30677144dca7e996a161",
+                                "chapter":  "Infinite sequences and series",
+                                "reason":  "Outside the requested chapter scope; keyword overlap is not approval"
+                            },
+                            {
+                                "id":  "949f3018-aac5-488c-b1d0-63da4755be4b",
+                                "path":  "OpenProblemLibrary/UCSB/Stewart5_10_2/Stewart5_10_2_11.pg",
+                                "sha256":  "fdb0abcc2da495c94336d7222caaa69b4fc9bdb6f8c1603fda782a54a7d19b38",
+                                "chapter":  "Parametric",
+                                "reason":  "Outside the requested chapter scope; keyword overlap is not approval"
+                            },
+                            {
+                                "id":  "f4cb4fa5-9b8c-4842-a43e-817c048346f1",
+                                "path":  "OpenProblemLibrary/Utah/Calculus_II/set10_Infinite_Series/set10_pr15/set10_pr15.pg",
+                                "sha256":  "c4e47426ab4d71b63ab87e505f28572b6158b1d29b7650e8cc125c5ee0969213",
+                                "chapter":  "Infinite sequences and series",
+                                "reason":  "Outside the requested chapter scope; keyword overlap is not approval"
+                            },
+                            {
+                                "id":  "651bb06a-532c-4e3b-9bd5-b596a6785c6d",
+                                "path":  "OpenProblemLibrary/ma122DB/set11/s5_3_29.pg",
+                                "sha256":  "2cd3b228bfc54cf6f04ea99edfa67fe2c4b7e2cf9436d9731f9f5ab9d54e7fb9",
+                                "chapter":  "Integrals",
+                                "reason":  "Outside the requested chapter scope; keyword overlap is not approval"
+                            },
+                            {
+                                "id":  "3351c0d7-7479-4dcc-b5bc-236cb7f7ec52",
+                                "path":  "OpenProblemLibrary/Wiley/setAnton_Section_9.7/Anton9_7Q10.pg",
+                                "sha256":  "d8d443fd3587e7afe814a16b016bfb5f2c46d9e38aa3e352ec91b93c19234541",
+                                "chapter":  "Infinite sequences and series",
+                                "reason":  "Outside the requested chapter scope; keyword overlap is not approval"
+                            },
+                            {
+                                "id":  "85b51c18-a51e-40cf-a7c8-3d8162a66858",
+                                "path":  "OpenProblemLibrary/WinonaState/StewartCalcEarlyTran7ed/Chap11Section09/SCalcET7-11-9-030.pg",
+                                "sha256":  "a18d6c7eee64c87f4b343c4601cf6c5e90fc66e6dcdde28e2b8b28d132bb47a2",
+                                "chapter":  "Infinite sequences and series",
+                                "reason":  "Outside the requested chapter scope; keyword overlap is not approval"
+                            },
+                            {
+                                "id":  "064a890b-7575-4ad3-bdd7-9d9b6ec27246",
+                                "path":  "OpenProblemLibrary/Rochester/setIntegrals14Substitution/sc5_5_26.pg",
+                                "sha256":  "6184f7d1baba91bde7a0fb982255c7af6d02912c57b739121db440c77502aebd",
+                                "chapter":  "Techniques of integration",
+                                "reason":  "Outside the requested chapter scope; keyword overlap is not approval"
+                            }
+                        ],
+    "acceptedDatabaseReviews":  0,
+    "published":  false,
+    "activationBlockedBy":  "Automatic approval review rejected automated sign-offs as a substitute for the required genuine independent reviews.",
+    "manualScreenReaderListening":  false,
+    "physicalDeviceReview":  false
+}

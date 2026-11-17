@@ -6,7 +6,7 @@ New-Item -ItemType Directory -Path $output|Out-Null
 function Check([string]$message){if($LASTEXITCODE -ne 0){throw $message}}
 $hashes=@()
 $files=@()
-$files+=Get-ChildItem -LiteralPath $PSScriptRoot -File|Where-Object {$_.Extension -in @('.mjs','.ps1','.yaml') -or $_.Name -like '*Dockerfile'}
+$files+=Get-ChildItem -LiteralPath $PSScriptRoot -File|Where-Object {$_.Extension -in @('.mjs','.ps1','.yaml','.json') -or $_.Name -like '*Dockerfile'}
 $files+=Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'migrations') -File
 $files+=Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot '../workspace/server') -File|Where-Object {$_.Extension -in @('.mjs','.json')}
 $files+=Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot '../workspace/public') -File

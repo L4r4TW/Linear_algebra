@@ -9,7 +9,7 @@ export const TOPICS=[
  {id:'optimization-related-rates',title:'Optimization and related rates',target:10}
 ];
 export function topicOf(labels=[]){
- const [subject='',chapter='',section='']=labels;if(subject!=='Calculus - single variable')return null;
+ const [subject='',chapter='',section='']=labels;if(subject!=='Calculus - single variable'||!['Limits and continuity','Differentiation','Applications of differentiation'].includes(chapter))return null;
  const text=(chapter+' '+section).toLowerCase();
  if(/implicit differentiation|logarithmic differentiation/.test(text))return 'implicit-logarithmic';
  if(/higher.order|linear approximation|differentials|tangent lines/.test(text))return 'higher-tangents-linear';

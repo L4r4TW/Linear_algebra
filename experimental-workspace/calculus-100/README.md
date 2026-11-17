@@ -1,5 +1,22 @@
 # Differential-calculus expansion: current handoff
 
+## Current review findings and activation block
+
+The user has now requested review and activation, revoking the earlier hold. **No new exercises have been activated.** Automatic approval review rejected recording four accepted reviews per exercise under an automated actor, on the grounds that this would substitute for the required genuine independent sign-offs. Do not retry that mutation indirectly or lower the gate. Obtain explicit approval of the proposed agent-assisted local-pilot review policy, or genuine operator sign-offs.
+
+The concrete proposal is [local-pilot.json](local-pilot.json): ten source-reviewed exercises with friendly title proposals. [independent-pilot.json](independent-pilot.json) contains 40 passing actual PG/browser cases using answers derived only from student-visible questions, not instructor answer maps. Full source formulas and parameter domains were independently checked. This is review evidence, not accepted database review records.
+
+[review-findings.json](review-findings.json) records two genuine source defects: an implicit-differentiation tangency point outside its curve, and fixed graphs inconsistent with a randomized function. It also identifies 19 of the original 100 whose chapters are outside this differential-calculus set. Sixty-nine other candidates remain without a completed source review. Historical 400-case evidence proves transport, not mathematical or subject correctness.
+
+The classifier now requires a differential-calculus chapter before applying section keywords, so integration/trigonometric-substitution and Taylor-series sections cannot silently fill derivative-rule quotas. Do not treat the historical 100-source readiness snapshot as 100 source-reviewed differential-calculus exercises.
+
+The proposed local pilot excludes all identified defects and out-of-scope entries. Its review scope is local noncommercial use, source/DOM/keyboard review and emulated mobile. Physical-device and screen-reader listening are not claimed. Original problem sources are unchanged. A visible /sources page links the pinned OPL license notice and CC BY-NC-SA 3.0 terms; catalog cards retain declared author/institution credits.
+
+The friendly display file is metadata only: version/revision/hash must match, and it cannot authorize admission. All real approvals and publication remain zero; live practice stays at six.
+
+---
+
+
 The technical set contains **100 distinct, source-classified candidates**, with all eight topic quotas met and **400 passing PG/browser cases** (two seeds and two viewports per exercise). They remain **pending independent review**, as explicitly requested by the user. No real reviews or database publications were created. Students still have the existing six exercises at http://localhost:3105.
 
 | Milestone | State |

@@ -1,0 +1,127 @@
+{
+    "version":  1,
+    "scope":  "Local noncommercial development pilot; not public release",
+    "actor":  "codex-source-and-student-oracle-review",
+    "exercises":  [
+                      {
+                          "id":  "0e41bf3b-5568-4b60-a90d-76f6be780425",
+                          "jobId":  "4be939cf-a123-4fad-afe9-3bf75489fa8e",
+                          "attemptId":  "dff83e3b-c4eb-4d10-8500-3c4f796affa1",
+                          "sourceVersionId":  "5dd50d1e-6c30-463d-8a11-c0902fecebd2",
+                          "path":  "OpenProblemLibrary/AlfredUniv/anton8e/chapter2/2.2/prob1.pg",
+                          "sha256":  "7deeb4d991533102eeeef08ff18bda7d5b3ddce1e8234d30bec0fd951605710b",
+                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                          "title":  "Apply the laws of limits",
+                          "method":  "Limit laws checked symbolically; the quotient denominator stays positive over the authored parameter range.",
+                          "solver":  0
+                      },
+                      {
+                          "id":  "f15b0c27-1666-4d0b-8a4e-1399e174baec",
+                          "jobId":  "10a57f9d-a0fe-4414-95fb-37acc3fdf8da",
+                          "attemptId":  "1610657f-3ab8-4e9a-a63c-f8d7b4c0fd61",
+                          "sourceVersionId":  "0e84b731-e72a-4530-b9f0-5cd991a7c032",
+                          "path":  "OpenProblemLibrary/AlfredUniv/anton8e/chapter3/3.2/m3.pg",
+                          "sha256":  "04e1a739114a57221dde70374488255ffb1ea4baf6564e7983c9459d6a7d3209",
+                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                          "title":  "Derive a reciprocal function from first principles",
+                          "method":  "Difference quotient, common denominator, cancellation and limit checked independently, retaining the original excluded points.",
+                          "solver":  1
+                      },
+                      {
+                          "id":  "3efe7179-771d-4aa4-bf28-24665ead4ce8",
+                          "jobId":  "e97700e6-a67f-42e7-8d98-1ac947f92ead",
+                          "attemptId":  "205c5cef-5712-4583-9883-04a15c1abde6",
+                          "sourceVersionId":  "a118bbbb-76d9-4816-8d29-d689765aca3c",
+                          "path":  "OpenProblemLibrary/270/setDerivatives1/s2_1_19.pg",
+                          "sha256":  "e2b2349a87d6d6be221b81ee0b77270a8c489542696cd1d376067d25f802c15a",
+                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                          "title":  "Differentiate a linear function",
+                          "method":  "Constant slope of an affine function independently derived; evaluation point does not affect it.",
+                          "solver":  2
+                      },
+                      {
+                          "id":  "d3588ec0-77c9-4b8b-a407-26be62a1fcbe",
+                          "jobId":  "cec18899-6291-4439-8fb7-6534cf41b299",
+                          "attemptId":  "8e8884da-e41a-4231-b1fb-b6415c62ea77",
+                          "sourceVersionId":  "a09a43e0-fe92-45cd-98dd-ad47e6c31161",
+                          "path":  "OpenProblemLibrary/270/setDerivatives13Higher/ur_dr_13_7.pg",
+                          "sha256":  "5c7c7d4f8006a15e37454a2cf9be2755be182b140f104303e6bd81b36379b70c",
+                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                          "title":  "Differentiate x sin(x) twice",
+                          "method":  "Two applications of the product rule checked, with trigonometric arguments interpreted in radians.",
+                          "solver":  3
+                      },
+                      {
+                          "id":  "4d9f4d06-0fbd-4097-9da3-b267085be9e3",
+                          "jobId":  "8ab8ed16-7601-4eb5-a94b-e639b963a20b",
+                          "attemptId":  "437c562a-15c1-43a6-acb3-3d32c74fa321",
+                          "sourceVersionId":  "29844c01-1b15-47e2-8922-a4d11f4190d2",
+                          "path":  "OpenProblemLibrary/AlfredUniv/anton8e/chapter3/3.7/prob18.pg",
+                          "sha256":  "f3cd2cafd724b7d60461359c3f097e16cf6919f7b6511d933d5fa3adafc5ae49",
+                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                          "title":  "Related rates for a linear relationship",
+                          "method":  "Differentiated the stated time-dependent linear relationship using the chain rule; unused evaluation point is harmless.",
+                          "solver":  4
+                      },
+                      {
+                          "id":  "ce9eae4e-dc48-4237-8637-621f3403611a",
+                          "jobId":  "d3889fe7-a5ff-41db-bbee-921519f63639",
+                          "attemptId":  "bdb0288b-f45e-4618-bdfd-2df1ee46c442",
+                          "sourceVersionId":  "31a0b935-ba5a-44bc-ab75-ba58cbf7f861",
+                          "path":  "OpenProblemLibrary/AlfredUniv/anton8e/chapter3/3.8/prob1.pg",
+                          "sha256":  "d6a389872e3be6994bd922934404edf70c514a1b48a76164aafae1019cee0ec6",
+                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                          "title":  "Compare a differential with the exact change",
+                          "method":  "Differential and exact polynomial increment independently expanded and distinguished.",
+                          "solver":  5
+                      },
+                      {
+                          "id":  "c149c8de-ac39-4b27-9948-d5ea241a29db",
+                          "jobId":  "8f82f231-410f-4ef6-97a1-79afbfe5d325",
+                          "attemptId":  "42555d6c-8861-400e-a5a0-858c199433fd",
+                          "sourceVersionId":  "c9778036-d9e5-4fd1-aa7b-cf5bf7be7d90",
+                          "path":  "OpenProblemLibrary/AlfredUniv/anton8e/chapter3/3.3/prob1.pg",
+                          "sha256":  "5508c315b0880e1cbf38df2f537d12a19738837bb01d14aed33d9e1aa3660d92",
+                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                          "title":  "Differentiate a power function",
+                          "method":  "Power rule checked over all authored integer exponents and nonzero coefficient choices.",
+                          "solver":  6
+                      },
+                      {
+                          "id":  "6cb5fe11-8719-4879-a5df-8ff18adeae3b",
+                          "jobId":  "85271d18-d1ba-4cb8-8f37-4170e155e9c6",
+                          "attemptId":  "8e3208cb-ba02-4132-80e4-c7e87f08398f",
+                          "sourceVersionId":  "45087b15-be8b-4009-b4af-2a8cd53285e9",
+                          "path":  "OpenProblemLibrary/Hope/Calc1/03-08-Logs/Logs-01.pg",
+                          "sha256":  "c7dce16c8713b49825f6720b1c40c2768117d262b37e10eac8c3465c45bc77c9",
+                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                          "title":  "Simplify a logarithm and differentiate",
+                          "method":  "Logarithm laws and differentiation checked on both signs of the nonzero input domain.",
+                          "solver":  7
+                      },
+                      {
+                          "id":  "d1262dc7-5683-43dd-849c-ee7f2cef6879",
+                          "jobId":  "d5885810-9f59-497c-a1c7-92fcff113b0c",
+                          "attemptId":  "07382346-e511-4d21-a4d8-8a572d72e40a",
+                          "sourceVersionId":  "21865ada-675b-4deb-83e2-5eea3ae29987",
+                          "path":  "OpenProblemLibrary/ma122DB/set1/ns2_7_4.pg",
+                          "sha256":  "b8f14b1c08d3548a7d4480de0593335545b694ce5c19e41501a6e902db4bc60e",
+                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                          "title":  "Read a function and derivative from a tangent line",
+                          "method":  "Function value read from the tangency point and slope computed from two distinct abscissae.",
+                          "solver":  8
+                      },
+                      {
+                          "id":  "cf59cb5c-67f5-44f4-b251-538c1585aaf9",
+                          "jobId":  "3022ca2c-d72f-48a2-9e1c-ddf3640e0c83",
+                          "attemptId":  "e840e886-5741-471f-a8b3-a97a74354644",
+                          "sourceVersionId":  "6f7ba7e3-b051-441d-9dae-8326660d7351",
+                          "path":  "OpenProblemLibrary/ASU-topics/setRateChange/s1_2_23.pg",
+                          "sha256":  "dc56d37c1bbd8458e9af15931929d67e9bdb6dd8f61dc53500ce300afeb42055",
+                          "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+                          "title":  "Estimate a tangent slope using a limit",
+                          "method":  "Cubic difference quotient independently factored before taking its limit.",
+                          "solver":  9
+                      }
+                  ]
+}

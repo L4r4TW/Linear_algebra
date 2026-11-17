@@ -1,6 +1,6 @@
 {
     "version":  1,
-    "observedAt":  "2026-11-17T17:56:38.900Z",
+    "observedAt":  "2026-11-17T18:52:24.404Z",
     "scope":  "Task 9 real catalog chooser and temporary owned prototype session; no activation or account assertions",
     "desktopColumns":  true,
     "dependentSelection":  true,
@@ -24,7 +24,7 @@
                          },
                          {
                              "file":  "server.mjs",
-                             "sha256":  "d3c4afdfe5d37cbfdaf0a15c20fd3438236e4c10bc20adb0ab62b3161bd35bbc"
+                             "sha256":  "0487ab43de81ec1206b32ef98015566f4705b5cc757afef0649fdc4ac0a458fc"
                          },
                          {
                              "file":  "practice-metadata.json",
@@ -36,7 +36,11 @@
                          },
                          {
                              "file":  "public/index.html",
-                             "sha256":  "15c41c3b1b1794856ba14060a64114e8c3eb95d980b6da89493e4ff93b5c4560"
+                             "sha256":  "9bbff02eec72d517c029f7ed0e295c7cb1bf08d7312767ed630aee5acea52b71"
+                         },
+                         {
+                             "file":  "public/sources.html",
+                             "sha256":  "c7c23a88a07e95bc115cd7d886b6a402cf7e1a592c806a2a971ecda10c3c449b"
                          },
                          {
                              "file":  "public/home.js",
@@ -84,7 +88,7 @@
                          },
                          {
                              "file":  "server.test.mjs",
-                             "sha256":  "c2f9e6f6ac18309545347dc5f9cd961eab22b2561f1941fbccdea00360a1aabc"
+                             "sha256":  "0c25367f4672667414b807c35f078afe9a80cf94ec660d87f7446dd5f43accc8"
                          },
                          {
                              "file":  "catalog.integration.mjs",
@@ -116,11 +120,11 @@
                          },
                          {
                              "file":  "verify.ps1",
-                             "sha256":  "8e66a194cc8590a62bdf46830d297db741446cb3b9574e7ca1a6253f235f113a"
+                             "sha256":  "1cbfb18ff1de6699b7ff8bf140bceba90164580050c7981bf2193a1b584e364b"
                          }
                      ],
-    "serverTests":  16,
+    "serverTests":  17,
     "realDatabaseTests":  1,
     "browserTests":  5,
-    "imageId":  "sha256:bbeba930a3ba1f145de46c01751d02dc9ba9db1b87ced90c57e4355e7e266534"
+    "imageId":  "sha256:26202af5a8ac56fe1090b4bb16a8a90cf565ec298f2e39b20eea52ac3cb1037b"
 }

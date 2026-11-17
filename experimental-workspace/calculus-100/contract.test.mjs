@@ -11,3 +11,5 @@ test('single-variable scope excludes multivariable and integral metadata',()=>{
  assert.equal(topicOf(['Calculus - single variable','Integrals','Indefinite integrals']),null);
  assert.equal(topicOf(['Calculus - single variable','Limits and continuity','Applications - tangent lines and slopes']),'higher-tangents-linear');
 });
+
+test('integration and Taylor sections cannot be mistaken for derivative rules by keyword overlap',()=>{assert.equal(topicOf(['Calculus - single variable','Techniques of integration','Integration by parts (without trigonometric functions)']),null);assert.equal(topicOf(['Calculus - single variable','Sequences and series','Taylor polynomials']),null);});

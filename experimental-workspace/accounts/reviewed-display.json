@@ -1,0 +1,62 @@
+[
+    {
+        "sourceVersionId":  "5dd50d1e-6c30-463d-8a11-c0902fecebd2",
+        "sha256":  "7deeb4d991533102eeeef08ff18bda7d5b3ddce1e8234d30bec0fd951605710b",
+        "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "title":  "Apply the laws of limits"
+    },
+    {
+        "sourceVersionId":  "0e84b731-e72a-4530-b9f0-5cd991a7c032",
+        "sha256":  "04e1a739114a57221dde70374488255ffb1ea4baf6564e7983c9459d6a7d3209",
+        "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "title":  "Derive a reciprocal function from first principles"
+    },
+    {
+        "sourceVersionId":  "a118bbbb-76d9-4816-8d29-d689765aca3c",
+        "sha256":  "e2b2349a87d6d6be221b81ee0b77270a8c489542696cd1d376067d25f802c15a",
+        "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "title":  "Differentiate a linear function"
+    },
+    {
+        "sourceVersionId":  "a09a43e0-fe92-45cd-98dd-ad47e6c31161",
+        "sha256":  "5c7c7d4f8006a15e37454a2cf9be2755be182b140f104303e6bd81b36379b70c",
+        "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "title":  "Differentiate x sin(x) twice"
+    },
+    {
+        "sourceVersionId":  "29844c01-1b15-47e2-8922-a4d11f4190d2",
+        "sha256":  "f3cd2cafd724b7d60461359c3f097e16cf6919f7b6511d933d5fa3adafc5ae49",
+        "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "title":  "Related rates for a linear relationship"
+    },
+    {
+        "sourceVersionId":  "31a0b935-ba5a-44bc-ab75-ba58cbf7f861",
+        "sha256":  "d6a389872e3be6994bd922934404edf70c514a1b48a76164aafae1019cee0ec6",
+        "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "title":  "Compare a differential with the exact change"
+    },
+    {
+        "sourceVersionId":  "c9778036-d9e5-4fd1-aa7b-cf5bf7be7d90",
+        "sha256":  "5508c315b0880e1cbf38df2f537d12a19738837bb01d14aed33d9e1aa3660d92",
+        "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "title":  "Differentiate a power function"
+    },
+    {
+        "sourceVersionId":  "45087b15-be8b-4009-b4af-2a8cd53285e9",
+        "sha256":  "c7dce16c8713b49825f6720b1c40c2768117d262b37e10eac8c3465c45bc77c9",
+        "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "title":  "Simplify a logarithm and differentiate"
+    },
+    {
+        "sourceVersionId":  "21865ada-675b-4deb-83e2-5eea3ae29987",
+        "sha256":  "b8f14b1c08d3548a7d4480de0593335545b694ce5c19e41501a6e902db4bc60e",
+        "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "title":  "Read a function and derivative from a tangent line"
+    },
+    {
+        "sourceVersionId":  "6f7ba7e3-b051-441d-9dae-8326660d7351",
+        "sha256":  "dc56d37c1bbd8458e9af15931929d67e9bdb6dd8f61dc53500ce300afeb42055",
+        "revision":  "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "title":  "Estimate a tangent slope using a limit"
+    }
+]

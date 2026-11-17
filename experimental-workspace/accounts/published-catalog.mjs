@@ -1,5 +1,7 @@
+import {readFileSync} from 'node:fs';
 import pg from 'pg';
 import {RendererClientError} from '../application/server/renderer-client.mjs';
+const reviewedDisplay=JSON.parse(readFileSync(new URL('./reviewed-display.json',import.meta.url),'utf8'));
 const sourceKey=entry=>entry?.source?JSON.stringify([entry.source.revision,entry.source.path,entry.source.sha256]):null;
 const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
 const hex=n=>new RegExp('^[a-f0-9]{'+n+'}$');
@@ -10,10 +12,11 @@ export function projectPublished(row,{context,sourceRevision}){
  if(!uuid.test(row.id??'')||!uuid.test(row.source_version_id??'')||row.context_id!==context.id||!hex(64).test(row.sha256??'')||row.revision!==sourceRevision)throw Error('INVALID_APPROVED_SOURCE');
  const path=row.path;if(typeof path!=='string'||!path.endsWith('.pg')||!['OpenProblemLibrary','Contrib','Pending'].includes(path.split('/')[0])||path.split('/').some(p=>!p||p==='.'||p==='..')||/[\\\x00-\x1f\x7f]/.test(path))throw Error('INVALID_APPROVED_PATH');
  const metadata=row.metadata??{},[subject,chapter,section]=(metadata.normalized??[]).map(s=>text(s));
- const title=text(metadata.title,1000),description=text(metadata.description,5000)??'';
+ const display=reviewedDisplay.find(item=>item.sourceVersionId===row.source_version_id&&item.sha256===row.sha256&&item.revision===row.revision);
+ const title=text(display?.title??metadata.title,1000),description=text(metadata.description,5000)??'';
  if(!title||!subject||!chapter)throw Error('APPROVED_METADATA_INCOMPLETE');
  const rendererPath=path.startsWith('OpenProblemLibrary/')?path.replace(/^OpenProblemLibrary\//,'Library/'):path.startsWith('Contrib/')?path:'webwork-open-problem-library/'+path;
- return {id:row.id,title,description,topicId:'catalog:'+chapter,topic:section??chapter,subject,chapter,section:section??null,titleOrigin:metadata.titleOrigin??'source-metadata',
+ return {id:row.id,title,description,topicId:'catalog:'+chapter,topic:section??chapter,subject,chapter,section:section??null,titleOrigin:display?'reviewed-title':metadata.titleOrigin??'source-metadata',
  attribution:{authors:strings(metadata.authors),institutions:strings(metadata.institutions)},
  source:{path:row.path,versionId:row.source_version_id,revision:row.revision,sha256:row.sha256,contextId:context.id},renderer:{sourceFilePath:rendererPath}};
 }
