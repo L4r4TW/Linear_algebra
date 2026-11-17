@@ -39,3 +39,9 @@ test('approved backend UUID entries support section filtering, attribution searc
  exercises.pop();await assert.rejects(catalog.search(input('subject=Calculus&chapter=Differentiation&section=Chain+rule&q=author&cursor='+first.nextCursor)),{code:'CATALOG_CHANGED'});
  assert.ok((await catalog.topics(input('subject=Calculus'))).topics.every(t=>t.section==='Chain rule'));
 });
+
+test('study collections count distinct admitted collection members and never include indexed or legacy coverage',async()=>{
+ const entries=[{id:id(1),title:'Limits',subject:'Differential calculus',chapter:'Limits',collectionId:'calculus'},{id:id(2),title:'Derivative',subject:'Differential calculus',chapter:'Rules',collectionId:'calculus'},{id:id(3),title:'Legacy statistics',subject:'Statistics',chapter:'Testing'}];
+ const catalog=createCatalog({fetcher:async()=>Response.json({exercises:entries}),query:async()=>{throw Error('Library offline');}});
+ const result=await catalog.overview();assert.equal(result.collections.length,4);assert.equal(result.collections.find(c=>c.id==='calculus').playable,2);assert.equal(result.collections.find(c=>c.id==='statistics').playable,0);assert.equal(result.collections.find(c=>c.id==='trigonometry').target,100);
+});

@@ -1,5 +1,9 @@
 # User-authorized local practice policy
 
+## Expanded user-authorized scope
+
+The user subsequently authorized the four focused 100-exercise collections. practice-400/README.md and the newest PROJECT_CONTEXT.md supersede the original fixed-ten membership below. New grants explicitly record automated source screening and technical evidence with humanReview=false and mathematicalCertification=false. No accepted independent review records are created. The original technical/source/context/provenance/privacy requirements remain; this is local tested practice with student reports.
+
 The user explicitly authorized enabling the tested exercises without moderator approval, with students able to report problems while practicing. This replaces the earlier independent-review prerequisite for this local pilot only. It does not create or simulate independent or human review records.
 
 The initial scope is the ten exact source versions in local-pilot.json, backed by forty independent student-question solution cases and complete existing technical verification. Known defective and out-of-scope sources are excluded. Other candidates remain disabled.

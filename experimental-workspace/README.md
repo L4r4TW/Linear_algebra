@@ -1,5 +1,9 @@
 # Experimental Docker workspace
 
+## Current focused collections
+
+Differential calculus now has 100 playable collection exercises at http://localhost:3105/?subject=Differential+calculus. The other three 100-exercise collections are processing through [the focused pipeline](practice-400/README.md). The home shows actual available counts; indexed metadata does not count as playable. Older six/ten-entry statements below are historical. Canonical PG integration and original apps/data remain intact.
+
 ## Calculus expansion checkpoint
 
 Read [the current calculus handoff](calculus-100/README.md). One hundred classified candidates now have 400 passing technical cases and isolated discovery acceptance. The user now authorizes local tested practice without moderator approval: ten source-reviewed calculus pilots are active, alongside the original six. Cards show pilot status and the practice shell includes Report a problem. See [the tested-pilot policy](calculus-100/LOCAL_PILOT_POLICY.md); no independent review records or ordinary publication approvals were fabricated. The 3105 backend uses the clean private candidate renderer/player override; original 3100 is independent. Private catalog publication authority also governs legacy aliases, and outages cannot bypass withdrawal. Historical counts/provenance statements below describe earlier images; the new candidate passes the unchanged full PG-clean check while production OS/npm/manual-review blockers remain.

@@ -46,3 +46,10 @@ test('local tested-pilot status is explicit and still subject to the normal rend
  assert.equal(c.list()[0].reviewStatus,'tested-local-pilot');assert.equal(c.get(row.id).source.versionId,row.source_version_id);
  const broken=setup({query:async()=>({context:{...context,certified:false},entries:[{...row,review_status:'tested-local-pilot'}],managedLegacyIds:[]})});await broken.refresh();assert.equal(broken.status().available,false);
 });
+
+test('a 400-exercise tested catalog retains per-source authorization and rejects oversized snapshots',async()=>{
+ const rows=Array.from({length:400},(_,n)=>({...row,id:id(n+100),source_version_id:id(n+1000),review_status:'tested-local-pilot'}));
+ const catalog=setup({query:async()=>({context,entries:rows,managedLegacyIds:[]})});await catalog.refresh();assert.equal(catalog.list().length,400);assert.ok(catalog.get(rows[399].id));
+ const oversized=setup({query:async()=>({context,entries:Array.from({length:1001},(_,n)=>({...row,id:id(n+100)})),managedLegacyIds:[]})});await oversized.refresh();assert.equal(oversized.status().available,false);
+ const grouped=projectPublished({...row,metadata:{...row.metadata,practiceCollection:{id:'calculus',title:'Differential calculus'},practiceTopic:'Derivative definition'}},{context,sourceRevision:revision});assert.equal(grouped.subject,'Differential calculus');assert.equal(grouped.chapter,'Derivative definition');
+});

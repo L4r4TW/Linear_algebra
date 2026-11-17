@@ -1,4 +1,4 @@
-import {practiceShell,reportScript} from './report-shell.mjs';
+import {practiceShell,reportScript,collectionStyle} from './report-shell.mjs';
 import {createServer} from 'node:http';
 import {actors,AccountError} from './db.mjs';import {createAdmission} from './admission.mjs';import {hash} from './crypto.mjs';import {cookieValue} from './auth.mjs';
 import {createApp} from '../application/server/http-app.mjs';
@@ -43,6 +43,7 @@ export function createAccountApp({reports,db,accounts,data,sessions,practiceSets
     const release=await admission.acquire({signal:requestAbort.signal});res.once('finish',release);res.once('close',release);
    }
    if(req.method==='GET'&&(url.pathname==='/'||url.pathname==='/assets/problem-report.js')){res.writeHead(200,{'Content-Type':url.pathname==='/'?'text/html; charset=utf-8':'text/javascript; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'});res.end(url.pathname==='/'?practiceShell():reportScript);return;}
+   if(req.method==='GET'&&url.pathname==='/assets/collection-shell.css'){res.writeHead(200,{'Content-Type':'text/css; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});res.end(collectionStyle);return;}
    const reportRoute=url.pathname.match(/^\/api\/sessions\/([a-f0-9-]{36})\/reports$/);
    const accountRoute=url.pathname.startsWith(prefix),draft=url.pathname.match(/^\/api\/sessions\/([a-f0-9-]{36})\/draft$/);
    if((accountRoute||draft||url.pathname.startsWith('/api/sessions'))&&(req.headers['sec-fetch-site']==='cross-site'||req.headers.origin&&req.headers.origin!==origin||req.method==='POST'&&req.headers.origin!==origin))throw new AccountError('ORIGIN_NOT_ALLOWED',403);

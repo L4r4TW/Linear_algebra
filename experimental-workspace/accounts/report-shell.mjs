@@ -12,6 +12,7 @@ export function practiceShell(){
  <button type="submit" id="report-send" class="action">Send report</button> <button type="button" id="report-cancel" class="action">Cancel</button>
  </form><p id="report-status" role="status" aria-live="polite"></p></section>
  <script type="module" src="/assets/problem-report.js"></script>`;
- return html.replace('<p class="page-footer">Take your time. Understanding grows with practice.</p>',block);
+ return html.replace('</head>','<link rel="stylesheet" href="/assets/collection-shell.css"></head>').replace('<p class="page-footer">Take your time. Understanding grows with practice.</p>',block);
 }
+export const collectionStyle=readFileSync(new URL('./public/collection-shell.css',import.meta.url));
 export const reportScript=readFileSync(new URL('./public/problem-report.js',import.meta.url));

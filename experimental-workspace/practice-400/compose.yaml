@@ -1,0 +1,57 @@
+name: linear-algebra-collections
+services:
+  tools:
+    image: linear-algebra-collections
+    build:
+      context: ../..
+      dockerfile: experimental-workspace/practice-400/Dockerfile
+    environment: &environment
+      PGHOST: linear-algebra-opl-catalog-database-1
+      PGUSER: postgres
+      PGDATABASE: opl_catalog
+    networks: [catalog]
+    volumes: &volumes
+      - reports:/artifacts
+      - type: volume
+        source: opl
+        target: /opl
+        read_only: true
+  controller:
+    image: linear-algebra-collections
+    init: true
+    command: [collections/controller.mjs, --loop]
+    environment: *environment
+    networks: [catalog]
+    volumes: *volumes
+    read_only: true
+    tmpfs: ["/tmp:rw,noexec,nosuid,size=16m"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 384m
+    pids_limit: 64
+  health:
+    image: linear-algebra-collections
+    init: true
+    command: [collections/health.mjs]
+    environment:
+      <<: *environment
+      RENDERER_URL: http://linear-algebra-calculus-renderer-1:3000
+    networks: [catalog, calculus]
+    read_only: true
+    tmpfs: ["/tmp:rw,noexec,nosuid,size=8m"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 128m
+    pids_limit: 32
+networks:
+  calculus:
+    external: true
+    name: linear-algebra-calculus_private
+  catalog:
+    external: true
+    name: linear-algebra-opl-catalog_catalog
+volumes:
+  reports: {}
+  opl:
+    external: true
+    name: linear-algebra-experimental_opl

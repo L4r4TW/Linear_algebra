@@ -64,7 +64,7 @@ export function createCatalog({query=queryDatabase,practiceOrigin='http://worksp
    return value.exercises.filter(v=>typeof v.id==='string'&&(metadata.some(m=>m.id===v.id)||uuid.test(v.id)&&text(v.subject)&&text(v.chapter))).map(v=>{
     const source=metadata.find(m=>m.id===v.id);
     return {id:v.id,title:v.title,description:v.description,subject:source?.subject??v.subject,chapter:source?v.topic:v.chapter,section:source?null:text(v.section),topic:v.topic,
-     reviewStatus:v.reviewStatus??null,canPractice:true,availability:'practice-ready',titleOrigin:source?'reviewed-title':v.titleOrigin??'source-metadata',
+     collectionId:v.collectionId??null,reviewStatus:v.reviewStatus??null,canPractice:true,availability:'practice-ready',titleOrigin:source?'reviewed-title':v.titleOrigin??'source-metadata',
      ...(source?{}:{attribution:{authors:Array.isArray(v.attribution?.authors)?v.attribution.authors.filter(a=>typeof a==='string'):[],institutions:Array.isArray(v.attribution?.institutions)?v.attribution.institutions.filter(a=>typeof a==='string'):[]}})};
    });
   }catch{throw new DiscoveryError('PRACTICE_UNAVAILABLE',503);}
@@ -73,6 +73,7 @@ export function createCatalog({query=queryDatabase,practiceOrigin='http://worksp
   const [p,c]=await Promise.allSettled([practice(),summary()]);
   const entries=p.status==='fulfilled'?p.value:[];
   return {practice:{available:p.status==='fulfilled',count:entries.length,subjects:[...new Set(entries.map(e=>e.subject))].sort().map(subject=>({subject,practice:entries.filter(e=>e.subject===subject).length}))},
+   collections:[['calculus','Differential calculus'],['algebra','Algebra'],['trigonometry','Trigonometry'],['statistics','Statistics']].map(([id,title])=>({id,title,target:100,available:p.status==='fulfilled',playable:entries.filter(e=>e.collectionId===id).length})),
    library:c.status==='fulfilled'?{available:true,...c.value}:{available:false,indexed:null,subjects:[]}};
  }
  async function summary(){

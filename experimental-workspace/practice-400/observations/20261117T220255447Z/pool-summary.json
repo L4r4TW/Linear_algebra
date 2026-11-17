@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "scanned": 10237,
+  "selected": 1200,
+  "excluded": {
+    "KNOWN_SOURCE_DEFECT": 2,
+    "INCOMPLETE_PROBLEM_STRUCTURE": 8,
+    "LARGE_MULTIPART_SOURCE_DEFERRED": 13
+  },
+  "shortfalls": [],
+  "scope": "Pinned source bytes and source screening; no mathematical certification"
+}

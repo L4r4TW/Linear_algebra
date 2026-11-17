@@ -1,5 +1,19 @@
 # Project context and session handoff
 
+## Active short-term delivery: 400 focused exercises
+
+The user authorized implementing 100 differential-calculus, 100 algebra, 100 trigonometry and 100 statistics exercises, with documentation/pushes for functionality checkpoints. Read [practice-400/README.md](experimental-workspace/practice-400/README.md). **Calculus has reached 100 playable collection entries.** Other collections are processing, not complete. Live home counters are authoritative; older sixteen-entry statements below are historical.
+
+The new practice-400 controller has 1,200 screened/deduplicated reserve candidates in a dedicated Docker reports volume. It reuses actual current passes, queues replacements through the unchanged measured two-worker verifier, admits only complete passing source/job/attempt-bound evidence and prioritizes calculus, algebra, trigonometry, statistics. Explicit withdrawals remain withdrawn. Exhausted topics do not block independent collections. No source files, student volumes, secrets or Docker socket enter this controller.
+
+Local migration 26 adds separate tested-collection grants and extends the private source projection, including persistent legacy-alias/superseded-pilot withdrawal authority. Migrations 25 and 26 were actually applied and are recorded in importer_admin.migrations. Backend capacity is now 1,000 imported entries, tested with a 400-entry fixture. Source screening and privileged technical calibration are not independent mathematical certification or human reviews; no such records were fabricated. User-authorized tested local practice with problem reporting supersedes the old ten-entry-only pilot hold.
+
+The home shows four topic-balanced collection counters. Existing search/chooser/sets work with friendly collection/topic labels. The account shell bounds catalog scrolling outside the PG frame, preserving the canonical runtime fingerprint. Original 3100/root apps and all saved data remain intact.
+
+Verified so far: 3 collection contracts, 14 provider contracts, transactional source/withdrawal/privacy guards, 134 fresh/upgrade migration assertions, 19 discovery contracts, one actual read-only database test and 12 home/chooser browser cases. The interrupted live run was repeated successfully: 24 cases in practice-400/observations/20261117T220255447Z/manifest.json. Eight private account groups passed in accounts/acceptance/20261117T220009642Z-d5fb2cea/manifest.json. These live checks sample topic families, not every final 400 entry. No physical-device or screen-reader listening claim.
+
+Resume measured workers with calculus-100/resume.ps1 -NoController and the practice-400 Compose controller plus health service; preserve its reports volume/candidate pool and the current verifier context. Do not rerun preparation or create a new context as ordinary restart. Inspect controller status, complete remaining collection quotas, complete final live acceptance over all collection membership, then update/push evidence. The background controller is not proof that all 400 are finished.
+
 ## Current: tested local pilot is playable (user-authorized policy)
 
 The user explicitly authorized enabling tested exercises without moderator/human approval and requested student problem reporting. This supersedes the earlier hold and the earlier rejection's missing authorization. We did NOT retry the rejected four-review mutation. No independent review, assessment approval or normal publication was fabricated.

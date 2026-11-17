@@ -1,0 +1,82 @@
+{
+    "version":  1,
+    "complete":  true,
+    "scope":  "Actual live 24-case sampled acceptance, not all 400 entries or mathematical certification; current QA module copied before restarting run",
+    "observedAt":  "2026-11-17T22:03:02.3834869Z",
+    "backendImage":  "sha256:0e6a92c2b9a903bf9914b688cf333575addbd8f8da6cb0d6c25a5867d4637587",
+    "homeImage":  "sha256:e37efd29b22bc58f93e7f4ac6da5e036cb2b3890ca05ea7da94e80a8ff866f50",
+    "sourceHashes":  [
+                         {
+                             "file":  "experimental-workspace/accounts/collections.browser.mjs",
+                             "sha256":  "e680e7dafa52d681e1027a708d3e4d7964e089703cb086101c47b4c52b82e513"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/http-app.mjs",
+                             "sha256":  "591ab5f04b30ca5f61989b6273f702325aabe4a451326852cfd03c8f96f4e2ea"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/published-catalog.mjs",
+                             "sha256":  "3c9f10893ab3c38accc3a94ff0bb94077e3db148f471a745b57c7c053d02144f"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/report-shell.mjs",
+                             "sha256":  "fff1fc3c399338a8a8895c7ca19cc32c289497329a0932268ed54de1e7cdc2cf"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/public/collection-shell.css",
+                             "sha256":  "7d1aa7547f8a9e807421498ee0e67c964d06a6de4baebf790672b0189d580885"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/package-lock.json",
+                             "sha256":  "6b88f17698f6a3e5fde63478bbd657e4c93e2b7a5c0709385161c6c1c7e5740b"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/catalog.mjs",
+                             "sha256":  "2edf526b0cf1cca1065375f66de5daa337636bd38dcfca36f2f92e473c50bf2c"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/public/home.js",
+                             "sha256":  "478e53a9fdf37ef9f2203dcb9d58c8c609281eb4fac91e683929cfdfadefd88d"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/public/home.css",
+                             "sha256":  "c3cd4db7d4021d8466e2b6f3bac4ea2448693932405492fbfd65be71954aa349"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/public/index.html",
+                             "sha256":  "426100c01e3741fe5b89ac7cad5f661fc038d71462514e63019a5194863d26de"
+                         },
+                         {
+                             "file":  "experimental-workspace/practice-400/contract.mjs",
+                             "sha256":  "d1ccef4a35c1c8e63f9b2465322f2e1132db7626ddf6b592a092a0f9bdace0ad"
+                         },
+                         {
+                             "file":  "experimental-workspace/practice-400/controller.mjs",
+                             "sha256":  "a5767344eb2855b736f87e3ee9b45de47905fb9e14b96637de55d6e5f24dd536"
+                         },
+                         {
+                             "file":  "experimental-workspace/practice-400/prepare.mjs",
+                             "sha256":  "2f945668f736bc3c10ba57740477f7389decf668ca6eac9c3b0c2ceef892af11"
+                         },
+                         {
+                             "file":  "experimental-workspace/practice-400/health.mjs",
+                             "sha256":  "5ca0485bd40ad63b565da946f03458f844602bbf5db159d33f9aee827fd3c3b0"
+                         },
+                         {
+                             "file":  "experimental-workspace/practice-400/collections.json",
+                             "sha256":  "bbd93e04f0f38690d30191d1c5002b741ff8a87e0804efeef700c0b6589a5e4f"
+                         },
+                         {
+                             "file":  "experimental-workspace/practice-400/context.json",
+                             "sha256":  "5609d57aa55b9256840c6e75545afd1d6e6bc73147b2f59ce9bf22a620e8357d"
+                         },
+                         {
+                             "file":  "experimental-workspace/practice-400/compose.yaml",
+                             "sha256":  "79c8a011dff8bddcc7783ed3d5d26e5c360ad32c9f2d8048b79143b29984059a"
+                         },
+                         {
+                             "file":  "supabase/migrations/202611160026_tested_collections.sql",
+                             "sha256":  "8ebcb3b4236638fdf2dcf2b538ca22b56b4387f625c0ac61dd99bc48b7fd9a32"
+                         }
+                     ]
+}

@@ -11,18 +11,18 @@ const strings=v=>Array.isArray(v)?v.map(s=>text(s,500)).filter(Boolean):[];
 export function projectPublished(row,{context,sourceRevision}){
  if(!uuid.test(row.id??'')||!uuid.test(row.source_version_id??'')||row.context_id!==context.id||!hex(64).test(row.sha256??'')||row.revision!==sourceRevision)throw Error('INVALID_APPROVED_SOURCE');
  const path=row.path;if(typeof path!=='string'||!path.endsWith('.pg')||!['OpenProblemLibrary','Contrib','Pending'].includes(path.split('/')[0])||path.split('/').some(p=>!p||p==='.'||p==='..')||/[\\\x00-\x1f\x7f]/.test(path))throw Error('INVALID_APPROVED_PATH');
- const metadata=row.metadata??{},[subject,chapter,section]=(metadata.normalized??[]).map(s=>text(s));
+ const metadata=row.metadata??{},labels=(metadata.normalized??[]).map(s=>text(s)),subject=text(metadata.practiceCollection?.title)??labels[0],chapter=text(metadata.practiceTopic)??labels[1],section=labels[2];
  const display=reviewedDisplay.find(item=>item.sourceVersionId===row.source_version_id&&item.sha256===row.sha256&&item.revision===row.revision);
  const title=text(display?.title??metadata.title,1000),description=text(metadata.description,5000)??'';
  if(!title||!subject||!chapter)throw Error('APPROVED_METADATA_INCOMPLETE');
  const rendererPath=path.startsWith('OpenProblemLibrary/')?path.replace(/^OpenProblemLibrary\//,'Library/'):path.startsWith('Contrib/')?path:'webwork-open-problem-library/'+path;
- return {reviewStatus:row.review_status==='tested-local-pilot'?'tested-local-pilot':'independently-reviewed',id:row.id,title,description,topicId:'catalog:'+chapter,topic:section??chapter,subject,chapter,section:section??null,titleOrigin:display?'reviewed-title':metadata.titleOrigin??'source-metadata',
+ return {collectionId:text(metadata.practiceCollection?.id,100),reviewStatus:row.review_status==='tested-local-pilot'?'tested-local-pilot':'independently-reviewed',id:row.id,title,description,topicId:'catalog:'+chapter,topic:section??chapter,subject,chapter,section:section??null,titleOrigin:display?'reviewed-title':metadata.titleOrigin??'source-metadata',
  attribution:{authors:strings(metadata.authors),institutions:strings(metadata.institutions)},
  source:{path:row.path,versionId:row.source_version_id,revision:row.revision,sha256:row.sha256,contextId:context.id},renderer:{sourceFilePath:rendererPath}};
 }
 export function publicPublished(entry){
- const {id,title,description,topicId,topic,subject,chapter,section,titleOrigin,attribution,reviewStatus}=entry;
- return {id,title,description,topicId,topic,subject,chapter,section,titleOrigin,attribution,reviewStatus};
+ const {id,title,description,topicId,topic,subject,chapter,section,titleOrigin,attribution,reviewStatus,collectionId}=entry;
+ return {id,title,description,topicId,topic,subject,chapter,section,titleOrigin,attribution,reviewStatus,collectionId};
 }
 export function createPublishedCatalog({query,rendererUrl,runtimeDigest,sourceRevision,fetcher=fetch}){
  let entries=new Map(),pending,unavailable=true,initialized=false,managedLegacyIds=new Set();
@@ -31,7 +31,7 @@ export function createPublishedCatalog({query,rendererUrl,runtimeDigest,sourceRe
   pending=(async()=>{
    try{
     const snapshot=await query(),context=snapshot?.context;
-    if(!Array.isArray(snapshot?.entries)||snapshot.entries.length>100)throw Error('INVALID_PUBLISHED_CATALOG');
+    if(!Array.isArray(snapshot?.entries)||snapshot.entries.length>1000)throw Error('INVALID_PUBLISHED_CATALOG');
     const managed=snapshot.managedLegacyIds;if(!Array.isArray(managed)||managed.length>1000||managed.some(id=>typeof id!=='string'||!(/^[a-z0-9-]{1,100}$/).test(id)))throw Error('INVALID_LEGACY_GOVERNANCE');
     managedLegacyIds=new Set(managed);initialized=true;
     if(!snapshot.entries.length){entries=new Map();unavailable=false;return;}
@@ -49,7 +49,7 @@ export function createPublishedCatalog({query,rendererUrl,runtimeDigest,sourceRe
 export function createCatalogQuery({host=process.env.CATALOG_DB_HOST}={}){
  const pool=new pg.Pool({host,database:'opl_catalog',user:'catalog_player',max:2,connectionTimeoutMillis:2000,idleTimeoutMillis:10000,statement_timeout:3000,application_name:'mathpractice-published-catalog'});
  pool.on('error',()=>{});
- return {async query(){const result=await pool.query('SELECT catalog_backend.player_catalog() AS snapshot');const snapshot=result.rows[0].snapshot;if(process.env.LOCAL_TESTED_PILOT==='true'){const pilot=await pool.query('SELECT catalog_backend.local_pilot_catalog() AS snapshot');const ids=new Set(snapshot.entries.map(e=>e.id));snapshot.entries.push(...pilot.rows[0].snapshot.entries.filter(e=>!ids.has(e.id)));}return snapshot;},close:()=>pool.end()};
+ return {async query(){const result=await pool.query('SELECT catalog_backend.player_catalog() AS snapshot');const snapshot=result.rows[0].snapshot;if(process.env.LOCAL_TESTED_PILOT==='true'){const pilot=await pool.query('SELECT catalog_backend.local_pilot_catalog() AS snapshot');const ids=new Set(snapshot.entries.map(e=>e.id));snapshot.entries.push(...pilot.rows[0].snapshot.entries.filter(e=>!ids.has(e.id)));snapshot.managedLegacyIds=[...new Set([...snapshot.managedLegacyIds,...(pilot.rows[0].snapshot.managedLegacyIds??[])])];}return snapshot;},close:()=>pool.end()};
 }
 
 export function mergeExerciseLists(legacy,published,lookup){

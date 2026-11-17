@@ -1,6 +1,6 @@
 {
     "version":  1,
-    "observedAt":  "2026-11-17T19:24:39.3690324Z",
+    "observedAt":  "2026-11-17T20:23:33.5706399Z",
     "imageDigest":  "postgres@sha256:a49f7438ba03589f9b1ca062f2da82e899b48ea1dc50d2449fa09a70be83ebca",
     "scope":  "Fresh and authored-app upgrade on isolated PostgreSQL with test-only Auth context, not hosted Supabase or HTTP JWT validation",
     "network":  "none",
@@ -702,6 +702,10 @@
                        {
                            "name":  "202611160025_local_tested_pilot.sql",
                            "sha256":  "fe665f5838042eb76803a9b77e0d6e53f2a8f783500170adbac448a5e86a4f6a"
+                       },
+                       {
+                           "name":  "202611160026_tested_collections.sql",
+                           "sha256":  "8ebcb3b4236638fdf2dcf2b538ca22b56b4387f625c0ac61dd99bc48b7fd9a32"
                        }
                    ]
 }

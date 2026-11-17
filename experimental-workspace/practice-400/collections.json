@@ -1,0 +1,170 @@
+[
+  {
+    "id": "calculus",
+    "title": "Differential calculus",
+    "topics": [
+      {
+        "id": "limits",
+        "title": "Limits and continuity",
+        "target": 15
+      },
+      {
+        "id": "definition",
+        "title": "Derivative definition",
+        "target": 10
+      },
+      {
+        "id": "rules",
+        "title": "Power, product and quotient rules",
+        "target": 20
+      },
+      {
+        "id": "chain",
+        "title": "Chain rule and transcendental functions",
+        "target": 20
+      },
+      {
+        "id": "implicit",
+        "title": "Implicit differentiation",
+        "target": 10
+      },
+      {
+        "id": "higher",
+        "title": "Higher derivatives and tangent lines",
+        "target": 10
+      },
+      {
+        "id": "applications",
+        "title": "Applications and optimization",
+        "target": 15
+      }
+    ],
+    "target": 100
+  },
+  {
+    "id": "algebra",
+    "title": "Algebra",
+    "topics": [
+      {
+        "id": "expressions",
+        "title": "Expressions and factoring",
+        "target": 15
+      },
+      {
+        "id": "linear",
+        "title": "Linear equations and inequalities",
+        "target": 15
+      },
+      {
+        "id": "quadratic",
+        "title": "Quadratic equations",
+        "target": 15
+      },
+      {
+        "id": "polynomials",
+        "title": "Polynomials and rational expressions",
+        "target": 15
+      },
+      {
+        "id": "exponents",
+        "title": "Exponents and radicals",
+        "target": 15
+      },
+      {
+        "id": "logarithms",
+        "title": "Exponential and logarithmic equations",
+        "target": 15
+      },
+      {
+        "id": "systems",
+        "title": "Systems of equations",
+        "target": 10
+      }
+    ],
+    "target": 100
+  },
+  {
+    "id": "trigonometry",
+    "title": "Trigonometry",
+    "topics": [
+      {
+        "id": "angles",
+        "title": "Angles and radian measure",
+        "target": 10
+      },
+      {
+        "id": "circle",
+        "title": "Unit circle and exact values",
+        "target": 20
+      },
+      {
+        "id": "functions",
+        "title": "Trigonometric functions and graphs",
+        "target": 15
+      },
+      {
+        "id": "identities",
+        "title": "Identities and simplification",
+        "target": 20
+      },
+      {
+        "id": "equations",
+        "title": "Trigonometric equations",
+        "target": 15
+      },
+      {
+        "id": "inverse",
+        "title": "Inverse trigonometric functions",
+        "target": 10
+      },
+      {
+        "id": "triangles",
+        "title": "Triangle applications",
+        "target": 10
+      }
+    ],
+    "target": 100
+  },
+  {
+    "id": "statistics",
+    "title": "Statistics",
+    "topics": [
+      {
+        "id": "descriptive",
+        "title": "Descriptive statistics",
+        "target": 15
+      },
+      {
+        "id": "probability",
+        "title": "Basic probability",
+        "target": 15
+      },
+      {
+        "id": "conditional",
+        "title": "Counting and conditional probability",
+        "target": 10
+      },
+      {
+        "id": "discrete",
+        "title": "Discrete distributions",
+        "target": 15
+      },
+      {
+        "id": "normal",
+        "title": "Normal distributions and sampling",
+        "target": 15
+      },
+      {
+        "id": "intervals",
+        "title": "Confidence intervals",
+        "target": 15
+      },
+      {
+        "id": "tests",
+        "title": "Hypothesis tests",
+        "target": 15
+      }
+    ],
+    "target": 100
+  }
+]

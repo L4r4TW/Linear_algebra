@@ -1,5 +1,11 @@
 # Repository development guide
 
+## Current short-term goal: four 100-exercise collections
+
+The user authorized implementing and pushing the 400-exercise plan. Read experimental-workspace/practice-400/README.md and the newest PROJECT_CONTEXT.md section. Calculus has reached 100; other collections are processing. Do not revert to the old fixed-ten or human-moderator hold for these user-authorized tested collections. Never fabricate mathematical/independent reviews.
+
+Preserve the measured verifier context/worker images, full technical gate, source/attempt bindings, private renderer/student data, and explicit withdrawals. Use the new collection pipeline and live counters; older fixed-ten acceptance scripts are historical. Do not assume background processing means all four quotas are complete. Keep pushing feature checkpoints and saving actual progress/evidence.
+
 ## Current user-authorized tested pilot
 
 The user now explicitly authorizes tested local exercises without moderator approval, with student problem reports. This supersedes the earlier review hold and resolves its missing-policy-authorization condition; never record fabricated independent/human sign-offs. Follow [LOCAL_PILOT_POLICY.md](experimental-workspace/calculus-100/LOCAL_PILOT_POLICY.md) and the newest PROJECT_CONTEXT.md section. Live 3105 has sixteen exercises (six original plus ten tested calculus pilots); original 3100 still has six.

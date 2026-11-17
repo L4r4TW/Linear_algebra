@@ -1,5 +1,11 @@
 # Differential-calculus expansion: current handoff
 
+## Superseding checkpoint: 100 calculus exercises are playable
+
+The focused collection pipeline in ../practice-400/README.md has reached 100 differential-calculus collection members. Open http://localhost:3105/?subject=Differential+calculus. The earlier fixed-ten pilot and hundred-candidate review hold below are historical. Remaining algebra/trigonometry/statistics collections are processing; do not claim all 400 are complete.
+
+The user-authorized tested-practice route uses actual current complete technical evidence and source screening, not fabricated independent mathematics/human reviews. Existing private renderer, source/ownership gates, student reports and saved work remain intact.
+
 ## Current: sixteen playable entries and student reports
 
 The user explicitly authorized tested local practice without moderator/human approval. **Ten calculus exercises are now active alongside the original six**, at [the calculus collection](http://localhost:3105/?subject=Calculus+-+single+variable). The initial scope is local-pilot.json. Cards and the practice shell identify tested pilots; the shell offers Report a problem. Read [LOCAL_PILOT_POLICY.md](LOCAL_PILOT_POLICY.md) and [the report guide](../accounts/PROBLEM_REPORTS.md).

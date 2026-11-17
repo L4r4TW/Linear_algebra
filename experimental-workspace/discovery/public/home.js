@@ -35,6 +35,10 @@ function options(id,values,placeholder,selected){
  if(selected&&!values.includes(selected))select.add(new Option(selected,selected));
  select.value=selected??'';select.disabled=values.filter(Boolean).length===0&&!selected;
 }
+function renderStudyCollections(){
+ const container=$('study-collections');container.replaceChildren();
+ for(const c of overview?.collections??[]){const card=node(c.available&&c.playable?'a':'div',undefined,'collection-card');if(card.tagName==='A')card.href='/?subject='+encodeURIComponent(c.title);card.append(node('h3',c.title),node('p',c.available?number(c.playable)+' / '+c.target+' available':'Temporarily unavailable','muted'));if(c.available&&!c.playable)card.append(node('p','Exercises are being prepared.','muted'));container.append(card);}
+}
 function renderSubjects(){
  const mode=view(),container=$('subjects');container.replaceChildren();container.setAttribute('aria-busy','false');
  if(!overview)return;
@@ -56,7 +60,7 @@ function renderSubjects(){
   container.append(a);
  }
 }
-async function loadOverview(){try{overview=await api('/api/discovery/overview');renderSubjects();}catch{overview={practice:{available:false,subjects:[]},library:{available:false,subjects:[]}};renderSubjects();}}
+async function loadOverview(){try{overview=await api('/api/discovery/overview');renderStudyCollections();renderSubjects();}catch{overview={practice:{available:false,subjects:[]},library:{available:false,subjects:[]}};renderStudyCollections();renderSubjects();}}
 async function start(entry,button){
  if(starting)return;starting=true;button.disabled=true;button.textContent='Opening…';$('start-error').hidden=true;$('start-status').textContent='Preparing your exercise…';
  try{

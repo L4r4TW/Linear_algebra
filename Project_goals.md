@@ -1,5 +1,9 @@
 # Project Brief: Modern Linear Algebra Learning Platform
 
+## Active short-term goal
+
+Deliver four useful collections of 100 distinct playable exercises: differential calculus, algebra, trigonometry and statistics. Use the existing PG engine, topic-balanced source selection, automated technical checks and student problem reports. Whole-library coverage remains a long-term direction. See experimental-workspace/practice-400/README.md for implementation and actual available counts.
+
 ## 1. Project Vision
 
 We are building a modern, interactive, web-based platform for learning and practicing linear algebra.

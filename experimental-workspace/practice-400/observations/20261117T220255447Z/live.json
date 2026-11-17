@@ -1,0 +1,34 @@
+{
+    "observedAt":  "2026-11-17T22:03:01.2999592Z",
+    "playable":  113,
+    "collections":  [
+                        {
+                            "id":  "calculus",
+                            "title":  "Differential calculus",
+                            "target":  100,
+                            "available":  true,
+                            "playable":  100
+                        },
+                        {
+                            "id":  "algebra",
+                            "title":  "Algebra",
+                            "target":  100,
+                            "available":  true,
+                            "playable":  9
+                        },
+                        {
+                            "id":  "trigonometry",
+                            "title":  "Trigonometry",
+                            "target":  100,
+                            "available":  true,
+                            "playable":  0
+                        },
+                        {
+                            "id":  "statistics",
+                            "title":  "Statistics",
+                            "target":  100,
+                            "available":  true,
+                            "playable":  1
+                        }
+                    ]
+}

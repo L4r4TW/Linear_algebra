@@ -1,0 +1,3 @@
+/* App-owned catalog only. PG frame/widget geometry is untouched. */
+.catalog-panel #catalog{max-height:65vh;overflow-y:auto;overscroll-behavior:contain;padding:4px;}
+@media(max-width:760px){.catalog-panel #catalog{max-height:18rem;}}

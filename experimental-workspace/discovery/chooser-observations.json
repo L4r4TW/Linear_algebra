@@ -1,6 +1,6 @@
 {
     "version":  1,
-    "observedAt":  "2026-11-17T19:28:13.586Z",
+    "observedAt":  "2026-11-17T20:26:58.513Z",
     "scope":  "Task 9 real catalog chooser and temporary owned prototype session; no activation or account assertions",
     "desktopColumns":  true,
     "dependentSelection":  true,
@@ -16,7 +16,7 @@
     "sourceHashes":  [
                          {
                              "file":  "catalog.mjs",
-                             "sha256":  "e00872f155b1074fa2e57fca650d848d9ad2581631559c2948ac831fe7cf234d"
+                             "sha256":  "2edf526b0cf1cca1065375f66de5daa337636bd38dcfca36f2f92e473c50bf2c"
                          },
                          {
                              "file":  "chooser.mjs",
@@ -36,7 +36,7 @@
                          },
                          {
                              "file":  "public/index.html",
-                             "sha256":  "9bbff02eec72d517c029f7ed0e295c7cb1bf08d7312767ed630aee5acea52b71"
+                             "sha256":  "426100c01e3741fe5b89ac7cad5f661fc038d71462514e63019a5194863d26de"
                          },
                          {
                              "file":  "public/sources.html",
@@ -44,11 +44,11 @@
                          },
                          {
                              "file":  "public/home.js",
-                             "sha256":  "95bcb82e44916cb9e6aaae12d2d0cb95632501d8c2f6de02f9ee3ca5de235bfb"
+                             "sha256":  "478e53a9fdf37ef9f2203dcb9d58c8c609281eb4fac91e683929cfdfadefd88d"
                          },
                          {
                              "file":  "public/home.css",
-                             "sha256":  "0e05588b2a64798f466b81b86f8ec89ef477853da77191f8b5e3fc3cea639b3f"
+                             "sha256":  "c3cd4db7d4021d8466e2b6f3bac4ea2448693932405492fbfd65be71954aa349"
                          },
                          {
                              "file":  "public/account.html",
@@ -80,7 +80,7 @@
                          },
                          {
                              "file":  "catalog.test.mjs",
-                             "sha256":  "09bd92b6586bfec9f04898e6ec3174d0d398592f0e23479112c2f6300db432b6"
+                             "sha256":  "4a1519f733ca48a5ce96164d041328a0b015fa6354275001ca257adc87fd9baf"
                          },
                          {
                              "file":  "chooser.test.mjs",
@@ -126,5 +126,5 @@
     "serverTests":  17,
     "realDatabaseTests":  1,
     "browserTests":  5,
-    "imageId":  "sha256:c64f957518f61252a12536f2d16575db4e0e9a10ee55bcb8a753aa37214f3c08"
+    "imageId":  "sha256:e37efd29b22bc58f93e7f4ac6da5e036cb2b3890ca05ea7da94e80a8ff866f50"
 }

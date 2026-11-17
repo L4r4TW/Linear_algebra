@@ -1,5 +1,11 @@
 # Experimental workspace conventions
 
+## Current: focused 400-exercise delivery
+
+Follow practice-400/README.md and the newest root handoff. The user authorizes tested local collections without moderator approval: 100 each in calculus, algebra, trigonometry and statistics. Calculus has reached 100; other collections are processing. The controller and 1,200-candidate pool persist in linear-algebra-collections_reports.
+
+Keep all required technical/source/context/renderer checks, existing apps/data, explicit withdrawals and source privacy. Source screening is not mathematical certification; never fabricate independent reviews. The old ten-entry pilot suite has historical fixed counts and is not current collection acceptance. Resume existing measured workers/context; do not reset fingerprints or volumes. Document/push actual feature and collection milestones.
+
 ## Current authorization: tested local pilot
 
 The user explicitly authorizes tested exercises without human/moderator approval, with a Report a problem action. This supersedes earlier hold statements below. Follow calculus-100/LOCAL_PILOT_POLICY.md and the newest root handoff. Do not fabricate independent review records or use ordinary accepted-review mutations as a substitute.

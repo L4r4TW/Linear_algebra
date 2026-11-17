@@ -1,5 +1,11 @@
 # Linear Algebra Exercises
 
+## Focused practice collections
+
+The short-term target is **100 exercises each in differential calculus, algebra, trigonometry and statistics**. [Differential calculus is now available with 100 collection exercises](http://localhost:3105/?subject=Differential+calculus). Other collections are processing; the [home](http://localhost:3105) shows current available counts.
+
+The [repeatable collection pipeline](experimental-workspace/practice-400/README.md) uses 1,200 reserve candidates, automatic technical verification and tested-practice admission with problem reporting. This does not claim all 400 are finished. Older pilot counts below describe earlier checkpoints.
+
 ## Playable calculus pilot
 
 Open **http://localhost:3105/?subject=Calculus+-+single+variable** to practice. Ten tested calculus exercises have been added, giving **16 playable exercises overall**. Pilot entries are labelled and include a **Report a problem** action. The user-authorized [tested-pilot policy](experimental-workspace/calculus-100/LOCAL_PILOT_POLICY.md) preserves technical verification without inventing moderator approvals. The goal remains [100 differential-calculus exercises](experimental-workspace/calculus-100/README.md); known defective/out-of-scope candidates remain disabled.
