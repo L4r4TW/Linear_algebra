@@ -5,7 +5,7 @@ The user authorized implementation of the eight-stage plan, with documentation a
 | Milestone | Deliverable | State |
 | --- | --- | --- |
 | 1 | Read-only baseline and blockers | Complete |
-| 2 | Diverse 200-300-source candidate pool with identities/attribution | Next |
+| 2 | Diverse 200-300-source candidate pool with identities/attribution | Complete |
 | 3 | Clean reproducible renderer context; preserved existing sessions | Pending |
 | 4 | Approved database-to-player adapter | Pending |
 | 5 | Bounded verification: at least 400 seed/viewport cases | Pending |
@@ -28,3 +28,9 @@ The contract defines 10 limits/continuity,10 definition/differentiability,15 bas
 Tool images copy only code/metadata. PG sources stay in the read-only Linux OPL volume. No student/secret volume is mounted into selection or compatibility workers. Keep the existing applications and accounts intact. Candidate/failed/awaiting-review material does not receive a student start action. Current source snapshots and past verification evidence are preserved.
 
 Build the tool image from the repository root with docker build -f experimental-workspace/calculus-100/Dockerfile -t linear-algebra-calculus-tools . It runs on the catalog network with PGHOST=linear-algebra-opl-catalog-database-1, PGUSER=postgres, PGDATABASE=opl_catalog. Baseline additionally needs the practice network for the public allowlist GET. Only baseline.json is copied from its artifacts to the repository; raw PG never is.
+
+## Milestone 2 acceptance
+
+candidates.json records 300 source-verified, content-deduplicated candidates: 100 primary choices plus 200 reserves, satisfying all eight quotas without a shortfall. Selection checked 6,255 eligible Git blobs against their database SHA-256 and pinned revision. Every record retains UUID/source-version identity, original classification, authors/institutions, source description, capability manifest and unresolved review flags. Unknown rights/language/difficulty stay unknown. Seven contract/selection tests passed. These are candidates, not 300 playable exercises.
+
+Reproduce selection by copying the baseline container's /artifacts/source-metadata.json into /input/source-metadata.json of a fresh tools container with the read-only OPL volume at /opl, then running node calculus/candidates.mjs. No PG is copied out; only /artifacts/candidates.json is retained. This heuristic does not certify source dependency closure, mathematical equivalence, titles or licensing.
