@@ -1,0 +1,12 @@
+{
+  "name": "mathpractice-private-accounts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test *.test.mjs"
+  },
+  "dependencies": {
+    "pg": "8.23.1",
+    "parse5": "8.1.1"
+  }
+}

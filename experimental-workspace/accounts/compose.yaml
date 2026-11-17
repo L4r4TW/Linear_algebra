@@ -66,6 +66,20 @@ services:
     cap_drop: [ALL]
     security_opt: [no-new-privileges:true]
     mem_limit: 192m
+  migrate:
+    profiles: [tools]
+    image: linear-algebra-account-migrations
+    build:
+      context: ../..
+      dockerfile: experimental-workspace/accounts/Migration.Dockerfile
+    environment:
+      PGHOST: database
+    volumes: [secrets:/secrets:ro]
+    networks: [private]
+    depends_on:
+      auth:
+        condition: service_healthy
+
 networks:
   private:
     internal: true

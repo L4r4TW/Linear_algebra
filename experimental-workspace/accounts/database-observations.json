@@ -1,0 +1,67 @@
+{
+    "version":  1,
+    "observedAt":  "2026-11-17T00:42:07.499Z",
+    "scope":  "New isolated Supabase project; actual GoTrue users and real nonsuperuser forced-RLS transactions; no student data or credentials disclosed",
+    "realAuthenticatedOwners":  true,
+    "crossAccountDenied":  true,
+    "missingActorDenied":  true,
+    "encryptedRoundTrip":  true,
+    "crossOwnerParentLinkDenied":  true,
+    "guestProofRequired":  true,
+    "explicitClaimTransfersAuthority":  true,
+    "oldGuestAuthorityRetired":  true,
+    "nonsuperuserBackend":  true,
+    "forcedRlsTables":  10,
+    "browserBaseAccessDenied":  true,
+    "complete":  true,
+    "sourceHashes":  [
+                         {
+                             "file":  "migrations/001_runtime.sql",
+                             "sha256":  "b6e26d5f0f18bfa2f5f01330c45d418c816b9f0269db8e48c3700d6c37f156e5"
+                         },
+                         {
+                             "file":  "db.mjs",
+                             "sha256":  "697c114a8f21ee906bebfee625baa85db6b1c328407c8c90cefc74bb701836c2"
+                         },
+                         {
+                             "file":  "crypto.mjs",
+                             "sha256":  "598fc225d782b6d09f682e99251ff8408f05169f9dc84e21c945c2ee4677a4a3"
+                         },
+                         {
+                             "file":  "crypto.test.mjs",
+                             "sha256":  "6fb40619bbebef5bc037ec21b205cd0a6e468506f9c006cb3744a35ea48d143d"
+                         },
+                         {
+                             "file":  "database-probe.mjs",
+                             "sha256":  "69cd12ed6c4f53adfc4cfd480d210444b6b231e08b0f1beb6e9f000920a40878"
+                         },
+                         {
+                             "file":  "migrate.sh",
+                             "sha256":  "492a8d9314ff13aabd785636a88ad59779a222edc878fc81a83492bd55ddd552"
+                         },
+                         {
+                             "file":  "Migration.Dockerfile",
+                             "sha256":  "62165af90a065d4b1d3c24b0488f982766e82dbf30038ebb59979b215a028394"
+                         },
+                         {
+                             "file":  "package.json",
+                             "sha256":  "bee3939e5ee8346a139bb155b3d4a907120c4267cfd7d68affcd182c9b81340a"
+                         },
+                         {
+                             "file":  "package-lock.json",
+                             "sha256":  "6b88f17698f6a3e5fde63478bbd657e4c93e2b7a5c0709385161c6c1c7e5740b"
+                         },
+                         {
+                             "file":  "Tools.Dockerfile",
+                             "sha256":  "0265faf257131be514e1e94ef5f62b92d749e24d7eb27512a47bae9b6c53da5f"
+                         },
+                         {
+                             "file":  "secrets.mjs",
+                             "sha256":  "011d709974f61af3c0dab63a058eca74c17649e1112a53c1e3d935c6ac00cc74"
+                         },
+                         {
+                             "file":  "verify-storage.ps1",
+                             "sha256":  "71bc94ec15c32b6be43de4d5b548c9585ed11da07d3870937bbd7610da4250c5"
+                         }
+                     ]
+}
