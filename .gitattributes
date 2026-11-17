@@ -12,3 +12,4 @@ experimental-workspace/deployment/** text eol=lf
 .github/workflows/*.yml text eol=lf
 experimental-workspace/compatibility/catalog.json text eol=lf
 experimental-workspace/calculus-100/** text eol=lf
+experimental-workspace/practice-400/** text eol=lf
