@@ -53,3 +53,5 @@ The grading-hook candidate has now completed all 44 PG regression cases with no 
 ## Milestone 12 connected UI
 
 See [CURRENT_STATE.md](CURRENT_STATE.md) for the authoritative checkpoint and limitations. Open http://localhost:3105/account and /progress. Run setup.ps1 for additive local-only migrations/startup, then ../discovery/setup.ps1 for the home; the original renderer must be healthy. verify-accounts.ps1 runs seven private/database/browser suites and creates immutable source-bound acceptance directories. Migration 002 removes runtime mutation privileges on verified attempts. Local email confirmation is automatic; no public deployment is approved. Prior prototype-only and global-logout statements above are historical.
+
+Request admission and private aggregate monitoring are now deployed; see [deployment preparation](../deployment/README.md) for limits, seven-suite acceptance and encrypted account/catalog backup recovery. These remain local rollout controls, not a production certification.

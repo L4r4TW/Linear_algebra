@@ -1,8 +1,9 @@
 import {createServer} from 'node:http';
-import {actors,AccountError} from './db.mjs';import {cookieValue} from './auth.mjs';
+import {actors,AccountError} from './db.mjs';import {createAdmission} from './admission.mjs';import {hash} from './crypto.mjs';import {cookieValue} from './auth.mjs';
 import {createApp} from '../application/server/http-app.mjs';
 const prefix='/api/sessions/account/';
 const errorMessages={
+ ACCOUNT_RATE_LIMITED:'Too many requests. Your work is retained. Wait a minute before retrying.',PRACTICE_BUSY:'Practice is busy. Your saved work is retained. Please retry shortly.',
  AUTH_REQUIRED:'Sign in again to access saved work.',ACCOUNT_AUTH_REQUIRED:'Sign in to use account saved work.',
  INVALID_CREDENTIALS:'Check your email and password. Passwords must have at least 12 characters.',
  AUTH_UNAVAILABLE:'The account service is unavailable. Please retry.',ACCOUNT_STORAGE_UNAVAILABLE:'Saved work is temporarily unavailable. Please retry.',
@@ -22,6 +23,7 @@ async function body(req,limit=8192){
 }
 function keys(input,allowed){if(Object.keys(input).some(key=>!allowed.includes(key)))throw new AccountError('INVALID_INPUT',400);}
 export function createAccountApp({db,accounts,data,sessions,practiceSets,importLegacy,exerciseList,setExerciseLookup,rendererBaseUrl,origin='http://localhost:3100'}){
+ const admission=createAdmission();
  const inner=createApp({sessions,practiceSets,exerciseList,setExerciseLookup,rendererBaseUrl,origin}).listeners('request')[0];
  const secure=new URL(origin).protocol==='https:'?'; Secure':'';
  const cookie=(name,value,path='/',age=2592000)=>name+'='+value+'; HttpOnly; SameSite=Strict; Path='+path+'; Max-Age='+age+secure;
@@ -29,6 +31,14 @@ export function createAccountApp({db,accounts,data,sessions,practiceSets,importL
  return createServer(async(req,res)=>{
   try{
    const url=new URL(req.url,origin);if((req.url??'').length>6000)throw new AccountError('INVALID_INPUT',400);
+   if(url.pathname==='/internal/status'&&req.method==='GET'){
+    await db.transaction({},client=>client.query('SELECT 1'));
+    return json(res,200,{ready:true,admission:admission.snapshot()});
+   }
+   if(url.pathname.startsWith('/api/sessions')){
+    admission.checkRate('all-session-api');const controller=new AbortController();res.once('close',()=>controller.abort());
+    const release=await admission.acquire({signal:controller.signal});res.once('finish',release);res.once('close',release);
+   }
    const accountRoute=url.pathname.startsWith(prefix),draft=url.pathname.match(/^\/api\/sessions\/([a-f0-9-]{36})\/draft$/);
    if((accountRoute||draft||url.pathname.startsWith('/api/sessions'))&&(req.headers['sec-fetch-site']==='cross-site'||req.headers.origin&&req.headers.origin!==origin||req.method==='POST'&&req.headers.origin!==origin))throw new AccountError('ORIGIN_NOT_ALLOWED',403);
    if(accountRoute){
@@ -36,6 +46,7 @@ export function createAccountApp({db,accounts,data,sessions,practiceSets,importL
     if(['signup','login'].includes(action)){
      if(req.method!=='POST')throw new AccountError('METHOD_NOT_ALLOWED',405);
      const input=await body(req);keys(input,['email','password']);
+     admission.checkRate('auth-global',{limit:120});if(typeof input.email==='string')admission.checkRate('auth:'+hash(input.email.trim().toLowerCase()),{limit:10,windowMs:300000});
      const value=await accounts.signIn({...input,signup:action==='signup'});res.setHeader('Set-Cookie',cookie('mathpractice_account',value.cookie));return json(res,200,{account:publicAccount(value.actor)});
     }
     if(action==='logout'){
@@ -48,6 +59,7 @@ export function createAccountApp({db,accounts,data,sessions,practiceSets,importL
    // Public static resources and the catalog require no account/session lookup.
    if(!accountRoute&&!draft&&!url.pathname.startsWith('/api/sessions'))return await inner(req,res);
    const resolved=await accounts.resolveCookies(req.headers.cookie);
+   admission.checkRate('owner:'+resolved.actor.principalId,{limit:240});
    if(resolved.newGuest)res.setHeader('Set-Cookie',cookie('la_experiment_owner',resolved.newGuest,'/api/sessions'));
    return await actors.run({...resolved.actor},async()=>{
     if(accountRoute){
@@ -82,7 +94,8 @@ export function createAccountApp({db,accounts,data,sessions,practiceSets,importL
     return await inner(req,res);
    });
   }catch(error){
-   if(res.headersSent){res.destroy();return;}
+   if(res.headersSent||res.destroyed){res.destroy();return;}
+   if(['ACCOUNT_RATE_LIMITED','PRACTICE_BUSY'].includes(error.code)){res.setHeader('Retry-After','60');res.setHeader('Connection','close');}
    const status=error instanceof AccountError?error.status:error.code==='ENOENT'?404:503;
    const code=error instanceof AccountError?error.code:error.code==='ENOENT'?'SESSION_NOT_FOUND':'ACCOUNT_UNAVAILABLE';
    json(res,status,{error:{code,message:errorMessages[code]??(status===404?'Saved work was not found.':'The request could not be completed. Your saved work is retained.')}});

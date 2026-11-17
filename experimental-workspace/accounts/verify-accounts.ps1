@@ -20,6 +20,7 @@ docker build -f (Join-Path $PSScriptRoot 'Tools.Dockerfile') -t linear-algebra-a
 Check 'Account tools build failed'
 docker build -f (Join-Path $PSScriptRoot 'Browser.Dockerfile') -t linear-algebra-account-browser-qa $root
 Check 'Account browser build failed'
+docker run --rm linear-algebra-account-tools node --test crypto.test.mjs admission.test.mjs;Check 'Cryptography/admission checks failed'
 $cases=@(
  @{script='record-store-probe.mjs';report='record-store-observations.json';image='linear-algebra-account-tools'},
  @{script='student-data-probe.mjs';report='student-data-observations.json';image='linear-algebra-account-tools'},

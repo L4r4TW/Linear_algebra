@@ -26,6 +26,6 @@ for(const name of ['get','openItem','move'])practiceSets[name]=async(...args)=>{
 };
 const data=createStudentData({db,vault,store,sessions,exerciseLookup});
 const app=createAccountApp({db,accounts,data,sessions,practiceSets,importLegacy,exerciseList,setExerciseLookup:exerciseLookup,rendererBaseUrl:rendererUrl,origin});
-app.requestTimeout=10000;app.headersTimeout=10000;app.keepAliveTimeout=5000;
+app.requestTimeout=10000;app.headersTimeout=10000;app.keepAliveTimeout=5000;app.maxConnections=128;
 return {app,db,accounts,data,sessions,practiceSets,store};
 }

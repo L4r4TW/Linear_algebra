@@ -1,0 +1,9 @@
+{
+  "complete": true,
+  "target": "catalog",
+  "countsMatch": true,
+  "authenticatedBackup": true,
+  "transactionalRestore": true,
+  "backupId": "578e9fa3-760b-45a2-887c-8634afc16c3b",
+  "observedAt": "2026-11-17T08:53:10.376Z"
+}
