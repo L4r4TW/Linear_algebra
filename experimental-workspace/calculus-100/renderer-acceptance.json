@@ -1,0 +1,49 @@
+{
+  "observedAt": "2026-11-17T10:25:17.698Z",
+  "passed": 6,
+  "cases": [
+    {
+      "id": "dot-product-01",
+      "priorRendererTokenRestored": true,
+      "seedPreserved": true,
+      "scorePreserved": true,
+      "answerContractPreserved": true
+    },
+    {
+      "id": "compat-calculus-numeric-01",
+      "priorRendererTokenRestored": true,
+      "seedPreserved": true,
+      "scorePreserved": true,
+      "answerContractPreserved": true
+    },
+    {
+      "id": "compat-calculus-formula-01",
+      "priorRendererTokenRestored": true,
+      "seedPreserved": true,
+      "scorePreserved": true,
+      "answerContractPreserved": true
+    },
+    {
+      "id": "compat-statistics-radio-01",
+      "priorRendererTokenRestored": true,
+      "seedPreserved": true,
+      "scorePreserved": true,
+      "answerContractPreserved": true
+    },
+    {
+      "id": "compat-algebra-checkbox-01",
+      "priorRendererTokenRestored": true,
+      "seedPreserved": true,
+      "scorePreserved": true,
+      "answerContractPreserved": true
+    },
+    {
+      "id": "compat-calculus-graph-01",
+      "priorRendererTokenRestored": true,
+      "seedPreserved": true,
+      "scorePreserved": true,
+      "answerContractPreserved": true
+    }
+  ],
+  "scope": "Fresh in-memory legacy-renderer sessions checked before candidate restoration; no student data read or modified."
+}

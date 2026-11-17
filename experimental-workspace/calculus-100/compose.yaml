@@ -1,0 +1,77 @@
+name: linear-algebra-calculus
+services:
+  renderer:
+    image: linear-algebra-calculus-renderer
+    build:
+      context: ../..
+      dockerfile: experimental-workspace/calculus-100/Renderer.Dockerfile
+    init: true
+    command: [/bin/sh, -c, "rm -f /usr/app/script/hypnotoad.pid && exec hypnotoad -f ./script/render_app"]
+    environment:
+      MOJO_MODE: development
+      SITE_HOST: http://renderer:3000
+    networks: [private]
+    cpus: 1
+    mem_limit: 1500m
+    pids_limit: 128
+    security_opt: [no-new-privileges:true]
+    volumes:
+      - type: volume
+        source: opl
+        target: /usr/app/webwork-open-problem-library
+        read_only: true
+        volume:
+          nocopy: true
+          subpath: webwork-open-problem-library
+    healthcheck:
+      test: [CMD, curl, --fail, --silent, "http://localhost:3000/health"]
+      interval: 5s
+      timeout: 4s
+      retries: 30
+      start_period: 30s
+  tools:
+    image: linear-algebra-calculus-tools
+    build:
+      context: ../..
+      dockerfile: experimental-workspace/calculus-100/Dockerfile
+    environment: &database
+      PGHOST: linear-algebra-opl-catalog-database-1
+      PGUSER: postgres
+      PGDATABASE: opl_catalog
+      RENDERER_URL: http://renderer:3000
+    networks: [catalog, private]
+    volumes:
+      - type: volume
+        source: opl
+        target: /opl
+        read_only: true
+  worker:
+    image: linear-algebra-calculus-tools
+    init: true
+    command: [pipeline/cli.mjs, worker, --loop]
+    environment: *database
+    networks: [catalog, private]
+    cpus: 1.5
+    mem_limit: 1800m
+    shm_size: 512m
+    pids_limit: 300
+    tmpfs: ["/tmp:rw,size=768m"]
+    security_opt: [no-new-privileges:true]
+    volumes:
+      - type: volume
+        source: opl
+        target: /opl
+        read_only: true
+    depends_on:
+      renderer:
+        condition: service_healthy
+networks:
+  private:
+    internal: true
+  catalog:
+    external: true
+    name: linear-algebra-opl-catalog_catalog
+volumes:
+  opl:
+    external: true
+    name: linear-algebra-experimental_opl

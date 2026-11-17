@@ -1,0 +1,31 @@
+{
+  "id": "6a5647c8-26bc-4cf0-851f-da88b9b901f5",
+  "certified": true,
+  "pgRevision": "4b3e564cf4e5a36807ca5a341734f8d604e8b77d",
+  "runtimeDigest": "3707165bd375fc00941e0517c8acd2b30dc6c4fa7542c2e020220d28715eedef",
+  "runnerDigest": "1583bc1d966bb2e32175d41ffcfc4c6ed7e37a0cae15987ed6d8369e79954a1b",
+  "attestation": {
+    "rendererRevision": "1134ffbbf5e656148e579f424f70bcd9f1d15936",
+    "pgRevision": "4b3e564cf4e5a36807ca5a341734f8d604e8b77d",
+    "pgTrackedClean": true,
+    "runtimeSourceClean": true,
+    "rendererSourceClean": true,
+    "recipeMatches": true,
+    "npmInstallRecipe": true,
+    "buildExceptions": [
+      "lib/PG/htdocs/package-lock.json",
+      "public/package-lock.json"
+    ],
+    "installedPgDigest": "278f47ee363d6ac7f25c3dae69d3681aa4d1427eda5295d50b4ddc8e33eab08e",
+    "packageDigest": "84a0d6f172feca62b0d0cf86504277ef81909e32d97c2cb1443d344bfb83b332",
+    "candidateBuild": {
+      "recipeSha256": "285ece0c6bf99ed8335482b2148e653af5811207052e2c4670951da0e62d14fa",
+      "npmInstallCommand": "ci",
+      "node": "v22.23.5",
+      "base": "legacy-pinned-Perl-OS-toolchain",
+      "releaseOsUpgradeRequired": true
+    }
+  },
+  "workerImage": "sha256:62704af80aa048700cdbb273f9310ce6f5f10d524ed72209f036e813eec5b1e3",
+  "rendererImage": "sha256:f369764eed5c54d2e203d72d7e8a3d0a4f180b09c5d88eef75413b901d5f6b34"
+}

@@ -6,7 +6,7 @@ The user authorized implementation of the eight-stage plan, with documentation a
 | --- | --- | --- |
 | 1 | Read-only baseline and blockers | Complete |
 | 2 | Diverse 200-300-source candidate pool with identities/attribution | Complete |
-| 3 | Clean reproducible renderer context; preserved existing sessions | Pending |
+| 3 | Clean pinned renderer context; six legacy-token restoration checks | Complete |
 | 4 | Approved database-to-player adapter | Pending |
 | 5 | Bounded verification: at least 400 seed/viewport cases | Pending |
 | 6 | Independent content/requirements/interaction/deployment review | Pending |
@@ -34,3 +34,13 @@ Build the tool image from the repository root with docker build -f experimental-
 candidates.json records 300 source-verified, content-deduplicated candidates: 100 primary choices plus 200 reserves, satisfying all eight quotas without a shortfall. Selection checked 6,255 eligible Git blobs against their database SHA-256 and pinned revision. Every record retains UUID/source-version identity, original classification, authors/institutions, source description, capability manifest and unresolved review flags. Unknown rights/language/difficulty stay unknown. Seven contract/selection tests passed. These are candidates, not 300 playable exercises.
 
 Reproduce selection by copying the baseline container's /artifacts/source-metadata.json into /input/source-metadata.json of a fresh tools container with the read-only OPL volume at /opl, then running node calculus/candidates.mjs. No PG is copied out; only /artifacts/candidates.json is retained. This heuristic does not certify source dependency closure, mathematical equivalence, titles or licensing.
+
+## Milestone 3: private clean renderer
+
+The candidate renderer installs pristine pinned renderer/PG sources before npm ci, verifies both original lock hashes, and passes the unchanged pgTrackedClean check. Node 22 comes from a digest-pinned image. context.json records the measured image IDs and certified context; renderer-acceptance.json records successful restoration of six fresh legacy-renderer sessions, preserving their seed, checked score and answer contract. No student record was read. Existing student applications still use their previous renderer.
+
+The build deliberately retains the known Perl/Ubuntu 20 toolchain base (image ID guarded in setup.ps1). This is a local compatibility fix, not a production OS/dependency remediation: npm still reports 7 high and 2 moderate findings per dependency tree. The inherited attester's buildExceptions list describes its historical lock exclusions; this candidate additionally checks both exact lock hashes and the full tracked PG tree. No exception to strict PG provenance was introduced.
+
+From the repository root run powershell.exe -NoProfile -ExecutionPolicy Bypass -File experimental-workspace/calculus-100/setup.ps1. It builds isolated services, pauses only the old operator worker, registers measured context, enqueues the primary 100 and starts two resource-bounded workers. Context replacement stales prior operator evidence; it never removes it or activates candidates. The old operator dashboard targets the old renderer and must not publish this candidate context. Rebuilding worker code may require a new context and rerun; always retain exact evidence rather than copying fingerprints.
+
+At this milestone, the certified context is ready and the 100-source technical batch is running. This is not completion of milestone 5, independent review or activation.
