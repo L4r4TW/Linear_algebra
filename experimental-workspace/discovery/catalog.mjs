@@ -64,7 +64,7 @@ export function createCatalog({query=queryDatabase,practiceOrigin='http://worksp
    return value.exercises.filter(v=>typeof v.id==='string'&&(metadata.some(m=>m.id===v.id)||uuid.test(v.id)&&text(v.subject)&&text(v.chapter))).map(v=>{
     const source=metadata.find(m=>m.id===v.id);
     return {id:v.id,title:v.title,description:v.description,subject:source?.subject??v.subject,chapter:source?v.topic:v.chapter,section:source?null:text(v.section),topic:v.topic,
-     canPractice:true,availability:'practice-ready',titleOrigin:source?'reviewed-title':v.titleOrigin??'source-metadata',
+     reviewStatus:v.reviewStatus??null,canPractice:true,availability:'practice-ready',titleOrigin:source?'reviewed-title':v.titleOrigin??'source-metadata',
      ...(source?{}:{attribution:{authors:Array.isArray(v.attribution?.authors)?v.attribution.authors.filter(a=>typeof a==='string'):[],institutions:Array.isArray(v.attribution?.institutions)?v.attribution.institutions.filter(a=>typeof a==='string'):[]}})};
    });
   }catch{throw new DiscoveryError('PRACTICE_UNAVAILABLE',503);}

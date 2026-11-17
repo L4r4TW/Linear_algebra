@@ -1,0 +1,209 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-17T19:30:18.137Z",
+  "scope": "Live local 3105 home/backend/catalog/private PG, random per-session seeds. Independent student-question answers; no human review or physical-device claim.",
+  "cases": [
+    {
+      "id": "0e41bf3b-5568-4b60-a90d-76f6be780425",
+      "viewport": "desktop",
+      "liveDiscovery": true,
+      "randomSeedGrading": true,
+      "draftRefresh": true,
+      "checkedRestoration": true,
+      "keyboard": true,
+      "layout": true
+    },
+    {
+      "id": "f15b0c27-1666-4d0b-8a4e-1399e174baec",
+      "viewport": "desktop",
+      "liveDiscovery": true,
+      "randomSeedGrading": true,
+      "draftRefresh": true,
+      "checkedRestoration": true,
+      "keyboard": true,
+      "layout": true
+    },
+    {
+      "id": "3efe7179-771d-4aa4-bf28-24665ead4ce8",
+      "viewport": "desktop",
+      "liveDiscovery": true,
+      "randomSeedGrading": true,
+      "draftRefresh": true,
+      "checkedRestoration": true,
+      "keyboard": true,
+      "layout": true
+    },
+    {
+      "id": "d3588ec0-77c9-4b8b-a407-26be62a1fcbe",
+      "viewport": "desktop",
+      "liveDiscovery": true,
+      "randomSeedGrading": true,
+      "draftRefresh": true,
+      "checkedRestoration": true,
+      "keyboard": true,
+      "layout": true
+    },
+    {
+      "id": "4d9f4d06-0fbd-4097-9da3-b267085be9e3",
+      "viewport": "desktop",
+      "liveDiscovery": true,
+      "randomSeedGrading": true,
+      "draftRefresh": true,
+      "checkedRestoration": true,
+      "keyboard": true,
+      "layout": true
+    },
+    {
+      "id": "ce9eae4e-dc48-4237-8637-621f3403611a",
+      "viewport": "desktop",
+      "liveDiscovery": true,
+      "randomSeedGrading": true,
+      "draftRefresh": true,
+      "checkedRestoration": true,
+      "keyboard": true,
+      "layout": true
+    },
+    {
+      "id": "c149c8de-ac39-4b27-9948-d5ea241a29db",
+      "viewport": "desktop",
+      "liveDiscovery": true,
+      "randomSeedGrading": true,
+      "draftRefresh": true,
+      "checkedRestoration": true,
+      "keyboard": true,
+      "layout": true
+    },
+    {
+      "id": "6cb5fe11-8719-4879-a5df-8ff18adeae3b",
+      "viewport": "desktop",
+      "liveDiscovery": true,
+      "randomSeedGrading": true,
+      "draftRefresh": true,
+      "checkedRestoration": true,
+      "keyboard": true,
+      "layout": true
+    },
+    {
+      "id": "d1262dc7-5683-43dd-849c-ee7f2cef6879",
+      "viewport": "desktop",
+      "liveDiscovery": true,
+      "randomSeedGrading": true,
+      "draftRefresh": true,
+      "checkedRestoration": true,
+      "keyboard": true,
+      "layout": true
+    },
+    {
+      "id": "cf59cb5c-67f5-44f4-b251-538c1585aaf9",
+      "viewport": "desktop",
+      "liveDiscovery": true,
+      "randomSeedGrading": true,
+      "draftRefresh": true,
+      "checkedRestoration": true,
+      "keyboard": true,
+      "layout": true
+    },
+    {
+      "id": "0e41bf3b-5568-4b60-a90d-76f6be780425",
+      "viewport": "mobile",
+      "liveDiscovery": true,
+      "randomSeedGrading": true,
+      "draftRefresh": true,
+      "checkedRestoration": true,
+      "keyboard": true,
+      "layout": true
+    },
+    {
+      "id": "f15b0c27-1666-4d0b-8a4e-1399e174baec",
+      "viewport": "mobile",
+      "liveDiscovery": true,
+      "randomSeedGrading": true,
+      "draftRefresh": true,
+      "checkedRestoration": true,
+      "keyboard": true,
+      "layout": true
+    },
+    {
+      "id": "3efe7179-771d-4aa4-bf28-24665ead4ce8",
+      "viewport": "mobile",
+      "liveDiscovery": true,
+      "randomSeedGrading": true,
+      "draftRefresh": true,
+      "checkedRestoration": true,
+      "keyboard": true,
+      "layout": true
+    },
+    {
+      "id": "d3588ec0-77c9-4b8b-a407-26be62a1fcbe",
+      "viewport": "mobile",
+      "liveDiscovery": true,
+      "randomSeedGrading": true,
+      "draftRefresh": true,
+      "checkedRestoration": true,
+      "keyboard": true,
+      "layout": true
+    },
+    {
+      "id": "4d9f4d06-0fbd-4097-9da3-b267085be9e3",
+      "viewport": "mobile",
+      "liveDiscovery": true,
+      "randomSeedGrading": true,
+      "draftRefresh": true,
+      "checkedRestoration": true,
+      "keyboard": true,
+      "layout": true
+    },
+    {
+      "id": "ce9eae4e-dc48-4237-8637-621f3403611a",
+      "viewport": "mobile",
+      "liveDiscovery": true,
+      "randomSeedGrading": true,
+      "draftRefresh": true,
+      "checkedRestoration": true,
+      "keyboard": true,
+      "layout": true
+    },
+    {
+      "id": "c149c8de-ac39-4b27-9948-d5ea241a29db",
+      "viewport": "mobile",
+      "liveDiscovery": true,
+      "randomSeedGrading": true,
+      "draftRefresh": true,
+      "checkedRestoration": true,
+      "keyboard": true,
+      "layout": true
+    },
+    {
+      "id": "6cb5fe11-8719-4879-a5df-8ff18adeae3b",
+      "viewport": "mobile",
+      "liveDiscovery": true,
+      "randomSeedGrading": true,
+      "draftRefresh": true,
+      "checkedRestoration": true,
+      "keyboard": true,
+      "layout": true
+    },
+    {
+      "id": "d1262dc7-5683-43dd-849c-ee7f2cef6879",
+      "viewport": "mobile",
+      "liveDiscovery": true,
+      "randomSeedGrading": true,
+      "draftRefresh": true,
+      "checkedRestoration": true,
+      "keyboard": true,
+      "layout": true
+    },
+    {
+      "id": "cf59cb5c-67f5-44f4-b251-538c1585aaf9",
+      "viewport": "mobile",
+      "liveDiscovery": true,
+      "randomSeedGrading": true,
+      "draftRefresh": true,
+      "checkedRestoration": true,
+      "keyboard": true,
+      "layout": true
+    }
+  ],
+  "reportingFailureRetryDraftAndOwnership": true,
+  "complete": true
+}

@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-17T19:26:44.419Z",
+  "runtimeFingerprint": "3707165bd375fc00941e0517c8acd2b30dc6c4fa7542c2e020220d28715eedef",
+  "scope": "Actual local Supabase/RLS, real private PG, actual gateway and account/player UI. Operator injection retains only the six pre-existing active fixtures. No original student volume or production approval.",
+  "explicitGuestTransferRetainsDraft": true,
+  "crossDeviceContinuation": true,
+  "crossDeviceDraftRestoration": true,
+  "conflictingTabsRequireChoice": true,
+  "realPgAttemptSaved": true,
+  "gradeRestoresAcrossDevices": true,
+  "privateHistoryAndBookmarks": true,
+  "accountPracticeSetsResume": true,
+  "foreignBrowserDenied": true,
+  "mobileAndKeyboardSemantics": true,
+  "complete": true
+}

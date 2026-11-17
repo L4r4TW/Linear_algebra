@@ -8,6 +8,7 @@ $hashes=@()
 $files=@()
 $files+=Get-ChildItem -LiteralPath $PSScriptRoot -File|Where-Object {$_.Extension -in @('.mjs','.ps1','.yaml','.json') -or $_.Name -like '*Dockerfile'}
 $files+=Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'migrations') -File
+$files+=Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'public') -File
 $files+=Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot '../workspace/server') -File|Where-Object {$_.Extension -in @('.mjs','.json')}
 $files+=Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot '../workspace/public') -File
 $files+=Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot '../discovery') -File|Where-Object {$_.Extension -in @('.mjs','.yaml')}

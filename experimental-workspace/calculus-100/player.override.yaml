@@ -2,6 +2,7 @@ services:
   backend:
     environment:
       PUBLISHED_CATALOG_ENABLED: "true"
+      LOCAL_TESTED_PILOT: "true"
       CATALOG_DB_HOST: linear-algebra-opl-catalog-database-1
       RENDERER_URL: http://linear-algebra-calculus-renderer-1:3000
     networks: [private, practice, catalog, calculus]

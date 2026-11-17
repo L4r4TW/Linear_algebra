@@ -1,0 +1,337 @@
+{
+    "version":  1,
+    "complete":  true,
+    "runId":  "20261117T193002484Z-96e7764c",
+    "observedAt":  "2026-11-17T19:32:22.6590495Z",
+    "scope":  "User-authorized tested local pilot; no independent human reviews; twenty live random-seed desktop/mobile cases plus report recovery/ownership",
+    "sourceHashes":  [
+                         {
+                             "file":  "experimental-workspace/accounts/admission.mjs",
+                             "sha256":  "0bb03e0fe47c481a36333a293827d2ce3a5be49dc42da8d1df5f4d8848086cac"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/admission.test.mjs",
+                             "sha256":  "644c05ed1f82f3312865f719bfed7876a75691a83fea379b633ac103a126d150"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/Auth.Dockerfile",
+                             "sha256":  "d7cbd5612c2ccff7da4e7fd0c4090cffa7a3f01b93f09987f74782015a80813f"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/auth.mjs",
+                             "sha256":  "809ed974b1f83fd38139aa90c98617cf9ed6544608e349f1512e98585569e220"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/auth-probe.mjs",
+                             "sha256":  "c8a9c4575262338bf904892e43cf1b7b0fd7ed27e2febd6b1fc9fdc01b9e9c9b"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/bff-probe.mjs",
+                             "sha256":  "fc613fc0551453b85f603712463519a901d221bfc2562cab676028f85ae6a0b3"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/Browser.Dockerfile",
+                             "sha256":  "ef4d77da749d34c5bcc97b4902d7d355250c4f9f89b14671bacacda7cca79481"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/browser-acceptance.mjs",
+                             "sha256":  "4790116220d973ecaeaf0aad174ad9f19dd3998d0de1a88fe9fe303efb0de6f7"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/compose.yaml",
+                             "sha256":  "f7a431763b48ee6d497ea9949e2273e446f166c7c992a44499c165310e0d7c32"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/crypto.mjs",
+                             "sha256":  "598fc225d782b6d09f682e99251ff8408f05169f9dc84e21c945c2ee4677a4a3"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/crypto.test.mjs",
+                             "sha256":  "6fb40619bbebef5bc037ec21b205cd0a6e468506f9c006cb3744a35ea48d143d"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/Database.Dockerfile",
+                             "sha256":  "291642ee08232b9d65dcb8be7729500d2b6ca8ed8f13dfcea46e50ccbb6811c4"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/database-probe.mjs",
+                             "sha256":  "69cd12ed6c4f53adfc4cfd480d210444b6b231e08b0f1beb6e9f000920a40878"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/db.mjs",
+                             "sha256":  "1e2ed9a7b03e94531c573ab77214766bd79cf11d3e5cc65fddbb3ed25f7726c9"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/draft-sync.browser.mjs",
+                             "sha256":  "cb89df899592828442704e039c8cf8e500211d6c8835dabc379bce392971b3a9"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/http-app.mjs",
+                             "sha256":  "7761615d251fc431994c6f77c8394cfec9166b37987871532bfbf6ee4c479379"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/http-probe.mjs",
+                             "sha256":  "d7bae70991b2c3fec431cb0dad8ddc46d3a5f0e23d2182242ac3bd35134984d0"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/legacy-import.mjs",
+                             "sha256":  "e78a9f1674e6536e0e1c88557f9935fc8424f68f7ac75557c8bf6627c8ee9d86"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/legacy-probe.mjs",
+                             "sha256":  "ed93c8669a64336b88006e12f7061fd43e40fd7734f9352508794e3a9840acd2"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/Migration.Dockerfile",
+                             "sha256":  "62165af90a065d4b1d3c24b0488f982766e82dbf30038ebb59979b215a028394"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/migrations/001_runtime.sql",
+                             "sha256":  "b6e26d5f0f18bfa2f5f01330c45d418c816b9f0269db8e48c3700d6c37f156e5"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/migrations/002_immutable_attempts.sql",
+                             "sha256":  "a86388abd74afd8b08b2b5731de5d6653ea5fb371f99ab9553d3baa7fff0df25"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/migrations/003_problem_reports.sql",
+                             "sha256":  "cf4b125b565d3352328518e002e09c68b319c06a17ac05b5f5dbecfb7f5f5ee7"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/pilot.browser.mjs",
+                             "sha256":  "382129f6014ba42de3f08060a0d273f8450d87c7e5c5189159b438c9ca5efea8"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/problem-reports.mjs",
+                             "sha256":  "c7973444e23deb0c7f13d09b6edaa7ac3d118706dc230620ddeca3799e4feb4b"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/problem-reports.test.mjs",
+                             "sha256":  "35c58d3ec1825635c8d6f535cb27bbc471f572ba9e7a3b54a92c61840a97e031"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/public/problem-report.js",
+                             "sha256":  "b397ed6415dba7f0d0ae92cf1cfcd43d310243efbb0bc13915b9209148dbb74f"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/published-catalog.mjs",
+                             "sha256":  "c8d48d0ce7476f33a415689800a02ec677856ec5edef298839c37faaad112a8b"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/published-catalog.test.mjs",
+                             "sha256":  "4239f08ea4af7e7a9a1476e56d8b1a6fee7c822e77c04d841bef362b7aeb71c8"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/record-store.mjs",
+                             "sha256":  "a504d837b32a258399bc8ff6b55a866d29aaa36d564074f06e84737dd35eba82"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/record-store-probe.mjs",
+                             "sha256":  "234f76be29156afdcf195cdb9513bc000e19b86944c4c8ad28ee7ba8f1688108"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/reports-export.mjs",
+                             "sha256":  "e190b983c27518ea775ac390b1cfac273a876a6b3e0c8f53870e77d4e76da3cb"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/report-shell.mjs",
+                             "sha256":  "cd6f2d29df3f91bf30308b29162604f166152e8d17778389a18234bff79e88b0"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/reviewed-display.json",
+                             "sha256":  "164d4af6e83b5f235a9d8b78388135e3174d78f1ff3d18667c0b84573c5eb9e1"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/runtime.mjs",
+                             "sha256":  "5d8ba171d728e61f890941065042b90bc795afff37f4a221ee57648be45d2742"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/Secrets.Dockerfile",
+                             "sha256":  "49329d34c7010271a01f6552c99b0d277d81cf6ba224d96dad9bf474590f0ec5"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/secrets.mjs",
+                             "sha256":  "f7bbfe33025ca3d34720007b9560916b19f9d094ae3f80c3fa20a3fb9200dc52"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/server.mjs",
+                             "sha256":  "f184fffedc736672aba498900d63bc3117f7731424c0b5d6b4a99c936e5dfa2d"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/session-service.mjs",
+                             "sha256":  "4cb84ac088a834e8ec87a700586a439a00f4e10988ab4dd93ec0b60447654694"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/set-store.mjs",
+                             "sha256":  "e81d400888502a15b3f3992fac6655f58b206d63e60cda6b91a13b226588eeb4"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/setup.ps1",
+                             "sha256":  "3b32efd574fa70921036feaf0ce0d5b3f9f4e9ef9517e362ab4c909f817ddbc8"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/student-data.mjs",
+                             "sha256":  "3c7973c3274d215a93fa08a0a0822019e8af1740f9e17431e36b3c915bb73d28"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/student-data-probe.mjs",
+                             "sha256":  "c9609ee62608db66306dce35976de08bd96d1b9e0d806b8633c774edd5717237"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/Tools.Dockerfile",
+                             "sha256":  "45894e35dc6b5babef1fafc14a217ab6f053bf2f6773d15ce7a26bb4f55faed1"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/verify-accounts.ps1",
+                             "sha256":  "22bdbe1e01d84593895ef6aec79b5f4c46b2cbb9df9df7034b26d6d89a8656de"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/verify-adapters.ps1",
+                             "sha256":  "c4e3b696c4fbe5ccf3d7127b7ea22deb685e5cf311851efbba0bede7e92344f4"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/verify-auth.ps1",
+                             "sha256":  "2c1d7d20c09be547f1addb65ab339b0b16e27554cb5a3def8a393d98d65dd6da"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/verify-storage.ps1",
+                             "sha256":  "71bc94ec15c32b6be43de4d5b548c9585ed11da07d3870937bbd7610da4250c5"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/work-lifetime-probe.mjs",
+                             "sha256":  "893b9ef52016e6885555bf342b52c540fd0edbd47325bced67f325f90f1f0233"
+                         },
+                         {
+                             "file":  "experimental-workspace/calculus-100/activate-local-pilot.mjs",
+                             "sha256":  "122a84832d2b4a068e2966a5d7fd879949e014d6aef5f20f8567dd774f2cd3f4"
+                         },
+                         {
+                             "file":  "experimental-workspace/calculus-100/independent-pilot.json",
+                             "sha256":  "f3109c1ce060f5e06d32ef3886d3817e7ee2ba0516903bf48bb8fcfb077be924"
+                         },
+                         {
+                             "file":  "experimental-workspace/calculus-100/local-pilot.json",
+                             "sha256":  "d7358d39a127410aaee0665df8485819f73e8e6fbea3afcb6c4239b91518cd8e"
+                         },
+                         {
+                             "file":  "experimental-workspace/calculus-100/pilot-policy-checks.sql",
+                             "sha256":  "ad7280d1466ad0a62ade32b5ae656d79332cfb9a0eae809c1d3b3d0c35e89dfa"
+                         },
+                         {
+                             "file":  "experimental-workspace/calculus-100/student-oracles.mjs",
+                             "sha256":  "ece253630ccc4e29aff0e41fefa71112e2819906415817379ff15a99f317d03e"
+                         },
+                         {
+                             "file":  "experimental-workspace/calculus-100/verify-local-pilot.ps1",
+                             "sha256":  "07894ea4416b9e1bed21211b92c0fdff58092c64dbbc8d63fa740851538726c3"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/Browser.Dockerfile",
+                             "sha256":  "8d0e33d22eaec77b2adb358e7354ebfb5b69fa97cd0c59963b9bfe81923978c7"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/browser.test.mjs",
+                             "sha256":  "4493cd1f03a61faff97676d95f1d4e09f78c07ce06dd3ac670d591cda4355483"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/catalog.integration.mjs",
+                             "sha256":  "54064a6ef58acb379d82c7f8945c71c0f9513ab0d662290c70116bc92e124499"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/catalog.mjs",
+                             "sha256":  "e00872f155b1074fa2e57fca650d848d9ad2581631559c2948ac831fe7cf234d"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/catalog.test.mjs",
+                             "sha256":  "09bd92b6586bfec9f04898e6ec3174d0d398592f0e23479112c2f6300db432b6"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/chooser.browser.mjs",
+                             "sha256":  "f8ffad6c5c4b7bdd75af7ebc321d4ca09e86e48aad0b17688777a823e51d091e"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/chooser.mjs",
+                             "sha256":  "58167f6d3a498603087e67bdbe19325e538caf54c8bf222d4e1e3d450c9e6301"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/chooser.test.mjs",
+                             "sha256":  "248838413d12a165afed58d63fdc0913a651fabad90e689aec534ef7035a14f3"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/compose.yaml",
+                             "sha256":  "cb7c3fd27d644e7b6e67be4a0284e1f4b8c7a854b6e01863ed0d0b4a3cb0f1a1"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/Dockerfile",
+                             "sha256":  "3550dff197e515d3610d4f537781e7f7cbe3914f34cb5f2c896d1ace4fa72922"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/practice-metadata.json",
+                             "sha256":  "4068fd65c363f111f9762271f15c2e52b64baeb072b41a5fbe9be77339587f43"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/public/account.css",
+                             "sha256":  "b776c93c7953066028a906452204c509378d0c985aa48d30a4a196473e165f19"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/public/account.html",
+                             "sha256":  "0ea4e3af724b8083f30194b5d08430447f06265dc88389017f6784110dafa627"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/public/account.js",
+                             "sha256":  "68b5adec8a00f9d652fcb0053f21f55ce7d6f0437b0e81f7b87850d0183b878c"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/public/chooser.css",
+                             "sha256":  "3384d77479da0bbaa8de2765aeb648076fa2d0d01c1e1c44cab1da45d3cb9fbd"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/public/chooser.html",
+                             "sha256":  "5c2862a3f5835f084d35e06de95b44dc7eb815ee5d724f03e685bd76583901c4"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/public/chooser.js",
+                             "sha256":  "b0da4fd84f4ab25f281b0cf18e865acc4a0f44fef5baccc0314aa70704272952"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/public/home.css",
+                             "sha256":  "0e05588b2a64798f466b81b86f8ec89ef477853da77191f8b5e3fc3cea639b3f"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/public/home.js",
+                             "sha256":  "95bcb82e44916cb9e6aaae12d2d0cb95632501d8c2f6de02f9ee3ca5de235bfb"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/public/index.html",
+                             "sha256":  "9bbff02eec72d517c029f7ed0e295c7cb1bf08d7312767ed630aee5acea52b71"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/public/practice-plan-store.js",
+                             "sha256":  "414237e32fe8241058cbd9f88ca09ed853dc8ea936b5127d6daac7bb9c6d21b4"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/public/sources.html",
+                             "sha256":  "c7c23a88a07e95bc115cd7d886b6a402cf7e1a592c806a2a971ecda10c3c449b"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/server.mjs",
+                             "sha256":  "dae7a3b203c775943bda16757a6843255f65a4e34bde7232b896668715e96c5a"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/server.test.mjs",
+                             "sha256":  "3f5207ee4e4e9a6e4f348907663f2434c97125d5c7984209e1c62b5bedd4e3a0"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/setup.ps1",
+                             "sha256":  "710d71b07d02d01abba58ffa462b306a0ac0c29379e11773919f4ab9fdc17aca"
+                         },
+                         {
+                             "file":  "experimental-workspace/discovery/verify.ps1",
+                             "sha256":  "1cbfb18ff1de6699b7ff8bf140bceba90164580050c7981bf2193a1b584e364b"
+                         },
+                         {
+                             "file":  "supabase/migrations/202611160025_local_tested_pilot.sql",
+                             "sha256":  "fe665f5838042eb76803a9b77e0d6e53f2a8f783500170adbac448a5e86a4f6a"
+                         }
+                     ]
+}

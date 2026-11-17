@@ -1,5 +1,11 @@
 # Repository development guide
 
+## Current user-authorized tested pilot
+
+The user now explicitly authorizes tested local exercises without moderator approval, with student problem reports. This supersedes the earlier review hold and resolves its missing-policy-authorization condition; never record fabricated independent/human sign-offs. Follow [LOCAL_PILOT_POLICY.md](experimental-workspace/calculus-100/LOCAL_PILOT_POLICY.md) and the newest PROJECT_CONTEXT.md section. Live 3105 has sixteen exercises (six original plus ten tested calculus pilots); original 3100 still has six.
+
+Preserve the separate pilot grants, technical/source/context/health/provenance guards, backend loopback opt-in and withdrawal without record deletion. Standard reviewed publication stays unchanged. Keep known defective/out-of-scope sources disabled. Reports are encrypted owner-bound student records; see accounts/PROBLEM_REPORTS.md. Never commit their contents or operator exports. Use verify-local-pilot.ps1 with stable services, then the appropriate account/discovery/migration checks. Historical instructions below requiring independent reviews apply to the standard publication route, not this explicit local pilot.
+
 ## Account integration checkpoint
 
 Read [the current account/platform handoff](experimental-workspace/accounts/CURRENT_STATE.md) before using older counts below. Milestone 12 now connects the home to local accounts, private saved work and progress. Original 3100 remains an independent anonymous prototype. Follow the account guide for setup and immutable acceptance; preserve all existing data and the unchanged compatibility/provenance gates.

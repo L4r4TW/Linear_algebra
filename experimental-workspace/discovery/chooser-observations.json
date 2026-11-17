@@ -1,6 +1,6 @@
 {
     "version":  1,
-    "observedAt":  "2026-11-17T18:52:24.404Z",
+    "observedAt":  "2026-11-17T19:28:13.586Z",
     "scope":  "Task 9 real catalog chooser and temporary owned prototype session; no activation or account assertions",
     "desktopColumns":  true,
     "dependentSelection":  true,
@@ -16,7 +16,7 @@
     "sourceHashes":  [
                          {
                              "file":  "catalog.mjs",
-                             "sha256":  "724eb935e6412543242072a0e497f2ed23924977c58e4f0d143f61ff0342d523"
+                             "sha256":  "e00872f155b1074fa2e57fca650d848d9ad2581631559c2948ac831fe7cf234d"
                          },
                          {
                              "file":  "chooser.mjs",
@@ -24,7 +24,7 @@
                          },
                          {
                              "file":  "server.mjs",
-                             "sha256":  "0487ab43de81ec1206b32ef98015566f4705b5cc757afef0649fdc4ac0a458fc"
+                             "sha256":  "dae7a3b203c775943bda16757a6843255f65a4e34bde7232b896668715e96c5a"
                          },
                          {
                              "file":  "practice-metadata.json",
@@ -44,7 +44,7 @@
                          },
                          {
                              "file":  "public/home.js",
-                             "sha256":  "26970513c1662d2ee60825cc68725fd4bda2c7a21996fe207169b8739d16e6e3"
+                             "sha256":  "95bcb82e44916cb9e6aaae12d2d0cb95632501d8c2f6de02f9ee3ca5de235bfb"
                          },
                          {
                              "file":  "public/home.css",
@@ -88,15 +88,15 @@
                          },
                          {
                              "file":  "server.test.mjs",
-                             "sha256":  "0c25367f4672667414b807c35f078afe9a80cf94ec660d87f7446dd5f43accc8"
+                             "sha256":  "3f5207ee4e4e9a6e4f348907663f2434c97125d5c7984209e1c62b5bedd4e3a0"
                          },
                          {
                              "file":  "catalog.integration.mjs",
-                             "sha256":  "7b0f237ca8f167d047ea90365d0eea1b378dfcbf23bb2fede5d944dc7cc6f883"
+                             "sha256":  "54064a6ef58acb379d82c7f8945c71c0f9513ab0d662290c70116bc92e124499"
                          },
                          {
                              "file":  "browser.test.mjs",
-                             "sha256":  "23d32d3c5dbca3b9c1a14f6c9ace875e92fa6a88f4126f8942cb268b9465635c"
+                             "sha256":  "4493cd1f03a61faff97676d95f1d4e09f78c07ce06dd3ac670d591cda4355483"
                          },
                          {
                              "file":  "chooser.browser.mjs",
@@ -126,5 +126,5 @@
     "serverTests":  17,
     "realDatabaseTests":  1,
     "browserTests":  5,
-    "imageId":  "sha256:26202af5a8ac56fe1090b4bb16a8a90cf565ec298f2e39b20eea52ac3cb1037b"
+    "imageId":  "sha256:c64f957518f61252a12536f2d16575db4e0e9a10ee55bcb8a753aa37214f3c08"
 }

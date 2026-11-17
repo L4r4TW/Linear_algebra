@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "complete": true,
+  "observedAt": "2026-11-17T19:30:22.541Z",
+  "scope": "Actual HTTP/account runtime and local Supabase with a controlled renderer double; no original student volume",
+  "disconnectedActiveWorkRetainsPermit": true,
+  "maximumActiveOperations": 4,
+  "queuedDisconnectNeverInvokesRenderer": true,
+  "queueTimeoutIsRetryableServiceError": true,
+  "permitsReleaseAfterPersistence": true
+}

@@ -95,7 +95,7 @@ export function createHome({origin=process.env.HOME_ORIGIN??'http://localhost:31
    }
    if(req.method==='GET'&&url.pathname==='/api/sessions/recent'&&!url.search)return await recent(req,res);
    const account=/^\/api\/sessions\/account\/(?:status|signup|login|logout|claim|bookmarks|progress|continuation)$/.test(url.pathname),draft=/^\/api\/sessions\/[a-f0-9-]{36}\/draft$/.test(url.pathname);
-   const session=account||draft||/^\/api\/sessions(?:\/[a-f0-9-]{36}(?:\/answers)?)?$/.test(url.pathname)||/^\/api\/sessions\/sets(?:\/[a-f0-9-]{36}(?:\/(?:open|position))?)?$/.test(url.pathname);
+   const session=account||draft||/^\/api\/sessions(?:\/[a-f0-9-]{36}(?:\/(?:answers|reports))?)?$/.test(url.pathname)||/^\/api\/sessions\/sets(?:\/[a-f0-9-]{36}(?:\/(?:open|position))?)?$/.test(url.pathname);
    const asset=/^\/assets\/[a-zA-Z0-9_./-]+$/.test(url.pathname)&&!url.pathname.includes('..');
    const player=url.pathname==='/practice';
    const exercise=url.pathname==='/api/exercises';

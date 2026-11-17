@@ -16,13 +16,13 @@ export function projectPublished(row,{context,sourceRevision}){
  const title=text(display?.title??metadata.title,1000),description=text(metadata.description,5000)??'';
  if(!title||!subject||!chapter)throw Error('APPROVED_METADATA_INCOMPLETE');
  const rendererPath=path.startsWith('OpenProblemLibrary/')?path.replace(/^OpenProblemLibrary\//,'Library/'):path.startsWith('Contrib/')?path:'webwork-open-problem-library/'+path;
- return {id:row.id,title,description,topicId:'catalog:'+chapter,topic:section??chapter,subject,chapter,section:section??null,titleOrigin:display?'reviewed-title':metadata.titleOrigin??'source-metadata',
+ return {reviewStatus:row.review_status==='tested-local-pilot'?'tested-local-pilot':'independently-reviewed',id:row.id,title,description,topicId:'catalog:'+chapter,topic:section??chapter,subject,chapter,section:section??null,titleOrigin:display?'reviewed-title':metadata.titleOrigin??'source-metadata',
  attribution:{authors:strings(metadata.authors),institutions:strings(metadata.institutions)},
  source:{path:row.path,versionId:row.source_version_id,revision:row.revision,sha256:row.sha256,contextId:context.id},renderer:{sourceFilePath:rendererPath}};
 }
 export function publicPublished(entry){
- const {id,title,description,topicId,topic,subject,chapter,section,titleOrigin,attribution}=entry;
- return {id,title,description,topicId,topic,subject,chapter,section,titleOrigin,attribution};
+ const {id,title,description,topicId,topic,subject,chapter,section,titleOrigin,attribution,reviewStatus}=entry;
+ return {id,title,description,topicId,topic,subject,chapter,section,titleOrigin,attribution,reviewStatus};
 }
 export function createPublishedCatalog({query,rendererUrl,runtimeDigest,sourceRevision,fetcher=fetch}){
  let entries=new Map(),pending,unavailable=true,initialized=false,managedLegacyIds=new Set();
@@ -49,7 +49,7 @@ export function createPublishedCatalog({query,rendererUrl,runtimeDigest,sourceRe
 export function createCatalogQuery({host=process.env.CATALOG_DB_HOST}={}){
  const pool=new pg.Pool({host,database:'opl_catalog',user:'catalog_player',max:2,connectionTimeoutMillis:2000,idleTimeoutMillis:10000,statement_timeout:3000,application_name:'mathpractice-published-catalog'});
  pool.on('error',()=>{});
- return {async query(){const result=await pool.query('SELECT catalog_backend.player_catalog() AS snapshot');return result.rows[0].snapshot;},close:()=>pool.end()};
+ return {async query(){const result=await pool.query('SELECT catalog_backend.player_catalog() AS snapshot');const snapshot=result.rows[0].snapshot;if(process.env.LOCAL_TESTED_PILOT==='true'){const pilot=await pool.query('SELECT catalog_backend.local_pilot_catalog() AS snapshot');const ids=new Set(snapshot.entries.map(e=>e.id));snapshot.entries.push(...pilot.rows[0].snapshot.entries.filter(e=>!ids.has(e.id)));}return snapshot;},close:()=>pool.end()};
 }
 
 export function mergeExerciseLists(legacy,published,lookup){

@@ -1,5 +1,11 @@
 # Local account environment (task 12)
 
+## Tested local practice and reports
+
+The 3105 account integration now offers sixteen exercises, including ten calculus tested pilots under ../calculus-100/LOCAL_PILOT_POLICY.md. Use the combined accounts/compose.yaml and calculus-100/player.override.yaml to retain the clean renderer and explicit local-pilot opt-in. The original 3100 player remains six.
+
+Problem reports require additive local Auth migration 003 and are encrypted private records; read [PROBLEM_REPORTS.md](PROBLEM_REPORTS.md). The report controls belong to the account shell and preserve PG isolation and drafts. Standard independently reviewed publication is unchanged. The live pilot browser runner uses no account secrets or student volumes.
+
 The user explicitly selected a new local Supabase development environment. This minimal stack runs the official Supabase Auth (GoTrue) server and a separate PostgreSQL database with its own private volumes/network. It does not mount, migrate or replace the existing app, catalog, OPL or student-session volumes. Studio, Storage and Realtime are unnecessary for this phase and are not installed.
 
 The Auth version/digest comes from the [official Supabase Docker configuration](https://github.com/supabase/supabase/blob/master/docker/docker-compose.yml); the deployment approach follows [Supabase self-hosting](https://supabase.com/docs/guides/self-hosting/docker). Container images are pinned by digest. Five random secrets are generated inside a Docker volume, retained across restarts and not written to Google Drive, Git, logs or command arguments.

@@ -1,3 +1,4 @@
+import {practiceShell,reportScript} from './report-shell.mjs';
 import {createServer} from 'node:http';
 import {actors,AccountError} from './db.mjs';import {createAdmission} from './admission.mjs';import {hash} from './crypto.mjs';import {cookieValue} from './auth.mjs';
 import {createApp} from '../application/server/http-app.mjs';
@@ -5,6 +6,7 @@ const prefix='/api/sessions/account/';
 const errorMessages={
  ACCOUNT_RATE_LIMITED:'Too many requests. Your work is retained. Wait a minute before retrying.',PRACTICE_BUSY:'Practice is busy. Your saved work is retained. Please retry shortly.',
  AUTH_REQUIRED:'Sign in again to access saved work.',ACCOUNT_AUTH_REQUIRED:'Sign in to use account saved work.',
+ INVALID_REPORT:'Describe the problem in 10–2000 characters.',REPORT_RATE_LIMITED:'Please wait before sending more reports.',
  INVALID_CREDENTIALS:'Check your email and password. Passwords must have at least 12 characters.',
  AUTH_UNAVAILABLE:'The account service is unavailable. Please retry.',ACCOUNT_STORAGE_UNAVAILABLE:'Saved work is temporarily unavailable. Please retry.',
  GUEST_CLAIMED:'This anonymous work was transferred to an account. Sign in to continue.',
@@ -22,7 +24,7 @@ async function body(req,limit=8192){
  if(!input||typeof input!=='object'||Array.isArray(input))throw new AccountError('INVALID_INPUT',400);return input;
 }
 function keys(input,allowed){if(Object.keys(input).some(key=>!allowed.includes(key)))throw new AccountError('INVALID_INPUT',400);}
-export function createAccountApp({db,accounts,data,sessions,practiceSets,importLegacy,exerciseList,setExerciseLookup,rendererBaseUrl,engineStatus=()=>null,refreshCatalog=async()=>{},origin='http://localhost:3100'}){
+export function createAccountApp({reports,db,accounts,data,sessions,practiceSets,importLegacy,exerciseList,setExerciseLookup,rendererBaseUrl,engineStatus=()=>null,refreshCatalog=async()=>{},origin='http://localhost:3100'}){
  const admission=createAdmission();
  const inner=createApp({sessions,practiceSets,exerciseList,setExerciseLookup,rendererBaseUrl,origin}).listeners('request')[0];
  const secure=new URL(origin).protocol==='https:'?'; Secure':'';
@@ -40,6 +42,8 @@ export function createAccountApp({db,accounts,data,sessions,practiceSets,importL
     admission.checkRate('all-session-api');
     const release=await admission.acquire({signal:requestAbort.signal});res.once('finish',release);res.once('close',release);
    }
+   if(req.method==='GET'&&(url.pathname==='/'||url.pathname==='/assets/problem-report.js')){res.writeHead(200,{'Content-Type':url.pathname==='/'?'text/html; charset=utf-8':'text/javascript; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'});res.end(url.pathname==='/'?practiceShell():reportScript);return;}
+   const reportRoute=url.pathname.match(/^\/api\/sessions\/([a-f0-9-]{36})\/reports$/);
    const accountRoute=url.pathname.startsWith(prefix),draft=url.pathname.match(/^\/api\/sessions\/([a-f0-9-]{36})\/draft$/);
    if((accountRoute||draft||url.pathname.startsWith('/api/sessions'))&&(req.headers['sec-fetch-site']==='cross-site'||req.headers.origin&&req.headers.origin!==origin||req.method==='POST'&&req.headers.origin!==origin))throw new AccountError('ORIGIN_NOT_ALLOWED',403);
    if(accountRoute){
@@ -85,6 +89,7 @@ export function createAccountApp({db,accounts,data,sessions,practiceSets,importL
      }
      throw new AccountError('NOT_FOUND',404);
     }
+    if(reportRoute){if(url.search)throw new AccountError('INVALID_INPUT',400);if(req.method!=='POST')throw new AccountError('METHOD_NOT_ALLOWED',405);if(!reports)throw new AccountError('REPORT_UNAVAILABLE',503);admission.checkRate('reports:'+resolved.actor.principalId,{limit:10,windowMs:3600000});return json(res,200,await reports(reportRoute[1],await body(req)));}
     if(draft){
      if(url.search)throw new AccountError('INVALID_INPUT',400);
      if(req.method==='GET')return json(res,200,{draft:await data.getDraft(draft[1])});

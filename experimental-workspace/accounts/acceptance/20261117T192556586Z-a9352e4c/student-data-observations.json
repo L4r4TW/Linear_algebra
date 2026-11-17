@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-17T19:26:25.141Z",
+  "scope": "Actual Supabase users and forced-RLS storage, controlled renderer double; no public UI or live PG claim",
+  "stableSetOrderAndSessions": true,
+  "ownerCheckedSets": true,
+  "revisionCheckedNavigation": true,
+  "skipsRetained": true,
+  "orderedRepeatedDrafts": true,
+  "conflictingTabRejected": true,
+  "trustedFieldsOnly": true,
+  "staleCheckedBaseRejected": true,
+  "privateBookmarksAndProgress": true,
+  "progressExcludesAnswersAndTokens": true,
+  "withdrawalRetainsRecords": true,
+  "explicitGuestClaimRetiresOldAuthority": true,
+  "complete": true
+}

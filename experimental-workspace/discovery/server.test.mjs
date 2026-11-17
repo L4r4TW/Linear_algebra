@@ -88,3 +88,12 @@ test('account Continue uses server-owned continuation and never another anonymou
 });
 
 test('source credits and license notices are readable without upstream access',async t=>{const base=await app(t,()=>{throw Error('Unexpected upstream');});const r=await fetch(base+'/sources');assert.equal(r.status,200);const html=await r.text();assert.ok(html.includes('creativecommons.org/licenses/by-nc-sa/3.0/'));assert.ok(html.includes('OPL_LICENSE'));assert.ok(r.headers.get('content-security-policy').includes('default-src'));});
+
+test('problem reports use the owned session gateway and preserve errors without arbitrary forwarding',async t=>{
+ const calls=[],base=await app(t,async(url,options)=>{calls.push({url,options});return Response.json({received:true});});
+ const headers={Origin:'http://localhost:3105','Content-Type':'application/json',Cookie:'la_experiment_owner=opaque'};
+ assert.equal((await fetch(base+'/api/sessions/'+id+'/reports',{method:'POST',headers,body:JSON.stringify({category:'display',message:'Synthetic issue report.',requestId:id})})).status,200);
+ assert.equal(calls.length,1);assert.ok(calls[0].url.endsWith('/'+id+'/reports'));assert.equal(calls[0].options.headers.Cookie,headers.Cookie);
+ assert.equal((await fetch(base+'/api/sessions/'+id+'/reports',{method:'POST',headers:{...headers,Origin:'https://foreign.invalid'},body:'{}'})).status,403);
+ assert.equal((await fetch(base+'/api/reports')).status,404);
+});

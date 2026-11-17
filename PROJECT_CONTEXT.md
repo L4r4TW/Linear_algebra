@@ -1,4 +1,20 @@
 # Project context and session handoff
+
+## Current: tested local pilot is playable (user-authorized policy)
+
+The user explicitly authorized enabling tested exercises without moderator/human approval and requested student problem reporting. This supersedes the earlier hold and the earlier rejection's missing authorization. We did NOT retry the rejected four-review mutation. No independent review, assessment approval or normal publication was fabricated.
+
+Local http://localhost:3105 now exposes **16 playable exercises: the original six plus ten calculus pilot exercises** from calculus-100/local-pilot.json. Cards and practice identify the new sources as tested pilots. Source reviews and forty independent student-question PG cases remain in the prior evidence. The larger historical 100-candidate transport set is not fully reviewed: known source defects and scope exclusions stay disabled; 69 other sources still need analysis.
+
+Read [LOCAL_PILOT_POLICY.md](experimental-workspace/calculus-100/LOCAL_PILOT_POLICY.md). Catalog migration 25 adds separate revocable exact-version/job/attempt pilot grants and a backend-only projection. It requires current complete passing technical cases, both seeds/viewports, no limitations/unsupported/rejected cases, fresh verifier health and certified clean provenance. The account provider also compares the live renderer attestation. Normal independently reviewed publication is unchanged; no independent review records were created. Local backend opt-in requires a loopback application origin. Standard database publication counts still exclude these pilots; the live backend list is the student admission authority.
+
+A Report a problem button is implemented in the account practice shell, outside the isolated PG frame. Reports are bounded, origin/owner checked, encrypted, source/session bound, idempotent on retry and durable in the separate local Auth database (migration 003). Failed sends retain the message and answers. It does not grade, replace a session or alter drafts/tokens. The operator export instructions are in accounts/PROBLEM_REPORTS.md. Original 3100 and the root application remain intact.
+
+Use calculus-100/verify-local-pilot.ps1 for immutable live acceptance, accounts/verify-accounts.ps1 for private account regressions, discovery/verify.ps1 for home/chooser, and migration-tests/verify-migrations.ps1 for fresh/upgrade SQL. Do not restart/rebuild the home/backend during live browser checks. Fresh acceptance: calculus-100/pilot-acceptance/20261117T193002484Z-96e7764c/manifest.json (20 live cases, 32 contracts); accounts/acceptance/20261117T193001486Z-46dcaaa5/manifest.json (8 groups). Discovery passed 18 contracts, 1 actual database test and 12 browser cases. Fresh/upgrade SQL passed 134 assertions. Original six-entry smoke passed.
+
+Next: analyze the remaining candidates, retain and replace defective/out-of-scope sources, expand under the user-authorized tested-pilot policy with real technical evidence, and address incoming reports. Do not label agent or student feedback as human moderator approval. Production dependency/rights/Auth/TLS/backups/manual-device/AT work remains separate.
+
+Older blocked/held statements below are historical and superseded by this section.
 ## Latest request: review and activate (not yet authorized by automatic review)
 
 The user explicitly requested reviewing and enabling the exercises; their earlier hold is revoked. Current source review found 19 out-of-scope chapters in the old 100 and two actual source defects. Ten clean candidates have independently derived student-question solvers and 40 passing actual PG/browser cases; see calculus-100/local-pilot.json, independent-pilot.json and review-findings.json. No instructor maps were used for those solutions; no human screen-reader/physical-device test is claimed. Sixty-nine other candidates still need source review.

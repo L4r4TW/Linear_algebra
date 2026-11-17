@@ -1,3 +1,4 @@
+import {createProblemReports} from './problem-reports.mjs';
 import {createPublishedCatalog,createCatalogQuery,mergeExerciseLists} from './published-catalog.mjs';
 import {readFile} from 'node:fs/promises';import {createAdmission} from './admission.mjs';
 import {createDatabase,actors,AccountError} from './db.mjs';import {createVault} from './crypto.mjs';import {createAccounts} from './auth.mjs';
@@ -5,6 +6,7 @@ import {createRecordStore} from './record-store.mjs';import {createAccountSessio
 import {ExerciseSessionError} from '../application/server/exercise-sessions.mjs';import {PracticeSetError} from '../application/server/practice-sets.mjs';
 import {createRendererClient,RendererClientError} from '../application/server/renderer-client.mjs';import {listExercises,getExerciseById} from '../application/server/exercise-catalog.mjs';import {runtimeFingerprint} from '../application/server/catalog-compatibility.mjs';
 export async function createAccountRuntime({exerciseLookup=getExerciseById,exerciseList=listExercises,rendererUrl=process.env.RENDERER_URL,origin=process.env.APP_ORIGIN??'http://localhost:3100',legacyDirectory='/legacy',rendererClient,publishedCatalog}={}){
+if(process.env.LOCAL_TESTED_PILOT==='true'&&!['localhost','127.0.0.1'].includes(new URL(origin).hostname))throw Error('LOCAL_PILOT_REQUIRES_LOOPBACK_ORIGIN');
 let catalogQuery;
 if(!publishedCatalog&&process.env.PUBLISHED_CATALOG_ENABLED==='true'){
  const profile=JSON.parse(await readFile(new URL('../application/server/compatibility-profile.json',import.meta.url),'utf8'));
@@ -39,7 +41,7 @@ for(const name of ['get','openItem','move'])practiceSets[name]=async(...args)=>{
  }
 };
 const data=createStudentData({db,vault,store,sessions,exerciseLookup});
-const app=createAccountApp({db,accounts,data,sessions,practiceSets,importLegacy,exerciseList,setExerciseLookup:exerciseLookup,rendererBaseUrl:rendererUrl,engineStatus:()=>engineAdmission.snapshot(),refreshCatalog:()=>publishedCatalog?.refresh(),origin});
+const app=createAccountApp({reports:createProblemReports({db,vault}),db,accounts,data,sessions,practiceSets,importLegacy,exerciseList,setExerciseLookup:exerciseLookup,rendererBaseUrl:rendererUrl,engineStatus:()=>engineAdmission.snapshot(),refreshCatalog:()=>publishedCatalog?.refresh(),origin});
 app.requestTimeout=10000;app.headersTimeout=10000;app.keepAliveTimeout=5000;app.maxConnections=128;
 return {app,db,accounts,data,sessions,practiceSets,store,publishedCatalog,closeCatalog:()=>catalogQuery?.close()};
 }

@@ -1,5 +1,10 @@
 # Home and discovery (milestone 8)
 
+## Current local availability
+
+The live account backend now supplies sixteen playable entries: six original exercises and ten calculus exercises under the explicit user-authorized tested-pilot policy. Pilot cards are labelled and the practice shell offers Report a problem. See ../calculus-100/LOCAL_PILOT_POLICY.md and ../accounts/PROBLEM_REPORTS.md. The indexed library and normal independently reviewed database publication counts remain separate. Older six-entry milestones below are historical; the independent localhost:3100 player still has six.
+
+
 ## Checkpoints
 
 1. **8.1 — Discovery contracts and server:** read-only real catalog queries, bounded validated filters/cursors, explicit distinction between indexed sources and launchable practice.

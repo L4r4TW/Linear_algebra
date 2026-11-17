@@ -40,3 +40,9 @@ test('friendly titles are bound to the reviewed source version and hash, without
  assert.equal(projectPublished(input,{context,sourceRevision:display.revision}).title,display.title);
  assert.equal(projectPublished({...input,sha256:'e'.repeat(64)},{context,sourceRevision:display.revision}).title,row.metadata.title);
 });
+
+test('local tested-pilot status is explicit and still subject to the normal renderer/source guards',async()=>{
+ const c=setup({query:async()=>({context,entries:[{...row,review_status:'tested-local-pilot'}],managedLegacyIds:[]})});await c.refresh();
+ assert.equal(c.list()[0].reviewStatus,'tested-local-pilot');assert.equal(c.get(row.id).source.versionId,row.source_version_id);
+ const broken=setup({query:async()=>({context:{...context,certified:false},entries:[{...row,review_status:'tested-local-pilot'}],managedLegacyIds:[]})});await broken.refresh();assert.equal(broken.status().available,false);
+});

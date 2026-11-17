@@ -1,6 +1,6 @@
 {
     "version":  1,
-    "observedAt":  "2026-11-16T15:46:05.7651372Z",
+    "observedAt":  "2026-11-17T19:24:39.3690324Z",
     "imageDigest":  "postgres@sha256:a49f7438ba03589f9b1ca062f2da82e899b48ea1dc50d2449fa09a70be83ebca",
     "scope":  "Fresh and authored-app upgrade on isolated PostgreSQL with test-only Auth context, not hosted Supabase or HTTP JWT validation",
     "network":  "none",
@@ -678,6 +678,30 @@
                        {
                            "name":  "202611160019_verification_publication.sql",
                            "sha256":  "d773cf91ab20d19f6debc491df2391b4e6437ef2c50607235571b5dd019ab2f9"
+                       },
+                       {
+                           "name":  "202611160020_catalog_player_projection.sql",
+                           "sha256":  "7a17b08642ab8cb8ce95cb6f3be3904483d55e775f8a01cc86c3f9eee795e306"
+                       },
+                       {
+                           "name":  "202611160021_discovery_count_projection.sql",
+                           "sha256":  "031eab4c09829b906015fd64734df4dbd1dabd4504b0bc88a26bacb6a5b222fe"
+                       },
+                       {
+                           "name":  "202611160022_bound_discovery_query_cost.sql",
+                           "sha256":  "91ac814e3348804da2222f2d78f867f8f7d00b8acc9f8c294a1ba453c91705ea"
+                       },
+                       {
+                           "name":  "202611160023_index_source_bound_catalog_reads.sql",
+                           "sha256":  "14946e86767a496ce30cb8dddd3642e928ab80ef082665faff5f27949e90be86"
+                       },
+                       {
+                           "name":  "202611160024_preserve_legacy_publication_authority.sql",
+                           "sha256":  "a168ae39d16652f64e8c6ae52c18c8e2778315962541c43a7e4bc8bf860c8297"
+                       },
+                       {
+                           "name":  "202611160025_local_tested_pilot.sql",
+                           "sha256":  "fe665f5838042eb76803a9b77e0d6e53f2a8f783500170adbac448a5e86a4f6a"
                        }
                    ]
 }

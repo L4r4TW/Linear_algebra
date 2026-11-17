@@ -1,9 +1,10 @@
+import {createProblemReports} from './problem-reports.mjs';
 import assert from 'node:assert/strict';import {readFile,mkdir,writeFile} from 'node:fs/promises';import {randomBytes,randomUUID} from 'node:crypto';import {createDatabase} from './db.mjs';import {createVault} from './crypto.mjs';import {createAccounts} from './auth.mjs';import {createRecordStore} from './record-store.mjs';import {createAccountSessions} from './session-service.mjs';import {createSetStore} from './set-store.mjs';import {createStudentData} from './student-data.mjs';import {createAccountApp} from './http-app.mjs';import {ExerciseSessionError} from '../application/server/exercise-sessions.mjs';import {PracticeSetError} from '../application/server/practice-sets.mjs';
 const db=createDatabase({domainErrors:[ExerciseSessionError,PracticeSetError]}),vault=createVault((await readFile('/secrets/encryption-key','utf8')).trim()),accounts=createAccounts({db,vault}),origin='http://localhost:3100';
 const lookup=id=>id==='one'?{id,title:'Synthetic',subject:'Math',topic:'Synthetic',source:{sha256:'a'.repeat(64),revision:'synthetic'}}:null,list=()=>[{id:'one',title:'Synthetic',topic:'Synthetic'}];
 const store=createRecordStore({db,vault,exerciseLookup:lookup,runtimeDigest:'synthetic'}),rendered=()=>({html:'<div id="problem_body"><input name="AnSwEr0001"></div>',sessionToken:'private-renderer-session',problemToken:'private-renderer-problem',score:.5,resources:[],feedback:{message:'',summary:''},fieldFeedback:[]});
 const sessions=createAccountSessions({store,exerciseLookup:lookup,rendererClient:{loadExercise:async()=>rendered(),restoreSession:async()=>rendered(),submitAnswers:async()=>rendered()}}),practiceSets=createSetStore({db,vault,exerciseLookup:lookup,entries:()=>[{id:'one',title:'Synthetic',subject:'Math',chapter:'Synthetic'}],startSession:input=>sessions.startSession(input)}),data=createStudentData({db,vault,store,sessions,exerciseLookup:lookup});
-const app=createAccountApp({db,accounts,data,sessions,practiceSets,exerciseList:list,setExerciseLookup:lookup,origin,rendererBaseUrl:'http://unused:3000'});await new Promise(resolve=>app.listen(0,'127.0.0.1',resolve));const base='http://127.0.0.1:'+app.address().port;
+const app=createAccountApp({reports:createProblemReports({db,vault}),db,accounts,data,sessions,practiceSets,exerciseList:list,setExerciseLookup:lookup,origin,rendererBaseUrl:'http://unused:3000'});await new Promise(resolve=>app.listen(0,'127.0.0.1',resolve));const base='http://127.0.0.1:'+app.address().port;
 const report={version:1,observedAt:new Date().toISOString(),scope:'Real HTTP BFF and real local Supabase/RLS; controlled renderer double, no public deployment claim'};
 const jar=()=>new Map(),guest=jar(),account=guest,foreign=jar();
 async function request(cookies,path,{method='GET',input,extra={},expected=200}={}){
@@ -14,6 +15,13 @@ async function request(cookies,path,{method='GET',input,extra={},expected=200}={
 try{
  const started=await request(guest,'/api/sessions',{method:'POST',input:{exerciseId:'one'},expected:201}),id=started.session.id,oldGuest=guest.get('la_experiment_owner');assert.ok(oldGuest);
  await request(foreign,'/api/sessions/'+id,{expected:404});
+ const issue={requestId:randomUUID(),category:'grading',message:'Synthetic acceptance report: check the result.'};
+ await request(foreign,'/api/sessions/'+id+'/reports',{method:'POST',input:issue,expected:404});
+ const received=await request(guest,'/api/sessions/'+id+'/reports',{method:'POST',input:issue});assert.equal(received.received,true);
+ assert.equal((await request(guest,'/api/sessions/'+id+'/reports',{method:'POST',input:issue})).reportId,received.reportId);
+ await request(guest,'/api/sessions/'+id+'/reports',{method:'POST',input:{...issue,ownerId:randomUUID()},expected:400});
+ await request(guest,'/api/sessions/'+id+'/reports',{method:'POST',input:issue,extra:{Origin:'https://foreign.invalid'},expected:403});
+ report.problemReportsOwnedAndIdempotent=true;
  await request(guest,'/api/sessions/account/signup',{method:'POST',input:{email:'http-'+randomBytes(12).toString('hex')+'@example.test',password:randomBytes(24).toString('base64url')+'Aa1!'}});
  assert.ok(guest.has('mathpractice_account'));assert.ok((await request(account,'/api/sessions/account/status')).account.authenticated);
  // Sign-in does not silently claim anonymous work.

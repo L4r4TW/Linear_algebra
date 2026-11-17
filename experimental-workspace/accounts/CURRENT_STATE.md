@@ -1,5 +1,11 @@
 # Current platform handoff
 
+## Latest: ten tested calculus pilots and student reports
+
+Local 3105 now has sixteen playable entries. The added ten follow the explicit user-authorized tested-pilot policy, not fabricated independent moderator approvals. Read ../calculus-100/LOCAL_PILOT_POLICY.md. Standard publication and the original six-entry 3100 application remain separate.
+
+The backend includes an app-shell Report a problem form and an owner-checked, bounded, encrypted, durable report store (migration 003). PG content, generated controls, source runtime fingerprint and student drafts/grading are unchanged. Follow PROBLEM_REPORTS.md for private operator access and calculus-100/verify-local-pilot.ps1 for the live pilot suite. Earlier counts/blocks below are historical.
+
 ## Calculus expansion checkpoint
 
 Read [the current calculus handoff](../calculus-100/README.md). One hundred classified candidates now have 400 passing technical cases and isolated discovery acceptance. The user keeps them pending independent review; live practice remains six and no imported batch is activated. The 3105 backend uses the clean private candidate renderer/player override; original 3100 is independent. Private catalog publication authority also governs legacy aliases, and outages cannot bypass withdrawal. Historical counts/provenance statements below describe earlier images; the new candidate passes the unchanged full PG-clean check while production OS/npm/manual-review blockers remain.

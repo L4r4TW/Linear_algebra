@@ -1,8 +1,8 @@
 # Linear Algebra Exercises
 
-## Calculus expansion in progress
+## Playable calculus pilot
 
-The active goal is [100 distinct playable differential-calculus exercises](experimental-workspace/calculus-100/README.md). A 300-source candidate pool, strict-clean private renderer and reviewed-publication player adapter are implemented. Historical transport checks cover 100 candidates. Source review found subject/authoring issues; a ten-exercise proposal now has 40 independent student-oracle cases. Activation is blocked by the required review sign-off policy; see the latest handoff.
+Open **http://localhost:3105/?subject=Calculus+-+single+variable** to practice. Ten tested calculus exercises have been added, giving **16 playable exercises overall**. Pilot entries are labelled and include a **Report a problem** action. The user-authorized [tested-pilot policy](experimental-workspace/calculus-100/LOCAL_PILOT_POLICY.md) preserves technical verification without inventing moderator approvals. The goal remains [100 differential-calculus exercises](experimental-workspace/calculus-100/README.md); known defective/out-of-scope candidates remain disabled.
 
 ## Account integration checkpoint
 
@@ -29,7 +29,7 @@ Open **http://localhost:3105/browse** for the subject → chapter → section ch
 
 ## Home and discovery
 
-Open **http://localhost:3105** for the new MathPractice home, inspired by the supplied design. Browse available subjects, search/filter exercises, share result URLs, and resume your latest exercise. **Six verified exercises are available to try.** The explicit Indexed library view searches **77,134 OPL sources**; indexed entries are labelled and do not gain practice access from import alone.
+Open **http://localhost:3105** for the new MathPractice home, inspired by the supplied design. Browse available subjects, search/filter exercises, share result URLs, and resume your latest exercise. **Six original exercises and ten tested calculus pilots are available to try.** The explicit Indexed library view searches **77,134 OPL sources**; indexed entries are labelled and do not gain practice access from import alone.
 
 See the [home/discovery guide](experimental-workspace/discovery/README.md) for startup, API boundaries and acceptance. The home forwards practice to the existing player on the same browser origin. The original app, localhost:3100 player, sessions and verification gates remain intact. Database-backed practice activation is still blocked by provenance and independent reviews.
 

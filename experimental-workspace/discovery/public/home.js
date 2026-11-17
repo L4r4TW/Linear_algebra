@@ -76,6 +76,7 @@ function renderResults(data){
  for(const entry of data.entries){
   const card=node('article',undefined,'exercise-card');
   card.append(node('p',[entry.subject,entry.chapter,entry.section].filter(Boolean).join(' / ')||'Unclassified source','breadcrumb'),node('h3',entry.title));
+  if(entry.reviewStatus==='tested-local-pilot')card.append(node('p','Tested pilot · report issues while practicing','source-note'));
   if(entry.description)card.append(node('p',entry.description,'description'));
   if(entry.titleOrigin==='generated-source-label')card.append(node('p','Source label · descriptive title not yet reviewed','source-note'));
   if(entry.attribution){const credit=[...entry.attribution.authors,...entry.attribution.institutions].join(' · ');if(credit)card.append(node('p',credit,'source-note'));}

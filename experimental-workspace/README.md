@@ -2,7 +2,7 @@
 
 ## Calculus expansion checkpoint
 
-Read [the current calculus handoff](calculus-100/README.md). One hundred classified candidates now have 400 passing technical cases and isolated discovery acceptance. The user keeps them pending independent review; live practice remains six and no imported batch is activated. The 3105 backend uses the clean private candidate renderer/player override; original 3100 is independent. Private catalog publication authority also governs legacy aliases, and outages cannot bypass withdrawal. Historical counts/provenance statements below describe earlier images; the new candidate passes the unchanged full PG-clean check while production OS/npm/manual-review blockers remain.
+Read [the current calculus handoff](calculus-100/README.md). One hundred classified candidates now have 400 passing technical cases and isolated discovery acceptance. The user now authorizes local tested practice without moderator approval: ten source-reviewed calculus pilots are active, alongside the original six. Cards show pilot status and the practice shell includes Report a problem. See [the tested-pilot policy](calculus-100/LOCAL_PILOT_POLICY.md); no independent review records or ordinary publication approvals were fabricated. The 3105 backend uses the clean private candidate renderer/player override; original 3100 is independent. Private catalog publication authority also governs legacy aliases, and outages cannot bypass withdrawal. Historical counts/provenance statements below describe earlier images; the new candidate passes the unchanged full PG-clean check while production OS/npm/manual-review blockers remain.
 
 ## Account integration checkpoint
 
@@ -13,7 +13,7 @@ Session handoff and next steps: [PROJECT_CONTEXT.md](../PROJECT_CONTEXT.md). Rep
 
 ## New home and discovery
 
-Open **http://localhost:3105** for the screenshot-directed MathPractice home: real subject cards, search, topic/source filters, shareable cursor pages and Continue practicing. Six live verified player exercises can be opened and resumed through this origin. An explicit indexed-library view searches 77,134 imported sources while retaining unavailable status. Startup and reproducible checks are in the [discovery guide](discovery/README.md).
+Open **http://localhost:3105** for the screenshot-directed MathPractice home: real subject cards, search, topic/source filters, shareable cursor pages and Continue practicing. Six original exercises and ten tested calculus pilots can be opened and resumed through this origin. An explicit indexed-library view searches 77,134 imported sources while retaining unavailable status. Startup and reproducible checks are in the [discovery guide](discovery/README.md).
 
 This is an independent service; existing player source, session storage volume and renderer remain unchanged. Drafts are browser-origin/tab-bound: old localhost:3100 drafts stay there; use 3105 for new home/practice navigation.
 

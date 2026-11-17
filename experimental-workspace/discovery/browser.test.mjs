@@ -16,7 +16,7 @@ test('home shows real playable subjects and explicit indexed coverage',{timeout:
  const page=await pageFor(t),errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(base);await settled(page);await page.locator('#subjects .subject-card').first().waitFor();
  assert.equal(await page.getByRole('heading',{level:1}).textContent(),'What would you like to practice?');
- assert.equal(await page.locator('.exercise-card .primary').count(),6);assert.equal(await page.locator('.subject-card').count(),4);
+ const catalog=await page.evaluate(async()=> (await (await fetch('/api/exercises')).json()).exercises);assert.ok(catalog.length>=6);assert.equal(await page.locator('.exercise-card .primary').count(),Math.min(12,catalog.length));const summary=await page.evaluate(async()=> (await (await fetch('/api/discovery/overview')).json()));assert.equal(await page.locator('.subject-card').count(),summary.practice.subjects.length);
  await page.getByRole('button',{name:'Indexed library',exact:true}).click();await settled(page);
  assert.equal(await page.locator('.exercise-card').count(),12);assert.equal(await page.locator('.exercise-card .primary').count(),0);
  assert.match(await page.locator('#coverage').textContent(),/77,134/);
@@ -109,7 +109,7 @@ test('partial catalog outage retains practice and unavailable continuation has e
  await page.route('**/api/discovery/overview',route=>route.fulfill({json:{practice:{available:true,count:6,subjects:[{subject:'Linear algebra',practice:1}]},library:{available:false,indexed:null,subjects:[]}}}));
  await page.route('**/api/sessions/recent',route=>route.fulfill({json:{status:'temporarily-unavailable',href:'/practice?session=00000000-0000-0000-0000-000000000001'}}));
  await page.goto(base);await settled(page);
- assert.equal(await page.locator('.exercise-card .primary').count(),6);
+ assert.ok(await page.locator('.exercise-card .primary').count()>=6);
  await page.getByRole('link',{name:'Open saved session'}).waitFor();assert.match(await page.locator('#continue-description').textContent(),/saved work has been kept/);
  await page.getByRole('button',{name:'Indexed library',exact:true}).click();
  await page.getByRole('heading',{name:'This collection is temporarily unavailable'}).waitFor();

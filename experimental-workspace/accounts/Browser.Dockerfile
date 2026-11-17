@@ -5,5 +5,6 @@ COPY experimental-workspace/accounts/ ./accounts/
 COPY experimental-workspace/workspace/ ./application/
 COPY experimental-workspace/discovery/ ./discovery/
 COPY experimental-workspace/compatibility/ ./compatibility/
+COPY experimental-workspace/calculus-100/student-oracles.mjs experimental-workspace/calculus-100/local-pilot.json ./calculus/
 WORKDIR /service/accounts
 CMD ["node","browser-acceptance.mjs"]

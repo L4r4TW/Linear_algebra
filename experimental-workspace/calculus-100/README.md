@@ -1,6 +1,48 @@
 # Differential-calculus expansion: current handoff
 
-## Current review findings and activation block
+## Current: sixteen playable entries and student reports
+
+The user explicitly authorized tested local practice without moderator/human approval. **Ten calculus exercises are now active alongside the original six**, at [the calculus collection](http://localhost:3105/?subject=Calculus+-+single+variable). The initial scope is local-pilot.json. Cards and the practice shell identify tested pilots; the shell offers Report a problem. Read [LOCAL_PILOT_POLICY.md](LOCAL_PILOT_POLICY.md) and [the report guide](../accounts/PROBLEM_REPORTS.md).
+
+We did not retry the rejected four-review mutation or manufacture independent approvals. Migration 25 provides a separate revocable pilot authority requiring exact current passing source/job/attempt evidence, both seeds/viewports, all nine checks, fresh health and clean certified renderer provenance. The existing standard independently reviewed publication gate is unchanged. The backend requires explicit LOCAL_TESTED_PILOT=true and a loopback application origin, and validates the live renderer attestation. Standard database publication counts still exclude this pilot; the backend live list drives student discovery/start.
+
+The known two source defects and nineteen topic-scope exclusions stay disabled. The remaining sixty-nine sources still need source analysis; the historical hundred-candidate transport proof is not an approval for those sources. The user no longer requires moderator approval for local tested practice. Continue toward one hundred with concrete source checks, replacement candidates, technical verification and student-report handling.
+
+### Reproduce local activation
+
+Keep all existing Docker volumes. These commands apply only to the existing local development databases/context:
+
+```powershell
+Get-Content -Raw supabase/migrations/202611160025_local_tested_pilot.sql | docker exec -i linear-algebra-opl-catalog-database-1 psql -U postgres -d opl_catalog -v ON_ERROR_STOP=1
+docker build -f experimental-workspace/calculus-100/Controller.Dockerfile -t linear-algebra-calculus-pilot-tools .
+docker run --rm --network linear-algebra-opl-catalog_catalog -e PGHOST=linear-algebra-opl-catalog-database-1 -e PGUSER=postgres -e PGDATABASE=opl_catalog linear-algebra-calculus-pilot-tools calculus/activate-local-pilot.mjs --activate
+docker compose -f experimental-workspace/accounts/compose.yaml build migrate
+docker compose -f experimental-workspace/accounts/compose.yaml run --rm --no-deps migrate
+docker compose -f experimental-workspace/accounts/compose.yaml -f experimental-workspace/calculus-100/player.override.yaml --profile practice up --build -d --no-deps --wait backend
+docker compose -f experimental-workspace/discovery/compose.yaml up --build -d --wait home
+```
+
+Activation checks the independent forty-case proof and the actual current technical results before inserting ten explicit user-authorized grants. It creates no independent review records, normal assessment approvals or normal publication release. It can be repeated without duplicate grants. Original 3100/root apps and all stored sessions remain intact.
+
+
+Verified checkpoint: [twenty live pilot cases](pilot-acceptance/20261117T193002484Z-96e7764c/manifest.json) plus 32 pilot/provider/gateway contracts; [eight account acceptance groups](../accounts/acceptance/20261117T193001486Z-46dcaaa5/manifest.json); eighteen discovery contracts, one actual read-only catalog test and twelve home/chooser browser checks; and 134 fresh/legacy-upgrade migration assertions all passed. The original six-entry catalog smoke check also passed. Earlier interrupted/stale-assumption runs were not accepted as proof.
+
+### Current acceptance
+
+Run these with stable services; do not rebuild/restart home/backend while live browser checks are in progress:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File experimental-workspace/calculus-100/verify-local-pilot.ps1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File experimental-workspace/accounts/verify-accounts.ps1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File experimental-workspace/discovery/verify.ps1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File experimental-workspace/migration-tests/verify-migrations.ps1
+```
+
+The live pilot suite covers twenty actual random-seed desktop/mobile sessions from home selection through independent student-question solutions, PG grading, draft refresh and checked restoration. It also verifies report failure/retry, ownership and preserved unfinished answers. Its immutable source-bound manifests are under pilot-acceptance/. Account acceptance retains the separate eight-suite private Auth/RLS/PG proof. Discovery has eighteen contracts, the real read-only catalog check and twelve home/chooser browser cases. Fresh/legacy-upgrade migration acceptance passes 134 assertions including migration 25. The original runtime fingerprint remains unchanged; no PG frame/control code was changed.
+
+Earlier prototype-only, review-hold and activation-blocked descriptions below are historical.
+
+## Historical pre-policy review findings and activation block
 
 The user has now requested review and activation, revoking the earlier hold. **No new exercises have been activated.** Automatic approval review rejected recording four accepted reviews per exercise under an automated actor, on the grounds that this would substitute for the required genuine independent sign-offs. Do not retry that mutation indirectly or lower the gate. Obtain explicit approval of the proposed agent-assisted local-pilot review policy, or genuine operator sign-offs.
 
