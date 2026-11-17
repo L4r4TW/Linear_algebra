@@ -4,7 +4,7 @@ import {createHome} from './server.mjs';
 const id='00000000-0000-0000-0000-000000000001';
 const metadata={practice:async()=>[{id:'dot-product-01',title:'Dot products',chapter:'Vectors'}],overview:async()=>({practice:{count:6}}),search:async()=>({entries:[]}),topics:async()=>({topics:[]})};
 async function app(t,fetcher){
- const server=createHome({origin:'http://localhost:3105',catalog:metadata,fetcher});
+ const server=createHome({origin:'http://localhost:3105',practiceUrl:'http://practice.test:3000',catalog:metadata,fetcher});
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));t.after(()=>new Promise(resolve=>{server.closeAllConnections();server.close(resolve);}));
  return 'http://127.0.0.1:'+server.address().port;
 }
@@ -18,7 +18,7 @@ test('discovery is GET-only and rejects cross-origin API access and arbitrary pr
 });
 test('fixed practice proxy forwards ownership, only trusted origin, and preserved cookie paths',async t=>{
  const base=await app(t,async(url,options)=>{
-  assert.equal(url,'http://linear-algebra-experimental-workspace-1:3000/api/sessions');
+  assert.equal(url,'http://practice.test:3000/api/sessions');
   assert.equal(options.headers.Origin,'http://localhost:3100');assert.equal(options.headers.Cookie,'la_experiment_owner=private');
   assert.deepEqual(JSON.parse(options.body),{exerciseId:'dot-product-01'});
   return Response.json({session:{id,exerciseId:'dot-product-01'}},{status:201,headers:{'Set-Cookie':'la_experiment_owner=private; Path=/api/sessions; HttpOnly; SameSite=Strict'}});
@@ -63,4 +63,26 @@ test('chooser plans are origin-checked, server-selected and reject renderer sett
  response=await fetch(base+'/api/discovery/practice-plans',{method:'POST',headers,body:JSON.stringify({subject:'Math',chapter:'Vectors'})});assert.equal(response.status,201);
  const {plan}=await response.json();assert.equal(plan.total,1);assert.equal(plan.items[0].exerciseId,'dot-product-01');assert.equal(plan.items[0].sessionId,null);
  response=await fetch(base+'/api/discovery/chooser?subject=Math&chapter=Missing');assert.equal(response.status,409);
+});
+
+test('account and draft routes remain fixed and preserve ownership and submission identity',async t=>{
+ const calls=[];
+ const base=await app(t,async(url,options)=>{calls.push({url,options});return Response.json({account:{authenticated:false}});});
+ const headers={Origin:'http://localhost:3105','Content-Type':'application/json',Cookie:'mathpractice_account=opaque; la_experiment_owner=guest','Idempotency-Key':id};
+ assert.equal((await fetch(base+'/api/sessions/account/login',{method:'POST',headers,body:JSON.stringify({email:'test@example.test',password:'synthetic-password'})})).status,200);
+ assert.ok(calls[0].url.endsWith('/api/sessions/account/login'));assert.equal(calls[0].options.headers.Cookie,headers.Cookie);
+ assert.equal(calls[0].options.headers['Idempotency-Key'],id);assert.equal(calls[0].options.headers.Origin,'http://localhost:3100');
+ assert.equal((await fetch(base+'/api/sessions/'+id+'/draft',{method:'POST',headers,body:JSON.stringify({entries:[['AnSwEr0001','x'.repeat(10000)]],revision:0,baseAttemptId:null})})).status,200);
+ assert.equal((await fetch(base+'/api/sessions/account/arbitrary')).status,404);
+ assert.equal((await fetch(base+'/api/sessions/account/login',{method:'POST',headers:{...headers,Origin:'https://foreign.invalid'},body:'{}'})).status,403);
+});
+test('account Continue uses server-owned continuation and never another anonymous pointer',async t=>{
+ let authenticated=true;
+ const base=await app(t,async url=>{
+  if(url.endsWith('/account/continuation'))return authenticated?Response.json({sessionId:id,setId:null,item:null}):Response.json({error:{}},{status:401});
+  assert.ok(url.endsWith('/api/sessions/'+id));return Response.json({session:{id,exerciseId:'dot-product-01'}});
+ });
+ const headers={Cookie:'mathpractice_account=opaque'};
+ let value=await(await fetch(base+'/api/sessions/recent',{headers})).json();assert.equal(value.status,'available');assert.ok(value.href.includes(id));
+ authenticated=false;value=await(await fetch(base+'/api/sessions/recent',{headers})).json();assert.equal(value.status,'authentication-required');assert.equal(value.href,'/account');
 });

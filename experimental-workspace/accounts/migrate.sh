@@ -14,4 +14,5 @@ ALTER ROLE practice_backend PASSWORD '$account_backend_password';
 EOSQL
 unset account_backend_password
 psql -X -q -v ON_ERROR_STOP=1 -f /migrations/001_runtime.sql
+psql -X -q -v ON_ERROR_STOP=1 -f /migrations/002_immutable_attempts.sql
 unset PGPASSWORD

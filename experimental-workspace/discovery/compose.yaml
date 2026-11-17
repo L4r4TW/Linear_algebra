@@ -8,7 +8,7 @@ services:
     init: true
     environment:
       HOME_ORIGIN: http://localhost:3105
-      PRACTICE_URL: http://linear-algebra-experimental-workspace-1:3000
+      PRACTICE_URL: http://linear-algebra-accounts-backend-1:3000
       PRACTICE_ORIGIN: http://localhost:3100
       PGHOST: linear-algebra-opl-catalog-database-1
       PGDATABASE: opl_catalog

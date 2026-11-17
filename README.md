@@ -1,5 +1,10 @@
 # Linear Algebra Exercises
 
+## Account integration checkpoint
+
+Read [the current account/platform handoff](experimental-workspace/accounts/CURRENT_STATE.md) before using older counts below. Milestone 12 now connects the home to local accounts, private saved work and progress. Original 3100 remains an independent anonymous prototype. Follow the account guide for setup and immutable acceptance; preserve all existing data and the unchanged compatibility/provenance gates.
+
+
 Open source practice platform, originally focused on linear algebra and now expanding toward all subjects in the WeBWorK Open Problem Library (OPL).
 
 The original application uses Next.js App Router and Supabase. Its course content is organized as:

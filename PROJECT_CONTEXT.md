@@ -1,5 +1,10 @@
 # Project context and session handoff
 
+## Account integration checkpoint
+
+Read [the current account/platform handoff](experimental-workspace/accounts/CURRENT_STATE.md) before using older counts below. Milestone 12 now connects the home to local accounts, private saved work and progress. Original 3100 remains an independent anonymous prototype. Follow the account guide for setup and immutable acceptance; preserve all existing data and the unchanged compatibility/provenance gates.
+
+
 Updated 2026-11-17. Start with this handoff, [AGENTS.md](AGENTS.md), and the detailed [experimental workspace README](experimental-workspace/README.md). Product direction is in [Project_goals.md](Project_goals.md).
 
 
@@ -694,3 +699,5 @@ HTTP account routes live under /api/sessions/account/ so the existing path-scope
 The live home remains on the previously verified 20fb runtime and six exercises. Generic session hooks change the candidate fingerprint: the checked-in old evidence intentionally fails closed until the full compatibility runner and publisher generate matching evidence. A direct pre-publication server test run therefore failed catalog-dependent cases; no gate was waived. Public account UI, read-only legacy migration acceptance, account continuation and live PG/browser acceptance remain to be connected. Milestone 13 remains pending.
 
 Task 12 follow-up: private backend profile is healthy (no host port). Generic-hook full gate completed 44/44 with 16 limitations; publisher retained same six, original suite 181 pass/1 skip/0 fail. Live 3105 remains old stable 20fb pending account UI acceptance. Synthetic read-only legacy JSON/SQLite import and device-local logout passed. Uncommitted account page files are candidate UI. Next: remote draft/bookmark UI, gateway account routing, real PG/account/browser acceptance, task 13.
+
+Milestone 12 completion: account/progress pages and private account-backed practice are live at 3105. Seven source-bound account acceptance suites pass; generic PG gate 44/44 retains 16 limitations, original server 181 pass/1 skip, original browser 62/62, discovery 15 server +1 actual DB +12 browser +six-entry catalog all pass. Same six playable, 77,134 indexed and no imported activation. Both old/new PG reports preserved under compatibility/history. Browser teardown/environment fixture and visible-readiness race were fixed without weakening draft assertions. setup.ps1 adds only the local runtime migrations; no existing volumes removed. See accounts/CURRENT_STATE.md. Task 13 admission files are currently independent, unconnected groundwork; release/manual checks remain pending.

@@ -35,10 +35,10 @@ try{
  assert.equal(grades,3);
  const uncertain=await run(a,()=>store2.read(id));assert.equal(uncertain._pendingSubmission,'uncertain');assert.equal(uncertain.submissionCount,2);
  await assert.rejects(()=>run(a,()=>service2.submitAnswers(id,answers,{ownerToken:a.ownerToken,operationKey:randomUUID()})),e=>e.code==='SUBMISSION_UNCERTAIN');assert.equal(grades,3);
- report.unconfirmedExternalCheckBlocksRetry=true;
+ assert.equal((await run(a,()=>service2.resumeSession(id,{ownerToken:a.ownerToken}))).session.checkState,'uncertain');report.unconfirmedExternalCheckBlocksRetry=true;report.uncertainStateSurvivesRestore=true;
  const next=await run(a,()=>service.startSession({exerciseId:'synthetic',ownerToken:a.ownerToken})),nextId=next.session.id,nextKey=randomUUID();
  await assert.rejects(()=>run(a,()=>service.submitAnswers(nextId,[['AnSwEr9999','bad']],{ownerToken:a.ownerToken,operationKey:nextKey})),e=>e.code==='INVALID_ANSWERS');
  const retry=await run(a,()=>service.submitAnswers(nextId,answers,{ownerToken:a.ownerToken,operationKey:randomUUID()}));assert.equal(retry.submission.number,1);report.preRendererFailureCanRetry=true;
- const counts=await db.transaction(a,async client=>(await client.query('SELECT (SELECT count(*) FROM practice_runtime.attempts WHERE session_id=$1)::int attempts,(SELECT generation FROM practice_runtime.sessions WHERE id=$1)::int generation',[id])).rows[0]);assert.deepEqual(counts,{attempts:2,generation:2});report.appendOnlyActualAttemptHistory=true;
+ const counts=await db.transaction(a,async client=>(await client.query('SELECT (SELECT count(*) FROM practice_runtime.attempts WHERE session_id=$1)::int attempts,(SELECT generation FROM practice_runtime.sessions WHERE id=$1)::int generation',[id])).rows[0]);assert.deepEqual(counts,{attempts:2,generation:2});await assert.rejects(()=>db.transaction(a,client=>client.query('UPDATE practice_runtime.attempts SET ordinal=ordinal WHERE session_id=$1',[id])));report.appendOnlyActualAttemptHistory=true;report.databaseRejectsAttemptMutation=true;
  report.complete=true;await mkdir('/artifacts',{recursive:true});await writeFile('/artifacts/record-store-observations.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({complete:true,privateDataDisclosed:false}));
 }finally{await Promise.all([db.close(),other.close()]);}

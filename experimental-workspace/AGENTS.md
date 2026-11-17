@@ -1,5 +1,10 @@
 # Experimental workspace conventions
 
+## Account integration checkpoint
+
+Read [the current account/platform handoff](accounts/CURRENT_STATE.md) before using older counts below. Milestone 12 now connects the home to local accounts, private saved work and progress. Original 3100 remains an independent anonymous prototype. Follow the account guide for setup and immutable acceptance; preserve all existing data and the unchanged compatibility/provenance gates.
+
+
 Session handoff and next steps: [PROJECT_CONTEXT.md](../PROJECT_CONTEXT.md). Repository-wide guidance: [AGENTS.md](../AGENTS.md). Current acceptance evidence: [CONTINUITY_VERIFICATION.md](CONTINUITY_VERIFICATION.md); [PRACTICE_VERIFICATION.md](PRACTICE_VERIFICATION.md) retains the historical complete-flow baseline. The local catalog enables six individually verified exercises; read [CATALOG_COMPATIBILITY.md](CATALOG_COMPATIBILITY.md) and [compatibility/CATALOG_STATUS.md](compatibility/CATALOG_STATUS.md). The eleven-fixture operator study is documented in [INTEGRATION_CONTRACT.md](INTEGRATION_CONTRACT.md), [COMPATIBILITY_MATRIX.md](COMPATIBILITY_MATRIX.md), and [compatibility/README.md](compatibility/README.md); it does not approve broader student enablement.
 
 - Keep experiments inside this directory, separate from the existing Next.js application.

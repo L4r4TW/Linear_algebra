@@ -67,3 +67,8 @@ The local six-exercise player remains usable. The 77,134-source imported catalog
 - Private BFF Auth adapter real-probed; HTTP/UI and actual student-data persistence still pending. Preserve the deployed 10–11 platform while preparing account adapters.
 
 - 12.2 candidate: real database record/set/draft/bookmark/progress/claim and HTTP adapters verified through accounts/verify-adapters.ps1. Live home unchanged; fresh generic-hook full gate is running in linear-algebra-accounts-hook-gate. Public account UI, legacy migration acceptance and release work remain.
+
+- 12 connected: local account/progress UI, remote draft conflicts, bookmarks, cross-device continuation and explicit guest transfer are live through 3105. Current runtime 9375b5c5, full PG 44/44 with 16 limitations, same six active. Seven fresh account suites pass; final original-browser/discovery rechecks and feature push are in progress. Task 13 follows; production/manual review remains pending.
+
+
+- 12 complete locally: original 62 browser checks and discovery 15 server/1 DB/12 browser plus catalog check all pass. Account and progress routes are live. Seven account suites and 44/44 PG proof retain stated limits. Next: 13 deployment admission, backup/recovery, isolation/CI/release gates; no production release or new imported activation.

@@ -1,6 +1,6 @@
 {
     "version":  1,
-    "observedAt":  "2026-11-17T00:20:16.636Z",
+    "observedAt":  "2026-11-17T08:42:21.611Z",
     "scope":  "Task 9 real catalog chooser and temporary owned prototype session; no activation or account assertions",
     "desktopColumns":  true,
     "dependentSelection":  true,
@@ -24,7 +24,7 @@
                          },
                          {
                              "file":  "server.mjs",
-                             "sha256":  "5debee4ed6652022d7e4e865a8766d4e1a78d9c584f8a7fc143ea5c40a805f35"
+                             "sha256":  "d3c4afdfe5d37cbfdaf0a15c20fd3438236e4c10bc20adb0ab62b3161bd35bbc"
                          },
                          {
                              "file":  "practice-metadata.json",
@@ -36,15 +36,27 @@
                          },
                          {
                              "file":  "public/index.html",
-                             "sha256":  "87b73021e923bcb89025153b9d920822f8e30b7c8bb8dc7a2a37252ebef37526"
+                             "sha256":  "15c41c3b1b1794856ba14060a64114e8c3eb95d980b6da89493e4ff93b5c4560"
                          },
                          {
                              "file":  "public/home.js",
-                             "sha256":  "b545b3d51035af47482da920d70ba995cbed134f6461975c6803a0ef23e79648"
+                             "sha256":  "26970513c1662d2ee60825cc68725fd4bda2c7a21996fe207169b8739d16e6e3"
                          },
                          {
                              "file":  "public/home.css",
                              "sha256":  "0e05588b2a64798f466b81b86f8ec89ef477853da77191f8b5e3fc3cea639b3f"
+                         },
+                         {
+                             "file":  "public/account.html",
+                             "sha256":  "0ea4e3af724b8083f30194b5d08430447f06265dc88389017f6784110dafa627"
+                         },
+                         {
+                             "file":  "public/account.js",
+                             "sha256":  "68b5adec8a00f9d652fcb0053f21f55ce7d6f0437b0e81f7b87850d0183b878c"
+                         },
+                         {
+                             "file":  "public/account.css",
+                             "sha256":  "b776c93c7953066028a906452204c509378d0c985aa48d30a4a196473e165f19"
                          },
                          {
                              "file":  "public/chooser.html",
@@ -72,7 +84,7 @@
                          },
                          {
                              "file":  "server.test.mjs",
-                             "sha256":  "8c43ec0128b4271525e65a9c5fe57784cffd5d16167351e1d28867bd06c10a02"
+                             "sha256":  "c2f9e6f6ac18309545347dc5f9cd961eab22b2561f1941fbccdea00360a1aabc"
                          },
                          {
                              "file":  "catalog.integration.mjs",
@@ -80,7 +92,7 @@
                          },
                          {
                              "file":  "browser.test.mjs",
-                             "sha256":  "b3580e31cdad911b388a7fdae53d6af94d71f2ef4a692054a1c94ea68cda3ada"
+                             "sha256":  "23d32d3c5dbca3b9c1a14f6c9ace875e92fa6a88f4126f8942cb268b9465635c"
                          },
                          {
                              "file":  "chooser.browser.mjs",
@@ -96,7 +108,7 @@
                          },
                          {
                              "file":  "compose.yaml",
-                             "sha256":  "f436633886b6334d3ee4eb5c78b5def72f587f69cac31223dc3d96573fcde147"
+                             "sha256":  "cb7c3fd27d644e7b6e67be4a0284e1f4b8c7a854b6e01863ed0d0b4a3cb0f1a1"
                          },
                          {
                              "file":  "setup.ps1",
@@ -104,11 +116,11 @@
                          },
                          {
                              "file":  "verify.ps1",
-                             "sha256":  "ef312f022309ccec9d62f470cb9ecd5fea1c9a60ddbbc9d241eb477ea6131597"
+                             "sha256":  "c6b9f6a0b7c429802f5cbed450e09921f2fcb104fee670c533836b43402af7da"
                          }
                      ],
-    "serverTests":  13,
+    "serverTests":  15,
     "realDatabaseTests":  1,
     "browserTests":  5,
-    "imageId":  "sha256:2341c49c8ec59d6759cbebea70bfcabaa9e6d19530a90263ac131a1715d258b0"
+    "imageId":  "sha256:16178c934a84c2c3f957357b4aec765307c2f8411132189b8721e56978120fef"
 }

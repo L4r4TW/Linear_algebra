@@ -20,7 +20,7 @@ async function pageFor(t, viewport = { width: 1360, height: 1000 }) {
     const response = await route.fetch({ url: route.request().url().replace(baseUrl, backendUrl) });
     await route.fulfill({ response });
   });
-  t.after(() => context.close());
+  t.after(async () => { await context.unrouteAll({behavior:'ignoreErrors'}); await context.close(); });
   const page=await context.newPage();
   page.on('dialog',dialog=>dialog.type()==='beforeunload'||dialog.message().startsWith('Leave this exercise?')?dialog.accept():dialog.dismiss());
   return page;

@@ -1,5 +1,10 @@
 # Repository development guide
 
+## Account integration checkpoint
+
+Read [the current account/platform handoff](experimental-workspace/accounts/CURRENT_STATE.md) before using older counts below. Milestone 12 now connects the home to local accounts, private saved work and progress. Original 3100 remains an independent anonymous prototype. Follow the account guide for setup and immutable acceptance; preserve all existing data and the unchanged compatibility/provenance gates.
+
+
 ## Read before continuing
 
 Read [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md) for the current handoff and [Project_goals.md](Project_goals.md) for product direction. Inspect `git status --short` before editing: newer implementation work may still be uncommitted. Preserve existing work.

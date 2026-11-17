@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-17T08:25:46.964Z",
+  "scope": "Browser draft-coordinator race/recovery checks with controlled account endpoints; separate from live PG acceptance",
+  "emptyTabRestoresAccountDraft": true,
+  "conflictRequiresExplicitChoice": true,
+  "concurrentSaveDoesNotOverwrite": true,
+  "failureRetainsTabWork": true,
+  "disposalCancelsPendingSave": true,
+  "complete": true
+}

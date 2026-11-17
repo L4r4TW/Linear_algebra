@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-17T08:25:26.842Z",
+  "scope": "Actual nonsuperuser forced-RLS database, real Supabase users and controlled renderer double; not a live PG or public account UI acceptance",
+  "exactOrderedRepeatedAnswers": true,
+  "atomicTokensAndAttempt": true,
+  "acceptedReplayDoesNotRegrade": true,
+  "crossConnectionRestoration": true,
+  "crossAccountDenied": true,
+  "databaseSerializesWriters": true,
+  "unconfirmedExternalCheckBlocksRetry": true,
+  "uncertainStateSurvivesRestore": true,
+  "preRendererFailureCanRetry": true,
+  "appendOnlyActualAttemptHistory": true,
+  "databaseRejectsAttemptMutation": true,
+  "complete": true
+}

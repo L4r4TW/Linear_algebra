@@ -1,9 +1,9 @@
 {
   "fixtureCatalogFingerprint": "5cf24cefe4a9a23931cd5a0491610d795538d6db02df0ddf81b374351025e400",
-  "runtimeFingerprint": "64937b5079d36a921afa38fa8d98963c1a24b5e86d74d718b493945d296d1dc8",
+  "runtimeFingerprint": "9375b5c5f421e6e2aca2587794dbdec5a336fb6d4c90655e216239c74c2d5c48",
   "profileVersion": "local-practice-v1",
   "schemaVersion": 1,
-  "observedAt": "2026-11-17T01:01:28.472Z",
+  "observedAt": "2026-11-17T01:24:10.866Z",
   "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
   "rendererRevision": "1134ffbbf5e656148e579f424f70bcd9f1d15936",
   "scope": "Operator-only temporary HTTP application using injected server catalogs and the real renderer client, owned sessions, picker, sandbox, answer bridge, grading, feedback and persistence. Production defaults are unchanged. Positive fixtures use expected values only in operator memory.",

@@ -25,7 +25,7 @@ export function createStudentData({db,vault,store,sessions,exerciseLookup}){
    await client.query("INSERT INTO practice_runtime.drafts(session_id,principal_id,branch,revision,base_attempt_id,encrypted_draft) VALUES($1,$2,'account',$3,$4,$5) ON CONFLICT(session_id,branch) DO UPDATE SET revision=EXCLUDED.revision,base_attempt_id=EXCLUDED.base_attempt_id,encrypted_draft=EXCLUDED.encrypted_draft,updated_at=now()",[id,row.principal_id,revision,input.baseAttemptId,vault.seal(input.entries,'draft:'+id+':account')]);return {revision,baseAttemptId:input.baseAttemptId};
   });
  }
- async function bookmarks(){context();return db.current(async client=>(await client.query('SELECT exercise_id,min(created_at) created_at FROM practice_runtime.bookmarks GROUP BY exercise_id ORDER BY min(created_at) DESC LIMIT 1000')).rows.map(row=>({exerciseId:row.exercise_id,available:Boolean(exerciseLookup(row.exercise_id))})));}
+ async function bookmarks(){context();return db.current(async client=>(await client.query('SELECT exercise_id,min(created_at) created_at FROM practice_runtime.bookmarks GROUP BY exercise_id ORDER BY min(created_at) DESC LIMIT 1000')).rows.map(row=>({exerciseId:row.exercise_id,title:exerciseLookup(row.exercise_id)?.title??'Unavailable exercise',available:Boolean(exerciseLookup(row.exercise_id))})));}
  async function bookmark(exerciseId,saved){
   const ctx=context();if(typeof exerciseId!=='string'||typeof saved!=='boolean'||saved&&!exerciseLookup(exerciseId))throw new AccountError('INVALID_BOOKMARK',400);
   await db.current(async client=>{
@@ -52,11 +52,11 @@ export function createStudentData({db,vault,store,sessions,exerciseLookup}){
    const total=(await client.query('SELECT count(*)::int attempts,count(DISTINCT session_id)::int sessions FROM practice_runtime.attempts')).rows[0];
    const rows=(await client.query('SELECT id,session_id,ordinal,encrypted_attempt,submitted_at FROM practice_runtime.attempts ORDER BY submitted_at DESC,id DESC LIMIT 50')).rows;
    const recent=rows.map(row=>{
-    const attempt=vault.open(row.encrypted_attempt,'attempt:'+row.id+':'+row.session_id),entry=exerciseLookup(attempt.exerciseId),suppressed=attempt.feedbackVisibility==='suppressed'||!entry;
+    const attempt=vault.open(row.encrypted_attempt,'attempt:'+row.id+':'+row.session_id),entry=exerciseLookup(attempt.exerciseId),suppressed=attempt.provenance!=='server-pg'||attempt.feedbackVisibility==='suppressed'||!entry;
     return {id:row.id,sessionId:row.session_id,exerciseId:attempt.exerciseId,title:entry?.title??'Unavailable exercise',number:Number(row.ordinal),submittedAt:new Date(row.submitted_at).toISOString(),score:suppressed?null:attempt.score,
      outcome:suppressed?'feedback-unavailable':attempt.score===1?'correct':attempt.score===0?'not-correct':'partial',provenance:attempt.provenance==='server-pg'?'renderer-verified':'legacy-latest-only',available:Boolean(entry)};
    });
-   const sets=(await client.query('SELECT s.id,s.title,count(i.position)::int total,count(i.position) FILTER(WHERE i.skipped)::int skipped,count(i.position) FILTER(WHERE i.session_id IS NOT NULL)::int opened FROM practice_runtime.sets s JOIN practice_runtime.set_items i ON i.set_id=s.id GROUP BY s.id ORDER BY s.created_at DESC LIMIT 20')).rows;
+   const sets=(await client.query('SELECT s.id,s.title,s.position,s.revision,count(i.position)::int total,count(i.position) FILTER(WHERE i.skipped)::int skipped,count(i.position) FILTER(WHERE i.session_id IS NOT NULL)::int opened FROM practice_runtime.sets s JOIN practice_runtime.set_items i ON i.set_id=s.id GROUP BY s.id ORDER BY s.created_at DESC LIMIT 20')).rows;
    return {counts:total,recent,sets,denominator:'Each set retains its original membership; position, skips and repeated attempts are not mastery.',history:'Imported legacy sessions retain only their latest known check; missing attempts are not reconstructed.'};
   });
  }

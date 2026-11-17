@@ -1,5 +1,10 @@
 # Experimental Docker workspace
 
+## Account integration checkpoint
+
+Read [the current account/platform handoff](accounts/CURRENT_STATE.md) before using older counts below. Milestone 12 now connects the home to local accounts, private saved work and progress. Original 3100 remains an independent anonymous prototype. Follow the account guide for setup and immutable acceptance; preserve all existing data and the unchanged compatibility/provenance gates.
+
+
 Session handoff and next steps: [PROJECT_CONTEXT.md](../PROJECT_CONTEXT.md). Repository-wide guidance: [AGENTS.md](../AGENTS.md).
 
 ## New home and discovery

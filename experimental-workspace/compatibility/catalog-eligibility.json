@@ -1,7 +1,7 @@
 {
   "profileVersion": "local-practice-v1",
-  "observedAt": "2026-11-17T01:01:28.472Z",
-  "runtimeFingerprint": "64937b5079d36a921afa38fa8d98963c1a24b5e86d74d718b493945d296d1dc8",
+  "observedAt": "2026-11-17T01:24:10.866Z",
+  "runtimeFingerprint": "9375b5c5f421e6e2aca2587794dbdec5a336fb6d4c90655e216239c74c2d5c48",
   "exercises": [
     {
       "id": "dot-product-01",

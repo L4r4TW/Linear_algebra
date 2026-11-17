@@ -8,7 +8,7 @@ const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
 const secureHeaders={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'};
 const homePolicy="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'";
 function send(res,status,body){res.writeHead(status,{...secureHeaders,'Content-Type':'application/json; charset=utf-8'});res.end(JSON.stringify(body));}
-const files=new Map([['/',['index.html','text/html']],['/home.js',['home.js','text/javascript']],['/home.css',['home.css','text/css']],['/browse',['chooser.html','text/html']],['/chooser.js',['chooser.js','text/javascript']],['/chooser.css',['chooser.css','text/css']],['/practice-plan-store.js',['practice-plan-store.js','text/javascript']]]);
+const files=new Map([['/',['index.html','text/html']],['/home.js',['home.js','text/javascript']],['/home.css',['home.css','text/css']],['/browse',['chooser.html','text/html']],['/chooser.js',['chooser.js','text/javascript']],['/chooser.css',['chooser.css','text/css']],['/practice-plan-store.js',['practice-plan-store.js','text/javascript']],['/account',['account.html','text/html']],['/progress',['account.html','text/html']],['/account.js',['account.js','text/javascript']],['/account.css',['account.css','text/css']]]);
 export function createHome({origin=process.env.HOME_ORIGIN??'http://localhost:3105',practiceUrl=process.env.PRACTICE_URL??'http://linear-algebra-experimental-workspace-1:3000',
  practiceOrigin=process.env.PRACTICE_ORIGIN??'http://localhost:3100',catalog=createCatalog({practiceOrigin:practiceUrl}),fetcher=fetch}={}){
  async function upstream(req,path,{method=req.method,body}={}){
@@ -21,9 +21,20 @@ export function createHome({origin=process.env.HOME_ORIGIN??'http://localhost:31
  }
  async function recent(req,res){
   const values=(req.headers.cookie??'').split(';').map(v=>v.trim()).filter(v=>v.startsWith('discovery_recent=')).map(v=>v.slice(17));
+  let accountSet=null;
+  if((req.headers.cookie??'').split(';').some(part=>part.trim().startsWith('mathpractice_account='))){
+   try{
+    const response=await upstream(req,'/api/sessions/account/continuation');
+    if(response.status===401)return send(res,200,{status:'authentication-required',href:'/account'});
+    if(!response.ok)throw Error();
+    const continuation=await response.json();values.splice(0);
+    if(continuation&&uuid.test(continuation.sessionId)){values.push(continuation.sessionId);accountSet=continuation.setId;}
+   }catch{return send(res,200,{status:'temporarily-unavailable'});}
+  }
   if(values.length!==1||!uuid.test(values[0]))return send(res,200,{status:'none'});
-  const id=values[0];let href='/practice?session='+encodeURIComponent(id);
+  let id=values[0];let href='/practice?session='+encodeURIComponent(id);
   const setValues=(req.headers.cookie??'').split(';').map(v=>v.trim()).filter(v=>v.startsWith('discovery_recent_set=')).map(v=>v.slice(21));
+  if(accountSet&&uuid.test(accountSet))setValues.splice(0,setValues.length,accountSet);
   if(setValues.length===1&&uuid.test(setValues[0])){
    try{
     const response=await upstream(req,'/api/sessions/sets/'+setValues[0]);
@@ -83,7 +94,8 @@ export function createHome({origin=process.env.HOME_ORIGIN??'http://localhost:31
     throw new DiscoveryError('NOT_FOUND',404);
    }
    if(req.method==='GET'&&url.pathname==='/api/sessions/recent'&&!url.search)return await recent(req,res);
-   const session=/^\/api\/sessions(?:\/[a-f0-9-]{36}(?:\/answers)?)?$/.test(url.pathname)||/^\/api\/sessions\/sets(?:\/[a-f0-9-]{36}(?:\/(?:open|position))?)?$/.test(url.pathname);
+   const account=/^\/api\/sessions\/account\/(?:status|signup|login|logout|claim|bookmarks|progress|continuation)$/.test(url.pathname),draft=/^\/api\/sessions\/[a-f0-9-]{36}\/draft$/.test(url.pathname);
+   const session=account||draft||/^\/api\/sessions(?:\/[a-f0-9-]{36}(?:\/answers)?)?$/.test(url.pathname)||/^\/api\/sessions\/sets(?:\/[a-f0-9-]{36}(?:\/(?:open|position))?)?$/.test(url.pathname);
    const asset=/^\/assets\/[a-zA-Z0-9_./-]+$/.test(url.pathname)&&!url.pathname.includes('..');
    const player=url.pathname==='/practice';
    const exercise=url.pathname==='/api/exercises';
@@ -95,7 +107,7 @@ export function createHome({origin=process.env.HOME_ORIGIN??'http://localhost:31
    if(req.method==='POST'){
     if(req.headers.origin!==origin)throw new DiscoveryError('ORIGIN_REJECTED',403);
     const chunks=[];let length=0;
-    try{for await(const chunk of req.iterator({destroyOnReturn:false})){length+=chunk.length;if(length>8192)throw new DiscoveryError('BODY_TOO_LARGE',413);chunks.push(chunk);}}
+    try{for await(const chunk of req.iterator({destroyOnReturn:false})){length+=chunk.length;if(length>(draft?100000:8192))throw new DiscoveryError('BODY_TOO_LARGE',413);chunks.push(chunk);}}
     finally{req.resume();}
     body=Buffer.concat(chunks);
    }

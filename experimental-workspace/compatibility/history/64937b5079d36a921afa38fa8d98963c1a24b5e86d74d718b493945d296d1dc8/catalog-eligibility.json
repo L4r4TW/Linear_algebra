@@ -1,0 +1,132 @@
+{
+  "profileVersion": "local-practice-v1",
+  "observedAt": "2026-11-17T01:01:28.472Z",
+  "runtimeFingerprint": "64937b5079d36a921afa38fa8d98963c1a24b5e86d74d718b493945d296d1dc8",
+  "exercises": [
+    {
+      "id": "dot-product-01",
+      "status": "verified",
+      "enabled": true,
+      "issues": []
+    },
+    {
+      "id": "compat-calculus-numeric-01",
+      "status": "verified",
+      "enabled": true,
+      "issues": []
+    },
+    {
+      "id": "compat-calculus-formula-01",
+      "status": "verified",
+      "enabled": true,
+      "issues": []
+    },
+    {
+      "id": "compat-matrix-grid-01",
+      "status": "limited",
+      "enabled": false,
+      "issues": [
+        {
+          "code": "NARROW_FRAME_SCROLL",
+          "message": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved.",
+          "capability": "mobile-layout",
+          "status": "limited"
+        },
+        {
+          "code": "ACTIVATION_DISABLED",
+          "message": "The exercise is indexed but not enabled."
+        }
+      ]
+    },
+    {
+      "id": "compat-statistics-radio-01",
+      "status": "verified",
+      "enabled": true,
+      "issues": []
+    },
+    {
+      "id": "compat-algebra-checkbox-01",
+      "status": "verified",
+      "enabled": true,
+      "issues": []
+    },
+    {
+      "id": "compat-economics-popup-01",
+      "status": "verified",
+      "enabled": false,
+      "issues": [
+        {
+          "code": "ACTIVATION_DISABLED",
+          "message": "The exercise is indexed but not enabled."
+        }
+      ]
+    },
+    {
+      "id": "compat-calculus-scaffold-01",
+      "status": "unsupported",
+      "enabled": false,
+      "issues": [
+        {
+          "code": "UNSUPPORTED_CAPABILITY",
+          "message": "Automatic stage advancement/relocking is not implemented.",
+          "capability": "scaffold"
+        },
+        {
+          "code": "STAGED_CONTENT_REQUIRES_REFRESH",
+          "message": "Newly unlocked or relocked PG stages are applied only after an explicit refresh; the live frame is preserved after grading.",
+          "capability": "automatic-stage-reconciliation",
+          "status": "unsupported"
+        },
+        {
+          "code": "ACTIVATION_DISABLED",
+          "message": "The exercise is indexed but not enabled."
+        }
+      ]
+    },
+    {
+      "id": "compat-algebra-image-01",
+      "status": "limited",
+      "enabled": false,
+      "issues": [
+        {
+          "code": "NARROW_FRAME_SCROLL",
+          "message": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved.",
+          "capability": "mobile-layout",
+          "status": "limited"
+        },
+        {
+          "code": "ACTIVATION_DISABLED",
+          "message": "The exercise is indexed but not enabled."
+        }
+      ]
+    },
+    {
+      "id": "compat-calculus-graph-01",
+      "status": "verified",
+      "enabled": true,
+      "issues": []
+    },
+    {
+      "id": "compat-algebra-graphtool-01",
+      "status": "unsupported",
+      "enabled": false,
+      "issues": [
+        {
+          "code": "UNSUPPORTED_CAPABILITY",
+          "message": "The selected touch-mobile positive graph cases fail full-score verification.",
+          "capability": "graph-tool"
+        },
+        {
+          "code": "NARROW_FRAME_SCROLL",
+          "message": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved.",
+          "capability": "mobile-layout",
+          "status": "limited"
+        },
+        {
+          "code": "ACTIVATION_DISABLED",
+          "message": "The exercise is indexed but not enabled."
+        }
+      ]
+    }
+  ]
+}

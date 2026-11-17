@@ -120,7 +120,7 @@ async function load(focus=false){
 async function loadContinue(){
  try{
   const result=await api('/api/sessions/recent');
-  const messages={none:'Choose an exercise to begin. Your most recent session will appear here.',available:[result.topic,result.title].filter(Boolean).join(' / '),unavailable:'Your last session is unavailable. Open it to review recovery options.', 'temporarily-unavailable':'Your last session could not be checked right now. Your saved work has been kept.'};
+  const messages={'authentication-required':'Sign in again to continue your account practice.',none:'Choose an exercise to begin. Your most recent session will appear here.',available:[result.topic,result.title].filter(Boolean).join(' / '),unavailable:'Your last session is unavailable. Open it to review recovery options.', 'temporarily-unavailable':'Your last session could not be checked right now. Your saved work has been kept.'};
   $('continue-description').textContent=messages[result.status]??messages.none;
   if(result.href){$('continue-link').href=result.href;$('continue-link').hidden=false;$('continue-label').textContent=result.status==='available'?'Resume exercise':'Open saved session';}
  }catch{$('continue-description').textContent='Your saved session could not be checked. Reload this page to retry.';}

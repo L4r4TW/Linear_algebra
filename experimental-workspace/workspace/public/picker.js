@@ -1,3 +1,4 @@
+import {accountIdentity,accountRequest,createAccountDraftSync} from '/assets/account-sync.js';
 import {readBookmarks,toggleBookmark} from '/assets/bookmarks.js';
 import {unfinishedAnswers,nextActionText} from '/assets/practice-actions.js';
 import {renderFeedbackContent,feedbackMathReady} from '/assets/feedback-content.js';
@@ -18,6 +19,8 @@ const savedLabel = document.querySelector('#session-status');
 const notice = document.querySelector('#exercise-notice');
 const draftStatus = document.querySelector('#draft-status');
 const draftStore=createDraftStore();
+const accountDraftStatus=document.querySelector('#account-draft-status');
+let accountProfile=null,accountBookmarks=null,bookmarkSaving=false;
 const controls = document.querySelector('#practice-controls');
 const checkButton = document.querySelector('#check-answer');
 const checkLabel = document.querySelector('#check-answer-label');
@@ -61,20 +64,23 @@ const breadcrumb=document.querySelector('#practice-breadcrumb');
 function updatePracticeShell(){
  const exercise=exercises.find(entry=>entry.id===selectedId),active=Boolean(frameState?.session?.exerciseId===selectedId);
  panel.classList.toggle('has-session',active);
- bookmarkButton.hidden=!active;bookmarkButton.disabled=busy||Boolean(submission)||navigationPending||!frameState?.ready;
+ bookmarkButton.hidden=!active;bookmarkButton.disabled=busy||Boolean(submission)||navigationPending||bookmarkSaving||!frameState?.ready;
  breadcrumb.replaceChildren();
  const home=element('a','Mathematics');home.href='/';breadcrumb.append(home);
  if(exercise?.topic){breadcrumb.append(element('span',' / '),element('span',exercise.topic));}
  if(!active){bookmarkButton.setAttribute('aria-pressed','false');return;}
- try{bookmarkButton.setAttribute('aria-pressed',String(readBookmarks(localStorage).includes(selectedId)));}
+ try{bookmarkButton.setAttribute('aria-pressed',String(accountProfile?.authenticated?(accountBookmarks??[]).includes(selectedId):readBookmarks(localStorage).includes(selectedId)));}
  catch{bookmarkButton.setAttribute('aria-pressed','false');}
 }
-bookmarkButton.addEventListener('click',()=>{
+bookmarkButton.addEventListener('click',async()=>{
  if(bookmarkButton.disabled||!frameState?.ready)return;
  try{
-  const saved=toggleBookmark(selectedId,localStorage);bookmarkButton.setAttribute('aria-pressed',String(saved));
-  bookmarkStatus.textContent=saved?'Bookmarked on this browser. Account syncing is not connected yet.':'Bookmark removed from this browser.';
- }catch{bookmarkStatus.textContent='Bookmarks could not be saved in this browser. Your exercise and answers have been kept.';}
+  const id=selectedId;let saved;
+  if(accountProfile?.authenticated){bookmarkSaving=true;updateControls();saved=!(accountBookmarks??[]).includes(id);await accountRequest('bookmarks',{exerciseId:id,saved});accountBookmarks=(accountBookmarks??[]).filter(value=>value!==id);if(saved)accountBookmarks.push(id);}
+  else saved=toggleBookmark(id,localStorage);
+  if(selectedId!==id)return;bookmarkButton.setAttribute('aria-pressed',String(saved));
+  bookmarkStatus.textContent=saved?(accountProfile?.authenticated?'Bookmarked to your account.':'Bookmarked on this browser.'):'Bookmark removed from this browser.';
+ }catch{bookmarkStatus.textContent='Bookmark could not be saved. Your exercise and answers have been kept.';}finally{bookmarkSaving=false;updateControls();}
 });
 
 
@@ -361,6 +367,7 @@ function draftNotice(message) {
   if(draftStatus.textContent!==message)draftStatus.textContent=message;
 }
 function persistDraft(state,answers) {
+  state.accountDraft?.save(answers,state.lastSubmission);
   if(frameState!==state||!state.draftReady||!answers)return;
   state.lastDraftSnapshot=structuredClone(answers);
   try{
@@ -402,6 +409,11 @@ async function initializeDraft(state) {
   if(frameState!==state)return;
   state.draftReady=true;
   state.lastDraftSnapshot=restored??initial;
+  state.accountDraft=createAccountDraftSync({sessionId:state.sessionId,container:accountDraftStatus,isCurrent:()=>frameState===state,current:()=>state.answerBridge.getSnapshot()??state.lastDraftSnapshot,restore:async entries=>{
+   const snapshot=await state.answerBridge.restoreDraft({fieldNames:initial.fieldNames,entries});
+   if(frameState===state){state.lastDraftSnapshot=snapshot;persistDraft(state,snapshot);displayResult(state.lastSubmission,snapshot.entries);}return snapshot;
+  }});
+  void state.accountDraft.initialize(state.lastSubmission,state.lastDraftSnapshot);
   if(restored){
     try{draftStore.write(state.session,state.lastSubmission,restored,state.pendingDraft??null);}
     catch{draftNotice('Draft restored, but further changes cannot be saved in this tab. Keep this page open.');}
@@ -420,6 +432,8 @@ function clearFrame() {
   submissionError.hidden = true;
   clearTimeout(frameTimer);
   if (frameState) {
+    frameState.accountDraft?.dispose();
+    accountDraftStatus.replaceChildren();
     frameState.recoveryController?.abort();
     frameState.answerBridge.destroy();
     panel.dispatchEvent(new CustomEvent('exercise-answers-change', { bubbles: true, detail: null }));
@@ -637,6 +651,8 @@ async function submitCurrentAnswers() {
     if (submission !== attempt || frameState !== current) return;
     current.pendingDraft=snapshot.answers;
     persistDraft(current,snapshot.answers);
+    await current.accountDraft?.flush();
+    if(submission!==attempt||frameState!==current)return;
     const data = await request('/api/sessions/' + encodeURIComponent(current.sessionId) + '/answers', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json','Idempotency-Key':attempt.operationKey },
@@ -736,5 +752,6 @@ window.addEventListener('message', (event) => {
   if (event.data.type === 'math-error') finishFrame(true);
 });
 
+try{accountProfile=await accountIdentity();if(accountProfile.authenticated)accountBookmarks=(await accountRequest('bookmarks')).bookmarks.map(value=>value.exerciseId);}catch{bookmarkStatus.textContent='Account saved work could not be loaded. Reload to retry.';}
 await loadCatalog();
 followUrl();

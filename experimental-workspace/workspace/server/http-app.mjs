@@ -182,6 +182,7 @@ function failure(error) {
 
 const publicFiles = new Map([
   ['/', ['index.html', 'text/html; charset=utf-8']],
+  ['/assets/account-sync.js', ['account-sync.js', 'text/javascript; charset=utf-8']],
   ['/assets/bookmarks.js', ['bookmarks.js', 'text/javascript; charset=utf-8']],
   ['/assets/picker.js', ['picker.js', 'text/javascript; charset=utf-8']],
   ['/assets/exercise.css', ['exercise.css', 'text/css; charset=utf-8']],
@@ -235,6 +236,7 @@ export function createApp({
         if (url.search) throw new ApiError(400, 'INVALID_INPUT', 'Query parameters are not supported.');
       }
 
+      if(url.pathname==='/api/sessions/account/status'&&request.method==='GET'){json(response,200,{account:{authenticated:false},supported:false});return;}
       if (url.pathname === '/api/exercises') {
         if (request.method !== 'GET') {
           response.setHeader('Allow', 'GET');
