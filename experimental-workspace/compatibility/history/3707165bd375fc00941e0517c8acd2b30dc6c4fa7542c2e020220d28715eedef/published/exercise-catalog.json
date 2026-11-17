@@ -1,0 +1,481 @@
+{
+  "version": 2,
+  "exercises": [
+    {
+      "id": "dot-product-01",
+      "title": "Dot products and vector operations",
+      "subject": "Linear algebra",
+      "topicId": "dot-product",
+      "topic": "Dot product",
+      "description": "Practice dot products and scalar multiplication using three-dimensional vectors.",
+      "renderer": {
+        "sourceFilePath": "Library/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg"
+      },
+      "source": {
+        "path": "OpenProblemLibrary/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg",
+        "sha256": "015a00eec3ad5bfd10568083fb0640a79c9f1ad1b59df740cca0d9832575460a",
+        "url": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/FortLewis/Calc3/13-3-Dot-product/HGM4-13-3-04-The-dot-product.pg",
+        "attribution": "As credited in source; textbook credits are not treated as problem authors.",
+        "repository": "https://github.com/openwebwork/webwork-open-problem-library",
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "authors": [
+          "Paul Pearson"
+        ],
+        "institution": "Fort Lewis College",
+        "licenseEvidence": "OPL_LICENSE supplies a conditional default; individual and parent-directory notices still require review before redistribution or commercial use."
+      },
+      "verification": {
+        "seed": 1234,
+        "seeds": [
+          1234,
+          4321
+        ]
+      },
+      "compatibility": {
+        "status": "verified",
+        "requiredCapabilities": [
+          "mathjax",
+          "native-text",
+          "vector-syntax",
+          "multiple-answers"
+        ]
+      },
+      "activation": {
+        "state": "enabled",
+        "batchId": "native-practice-2026-11-15"
+      }
+    },
+    {
+      "id": "compat-calculus-numeric-01",
+      "title": "Evaluate a derivative at a point",
+      "subject": "Calculus - single variable",
+      "topicId": "derivatives",
+      "topic": "Derivatives",
+      "description": "Evaluate a derivative at a given point.",
+      "renderer": {
+        "sourceFilePath": "Library/Rochester/setDerivatives2Formulas/c2s5p1.pg"
+      },
+      "source": {
+        "path": "OpenProblemLibrary/Rochester/setDerivatives2Formulas/c2s5p1.pg",
+        "sha256": "224502a030bf255614ea83ef58708627546abde879ba595a580277b67476c677",
+        "url": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/Rochester/setDerivatives2Formulas/c2s5p1.pg",
+        "attribution": "No problem author declared in inspected source header; retained institution/path attribution.",
+        "repository": "https://github.com/openwebwork/webwork-open-problem-library",
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "authors": [],
+        "institution": "Rochester",
+        "licenseEvidence": "OPL_LICENSE supplies a conditional default; individual and parent-directory notices still require review before redistribution or commercial use."
+      },
+      "verification": {
+        "seed": 1234,
+        "seeds": [
+          1234,
+          4321
+        ]
+      },
+      "compatibility": {
+        "status": "verified",
+        "requiredCapabilities": [
+          "mathjax",
+          "native-text",
+          "numeric-evaluator"
+        ]
+      },
+      "activation": {
+        "state": "enabled",
+        "batchId": "native-practice-2026-11-15"
+      }
+    },
+    {
+      "id": "compat-calculus-formula-01",
+      "title": "Differentiate a quotient",
+      "subject": "Calculus - single variable",
+      "topicId": "derivatives",
+      "topic": "Derivatives",
+      "description": "Practice differentiating a quotient.",
+      "renderer": {
+        "sourceFilePath": "Library/Union/setDervProductQuotientRule/ur_dr_2_1.pg"
+      },
+      "source": {
+        "path": "OpenProblemLibrary/Union/setDervProductQuotientRule/ur_dr_2_1.pg",
+        "sha256": "4bbd5597c07ee42bd3824ad4a3b2727edb4cc162fe45ce336350e7255af52dfc",
+        "url": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/Union/setDervProductQuotientRule/ur_dr_2_1.pg",
+        "attribution": "No problem author declared in inspected source header; retained institution/path attribution.",
+        "repository": "https://github.com/openwebwork/webwork-open-problem-library",
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "authors": [],
+        "institution": "UCSB",
+        "licenseEvidence": "OPL_LICENSE supplies a conditional default; individual and parent-directory notices still require review before redistribution or commercial use."
+      },
+      "verification": {
+        "seed": 1234,
+        "seeds": [
+          1234,
+          4321
+        ]
+      },
+      "compatibility": {
+        "status": "verified",
+        "requiredCapabilities": [
+          "mathjax",
+          "native-text",
+          "formula-evaluator"
+        ]
+      },
+      "activation": {
+        "state": "enabled",
+        "batchId": "native-practice-2026-11-15"
+      }
+    },
+    {
+      "id": "compat-matrix-grid-01",
+      "title": "Add scaled matrices",
+      "subject": "Linear algebra",
+      "topicId": "linear-algebra",
+      "topic": "Linear algebra",
+      "description": "Add scaled matrices",
+      "renderer": {
+        "sourceFilePath": "Library/ASU-topics/set119MatrixAlgebra/p12.pg"
+      },
+      "source": {
+        "path": "OpenProblemLibrary/ASU-topics/set119MatrixAlgebra/p12.pg",
+        "sha256": "67cfe0c86359294d3753818e72ddc39d5a4a4efae1b6e9e4057588f79dd71cf2",
+        "url": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/ASU-topics/set119MatrixAlgebra/p12.pg",
+        "attribution": "No problem author declared in inspected source header; retained institution/path attribution.",
+        "repository": "https://github.com/openwebwork/webwork-open-problem-library",
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "authors": [],
+        "institution": "ASU",
+        "licenseEvidence": "OPL_LICENSE supplies a conditional default; individual and parent-directory notices still require review before redistribution or commercial use."
+      },
+      "verification": {
+        "seed": 1234,
+        "seeds": [
+          1234,
+          4321
+        ]
+      },
+      "compatibility": {
+        "status": "limited",
+        "requiredCapabilities": [
+          "mathjax",
+          "matrix-grid",
+          "native-text",
+          "multiple-answers",
+          "layout-tables"
+        ]
+      },
+      "activation": {
+        "state": "disabled",
+        "batchId": null
+      }
+    },
+    {
+      "id": "compat-statistics-radio-01",
+      "title": "Classify hypothesis-test decisions",
+      "subject": "Statistics",
+      "topicId": "statistics",
+      "topic": "Statistics",
+      "description": "Choose answers to statistics questions.",
+      "renderer": {
+        "sourceFilePath": "Library/ASU-topics/setStat/di12.pg"
+      },
+      "source": {
+        "path": "OpenProblemLibrary/ASU-topics/setStat/di12.pg",
+        "sha256": "ca848d241dda15054e1f675727344a5d8737b82512f02def4814d73f9ae62c91",
+        "url": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/ASU-topics/setStat/di12.pg",
+        "attribution": "As credited in source; textbook credits are not treated as problem authors.",
+        "repository": "https://github.com/openwebwork/webwork-open-problem-library",
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "authors": [
+          "Rachael Norton (adaptation credit in source)"
+        ],
+        "institution": "ASU",
+        "licenseEvidence": "OPL_LICENSE supplies a conditional default; individual and parent-directory notices still require review before redistribution or commercial use."
+      },
+      "verification": {
+        "seed": 1234,
+        "seeds": [
+          1234,
+          4321
+        ]
+      },
+      "compatibility": {
+        "status": "verified",
+        "requiredCapabilities": [
+          "radio-groups",
+          "multiple-answers",
+          "native-labels"
+        ]
+      },
+      "activation": {
+        "state": "enabled",
+        "batchId": "native-practice-2026-11-15"
+      }
+    },
+    {
+      "id": "compat-algebra-checkbox-01",
+      "title": "Compare population growth and explanations",
+      "subject": "Algebra",
+      "topicId": "algebra",
+      "topic": "Algebra",
+      "description": "Combine calculations with multiple selections.",
+      "renderer": {
+        "sourceFilePath": "Library/LoyolaChicago/Precalc/Chap3Review/Q46.pg"
+      },
+      "source": {
+        "path": "OpenProblemLibrary/LoyolaChicago/Precalc/Chap3Review/Q46.pg",
+        "sha256": "784601fbfd5562a91b86882750ad38810464d2e1278cbbb731c0dfbf4046fbe8",
+        "url": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/LoyolaChicago/Precalc/Chap3Review/Q46.pg",
+        "attribution": "As credited in source; textbook credits are not treated as problem authors.",
+        "repository": "https://github.com/openwebwork/webwork-open-problem-library",
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "authors": [
+          "Adam Spiegler"
+        ],
+        "institution": "Loyola University Chicago",
+        "licenseEvidence": "OPL_LICENSE supplies a conditional default; individual and parent-directory notices still require review before redistribution or commercial use."
+      },
+      "verification": {
+        "seed": 1234,
+        "seeds": [
+          1234,
+          4321
+        ]
+      },
+      "compatibility": {
+        "status": "verified",
+        "requiredCapabilities": [
+          "mathjax",
+          "native-text",
+          "checkbox-groups",
+          "repeated-names",
+          "multiple-answers"
+        ]
+      },
+      "activation": {
+        "state": "enabled",
+        "batchId": "native-practice-2026-11-15"
+      }
+    },
+    {
+      "id": "compat-economics-popup-01",
+      "title": "Demand elasticity and revenue",
+      "subject": "Calculus - single variable",
+      "topicId": "calculus-single-variable",
+      "topic": "Calculus - single variable",
+      "description": "Demand elasticity and revenue",
+      "renderer": {
+        "sourceFilePath": "Library/ASU-topics/setElasticity/p10.pg"
+      },
+      "source": {
+        "path": "OpenProblemLibrary/ASU-topics/setElasticity/p10.pg",
+        "sha256": "7109d85872e2ed9c6cf93ed20dfcfbdbc9312f318218535d13c5c4b1f5dd003d",
+        "url": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/ASU-topics/setElasticity/p10.pg",
+        "attribution": "No problem author declared in inspected source header; retained institution/path attribution.",
+        "repository": "https://github.com/openwebwork/webwork-open-problem-library",
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "authors": [],
+        "institution": "ASU",
+        "licenseEvidence": "OPL_LICENSE supplies a conditional default; individual and parent-directory notices still require review before redistribution or commercial use."
+      },
+      "verification": {
+        "seed": 1234,
+        "seeds": [
+          1234,
+          4321
+        ]
+      },
+      "compatibility": {
+        "status": "verified",
+        "requiredCapabilities": [
+          "mathjax",
+          "native-text",
+          "native-select",
+          "multiple-answers"
+        ]
+      },
+      "activation": {
+        "state": "disabled",
+        "batchId": null
+      }
+    },
+    {
+      "id": "compat-calculus-scaffold-01",
+      "title": "Integral and derivative in stages",
+      "subject": "Calculus - single variable",
+      "topicId": "calculus-single-variable",
+      "topic": "Calculus - single variable",
+      "description": "Integral and derivative in stages",
+      "renderer": {
+        "sourceFilePath": "Library/Hope/Calc1/05-04-FTC/FTC_01.pg"
+      },
+      "source": {
+        "path": "OpenProblemLibrary/Hope/Calc1/05-04-FTC/FTC_01.pg",
+        "sha256": "399cf94d53291f2994d287ff6cda4ea39bd7045bb3a77a1f8a305d01305a7b8e",
+        "url": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/Hope/Calc1/05-04-FTC/FTC_01.pg",
+        "attribution": "As credited in source; textbook credits are not treated as problem authors.",
+        "repository": "https://github.com/openwebwork/webwork-open-problem-library",
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "authors": [
+          "Paul Pearson"
+        ],
+        "institution": "Hope College",
+        "licenseEvidence": "OPL_LICENSE supplies a conditional default; individual and parent-directory notices still require review before redistribution or commercial use."
+      },
+      "verification": {
+        "seed": 1234,
+        "seeds": [
+          1234,
+          4321
+        ]
+      },
+      "compatibility": {
+        "status": "unsupported",
+        "requiredCapabilities": [
+          "mathjax",
+          "native-text",
+          "checkbox-groups",
+          "scaffold",
+          "bootstrap-collapse",
+          "header-scripts",
+          "header-styles"
+        ]
+      },
+      "activation": {
+        "state": "disabled",
+        "batchId": null
+      }
+    },
+    {
+      "id": "compat-algebra-image-01",
+      "title": "Combine functions from a supplied graph",
+      "subject": "Algebra",
+      "topicId": "algebra",
+      "topic": "Algebra",
+      "description": "Combine functions from a supplied graph",
+      "renderer": {
+        "sourceFilePath": "Library/ASU-topics/setAlgebraFunctions/beth2algfun.pg"
+      },
+      "source": {
+        "path": "OpenProblemLibrary/ASU-topics/setAlgebraFunctions/beth2algfun.pg",
+        "sha256": "a6470e62683d0331d541a5df7f8fe8cc4eaa31fba7886fef1a8e5ea24f1984ae",
+        "url": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/ASU-topics/setAlgebraFunctions/beth2algfun.pg",
+        "attribution": "No problem author declared in inspected source header; retained institution/path attribution.",
+        "repository": "https://github.com/openwebwork/webwork-open-problem-library",
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "authors": [],
+        "institution": "ASU",
+        "licenseEvidence": "OPL_LICENSE supplies a conditional default; individual and parent-directory notices still require review before redistribution or commercial use."
+      },
+      "verification": {
+        "seed": 1234,
+        "seeds": [
+          1234,
+          4321
+        ]
+      },
+      "compatibility": {
+        "status": "limited",
+        "requiredCapabilities": [
+          "mathjax",
+          "native-text",
+          "static-library-image",
+          "multiple-answers"
+        ]
+      },
+      "activation": {
+        "state": "disabled",
+        "batchId": null
+      }
+    },
+    {
+      "id": "compat-calculus-graph-01",
+      "title": "Read a function and derivative graph",
+      "subject": "Calculus - single variable",
+      "topicId": "derivative-graphs",
+      "topic": "Derivatives from graphs",
+      "description": "Read a graph and estimate a derivative.",
+      "renderer": {
+        "sourceFilePath": "Library/270/setDerivatives1/ur_dr_1_7.pg"
+      },
+      "source": {
+        "path": "OpenProblemLibrary/270/setDerivatives1/ur_dr_1_7.pg",
+        "sha256": "b91bc436c92c6d68434c522d5bac40087af07bf75019b058710173ea8d0ca053",
+        "url": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/270/setDerivatives1/ur_dr_1_7.pg",
+        "attribution": "No problem author declared in inspected source header; retained institution/path attribution.",
+        "repository": "https://github.com/openwebwork/webwork-open-problem-library",
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "authors": [],
+        "institution": null,
+        "licenseEvidence": "OPL_LICENSE supplies a conditional default; individual and parent-directory notices still require review before redistribution or commercial use."
+      },
+      "verification": {
+        "seed": 1234,
+        "seeds": [
+          1234,
+          4321
+        ]
+      },
+      "compatibility": {
+        "status": "verified",
+        "requiredCapabilities": [
+          "mathjax",
+          "native-text",
+          "generated-graph-image"
+        ]
+      },
+      "activation": {
+        "state": "enabled",
+        "batchId": "native-practice-2026-11-15"
+      }
+    },
+    {
+      "id": "compat-algebra-graphtool-01",
+      "title": "Plot points on a linear equation",
+      "subject": "Algebra",
+      "topicId": "algebra",
+      "topic": "Algebra",
+      "description": "Plot points on a linear equation",
+      "renderer": {
+        "sourceFilePath": "Library/PCC/BasicAlgebra/EquationsAndInequalitiesInTwoVariables/PlotMXPlusB.pg"
+      },
+      "source": {
+        "path": "OpenProblemLibrary/PCC/BasicAlgebra/EquationsAndInequalitiesInTwoVariables/PlotMXPlusB.pg",
+        "sha256": "6c971d903bb786efb7869ed8f517a10f69646d9883e72c4d0e8e011cea4d8a4f",
+        "url": "https://github.com/openwebwork/webwork-open-problem-library/blob/0d42812d6d02960c846fc0f89215e0d4f1e761b1/OpenProblemLibrary/PCC/BasicAlgebra/EquationsAndInequalitiesInTwoVariables/PlotMXPlusB.pg",
+        "attribution": "As credited in source; textbook credits are not treated as problem authors.",
+        "repository": "https://github.com/openwebwork/webwork-open-problem-library",
+        "revision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
+        "authors": [
+          "Alex Jordan"
+        ],
+        "institution": null,
+        "licenseEvidence": "OPL_LICENSE supplies a conditional default; individual and parent-directory notices still require review before redistribution or commercial use."
+      },
+      "verification": {
+        "seed": 1234,
+        "seeds": [
+          1234,
+          4321
+        ]
+      },
+      "compatibility": {
+        "status": "unsupported",
+        "requiredCapabilities": [
+          "mathjax",
+          "graph-tool",
+          "jsxgraph",
+          "header-scripts",
+          "header-styles",
+          "script-initialization",
+          "hidden-answer-state"
+        ]
+      },
+      "activation": {
+        "state": "disabled",
+        "batchId": null
+      }
+    }
+  ]
+}

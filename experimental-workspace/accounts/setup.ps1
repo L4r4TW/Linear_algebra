@@ -2,6 +2,8 @@ $ErrorActionPreference='Stop'
 $compose=Join-Path $PSScriptRoot 'compose.yaml'
 function Check([string]$message){if($LASTEXITCODE -ne 0){throw $message}}
 docker compose -f $compose --profile practice config --quiet;Check 'Invalid local account Compose'
+docker compose -f $compose build secrets-init;Check 'Secret initializer build failed'
+docker compose -f $compose run --rm --no-deps secrets-init;Check 'Scoped secret initialization failed'
 docker compose -f $compose up --build -d --wait --wait-timeout 180 database auth;Check 'Local Auth/database startup failed'
 docker compose -f $compose build migrate;Check 'Local account migration image build failed'
 docker compose -f $compose run --rm --no-deps migrate;Check 'Additive local account migrations failed'

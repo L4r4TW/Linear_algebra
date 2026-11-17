@@ -1,0 +1,15 @@
+{
+  "complete": true,
+  "target": "accounts",
+  "countsMatch": true,
+  "authenticatedBackup": true,
+  "transactionalRestore": true,
+  "applicationKeyRecovered": true,
+  "forcedRlsTables": 10,
+  "immutableAttempts": true,
+  "tamperedBackupRejected": true,
+  "liveHostRejected": true,
+  "nonemptyTargetRejected": true,
+  "backupId": "495b68de-a6fa-4bb3-a347-3a6327962f12",
+  "observedAt": "2026-11-17T09:03:55.208Z"
+}

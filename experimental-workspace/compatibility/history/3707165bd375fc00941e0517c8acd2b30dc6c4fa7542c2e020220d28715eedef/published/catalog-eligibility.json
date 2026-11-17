@@ -1,0 +1,164 @@
+{
+  "profileVersion": "local-practice-v1",
+  "observedAt": "2026-11-17T09:02:12.810Z",
+  "runtimeFingerprint": "3707165bd375fc00941e0517c8acd2b30dc6c4fa7542c2e020220d28715eedef",
+  "exercises": [
+    {
+      "id": "dot-product-01",
+      "status": "verified",
+      "enabled": true,
+      "issues": []
+    },
+    {
+      "id": "compat-calculus-numeric-01",
+      "status": "verified",
+      "enabled": true,
+      "issues": []
+    },
+    {
+      "id": "compat-calculus-formula-01",
+      "status": "verified",
+      "enabled": true,
+      "issues": []
+    },
+    {
+      "id": "compat-matrix-grid-01",
+      "status": "limited",
+      "enabled": false,
+      "issues": [
+        {
+          "code": "NARROW_FRAME_SCROLL",
+          "message": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved.",
+          "capability": "mobile-layout",
+          "status": "limited"
+        },
+        {
+          "code": "ACTIVATION_DISABLED",
+          "message": "The exercise is indexed but not enabled."
+        }
+      ]
+    },
+    {
+      "id": "compat-statistics-radio-01",
+      "status": "verified",
+      "enabled": true,
+      "issues": []
+    },
+    {
+      "id": "compat-algebra-checkbox-01",
+      "status": "verified",
+      "enabled": true,
+      "issues": []
+    },
+    {
+      "id": "compat-economics-popup-01",
+      "status": "verified",
+      "enabled": false,
+      "issues": [
+        {
+          "code": "ACTIVATION_DISABLED",
+          "message": "The exercise is indexed but not enabled."
+        }
+      ]
+    },
+    {
+      "id": "compat-calculus-scaffold-01",
+      "status": "unsupported",
+      "enabled": false,
+      "issues": [
+        {
+          "code": "UNSUPPORTED_CAPABILITY",
+          "message": "Automatic stage advancement/relocking is not implemented.",
+          "capability": "scaffold"
+        },
+        {
+          "code": "STAGED_CONTENT_REQUIRES_REFRESH",
+          "message": "Newly unlocked or relocked PG stages are applied only after an explicit refresh; the live frame is preserved after grading.",
+          "capability": "automatic-stage-reconciliation",
+          "status": "unsupported"
+        },
+        {
+          "code": "ACTIVATION_DISABLED",
+          "message": "The exercise is indexed but not enabled."
+        }
+      ]
+    },
+    {
+      "id": "compat-algebra-image-01",
+      "status": "limited",
+      "enabled": false,
+      "issues": [
+        {
+          "code": "NARROW_FRAME_SCROLL",
+          "message": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved.",
+          "capability": "mobile-layout",
+          "status": "limited"
+        },
+        {
+          "code": "ACTIVATION_DISABLED",
+          "message": "The exercise is indexed but not enabled."
+        }
+      ]
+    },
+    {
+      "id": "compat-calculus-graph-01",
+      "status": "verified",
+      "enabled": true,
+      "issues": []
+    },
+    {
+      "id": "compat-algebra-graphtool-01",
+      "status": "unsupported",
+      "enabled": false,
+      "issues": [
+        {
+          "code": "UNSUPPORTED_CAPABILITY",
+          "message": "The selected touch-mobile positive graph cases fail full-score verification.",
+          "capability": "graph-tool"
+        },
+        {
+          "code": "NARROW_FRAME_SCROLL",
+          "message": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved.",
+          "capability": "mobile-layout",
+          "status": "limited"
+        },
+        {
+          "code": "REGRESSION_FAILURE",
+          "message": "A required regression check failed.",
+          "verificationSeed": 1234,
+          "viewport": "mobile",
+          "failedChecks": [
+            "grading"
+          ],
+          "failure": "QA_MOBILE_GRAPH_TOUCH_GRADING"
+        },
+        {
+          "code": "MOBILE_GRAPH_TOUCH_GRADING",
+          "message": "For fixture seeds 1234 and 4321, touch-mobile point placement does not reach the expected full score. Coordinate/interaction behavior needs investigation; these cases remain failed and are not waived by this policy.",
+          "capability": "touch-graph-positive-answer",
+          "status": "unsupported"
+        },
+        {
+          "code": "REGRESSION_FAILURE",
+          "message": "A required regression check failed.",
+          "verificationSeed": 4321,
+          "viewport": "mobile",
+          "failedChecks": [
+            "interaction",
+            "answerCapture",
+            "grading",
+            "retries",
+            "refresh",
+            "ownership",
+            "keyboard"
+          ],
+          "failure": "QA_GRAPH_TOOL_TAB_REACHABILITY"
+        },
+        {
+          "code": "ACTIVATION_DISABLED",
+          "message": "The exercise is indexed but not enabled."
+        }
+      ]
+    }
+  ]
+}

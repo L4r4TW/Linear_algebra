@@ -1,0 +1,8 @@
+# Run behind a configured TLS reverse proxy; keep the origin accurate.
+services:
+  home:
+    environment:
+      HOME_ORIGIN: ${MATHPRACTICE_RELEASE_ORIGIN:?Set an HTTPS public origin}
+      PRACTICE_ORIGIN: ${MATHPRACTICE_RELEASE_ORIGIN:?Set an HTTPS public origin}
+      PRACTICE_URL: http://linear-algebra-accounts-backend-1:3000
+    restart: unless-stopped

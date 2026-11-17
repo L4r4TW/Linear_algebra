@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-17T09:41:58.031Z",
+  "complete": true,
+  "scope": "Two separate Node backend containers, actual Supabase and PG; synthetic private test account",
+  "sharedOpaqueAccountSession": true,
+  "concurrentChecksExactlyOnce": true,
+  "secondProcessRestoresSameSession": true,
+  "replayDoesNotGrade": true,
+  "oneImmutableAttempt": true
+}

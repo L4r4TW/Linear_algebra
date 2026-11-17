@@ -7,3 +7,7 @@ experimental-workspace/opl-importer/* text eol=lf
 experimental-workspace/verification-pipeline/** text eol=lf
 experimental-workspace/discovery/** text eol=lf
 experimental-workspace/accounts/** text eol=lf
+experimental-workspace/workspace/** text eol=lf
+experimental-workspace/deployment/** text eol=lf
+.github/workflows/*.yml text eol=lf
+experimental-workspace/compatibility/catalog.json text eol=lf

@@ -6,3 +6,15 @@ for(const name of ['database-password','practice-db-password','auth-db-password'
  chownSync(path,999,1000);chmodSync(path,0o640);
 }
 console.log('Account secret volume initialized; values remain private.');
+
+const scopes={database:['database-password','auth-db-password'],auth:['auth-db-password','jwt-secret'],backend:['practice-db-password','encryption-key'],migration:['database-password','practice-db-password']};
+for(const [scope,names] of Object.entries(scopes)){
+ const directory='/secrets/'+scope;mkdirSync(directory,{recursive:true,mode:0o750});chownSync(directory,999,1000);chmodSync(directory,0o750);
+ for(const name of names){
+  const original=readFileSync('/secrets/'+name,'utf8'),path=directory+'/'+name;
+  if(existsSync(path)){if(readFileSync(path,'utf8')!==original)throw Error('Scoped secret differs; inspection required');}
+  else writeFileSync(path,original,{flag:'wx',mode:0o640});
+  chownSync(path,999,1000);chmodSync(path,0o640);
+ }
+}
+console.log('Scoped account secrets initialized without rotating existing keys.');

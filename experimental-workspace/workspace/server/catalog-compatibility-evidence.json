@@ -1,9 +1,9 @@
 {
   "version": 1,
   "complete": true,
-  "observedAt": "2026-11-17T01:24:10.866Z",
+  "observedAt": "2026-11-17T09:02:12.810Z",
   "profileVersion": "local-practice-v1",
-  "runtimeFingerprint": "9375b5c5f421e6e2aca2587794dbdec5a336fb6d4c90655e216239c74c2d5c48",
+  "runtimeFingerprint": "3707165bd375fc00941e0517c8acd2b30dc6c4fa7542c2e020220d28715eedef",
   "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
   "rendererRevision": "1134ffbbf5e656148e579f424f70bcd9f1d15936",
   "entries": {
@@ -1141,27 +1141,41 @@
           "verificationSeed": 1234,
           "viewport": "mobile",
           "sourceVerified": true,
-          "passed": true,
+          "passed": false,
           "phase": "complete",
           "checks": {
             "rendering": true,
             "interaction": true,
             "answerCapture": true,
-            "grading": true,
+            "grading": false,
             "retries": true,
             "refresh": true,
             "ownership": true,
             "keyboard": true,
             "mobile": true
           },
-          "correctScore": 1,
+          "correctScore": 0.444444444444444,
           "clearedScore": 0,
           "limitations": [
+            {
+              "code": "MOBILE_GRAPH_TOUCH_GRADING",
+              "capability": "touch-graph-positive-answer",
+              "status": "unsupported",
+              "reason": "For fixture seeds 1234 and 4321, touch-mobile point placement does not reach the expected full score. Coordinate/interaction behavior needs investigation; these cases remain failed and are not waived by this policy."
+            },
             {
               "code": "NARROW_FRAME_SCROLL",
               "capability": "mobile-layout",
               "status": "limited",
               "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
+            }
+          ],
+          "error": "QA_MOBILE_GRAPH_TOUCH_GRADING",
+          "capabilityFailures": [
+            {
+              "code": "MOBILE_GRAPH_TOUCH_GRADING",
+              "expectedScore": 1,
+              "actualScore": 0.444444444444444
             }
           ]
         },
@@ -1197,21 +1211,19 @@
           "verificationSeed": 4321,
           "viewport": "mobile",
           "sourceVerified": true,
-          "passed": true,
-          "phase": "complete",
+          "passed": false,
+          "phase": "blank",
           "checks": {
             "rendering": true,
-            "interaction": true,
-            "answerCapture": true,
-            "grading": true,
-            "retries": true,
-            "refresh": true,
-            "ownership": true,
-            "keyboard": true,
+            "interaction": false,
+            "answerCapture": false,
+            "grading": false,
+            "retries": false,
+            "refresh": false,
+            "ownership": false,
+            "keyboard": false,
             "mobile": true
           },
-          "correctScore": 1,
-          "clearedScore": 0,
           "limitations": [
             {
               "code": "NARROW_FRAME_SCROLL",
@@ -1219,7 +1231,8 @@
               "status": "limited",
               "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
             }
-          ]
+          ],
+          "error": "QA_GRAPH_TOOL_TAB_REACHABILITY"
         }
       ]
     }

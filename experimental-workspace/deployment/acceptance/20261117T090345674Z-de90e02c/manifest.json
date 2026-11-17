@@ -1,0 +1,28 @@
+{
+    "complete":  true,
+    "version":  1,
+    "sourceHashes":  [
+                         {
+                             "file":  "Backup.Dockerfile",
+                             "sha256":  "141be2bb4c5f9c996838f62f9b0749fcacc0422d29cb03412325dd674ed98e3c"
+                         },
+                         {
+                             "file":  "backup.mjs",
+                             "sha256":  "ad4e1c79addffd358f0645b20995d4bb859c9b19da76fa362ef35da40cdccf18"
+                         },
+                         {
+                             "file":  "restore-probe.mjs",
+                             "sha256":  "1ccbaad6e7b4d418b1d7b76d9bb74e085c154f767d6c8905b62804032b78c2b8"
+                         },
+                         {
+                             "file":  "verify-backup.ps1",
+                             "sha256":  "0919b279ce279e12cf1af0bf7b0e619570d8daf7714ec566b899f72f366e78ac"
+                         }
+                     ],
+    "targets":  [
+                    "accounts",
+                    "catalog"
+                ],
+    "observedAt":  "2026-11-17T09:04:55.2411817Z",
+    "scope":  "Encrypted live database snapshot backups restored into separate fresh isolated databases; original volumes never modified; no offsite durability claim"
+}

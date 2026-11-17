@@ -1,7 +1,7 @@
 {
   "profileVersion": "local-practice-v1",
-  "observedAt": "2026-11-17T01:24:10.866Z",
-  "runtimeFingerprint": "9375b5c5f421e6e2aca2587794dbdec5a336fb6d4c90655e216239c74c2d5c48",
+  "observedAt": "2026-11-17T09:02:12.810Z",
+  "runtimeFingerprint": "3707165bd375fc00941e0517c8acd2b30dc6c4fa7542c2e020220d28715eedef",
   "exercises": [
     {
       "id": "dot-product-01",
@@ -121,6 +121,38 @@
           "message": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved.",
           "capability": "mobile-layout",
           "status": "limited"
+        },
+        {
+          "code": "REGRESSION_FAILURE",
+          "message": "A required regression check failed.",
+          "verificationSeed": 1234,
+          "viewport": "mobile",
+          "failedChecks": [
+            "grading"
+          ],
+          "failure": "QA_MOBILE_GRAPH_TOUCH_GRADING"
+        },
+        {
+          "code": "MOBILE_GRAPH_TOUCH_GRADING",
+          "message": "For fixture seeds 1234 and 4321, touch-mobile point placement does not reach the expected full score. Coordinate/interaction behavior needs investigation; these cases remain failed and are not waived by this policy.",
+          "capability": "touch-graph-positive-answer",
+          "status": "unsupported"
+        },
+        {
+          "code": "REGRESSION_FAILURE",
+          "message": "A required regression check failed.",
+          "verificationSeed": 4321,
+          "viewport": "mobile",
+          "failedChecks": [
+            "interaction",
+            "answerCapture",
+            "grading",
+            "retries",
+            "refresh",
+            "ownership",
+            "keyboard"
+          ],
+          "failure": "QA_GRAPH_TOOL_TAB_REACHABILITY"
         },
         {
           "code": "ACTIVATION_DISABLED",

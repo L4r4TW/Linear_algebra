@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-17T09:12:23.165Z",
+  "scope": "Real HTTP BFF and real local Supabase/RLS; controlled renderer double, no public deployment claim",
+  "explicitClaimRequired": true,
+  "claimedCookieRetired": true,
+  "accountCookieHttpOnly": true,
+  "noBrowserTokens": true,
+  "ownerCheckedHttp": true,
+  "draftCasThroughHttp": true,
+  "gradeReplayThroughHttp": true,
+  "setBookmarkProgressHttp": true,
+  "callerAuthorityRejected": true,
+  "crossOriginRejected": true,
+  "logoutRetiresBffSession": true,
+  "complete": true
+}

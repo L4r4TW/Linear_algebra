@@ -1,0 +1,14 @@
+{
+ "version": 1,
+ "status": "not-reviewed",
+ "checks": {
+  "physicalDevice": null,
+  "screenReaderListening": null,
+  "offHostRecovery": null,
+  "httpsAndIngress": null,
+  "verifiedEmailAndRecoveryFlow": null,
+  "representativeLoad": null,
+  "productionRightsAndContentReview": null
+ },
+ "instructions": "This is an unapproved template. Record real reviewer identity, date and evidence for each check. Never fabricate attestations. It cannot replace catalog pipeline reviews or strict renderer certification."
+}

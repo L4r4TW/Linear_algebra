@@ -1,0 +1,42 @@
+{
+    "version":  1,
+    "observedAt":  "2026-11-17T09:06:28.8665263Z",
+    "complete":  true,
+    "releaseReady":  false,
+    "checks":  {
+                   "backendHealthy":  true,
+                   "noBackendHostPorts":  true,
+                   "noRendererHostPorts":  false,
+                   "strictRendererCertification":  false,
+                   "scopedBackendSecrets":  true,
+                   "scopedAuthSecrets":  true,
+                   "emailAutoconfirmDisabled":  false,
+                   "currentAccountEvidence":  false,
+                   "backupRestoreVerified":  true,
+                   "actualReplicaVerified":  true,
+                   "releaseTemplatesParse":  true,
+                   "physicalDevice":  false,
+                   "screenReaderListening":  false,
+                   "offHostRecovery":  false,
+                   "httpsAndIngress":  false,
+                   "verifiedEmailAndRecoveryFlow":  false,
+                   "representativeLoad":  false,
+                   "productionRightsAndContentReview":  false,
+                   "upstreamDependencyRemediation":  false
+               },
+    "blockers":  [
+                     "noRendererHostPorts",
+                     "strictRendererCertification",
+                     "emailAutoconfirmDisabled",
+                     "currentAccountEvidence",
+                     "physicalDevice",
+                     "screenReaderListening",
+                     "offHostRecovery",
+                     "httpsAndIngress",
+                     "verifiedEmailAndRecoveryFlow",
+                     "representativeLoad",
+                     "productionRightsAndContentReview",
+                     "upstreamDependencyRemediation"
+                 ],
+    "scope":  "Local measured readiness and explicit operator review requirements; this command never deploys, certifies a context or activates exercises"
+}

@@ -1,0 +1,30 @@
+name: Experimental practice platform
+on:
+  push:
+    branches: [main]
+    paths: ["experimental-workspace/**", ".gitattributes", ".github/workflows/experimental-platform.yml"]
+  pull_request:
+    paths: ["experimental-workspace/**", ".gitattributes", ".github/workflows/experimental-platform.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Build the pinned contract-check image
+        run: docker build -f experimental-workspace/deployment/Check.Dockerfile -t practice-checks .
+      - name: Check current catalog evidence and runtime bytes
+        run: docker run --rm practice-checks
+      - name: Run server contracts
+        run: docker run --rm --workdir /service/application practice-checks npm test
+      - name: Run cryptography and admission checks
+        run: docker run --rm --workdir /service/accounts practice-checks node --test crypto.test.mjs admission.test.mjs
+      - name: Run discovery contracts
+        run: docker run --rm --workdir /service/discovery practice-checks npm test
+      - name: Explain integration release gate
+        run: echo "This checks contracts and existing evidence. Real OPL/Supabase/browser, migration, backup/restore and manual release checks remain mandatory; this workflow does not deploy or activate exercises."

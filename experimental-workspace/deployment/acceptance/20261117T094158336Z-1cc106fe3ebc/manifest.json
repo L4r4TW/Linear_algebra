@@ -1,0 +1,15 @@
+{
+    "complete":  true,
+    "version":  1,
+    "backendImage":  "sha256:e251886b5373f5c8d8f978d2e27d5089d65fa5365e3e2f8e06c491ba04f9149a",
+    "sourceHashes":  [
+                         {
+                             "file":  "replica-probe.mjs",
+                             "sha256":  "551b5882003c961d9362177902e10ca64b614165e6a8dfd1222c9818c0cf4948"
+                         },
+                         {
+                             "file":  "verify-replicas.ps1",
+                             "sha256":  "876c3a4fa3d50d5904f3197e3cc85a0a4f3e9dc6c3b4a0b9ca2fee8cac2c380a"
+                         }
+                     ]
+}

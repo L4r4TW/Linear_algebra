@@ -1,0 +1,145 @@
+{
+    "version":  1,
+    "observedAt":  "2026-11-17T09:09:00.402Z",
+    "node":  "v16.20.2",
+    "scope":  "All npm dependencies, including build/dev dependencies that may ship browser assets. OS and Perl dependencies are not audited here. No fixes installed.",
+    "reports":  [
+                    {
+                        "tree":  "public",
+                        "complete":  true,
+                        "vulnerabilities":  {
+                                                "info":  0,
+                                                "low":  0,
+                                                "moderate":  2,
+                                                "high":  7,
+                                                "critical":  0,
+                                                "total":  9
+                                            },
+                        "findings":  [
+                                         {
+                                             "name":  "browserslist",
+                                             "severity":  "high",
+                                             "isDirect":  false,
+                                             "fixAvailable":  true
+                                         },
+                                         {
+                                             "name":  "colord",
+                                             "severity":  "moderate",
+                                             "isDirect":  false,
+                                             "fixAvailable":  true
+                                         },
+                                         {
+                                             "name":  "immutable",
+                                             "severity":  "high",
+                                             "isDirect":  false,
+                                             "fixAvailable":  true
+                                         },
+                                         {
+                                             "name":  "nanoid",
+                                             "severity":  "high",
+                                             "isDirect":  false,
+                                             "fixAvailable":  true
+                                         },
+                                         {
+                                             "name":  "picomatch",
+                                             "severity":  "high",
+                                             "isDirect":  false,
+                                             "fixAvailable":  true
+                                         },
+                                         {
+                                             "name":  "postcss",
+                                             "severity":  "high",
+                                             "isDirect":  true,
+                                             "fixAvailable":  true
+                                         },
+                                         {
+                                             "name":  "postcss-selector-parser",
+                                             "severity":  "moderate",
+                                             "isDirect":  false,
+                                             "fixAvailable":  true
+                                         },
+                                         {
+                                             "name":  "source-map-js",
+                                             "severity":  "high",
+                                             "isDirect":  false,
+                                             "fixAvailable":  true
+                                         },
+                                         {
+                                             "name":  "svgo",
+                                             "severity":  "high",
+                                             "isDirect":  false,
+                                             "fixAvailable":  true
+                                         }
+                                     ]
+                    },
+                    {
+                        "tree":  "lib/PG/htdocs",
+                        "complete":  true,
+                        "vulnerabilities":  {
+                                                "info":  0,
+                                                "low":  0,
+                                                "moderate":  2,
+                                                "high":  7,
+                                                "critical":  0,
+                                                "total":  9
+                                            },
+                        "findings":  [
+                                         {
+                                             "name":  "browserslist",
+                                             "severity":  "high",
+                                             "isDirect":  false,
+                                             "fixAvailable":  true
+                                         },
+                                         {
+                                             "name":  "colord",
+                                             "severity":  "moderate",
+                                             "isDirect":  false,
+                                             "fixAvailable":  true
+                                         },
+                                         {
+                                             "name":  "immutable",
+                                             "severity":  "high",
+                                             "isDirect":  false,
+                                             "fixAvailable":  true
+                                         },
+                                         {
+                                             "name":  "nanoid",
+                                             "severity":  "high",
+                                             "isDirect":  false,
+                                             "fixAvailable":  true
+                                         },
+                                         {
+                                             "name":  "picomatch",
+                                             "severity":  "high",
+                                             "isDirect":  false,
+                                             "fixAvailable":  true
+                                         },
+                                         {
+                                             "name":  "postcss",
+                                             "severity":  "high",
+                                             "isDirect":  true,
+                                             "fixAvailable":  true
+                                         },
+                                         {
+                                             "name":  "postcss-selector-parser",
+                                             "severity":  "moderate",
+                                             "isDirect":  false,
+                                             "fixAvailable":  true
+                                         },
+                                         {
+                                             "name":  "source-map-js",
+                                             "severity":  "high",
+                                             "isDirect":  false,
+                                             "fixAvailable":  true
+                                         },
+                                         {
+                                             "name":  "svgo",
+                                             "severity":  "high",
+                                             "isDirect":  false,
+                                             "fixAvailable":  true
+                                         }
+                                     ]
+                    }
+                ],
+    "inspectorSha256":  "15af288d9cbeb72bbdaed1e39e68296349eb90b7779dad2914ba7d3c300e500a"
+}

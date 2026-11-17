@@ -1,0 +1,20 @@
+# Configuration-only production boundary; preflight must pass before applying.
+services:
+  workspace:
+    profiles: [prototype]
+    ports: !reset []
+  renderer:
+    ports: !reset []
+    networks: [execution]
+    environment:
+      MOJO_MODE: production
+      SITE_HOST: http://renderer:3000
+    mem_limit: 1g
+    cpus: 1.5
+    pids_limit: 128
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    restart: unless-stopped
+networks:
+  execution:
+    internal: true

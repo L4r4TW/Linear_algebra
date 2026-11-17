@@ -1,0 +1,21 @@
+# Configuration-only; local Auth confirmation is NOT production-ready.
+services:
+  backend:
+    environment:
+      APP_ORIGIN: ${MATHPRACTICE_RELEASE_ORIGIN:?Set an HTTPS public origin}
+      RENDERER_URL: http://renderer:3000
+    networks: [private, practice, execution]
+    restart: unless-stopped
+  auth:
+    environment:
+      API_EXTERNAL_URL: ${MATHPRACTICE_RELEASE_ORIGIN:?Set an HTTPS public origin}
+      GOTRUE_SITE_URL: ${MATHPRACTICE_RELEASE_ORIGIN:?Set an HTTPS public origin}
+      GOTRUE_URI_ALLOW_LIST: ${MATHPRACTICE_RELEASE_ORIGIN:?Set an HTTPS public origin}
+      GOTRUE_MAILER_AUTOCONFIRM: "false"
+    restart: unless-stopped
+  database:
+    restart: unless-stopped
+networks:
+  execution:
+    external: true
+    name: linear-algebra-experimental_execution

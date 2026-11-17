@@ -22,22 +22,23 @@ async function body(req,limit=8192){
  if(!input||typeof input!=='object'||Array.isArray(input))throw new AccountError('INVALID_INPUT',400);return input;
 }
 function keys(input,allowed){if(Object.keys(input).some(key=>!allowed.includes(key)))throw new AccountError('INVALID_INPUT',400);}
-export function createAccountApp({db,accounts,data,sessions,practiceSets,importLegacy,exerciseList,setExerciseLookup,rendererBaseUrl,origin='http://localhost:3100'}){
+export function createAccountApp({db,accounts,data,sessions,practiceSets,importLegacy,exerciseList,setExerciseLookup,rendererBaseUrl,engineStatus=()=>null,origin='http://localhost:3100'}){
  const admission=createAdmission();
  const inner=createApp({sessions,practiceSets,exerciseList,setExerciseLookup,rendererBaseUrl,origin}).listeners('request')[0];
  const secure=new URL(origin).protocol==='https:'?'; Secure':'';
  const cookie=(name,value,path='/',age=2592000)=>name+'='+value+'; HttpOnly; SameSite=Strict; Path='+path+'; Max-Age='+age+secure;
  const publicAccount=actor=>actor?.kind==='account'?{authenticated:true,email:actor.email}:{authenticated:false};
  return createServer(async(req,res)=>{
+  const requestAbort=new AbortController();res.once('close',()=>requestAbort.abort());
   try{
    const url=new URL(req.url,origin);if((req.url??'').length>6000)throw new AccountError('INVALID_INPUT',400);
    if(url.pathname==='/internal/status'&&req.method==='GET'){
     await db.transaction({},client=>client.query('SELECT 1'));
-    return json(res,200,{ready:true,admission:admission.snapshot()});
+    return json(res,200,{ready:true,admission:admission.snapshot(),engine:engineStatus()});
    }
    if(url.pathname.startsWith('/api/sessions')){
-    admission.checkRate('all-session-api');const controller=new AbortController();res.once('close',()=>controller.abort());
-    const release=await admission.acquire({signal:controller.signal});res.once('finish',release);res.once('close',release);
+    admission.checkRate('all-session-api');
+    const release=await admission.acquire({signal:requestAbort.signal});res.once('finish',release);res.once('close',release);
    }
    const accountRoute=url.pathname.startsWith(prefix),draft=url.pathname.match(/^\/api\/sessions\/([a-f0-9-]{36})\/draft$/);
    if((accountRoute||draft||url.pathname.startsWith('/api/sessions'))&&(req.headers['sec-fetch-site']==='cross-site'||req.headers.origin&&req.headers.origin!==origin||req.method==='POST'&&req.headers.origin!==origin))throw new AccountError('ORIGIN_NOT_ALLOWED',403);
@@ -61,7 +62,7 @@ export function createAccountApp({db,accounts,data,sessions,practiceSets,importL
    const resolved=await accounts.resolveCookies(req.headers.cookie);
    admission.checkRate('owner:'+resolved.actor.principalId,{limit:240});
    if(resolved.newGuest)res.setHeader('Set-Cookie',cookie('la_experiment_owner',resolved.newGuest,'/api/sessions'));
-   return await actors.run({...resolved.actor},async()=>{
+   return await actors.run({...resolved.actor,requestSignal:requestAbort.signal},async()=>{
     if(accountRoute){
      const action=url.pathname.slice(prefix.length);
      if(action==='status'&&req.method==='GET')return json(res,200,{account:publicAccount(resolved.actor),environment:'local-development',emailOwnershipVerified:false});

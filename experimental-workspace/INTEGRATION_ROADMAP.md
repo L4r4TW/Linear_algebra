@@ -72,3 +72,5 @@ The local six-exercise player remains usable. The 77,134-source imported catalog
 
 
 - 12 complete locally: original 62 browser checks and discovery 15 server/1 DB/12 browser plus catalog check all pass. Account and progress routes are live. Seven account suites and 44/44 PG proof retain stated limits. Next: 13 deployment admission, backup/recovery, isolation/CI/release gates; no production release or new imported activation.
+
+- 13 local preparation implemented and verified: scoped secrets, bounded admission/metrics, encrypted account/catalog recovery, actual replica grading, LF-stable evidence, pinned CI contracts, parsed private release templates, dependency audit and enforcing preflight/runbook. Current canonical runtime 3707165b; full gate 42/44 retains both mobile GraphTool failures and 16 limits, same 6 active. Production remains BLOCKED by strict provenance/dependencies, production Auth/TLS, off-host recovery and real manual/load/rights reviews. See deployment/RUNBOOK.md. No production deployment or imported activation.

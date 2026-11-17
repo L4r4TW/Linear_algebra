@@ -16,7 +16,14 @@ services:
       POSTGRES_DB: accounts
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD_FILE: /secrets/database-password
-    volumes: [database:/var/lib/postgresql/data, secrets:/secrets:ro]
+    volumes:
+      - database:/var/lib/postgresql/data
+      - type: volume
+        source: secrets
+        target: /secrets
+        read_only: true
+        volume:
+          subpath: database
     networks: [private]
     depends_on:
       secrets-init:
@@ -51,7 +58,13 @@ services:
       GOTRUE_JWT_EXP: 3600
       GOTRUE_PASSWORD_MIN_LENGTH: 12
       GOTRUE_JWT_ISSUER: http://localhost:3105/auth
-    volumes: [secrets:/secrets:ro]
+    volumes:
+      - type: volume
+        source: secrets
+        target: /secrets
+        read_only: true
+        volume:
+          subpath: auth
     networks: [private]
     depends_on:
       database:
@@ -74,7 +87,13 @@ services:
       dockerfile: experimental-workspace/accounts/Migration.Dockerfile
     environment:
       PGHOST: database
-    volumes: [secrets:/secrets:ro]
+    volumes:
+      - type: volume
+        source: secrets
+        target: /secrets
+        read_only: true
+        volume:
+          subpath: migration
     networks: [private]
     depends_on:
       auth:
@@ -93,7 +112,14 @@ services:
       APP_ORIGIN: http://localhost:3100
       RENDERER_URL: http://linear-algebra-experimental-renderer-1:3000
       EXERCISE_SESSION_DIR: /private/unused
-    volumes: [secrets:/secrets:ro, legacy-sessions:/legacy:ro]
+    volumes:
+      - type: volume
+        source: secrets
+        target: /secrets
+        read_only: true
+        volume:
+          subpath: backend
+      - legacy-sessions:/legacy:ro
     networks: [private, practice]
     read_only: true
     tmpfs: ["/tmp:rw,noexec,nosuid,size=16m"]

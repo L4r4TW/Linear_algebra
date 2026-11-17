@@ -28,5 +28,6 @@ export function createAdmission({maximum=4,waiting=8,waitMs=3000,maxBuckets=2048
   }
   if(bucket.count>=limit){counts.rateLimited++;throw new AccountError('ACCOUNT_RATE_LIMITED',429);}bucket.count++;
  }
- return {acquire,checkRate,snapshot:()=>({active,waiting:queue.length,maximum,maximumWaiting:waiting,...counts})};
+ async function run(work,{signal}={}){const release=await acquire({signal});try{if(signal?.aborted)throw new AccountError('REQUEST_CANCELLED',499);return await work();}finally{release();}}
+ return {acquire,run,checkRate,snapshot:()=>({active,waiting:queue.length,maximum,maximumWaiting:waiting,...counts})};
 }

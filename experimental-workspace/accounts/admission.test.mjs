@@ -17,3 +17,12 @@ test('rate windows and their cache remain bounded without evicting active limits
  assert.throws(()=>pool.checkRate('two'),error=>error.code==='PRACTICE_BUSY');now=101;pool.checkRate('two');
  const metrics=JSON.stringify(pool.snapshot());assert.ok(!metrics.includes('one'));assert.ok(!metrics.includes('two'));assert.equal(pool.snapshot().rateLimited,1);
 });
+
+test('active work keeps its lease after disconnect until the operation finishes',async()=>{
+ const pool=createAdmission({maximum:1,waiting:1}),controller=new AbortController();let release,entered;
+ const gate=new Promise(resolve=>release=resolve),started=new Promise(resolve=>entered=resolve);
+ const first=pool.run(async()=>{entered();await gate;},{signal:controller.signal});await started;controller.abort();
+ assert.equal(pool.snapshot().active,1);let ran=false;const next=pool.run(()=>{ran=true;});
+ await new Promise(resolve=>setTimeout(resolve,10));assert.equal(ran,false);assert.equal(pool.snapshot().waiting,1);
+ release();await Promise.all([first,next]);assert.equal(ran,true);assert.equal(pool.snapshot().active,0);
+});

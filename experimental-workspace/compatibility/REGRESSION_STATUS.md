@@ -1,8 +1,8 @@
 # Compatibility regression results
 
-Observed: 2026-11-17T01:24:10.866Z. Scope: complete default matrix.
+Observed: 2026-11-17T09:02:12.810Z. Scope: complete default matrix.
 
-Result: **PASS**; 44/44 cases completed. 16 cases retain documented limitations.
+Result: **FAIL**; 44/44 cases completed. 16 cases retain documented limitations.
 
 A passing flow does not approve every capability or enable student catalog entries.
 
@@ -49,9 +49,9 @@ A passing flow does not approve every capability or enable student catalog entri
 | compat-calculus-graph-01 | 4321 | desktop | 9/9 | passed | None observed |
 | compat-calculus-graph-01 | 4321 | mobile | 9/9 | passed | None observed |
 | compat-algebra-graphtool-01 | 1234 | desktop | 9/9 | passed-with-limitations | NARROW_FRAME_SCROLL |
-| compat-algebra-graphtool-01 | 1234 | mobile | 9/9 | passed-with-limitations | NARROW_FRAME_SCROLL |
+| compat-algebra-graphtool-01 | 1234 | mobile | 8/9 | failed | MOBILE_GRAPH_TOUCH_GRADING, NARROW_FRAME_SCROLL |
 | compat-algebra-graphtool-01 | 4321 | desktop | 9/9 | passed-with-limitations | NARROW_FRAME_SCROLL |
-| compat-algebra-graphtool-01 | 4321 | mobile | 9/9 | passed-with-limitations | NARROW_FRAME_SCROLL |
+| compat-algebra-graphtool-01 | 4321 | mobile | 2/9 | failed | NARROW_FRAME_SCROLL |
 
 ## Known capability boundaries
 
@@ -64,3 +64,8 @@ A passing flow does not approve every capability or enable student catalog entri
 - **screen-reader-listening** (manual): Automated focus and semantics checks do not replace NVDA/VoiceOver listening.
 - **physical-mobile-devices** (manual): Touch and viewport emulation are tested in Chromium; physical device keyboards and browsers still need review.
 - **all-PG-widgets-and-macros** (unsupported): The selected fixtures do not cover file uploads, arbitrary custom editors, compound matrix editors or every GraphTool tool/evaluator.
+
+## Failures
+
+- CASE_FAILED:compat-algebra-graphtool-01:1234:mobile
+- CASE_FAILED:compat-algebra-graphtool-01:4321:mobile
