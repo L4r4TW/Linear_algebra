@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-16T23:47:31.228Z",
+  "scope": "Isolated operator shell acceptance, no production session volume or activation",
+  "runtimeFingerprint": "64c691132e983b71a2e9c2d4c39f0914a93841b62941e2d098ff8efa4343702e",
+  "viewports": [
+    {
+      "width": 1280,
+      "readableShell": true,
+      "localBookmarkRestore": true,
+      "blockedBookmarkPreservesAnswers": true,
+      "grading": true,
+      "sameSession": true,
+      "pageOverflow": false,
+      "pageErrors": 0
+    },
+    {
+      "width": 360,
+      "readableShell": true,
+      "localBookmarkRestore": true,
+      "blockedBookmarkPreservesAnswers": true,
+      "grading": true,
+      "sameSession": true,
+      "pageOverflow": false,
+      "pageErrors": 0
+    }
+  ],
+  "complete": true
+}

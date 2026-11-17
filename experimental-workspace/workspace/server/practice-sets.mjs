@@ -45,10 +45,10 @@ export function createPracticeSets({filename,entries,exerciseLookup,startSession
   });
  }
  function get(id,{ownerToken}){return present(read(id,ownerToken));}
- async function openItem(id,index,{ownerToken}){
+ async function openItem(id,index,{ownerToken,revision}){
   if(!Number.isInteger(index)||index<0||index>19)throw new PracticeSetError('INVALID_SET_INPUT');
   const claim=transaction(()=>{
-   const row=read(id,ownerToken),item=row.value.items[index];if(!item)throw new PracticeSetError('SET_NOT_FOUND');
+   const row=read(id,ownerToken);if(revision!==undefined&&row.revision!==revision)throw new PracticeSetError('SET_CONFLICT');const item=row.value.items[index];if(!item)throw new PracticeSetError('SET_NOT_FOUND');
    if(!available(item))throw new PracticeSetError('SET_EXERCISE_UNAVAILABLE');
    if(item.state==='ready')return {sessionId:item.sessionId,existing:true};
    if(item.state==='uncertain')throw new PracticeSetError('SET_ITEM_UNCERTAIN');

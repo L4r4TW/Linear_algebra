@@ -55,3 +55,5 @@ The local six-exercise player remains usable. The 77,134-source imported catalog
 - 10.1–10.2 candidate source implemented; NOT deployed. Full isolated 44-case proof is running in linear-algebra-practice-shell-gate. Preserve old live player until publisher/server/browser checks pass; see PRACTICE_SHELL.md.
 
 - 11.1 standalone persistence groundwork implemented/tested while task-10 proof runs. No HTTP/UI integration yet; see PRACTICE_SETS.md.
+
+- 11.2–11.3 candidate integrated: owned APIs + chooser + real position/guarded navigation. Focused three-exercise PG check passes. Combined full gate/browser verification still running; do not redeploy host source before proof. Task 12 environment preference: new local Supabase (explicit user answer).

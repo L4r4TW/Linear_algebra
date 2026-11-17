@@ -1,9 +1,9 @@
 {
   "fixtureCatalogFingerprint": "5cf24cefe4a9a23931cd5a0491610d795538d6db02df0ddf81b374351025e400",
-  "runtimeFingerprint": "8ff066dd7e957a03850b3f23cda907a3285b9dd536cd60ad0f396a20aa9d879e",
+  "runtimeFingerprint": "64c691132e983b71a2e9c2d4c39f0914a93841b62941e2d098ff8efa4343702e",
   "profileVersion": "local-practice-v1",
   "schemaVersion": 1,
-  "observedAt": "2026-11-15T17:59:48.284Z",
+  "observedAt": "2026-11-16T23:41:20.437Z",
   "sourceRevision": "0d42812d6d02960c846fc0f89215e0d4f1e761b1",
   "rendererRevision": "1134ffbbf5e656148e579f424f70bcd9f1d15936",
   "scope": "Operator-only temporary HTTP application using injected server catalogs and the real renderer client, owned sessions, picker, sandbox, answer bridge, grading, feedback and persistence. Production defaults are unchanged. Positive fixtures use expected values only in operator memory.",
@@ -34,16 +34,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -73,8 +73,8 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
-        "documentWidth": 262,
+        "frameWidth": 260,
+        "documentWidth": 260,
         "horizontalFrameScroll": false,
         "nativeTextTargets": true,
         "widgetMathUnmarked": true,
@@ -198,16 +198,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -236,8 +236,8 @@
         "feedbackCount": 4
       },
       "mobile": {
-        "frameWidth": 312,
-        "contentWidth": 312,
+        "frameWidth": 330,
+        "contentWidth": 330,
         "horizontalFrameScroll": false,
         "passed": true,
         "touchControlTypes": [
@@ -361,16 +361,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -400,8 +400,8 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
-        "documentWidth": 262,
+        "frameWidth": 260,
+        "documentWidth": 260,
         "horizontalFrameScroll": false,
         "nativeTextTargets": true,
         "widgetMathUnmarked": true,
@@ -525,16 +525,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -563,8 +563,8 @@
         "feedbackCount": 4
       },
       "mobile": {
-        "frameWidth": 312,
-        "contentWidth": 312,
+        "frameWidth": 330,
+        "contentWidth": 330,
         "horizontalFrameScroll": false,
         "passed": true,
         "touchControlTypes": [
@@ -688,16 +688,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -724,8 +724,8 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
-        "documentWidth": 262,
+        "frameWidth": 260,
+        "documentWidth": 260,
         "horizontalFrameScroll": false,
         "nativeTextTargets": true,
         "widgetMathUnmarked": true,
@@ -840,16 +840,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -875,8 +875,8 @@
         "feedbackCount": 1
       },
       "mobile": {
-        "frameWidth": 312,
-        "contentWidth": 312,
+        "frameWidth": 330,
+        "contentWidth": 330,
         "horizontalFrameScroll": false,
         "passed": true,
         "touchControlTypes": [
@@ -991,16 +991,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -1027,8 +1027,8 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
-        "documentWidth": 262,
+        "frameWidth": 260,
+        "documentWidth": 260,
         "horizontalFrameScroll": false,
         "nativeTextTargets": true,
         "widgetMathUnmarked": true,
@@ -1143,16 +1143,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -1178,8 +1178,8 @@
         "feedbackCount": 1
       },
       "mobile": {
-        "frameWidth": 312,
-        "contentWidth": 312,
+        "frameWidth": 330,
+        "contentWidth": 330,
         "horizontalFrameScroll": false,
         "passed": true,
         "touchControlTypes": [
@@ -1294,16 +1294,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -1330,8 +1330,8 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
-        "documentWidth": 262,
+        "frameWidth": 260,
+        "documentWidth": 260,
         "horizontalFrameScroll": false,
         "nativeTextTargets": true,
         "widgetMathUnmarked": true,
@@ -1446,16 +1446,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -1481,8 +1481,8 @@
         "feedbackCount": 1
       },
       "mobile": {
-        "frameWidth": 312,
-        "contentWidth": 312,
+        "frameWidth": 330,
+        "contentWidth": 330,
         "horizontalFrameScroll": false,
         "passed": true,
         "touchControlTypes": [
@@ -1597,16 +1597,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -1633,8 +1633,8 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
-        "documentWidth": 262,
+        "frameWidth": 260,
+        "documentWidth": 260,
         "horizontalFrameScroll": false,
         "nativeTextTargets": true,
         "widgetMathUnmarked": true,
@@ -1749,16 +1749,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -1784,8 +1784,8 @@
         "feedbackCount": 1
       },
       "mobile": {
-        "frameWidth": 312,
-        "contentWidth": 312,
+        "frameWidth": 330,
+        "contentWidth": 330,
         "horizontalFrameScroll": false,
         "passed": true,
         "touchControlTypes": [
@@ -1900,15 +1900,15 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 410,
-            "horizontalFrameScroll": true,
+            "frameWidth": 597,
+            "documentWidth": 597,
+            "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
+            "frameWidth": 260,
             "documentWidth": 410,
             "horizontalFrameScroll": true,
             "nativeTextTargets": true,
@@ -1944,7 +1944,7 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
+        "frameWidth": 260,
         "documentWidth": 410,
         "horizontalFrameScroll": true,
         "nativeTextTargets": true,
@@ -2091,15 +2091,15 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 410,
-            "horizontalFrameScroll": true,
+            "frameWidth": 597,
+            "documentWidth": 597,
+            "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
+            "frameWidth": 260,
             "documentWidth": 410,
             "horizontalFrameScroll": true,
             "nativeTextTargets": true,
@@ -2134,7 +2134,7 @@
         "feedbackCount": 9
       },
       "mobile": {
-        "frameWidth": 312,
+        "frameWidth": 330,
         "contentWidth": 506,
         "horizontalFrameScroll": true,
         "passed": true,
@@ -2281,15 +2281,15 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 410,
-            "horizontalFrameScroll": true,
+            "frameWidth": 597,
+            "documentWidth": 597,
+            "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
+            "frameWidth": 260,
             "documentWidth": 410,
             "horizontalFrameScroll": true,
             "nativeTextTargets": true,
@@ -2325,7 +2325,7 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
+        "frameWidth": 260,
         "documentWidth": 410,
         "horizontalFrameScroll": true,
         "nativeTextTargets": true,
@@ -2472,15 +2472,15 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 410,
-            "horizontalFrameScroll": true,
+            "frameWidth": 597,
+            "documentWidth": 597,
+            "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
+            "frameWidth": 260,
             "documentWidth": 410,
             "horizontalFrameScroll": true,
             "nativeTextTargets": true,
@@ -2515,7 +2515,7 @@
         "feedbackCount": 9
       },
       "mobile": {
-        "frameWidth": 312,
+        "frameWidth": 330,
         "contentWidth": 506,
         "horizontalFrameScroll": true,
         "passed": true,
@@ -2662,16 +2662,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -2701,8 +2701,8 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
-        "documentWidth": 262,
+        "frameWidth": 260,
+        "documentWidth": 260,
         "horizontalFrameScroll": false,
         "nativeTextTargets": true,
         "widgetMathUnmarked": true,
@@ -2826,16 +2826,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -2864,8 +2864,8 @@
         "feedbackCount": 4
       },
       "mobile": {
-        "frameWidth": 312,
-        "contentWidth": 312,
+        "frameWidth": 330,
+        "contentWidth": 330,
         "horizontalFrameScroll": false,
         "passed": true,
         "touchControlTypes": [
@@ -2989,16 +2989,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -3028,8 +3028,8 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
-        "documentWidth": 262,
+        "frameWidth": 260,
+        "documentWidth": 260,
         "horizontalFrameScroll": false,
         "nativeTextTargets": true,
         "widgetMathUnmarked": true,
@@ -3153,16 +3153,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -3191,8 +3191,8 @@
         "feedbackCount": 4
       },
       "mobile": {
-        "frameWidth": 312,
-        "contentWidth": 312,
+        "frameWidth": 330,
+        "contentWidth": 330,
         "horizontalFrameScroll": false,
         "passed": true,
         "touchControlTypes": [
@@ -3316,16 +3316,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -3354,8 +3354,8 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
-        "documentWidth": 262,
+        "frameWidth": 260,
+        "documentWidth": 260,
         "horizontalFrameScroll": false,
         "nativeTextTargets": true,
         "widgetMathUnmarked": true,
@@ -3477,16 +3477,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -3514,8 +3514,8 @@
         "feedbackCount": 3
       },
       "mobile": {
-        "frameWidth": 312,
-        "contentWidth": 312,
+        "frameWidth": 330,
+        "contentWidth": 330,
         "horizontalFrameScroll": false,
         "passed": true,
         "touchControlTypes": [
@@ -3638,16 +3638,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -3676,8 +3676,8 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
-        "documentWidth": 262,
+        "frameWidth": 260,
+        "documentWidth": 260,
         "horizontalFrameScroll": false,
         "nativeTextTargets": true,
         "widgetMathUnmarked": true,
@@ -3799,16 +3799,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -3836,8 +3836,8 @@
         "feedbackCount": 3
       },
       "mobile": {
-        "frameWidth": 312,
-        "contentWidth": 312,
+        "frameWidth": 330,
+        "contentWidth": 330,
         "horizontalFrameScroll": false,
         "passed": true,
         "touchControlTypes": [
@@ -3960,16 +3960,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -3999,8 +3999,8 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
-        "documentWidth": 262,
+        "frameWidth": 260,
+        "documentWidth": 260,
         "horizontalFrameScroll": false,
         "nativeTextTargets": true,
         "widgetMathUnmarked": true,
@@ -4125,16 +4125,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -4163,8 +4163,8 @@
         "feedbackCount": 4
       },
       "mobile": {
-        "frameWidth": 312,
-        "contentWidth": 312,
+        "frameWidth": 330,
+        "contentWidth": 330,
         "horizontalFrameScroll": false,
         "passed": true,
         "touchControlTypes": [
@@ -4290,16 +4290,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -4329,8 +4329,8 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
-        "documentWidth": 262,
+        "frameWidth": 260,
+        "documentWidth": 260,
         "horizontalFrameScroll": false,
         "nativeTextTargets": true,
         "widgetMathUnmarked": true,
@@ -4455,16 +4455,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -4493,8 +4493,8 @@
         "feedbackCount": 4
       },
       "mobile": {
-        "frameWidth": 312,
-        "contentWidth": 312,
+        "frameWidth": 330,
+        "contentWidth": 330,
         "horizontalFrameScroll": false,
         "passed": true,
         "touchControlTypes": [
@@ -4620,16 +4620,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -4657,8 +4657,8 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
-        "documentWidth": 262,
+        "frameWidth": 260,
+        "documentWidth": 260,
         "horizontalFrameScroll": false,
         "nativeTextTargets": true,
         "widgetMathUnmarked": true,
@@ -4801,16 +4801,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -4837,8 +4837,8 @@
         "feedbackCount": 2
       },
       "mobile": {
-        "frameWidth": 312,
-        "contentWidth": 312,
+        "frameWidth": 330,
+        "contentWidth": 330,
         "horizontalFrameScroll": false,
         "passed": true,
         "touchControlTypes": [
@@ -4982,16 +4982,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -5019,8 +5019,8 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
-        "documentWidth": 262,
+        "frameWidth": 260,
+        "documentWidth": 260,
         "horizontalFrameScroll": false,
         "nativeTextTargets": true,
         "widgetMathUnmarked": true,
@@ -5163,16 +5163,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -5199,8 +5199,8 @@
         "feedbackCount": 2
       },
       "mobile": {
-        "frameWidth": 312,
-        "contentWidth": 312,
+        "frameWidth": 330,
+        "contentWidth": 330,
         "horizontalFrameScroll": false,
         "passed": true,
         "touchControlTypes": [
@@ -5344,15 +5344,15 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
+            "frameWidth": 260,
             "documentWidth": 319,
             "horizontalFrameScroll": true,
             "nativeTextTargets": true,
@@ -5381,7 +5381,7 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
+        "frameWidth": 260,
         "documentWidth": 319,
         "horizontalFrameScroll": true,
         "nativeTextTargets": true,
@@ -5507,15 +5507,15 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
+            "frameWidth": 260,
             "documentWidth": 319,
             "horizontalFrameScroll": true,
             "nativeTextTargets": true,
@@ -5543,9 +5543,9 @@
         "feedbackCount": 2
       },
       "mobile": {
-        "frameWidth": 312,
-        "contentWidth": 319,
-        "horizontalFrameScroll": true,
+        "frameWidth": 330,
+        "contentWidth": 330,
+        "horizontalFrameScroll": false,
         "passed": true,
         "touchControlTypes": [
           "text"
@@ -5669,15 +5669,15 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
+            "frameWidth": 260,
             "documentWidth": 319,
             "horizontalFrameScroll": true,
             "nativeTextTargets": true,
@@ -5706,7 +5706,7 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
+        "frameWidth": 260,
         "documentWidth": 319,
         "horizontalFrameScroll": true,
         "nativeTextTargets": true,
@@ -5832,15 +5832,15 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
+            "frameWidth": 260,
             "documentWidth": 319,
             "horizontalFrameScroll": true,
             "nativeTextTargets": true,
@@ -5868,9 +5868,9 @@
         "feedbackCount": 2
       },
       "mobile": {
-        "frameWidth": 312,
-        "contentWidth": 319,
-        "horizontalFrameScroll": true,
+        "frameWidth": 330,
+        "contentWidth": 330,
+        "horizontalFrameScroll": false,
         "passed": true,
         "touchControlTypes": [
           "text"
@@ -5994,16 +5994,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -6030,8 +6030,8 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
-        "documentWidth": 262,
+        "frameWidth": 260,
+        "documentWidth": 260,
         "horizontalFrameScroll": false,
         "nativeTextTargets": true,
         "widgetMathUnmarked": true,
@@ -6146,16 +6146,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -6181,8 +6181,8 @@
         "feedbackCount": 1
       },
       "mobile": {
-        "frameWidth": 312,
-        "contentWidth": 312,
+        "frameWidth": 330,
+        "contentWidth": 330,
         "horizontalFrameScroll": false,
         "passed": true,
         "touchControlTypes": [
@@ -6297,16 +6297,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -6333,8 +6333,8 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
-        "documentWidth": 262,
+        "frameWidth": 260,
+        "documentWidth": 260,
         "horizontalFrameScroll": false,
         "nativeTextTargets": true,
         "widgetMathUnmarked": true,
@@ -6449,16 +6449,16 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
-            "documentWidth": 262,
+            "frameWidth": 260,
+            "documentWidth": 260,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
@@ -6484,8 +6484,8 @@
         "feedbackCount": 1
       },
       "mobile": {
-        "frameWidth": 312,
-        "contentWidth": 312,
+        "frameWidth": 330,
+        "contentWidth": 330,
         "horizontalFrameScroll": false,
         "passed": true,
         "touchControlTypes": [
@@ -6600,15 +6600,15 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
+            "frameWidth": 260,
             "documentWidth": 363,
             "horizontalFrameScroll": true,
             "nativeTextTargets": true,
@@ -6636,7 +6636,7 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
+        "frameWidth": 260,
         "documentWidth": 363,
         "horizontalFrameScroll": true,
         "nativeTextTargets": true,
@@ -6767,15 +6767,15 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
+            "frameWidth": 260,
             "documentWidth": 363,
             "horizontalFrameScroll": true,
             "nativeTextTargets": true,
@@ -6802,7 +6802,7 @@
         "feedbackCount": 1
       },
       "mobile": {
-        "frameWidth": 312,
+        "frameWidth": 330,
         "contentWidth": 363,
         "horizontalFrameScroll": true,
         "passed": true,
@@ -6834,7 +6834,7 @@
         "feedbackCount": 1
       },
       "correct": {
-        "score": 0.888888888888889,
+        "score": 0.444444444444444,
         "statuses": [
           "partial"
         ],
@@ -6844,7 +6844,7 @@
         {
           "code": "MOBILE_GRAPH_TOUCH_GRADING",
           "expectedScore": 1,
-          "actualScore": 0.888888888888889
+          "actualScore": 0.444444444444444
         }
       ],
       "fieldCount": 1,
@@ -6947,15 +6947,15 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
+            "frameWidth": 260,
             "documentWidth": 363,
             "horizontalFrameScroll": true,
             "nativeTextTargets": true,
@@ -6983,7 +6983,7 @@
       },
       "mobile": {
         "viewport": 320,
-        "frameWidth": 262,
+        "frameWidth": 260,
         "documentWidth": 363,
         "horizontalFrameScroll": true,
         "nativeTextTargets": true,
@@ -7114,15 +7114,15 @@
         "layouts": [
           {
             "viewport": 820,
-            "frameWidth": 364,
-            "documentWidth": 364,
+            "frameWidth": 597,
+            "documentWidth": 597,
             "horizontalFrameScroll": false,
             "nativeTextTargets": true,
             "widgetMathUnmarked": true
           },
           {
             "viewport": 320,
-            "frameWidth": 262,
+            "frameWidth": 260,
             "documentWidth": 363,
             "horizontalFrameScroll": true,
             "nativeTextTargets": true,
@@ -7149,7 +7149,7 @@
         "feedbackCount": 1
       },
       "mobile": {
-        "frameWidth": 312,
+        "frameWidth": 330,
         "contentWidth": 363,
         "horizontalFrameScroll": true,
         "passed": true,
@@ -7181,19 +7181,12 @@
         "feedbackCount": 1
       },
       "correct": {
-        "score": 0.888888888888889,
+        "score": 1,
         "statuses": [
-          "partial"
+          "correct"
         ],
         "feedbackCount": 1
       },
-      "capabilityFailures": [
-        {
-          "code": "MOBILE_GRAPH_TOUCH_GRADING",
-          "expectedScore": 1,
-          "actualScore": 0.888888888888889
-        }
-      ],
       "fieldCount": 1,
       "collection": {
         "fieldCount": 1,
@@ -7239,13 +7232,12 @@
       "ownerDataUnchanged": true,
       "seedPreserved": true,
       "pageErrors": 0,
-      "passed": false,
-      "error": "QA_MOBILE_GRAPH_TOUCH_GRADING",
+      "passed": true,
       "checks": {
         "rendering": true,
         "interaction": true,
         "answerCapture": true,
-        "grading": false,
+        "grading": true,
         "retries": true,
         "refresh": true,
         "ownership": true,
@@ -7254,19 +7246,13 @@
       },
       "limitations": [
         {
-          "code": "MOBILE_GRAPH_TOUCH_GRADING",
-          "capability": "touch-graph-positive-answer",
-          "status": "unsupported",
-          "reason": "For fixture seeds 1234 and 4321, touch-mobile point placement does not reach the expected full score. Coordinate/interaction behavior needs investigation; these cases remain failed and are not waived by this policy."
-        },
-        {
           "code": "NARROW_FRAME_SCROLL",
           "capability": "mobile-layout",
           "status": "limited",
           "reason": "The upstream matrix, static image, graph, or elasticity/dropdown layout can exceed a narrow frame, including touch-mobile layouts. Functional scrolling is retained; fitting without horizontal scrolling is not approved."
         }
       ],
-      "status": "failed"
+      "status": "passed-with-limitations"
     }
   ],
   "expectedCases": [
@@ -7499,8 +7485,7 @@
     "expectedCases": 44,
     "completedCases": 44,
     "failures": [
-      "CASE_FAILED:compat-algebra-graphtool-01:1234:mobile",
-      "CASE_FAILED:compat-algebra-graphtool-01:4321:mobile"
+      "CASE_FAILED:compat-algebra-graphtool-01:1234:mobile"
     ],
     "limitedCases": 16
   },

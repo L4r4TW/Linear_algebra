@@ -77,6 +77,54 @@ bookmarkButton.addEventListener('click',()=>{
  }catch{bookmarkStatus.textContent='Bookmarks could not be saved in this browser. Your exercise and answers have been kept.';}
 });
 
+
+const setMeta=document.querySelector('#set-meta'),setPosition=document.querySelector('#set-position'),setProgress=document.querySelector('#set-progress');
+const setNavigation=document.querySelector('#set-navigation'),setPrevious=document.querySelector('#set-previous'),setSkip=document.querySelector('#set-skip'),setNext=document.querySelector('#set-next'),setChoose=document.querySelector('#set-choose'),setStatus=document.querySelector('#set-status');
+let currentSet=null,currentSetPosition=0;
+function updateSetControls(){
+ const item=currentSet?.items?.[currentSetPosition],active=Boolean(item&&frameState?.sessionId===item.sessionId);
+ setMeta.hidden=setNavigation.hidden=!active;
+ if(!active)return;
+ setPosition.textContent='Exercise '+(currentSetPosition+1)+' of '+currentSet.total;
+ setProgress.max=currentSet.total;setProgress.value=currentSetPosition+1;
+ setProgress.setAttribute('aria-valuetext',(currentSetPosition+1)+' of '+currentSet.total+'; position in this set, not correctness');
+ const locked=busy||Boolean(submission)||navigationPending||!frameState?.ready||Boolean(frameState?.recoveryRequired);
+ setPrevious.disabled=locked||currentSetPosition===0;setSkip.disabled=setNext.disabled=locked||currentSet.total<2;setChoose.disabled=locked;
+ setNext.textContent=currentSetPosition===currentSet.total-1?'Back to first':'Next exercise →';
+}
+function setFailure(error){
+ setStatus.replaceChildren(element('p',error?.message??'The practice set could not be restored.'));
+ setStatus.append(action('Reload set state',()=>void followUrl()));setStatus.hidden=false;
+}
+async function restoreSetUrl(url){
+ currentSet=null;setStatus.hidden=true;
+ const id=url.searchParams.get('set');if(!id)return;
+ if(!/^[a-f0-9-]{36}$/.test(id))throw new ExerciseRequestError('INVALID_SET_INPUT',400,'This practice-set link is invalid.');
+ const value=await request('/api/sessions/sets/'+encodeURIComponent(id),{},new AbortController().signal),set=value.set;
+ if(set?.id!==id||!Array.isArray(set.items)||set.items.length<1||set.items.length>20||set.total!==set.items.length)throw new ExerciseRequestError('SET_NOT_FOUND',404,'The saved practice set could not be confirmed.');
+ const raw=url.searchParams.get('item'),position=raw===null?set.items.findIndex(item=>item.sessionId===url.searchParams.get('session')):Number(raw);
+ if(!Number.isInteger(position)||position<0||position>=set.total||set.items[position].sessionId!==url.searchParams.get('session'))throw new ExerciseRequestError('SET_NOT_FOUND',404,'The exercise does not match this saved set. Your saved work has been kept.');
+ currentSet=set;currentSetPosition=position;
+}
+async function navigateSet(position,{skip=false}={}){
+ if(!currentSet||busy||submission||navigationPending||!frameState?.ready)return;
+ const targetSet=currentSet,baseRevision=currentSet.revision,wasReady=targetSet.items[position]?.state==='ready';
+ try{await navigate(async()=>{
+  setStatus.hidden=true;
+  const opened=await request('/api/sessions/sets/'+targetSet.id+'/open',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({position,revision:baseRevision})},new AbortController().signal);
+  if(opened.set?.revision!==baseRevision+(wasReady?0:2))throw new ExerciseRequestError('SET_CONFLICT',409,'The set changed while this item opened. Reload its saved state before navigating.');
+  const moved=await request('/api/sessions/sets/'+targetSet.id+'/position',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({position,revision:opened.set.revision,skip})},new AbortController().signal);
+  if(moved.set?.id!==targetSet.id||moved.set.items[position]?.sessionId!==opened.sessionId)throw new ExerciseRequestError('SET_CONFLICT',409,'The set navigation response could not be confirmed.');
+  currentSet=moved.set;currentSetPosition=position;
+  const url=new URL(location.href);url.searchParams.set('session',opened.sessionId);url.searchParams.set('set',targetSet.id);url.searchParams.set('item',String(position));historyIndex++;history.pushState({practiceStep:historyIndex},'',url);committedUrl=url.href;
+  await loadExercise({sessionId:opened.sessionId});
+ });}catch(error){setFailure(error);}
+}
+setPrevious.addEventListener('click',()=>void navigateSet(currentSetPosition-1));
+setSkip.addEventListener('click',()=>void navigateSet((currentSetPosition+1)%currentSet.total,{skip:true}));
+setNext.addEventListener('click',()=>void navigateSet((currentSetPosition+1)%currentSet.total));
+setChoose.addEventListener('click',chooseExercise);
+
 function announce(message) {
   if (announcement.textContent !== message) announcement.textContent = message;
 }
@@ -117,6 +165,7 @@ function loading(message) {
 
 function updateControls() {
   updatePracticeShell();
+  updateSetControls();
   const submitting = Boolean(submission);
   chooseButton.disabled=busy||submitting||navigationPending||!frameState?.ready;
   controls.hidden = !frameState?.ready;
@@ -635,7 +684,10 @@ checkButton.addEventListener('click', () => { void submitCurrentAnswers(); });
 async function followUrl() {
   historyIndex=Number.isSafeInteger(history.state?.practiceStep)?history.state.practiceStep:historyIndex;
   committedUrl=location.href;
-  const sessionId = new URL(location.href).searchParams.get('session');
+  const url=new URL(location.href),sessionId=url.searchParams.get('session');
+  try{await restoreSetUrl(url);}catch(error){
+   clearFrame();setBusy(false);title.textContent='Your saved practice set';content.replaceChildren(stateMessage('Practice set unavailable','Your saved exercise and drafts have been kept. Reload the set to retry.'));setFailure(error);return;
+  }
   if (sessionId) await loadExercise({ sessionId });
   else resetPanel();
 }

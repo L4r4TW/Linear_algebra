@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-17T00:02:20.525Z",
+  "runtimeFingerprint": "20fb8629d71be21f0886a47ae17a5ac21d4a5c0f8c0d2df7622dc6eb259e63ad",
+  "scope": "Actual private renderer with disposable owned sets and sessions; no production data/activation",
+  "cancelProtectsDraft": true,
+  "previousRestoresSessionAndDraft": true,
+  "historyRestoresSameSessions": true,
+  "skippedItemsRetained": true,
+  "refreshDoesNotStartAgain": true,
+  "withdrawalKeepsCurrentWork": true,
+  "ownership": true,
+  "mobileNoOverflow": true,
+  "complete": true
+}

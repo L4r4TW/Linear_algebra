@@ -30,6 +30,7 @@
         <nav id="practice-breadcrumb" class="practice-breadcrumb" aria-label="Exercise topic"><a href="/">Mathematics</a></nav>
         <div class="exercise-heading"><div><p id="exercise-topic" class="eyebrow">A FRESH PERSPECTIVE</p><h2 id="exercise-title" tabindex="-1">Your next idea starts here.</h2></div><div class="exercise-heading-actions"><span id="session-status" class="session-status" hidden>Saved</span><button id="bookmark-exercise" class="bookmark-button" type="button" aria-label="Bookmark exercise" aria-pressed="false" aria-describedby="bookmark-status" hidden><svg viewBox="0 0 18 22" aria-hidden="true"><path d="M3 2h12v18l-6-4-6 4z"/></svg></button></div></div>
         <p id="bookmark-status" class="bookmark-status" role="status" aria-live="polite"></p>
+        <div id="set-meta" class="set-meta" hidden><p id="set-position"></p><progress id="set-progress" aria-label="Position in practice set" aria-describedby="set-progress-note"></progress><p id="set-progress-note" class="sr-only">Position in this set, not correctness or mastery.</p></div>
         <div id="exercise-content" class="exercise-content">
           <div class="welcome">
             <svg class="vector-art" viewBox="0 0 220 180" fill="none" aria-hidden="true"><path d="M32 146H200M58 164V20" stroke="#cbd8d0" stroke-width="1.5"/><path d="m58 146 109-92m-109 92 87-20" stroke="#087b69" stroke-width="3" stroke-linecap="round"/><path d="m157 54 10 0-2 10m-29 57 9 5-6 8" stroke="#087b69" stroke-width="3" stroke-linecap="round"/><path d="m58 146 38-65" stroke="#d5ad59" stroke-width="3" stroke-linecap="round"/><path d="m87 86 9-5 1 10" stroke="#d5ad59" stroke-width="3" stroke-linecap="round"/><circle cx="58" cy="146" r="4" fill="#243e35"/></svg>
@@ -60,6 +61,8 @@
           <p id="submission-status" class="submission-status"></p>
           <p id="submission-error" class="submission-error" role="alert" aria-atomic="true" hidden></p>
         </div>
+        <div id="set-status" class="submission-error" role="alert" hidden></div>
+        <nav id="set-navigation" class="set-navigation" aria-label="Practice set navigation" hidden><button id="set-previous" class="action" type="button">← Previous</button><button id="set-choose" class="action" type="button">Choose another exercise</button><div><button id="set-skip" class="action" type="button">Skip</button><button id="set-next" class="action" type="button">Next exercise →</button></div></nav>
         <p id="draft-status" class="exercise-notice" role="status" aria-live="polite" hidden></p>
         <p id="exercise-notice" class="exercise-notice" hidden>Press Enter in a single-line answer to check. Unfinished answers are saved in this tab. Check answer saves a graded result.</p>
       </section>

@@ -4,7 +4,9 @@ import { randomBytes } from 'node:crypto';
 import { env } from 'node:process';
 import { readFileSync } from 'node:fs';
 import { parse, serializeOuter } from 'parse5';
-import { listExercises } from './exercise-catalog.mjs';
+import { listExercises, getExerciseById } from './exercise-catalog.mjs';
+import {join} from 'node:path';
+import {createPracticeSets,PracticeSetError} from './practice-sets.mjs';
 import { createExerciseSessions, ExerciseSessionError } from './exercise-sessions.mjs';
 import { RendererClientError } from './renderer-client.mjs';
 import { createExerciseAssets } from './exercise-assets.mjs';
@@ -147,6 +149,15 @@ function publicSession(result, assets) {
 
 function failure(error) {
   if (error instanceof ApiError) return error;
+  if(error instanceof PracticeSetError){
+    if(error.code==='SET_NOT_FOUND')return new ApiError(404,'SET_NOT_FOUND','Practice set was not found.');
+    if(error.code==='INVALID_SET_INPUT')return new ApiError(400,error.code,'Provide valid practice-set selection and navigation fields.');
+    if(['SET_TOPIC_UNAVAILABLE','SET_EXERCISE_UNAVAILABLE'].includes(error.code))return new ApiError(410,error.code,'This exercise or topic is unavailable. Your set and previous work have been kept.');
+    if(error.code==='SET_ITEM_UNCERTAIN')return new ApiError(409,error.code,'Opening this set item could not be confirmed. No new variation will be generated automatically. You can revisit other items or choose another set.');
+    if(error.code==='SET_CONFLICT')return new ApiError(409,error.code,'This set changed in another tab. Reload its saved state before navigating.');
+    if(error.code==='SET_BUSY')return new ApiError(409,error.code,'This set item is already opening. Wait, then reload its saved state.');
+    return new ApiError(503,'SET_UNAVAILABLE','Practice sets are temporarily unavailable. Saved work has been kept.');
+  }
   if (error instanceof ExerciseSessionError) {
     if (error.code === 'SESSION_BUSY') return new ApiError(409, 'SESSION_BUSY', 'An answer is already being checked. Please wait.');
     if (error.code === 'INVALID_ANSWERS') return new ApiError(400, 'INVALID_ANSWERS', 'Some answer fields are not valid for this exercise.');
@@ -189,6 +200,8 @@ const publicFiles = new Map([
 export function createApp({
   sessions = createExerciseSessions(),
   exerciseList = listExercises,
+  practiceSets,
+  setExerciseLookup = getExerciseById,
   origin = env.APP_ORIGIN ?? 'http://localhost:3100',
   rendererBaseUrl = env.RENDERER_URL,
 } = {}) {
@@ -199,6 +212,12 @@ export function createApp({
   }
   const allowedOrigin = originUrl.origin;
   const assets = createExerciseAssets({rendererBaseUrl});
+  let managedSetStore;
+  const setStore=()=>practiceSets??(managedSetStore??=createPracticeSets({
+    filename:join(env.EXERCISE_SESSION_DIR??'/data/sessions','practice-sets.sqlite'),
+    entries:()=>exerciseList().map(entry=>({...entry,subject:setExerciseLookup(entry.id)?.subject??null,chapter:entry.topic,section:null})),
+    exerciseLookup:setExerciseLookup,startSession:input=>sessions.startSession(input),
+  }));
   const cookieSecure = originUrl.protocol === 'https:' ? '; Secure' : '';
 
   async function handle(request, response) {
@@ -219,6 +238,29 @@ export function createApp({
           throw new ApiError(405, 'METHOD_NOT_ALLOWED', 'Use GET for this endpoint.');
         }
         json(response, 200, { exercises: exerciseList() });
+        return;
+      }
+      if(url.pathname==='/api/sessions/sets'){
+        if(request.method!=='POST')throw new ApiError(405,'METHOD_NOT_ALLOWED','Use POST to create a practice set.');
+        const input=await readJsonInput(request);
+        if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).length!==2||!Object.hasOwn(input,'selection')||typeof input.requestKey!=='string')throw new ApiError(400,'INVALID_INPUT','Provide only selection and requestKey.');
+        const existingOwner=ownerFromCookie(request),ownerToken=existingOwner??randomBytes(32).toString('base64url');
+        const set=setStore().create(input.selection,{ownerToken,requestKey:input.requestKey});
+        json(response,201,{set},{...(!existingOwner?{'Set-Cookie':COOKIE+'='+ownerToken+'; Path=/api/sessions; HttpOnly; SameSite=Strict; Max-Age=2592000'+cookieSecure}:{})});return;
+      }
+      const setMatch=url.pathname.match(/^\/api\/sessions\/sets\/([a-f0-9-]{36})(?:\/(open|position))?$/);
+      if(setMatch){
+        const ownerToken=ownerFromCookie(request);if(!ownerToken)throw new ApiError(404,'SET_NOT_FOUND','Practice set was not found.');
+        if(!setMatch[2]){
+          if(request.method!=='GET')throw new ApiError(405,'METHOD_NOT_ALLOWED','Use GET to restore a set.');
+          json(response,200,{set:setStore().get(setMatch[1],{ownerToken})});return;
+        }
+        if(request.method!=='POST')throw new ApiError(405,'METHOD_NOT_ALLOWED','Use POST to navigate a set.');
+        const input=await readJsonInput(request);
+        const keys=setMatch[2]==='open'?['position','revision']:['position','revision','skip'];
+        if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(key=>!keys.includes(key))||!Number.isInteger(input.position))throw new ApiError(400,'INVALID_INPUT','Provide only valid position/revision/skip fields.');
+        if(setMatch[2]==='open')json(response,200,await setStore().openItem(setMatch[1],input.position,{ownerToken,revision:input.revision}));
+        else json(response,200,{set:setStore().move(setMatch[1],{ownerToken,...input})});
         return;
       }
       if (url.pathname === '/api/sessions') {
@@ -324,7 +366,9 @@ export function createApp({
     }
   }
 
-  return createServer({ requestTimeout: 10_000, headersTimeout: 10_000 }, (request, response) => {
+  const server=createServer({ requestTimeout: 10_000, headersTimeout: 10_000 }, (request, response) => {
     void handle(request, response);
   });
+  server.on('close',()=>managedSetStore?.close());
+  return server;
 }

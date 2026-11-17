@@ -566,6 +566,9 @@ test('keyboard flow supports skip navigation, Enter checking, result focus, and 
   await ready(page);
   await page.locator('#exercise-title:focus').waitFor();
   await page.keyboard.press('Tab');
+  await page.locator('#bookmark-exercise:focus').waitFor();
+  assert.equal(await page.locator('#bookmark-exercise').getAttribute('aria-label'),'Bookmark exercise');
+  await page.keyboard.press('Tab');
   const frame = page.frameLocator('.exercise-frame');
   await frame.locator('[name=AnSwEr0001]:focus').waitFor();
   await page.keyboard.type('gibberish(');

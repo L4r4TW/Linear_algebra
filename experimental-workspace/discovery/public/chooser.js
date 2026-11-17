@@ -64,20 +64,21 @@ async function load(focus){
 function resetTopics(){const changes={};for(const level of levels){changes[level]=null;changes[level+'Find']=null;}if(!['practice','library'].includes(current.searchParams.get('view')??'practice'))changes.view=null;go(changes);}
 async function startPlan(){
  if(starting||!data?.canStart||!data.selection.subject)return;starting=true;$('topic-start').disabled=true;$('topic-start').textContent='Opening…';$('plan-error').hidden=true;
- let plan,opened;
+ let plan,opened,setId;
  try{
-  const selector={view:'practice'};for(const level of levels)if(data.selection[level])selector[level]=data.selection[level];
-  plan=(await api('/api/discovery/practice-plans',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(selector)})).plan;
-  savePlan(plan);$('plan-status').textContent='Opening the first of '+plan.total+' exercises…';
-  plan.items[0].startState='pending';savePlan(plan);
-  const value=await api('/api/sessions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({exerciseId:plan.items[0].exerciseId})});
-  if(value.session?.exerciseId!==plan.items[0].exerciseId||!/^[a-f0-9-]{36}$/.test(value.session?.id??''))throw Error('Opening this exercise could not be confirmed.');
-  opened=value.session.id;plan.items[0].sessionId=opened;plan.items[0].startState='opened';savePlan(plan);
-  location.assign('/practice?session='+encodeURIComponent(opened));
+  const selection={};for(const level of levels)if(data.selection[level])selection[level]=data.selection[level];
+  const pending={requestKey:crypto.randomUUID(),selection};
+  sessionStorage.setItem('mathpractice.pending-set',JSON.stringify(pending));
+  const created=await api('/api/sessions/sets',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(pending)});
+  setId=created.set?.id;if(!/^[a-f0-9-]{36}$/.test(setId??''))throw Error('The practice set response could not be confirmed.');
+  plan={version:1,...created.set};savePlan(plan);$('plan-status').textContent='Opening the first of '+plan.total+' exercises…';
+  const value=await api('/api/sessions/sets/'+setId+'/open',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({position:0,revision:created.set.revision})});
+  opened=value.sessionId;if(!/^[a-f0-9-]{36}$/.test(opened??''))throw Error('Opening this exercise could not be confirmed.');
+  plan={version:1,...value.set};savePlan(plan);sessionStorage.removeItem('mathpractice.pending-set');
+  location.assign('/practice?session='+encodeURIComponent(opened)+'&set='+encodeURIComponent(setId)+'&item=0');
  }catch(error){
-  if(plan&&plan.items[0].startState==='pending'){plan.items[0].startState='uncertain';try{savePlan(plan);}catch{}}
-  $('plan-error').replaceChildren(node('p',error.message),node('p',opened?'The exercise was opened, but its plan could not be saved. Use the link below to keep that session.':'No replacement exercise will be opened automatically. Your other saved work has been kept.'));
-  if(opened){const link=node('a','Open the saved exercise');link.href='/practice?session='+encodeURIComponent(opened);$('plan-error').append(link);}
+  $('plan-error').replaceChildren(node('p',error.message),node('p','No replacement exercise will be opened automatically. Your saved set and other work have been kept.'));
+  if(opened){const link=node('a','Open the saved exercise');link.href='/practice?session='+encodeURIComponent(opened)+'&set='+encodeURIComponent(setId)+'&item=0';$('plan-error').append(link);}
   $('plan-error').hidden=false;$('plan-status').textContent='';starting=false;$('topic-start').disabled=false;$('topic-start').textContent='Start a new set →';
  }
 }

@@ -21,7 +21,15 @@ export function createHome({origin=process.env.HOME_ORIGIN??'http://localhost:31
  async function recent(req,res){
   const values=(req.headers.cookie??'').split(';').map(v=>v.trim()).filter(v=>v.startsWith('discovery_recent=')).map(v=>v.slice(17));
   if(values.length!==1||!uuid.test(values[0]))return send(res,200,{status:'none'});
-  const id=values[0],href='/practice?session='+encodeURIComponent(id);
+  const id=values[0];let href='/practice?session='+encodeURIComponent(id);
+  const setValues=(req.headers.cookie??'').split(';').map(v=>v.trim()).filter(v=>v.startsWith('discovery_recent_set=')).map(v=>v.slice(21));
+  if(setValues.length===1&&uuid.test(setValues[0])){
+   try{
+    const response=await upstream(req,'/api/sessions/sets/'+setValues[0]);
+    if(response.ok){const value=await response.json(),position=value.set?.items?.findIndex(item=>item.sessionId===id);
+     if(value.set?.id===setValues[0]&&position>=0)href+='&set='+encodeURIComponent(setValues[0])+'&item='+position;}
+   }catch{}
+  }
   try{
    const response=await upstream(req,'/api/sessions/'+id);
    if(!response.ok)return send(res,200,{status:response.status===404?'unavailable':'temporarily-unavailable',href});
@@ -74,14 +82,14 @@ export function createHome({origin=process.env.HOME_ORIGIN??'http://localhost:31
     throw new DiscoveryError('NOT_FOUND',404);
    }
    if(req.method==='GET'&&url.pathname==='/api/sessions/recent'&&!url.search)return await recent(req,res);
-   const session=/^\/api\/sessions(?:\/[a-f0-9-]{36}(?:\/answers)?)?$/.test(url.pathname);
+   const session=/^\/api\/sessions(?:\/[a-f0-9-]{36}(?:\/answers)?)?$/.test(url.pathname)||/^\/api\/sessions\/sets(?:\/[a-f0-9-]{36}(?:\/(?:open|position))?)?$/.test(url.pathname);
    const asset=/^\/assets\/[a-zA-Z0-9_./-]+$/.test(url.pathname)&&!url.pathname.includes('..');
    const player=url.pathname==='/practice';
    const exercise=url.pathname==='/api/exercises';
    if(!(player||asset||session||exercise))throw new DiscoveryError('NOT_FOUND',404);
    if(req.method!=='GET'&&!(req.method==='POST'&&session))throw new DiscoveryError('METHOD_NOT_ALLOWED',405);
    if((session||exercise)&&url.search)throw new DiscoveryError('INVALID_FILTER');
-   if(player&&(req.method!=='GET'||[...url.searchParams.keys()].some(k=>k!=='session')||url.searchParams.has('session')&&!uuid.test(url.searchParams.get('session'))))throw new DiscoveryError('INVALID_SESSION');
+   if(player&&(req.method!=='GET'||[...url.searchParams.keys()].some(k=>!['session','set','item'].includes(k))||url.searchParams.has('session')&&!uuid.test(url.searchParams.get('session'))||url.searchParams.has('set')&&!uuid.test(url.searchParams.get('set'))||url.searchParams.has('item')&&!/^(?:[0-9]|1[0-9])$/.test(url.searchParams.get('item'))))throw new DiscoveryError('INVALID_SESSION');
    let body;
    if(req.method==='POST'){
     if(req.headers.origin!==origin)throw new DiscoveryError('ORIGIN_REJECTED',403);
@@ -97,7 +105,10 @@ export function createHome({origin=process.env.HOME_ORIGIN??'http://localhost:31
    const cookies=response.headers.getSetCookie();
    const data=Buffer.from(await response.arrayBuffer());
    if(session&&response.ok){
-    try{const value=JSON.parse(data);if(uuid.test(value.session?.id??''))cookies.push('discovery_recent='+value.session.id+'; HttpOnly; SameSite=Strict; Path=/api/sessions; Max-Age=2592000'+(origin.startsWith('https:')?'; Secure':''));}catch{}
+    try{const value=JSON.parse(data),sessionId=value.session?.id??value.sessionId,secure=origin.startsWith('https:')?'; Secure':'';
+     if(uuid.test(sessionId??''))cookies.push('discovery_recent='+sessionId+'; HttpOnly; SameSite=Strict; Path=/api/sessions; Max-Age=2592000'+secure);
+     if(uuid.test(value.set?.id??''))cookies.push('discovery_recent_set='+value.set.id+'; HttpOnly; SameSite=Strict; Path=/api/sessions; Max-Age=2592000'+secure);
+    }catch{}
    }
    if(cookies.length)headers['Set-Cookie']=cookies;
    res.writeHead(response.status,headers);res.end(data);
