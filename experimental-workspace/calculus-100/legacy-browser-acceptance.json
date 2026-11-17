@@ -1,0 +1,418 @@
+{
+    "observedAt":  "2026-11-17T10:36:06.999Z",
+    "scope":  "Six existing enabled entries on the private clean renderer; two seeds and desktop/mobile; original player files unchanged",
+    "runtimeFingerprint":  "3707165bd375fc00941e0517c8acd2b30dc6c4fa7542c2e020220d28715eedef",
+    "expectedCases":  24,
+    "completedCases":  24,
+    "passed":  true,
+    "cases":  [
+                  {
+                      "id":  "dot-product-01",
+                      "seed":  1234,
+                      "viewport":  "desktop",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "dot-product-01",
+                      "seed":  1234,
+                      "viewport":  "mobile",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "dot-product-01",
+                      "seed":  4321,
+                      "viewport":  "desktop",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "dot-product-01",
+                      "seed":  4321,
+                      "viewport":  "mobile",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "compat-calculus-numeric-01",
+                      "seed":  1234,
+                      "viewport":  "desktop",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "compat-calculus-numeric-01",
+                      "seed":  1234,
+                      "viewport":  "mobile",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "compat-calculus-numeric-01",
+                      "seed":  4321,
+                      "viewport":  "desktop",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "compat-calculus-numeric-01",
+                      "seed":  4321,
+                      "viewport":  "mobile",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "compat-calculus-formula-01",
+                      "seed":  1234,
+                      "viewport":  "desktop",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "compat-calculus-formula-01",
+                      "seed":  1234,
+                      "viewport":  "mobile",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "compat-calculus-formula-01",
+                      "seed":  4321,
+                      "viewport":  "desktop",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "compat-calculus-formula-01",
+                      "seed":  4321,
+                      "viewport":  "mobile",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "compat-statistics-radio-01",
+                      "seed":  1234,
+                      "viewport":  "desktop",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "compat-statistics-radio-01",
+                      "seed":  1234,
+                      "viewport":  "mobile",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "compat-statistics-radio-01",
+                      "seed":  4321,
+                      "viewport":  "desktop",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "compat-statistics-radio-01",
+                      "seed":  4321,
+                      "viewport":  "mobile",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "compat-algebra-checkbox-01",
+                      "seed":  1234,
+                      "viewport":  "desktop",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "compat-algebra-checkbox-01",
+                      "seed":  1234,
+                      "viewport":  "mobile",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "compat-algebra-checkbox-01",
+                      "seed":  4321,
+                      "viewport":  "desktop",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "compat-algebra-checkbox-01",
+                      "seed":  4321,
+                      "viewport":  "mobile",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "compat-calculus-graph-01",
+                      "seed":  1234,
+                      "viewport":  "desktop",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "compat-calculus-graph-01",
+                      "seed":  1234,
+                      "viewport":  "mobile",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "compat-calculus-graph-01",
+                      "seed":  4321,
+                      "viewport":  "desktop",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  },
+                  {
+                      "id":  "compat-calculus-graph-01",
+                      "seed":  4321,
+                      "viewport":  "mobile",
+                      "passed":  true,
+                      "checks":  {
+                                     "rendering":  true,
+                                     "interaction":  true,
+                                     "answerCapture":  true,
+                                     "grading":  true,
+                                     "retries":  true,
+                                     "refresh":  true,
+                                     "ownership":  true,
+                                     "keyboard":  true,
+                                     "mobile":  true
+                                 }
+                  }
+              ]
+}

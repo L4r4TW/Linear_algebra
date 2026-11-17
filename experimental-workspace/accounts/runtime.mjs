@@ -1,9 +1,17 @@
+import {createPublishedCatalog,createCatalogQuery,mergeExerciseLists} from './published-catalog.mjs';
 import {readFile} from 'node:fs/promises';import {createAdmission} from './admission.mjs';
 import {createDatabase,actors,AccountError} from './db.mjs';import {createVault} from './crypto.mjs';import {createAccounts} from './auth.mjs';
 import {createRecordStore} from './record-store.mjs';import {createAccountSessions} from './session-service.mjs';import {createSetStore} from './set-store.mjs';import {createStudentData} from './student-data.mjs';import {createLegacyImport} from './legacy-import.mjs';import {createAccountApp} from './http-app.mjs';
 import {ExerciseSessionError} from '../application/server/exercise-sessions.mjs';import {PracticeSetError} from '../application/server/practice-sets.mjs';
 import {createRendererClient,RendererClientError} from '../application/server/renderer-client.mjs';import {listExercises,getExerciseById} from '../application/server/exercise-catalog.mjs';import {runtimeFingerprint} from '../application/server/catalog-compatibility.mjs';
-export async function createAccountRuntime({exerciseLookup=getExerciseById,exerciseList=listExercises,rendererUrl=process.env.RENDERER_URL,origin=process.env.APP_ORIGIN??'http://localhost:3100',legacyDirectory='/legacy',rendererClient=createRendererClient({baseUrl:rendererUrl,exerciseLookup})}={}){
+export async function createAccountRuntime({exerciseLookup=getExerciseById,exerciseList=listExercises,rendererUrl=process.env.RENDERER_URL,origin=process.env.APP_ORIGIN??'http://localhost:3100',legacyDirectory='/legacy',rendererClient,publishedCatalog}={}){
+let catalogQuery;
+if(!publishedCatalog&&process.env.PUBLISHED_CATALOG_ENABLED==='true'){
+ const profile=JSON.parse(await readFile(new URL('../application/server/compatibility-profile.json',import.meta.url),'utf8'));
+ catalogQuery=createCatalogQuery();publishedCatalog=createPublishedCatalog({query:()=>catalogQuery.query(),rendererUrl,runtimeDigest:runtimeFingerprint(),sourceRevision:profile.sourceRevision});
+}
+if(publishedCatalog){const legacyLookup=exerciseLookup,legacyList=exerciseList;exerciseLookup=id=>legacyLookup(id)??publishedCatalog.get(id);exerciseList=()=>mergeExerciseLists(legacyList(),publishedCatalog.list(),exerciseLookup);}
+rendererClient??=createRendererClient({baseUrl:rendererUrl,exerciseLookup});
 const db=createDatabase({domainErrors:[ExerciseSessionError,PracticeSetError]}),vault=createVault((await readFile('/secrets/encryption-key','utf8')).trim()),accounts=createAccounts({db,vault});
 const store=createRecordStore({db,vault,legacyDirectory,exerciseLookup,runtimeDigest:runtimeFingerprint()});
 const engineAdmission=createAdmission();
@@ -21,7 +29,7 @@ for(const method of ['startSession','resumeSession','submitAnswers'])sessions[me
 },{signal:actors.getStore()?.requestSignal}).catch(error=>{
  if(error instanceof AccountError&&error.code==='PRACTICE_BUSY')throw new RendererClientError('NETWORK_ERROR','Practice is busy; no renderer operation was started.');throw error;
 });
-const baseSets=createSetStore({db,vault,entries:()=>exerciseList().map(entry=>({...entry,subject:exerciseLookup(entry.id)?.subject??null,chapter:entry.topic,section:null})),exerciseLookup,startSession:input=>sessions.startSession(input)});
+const baseSets=createSetStore({db,vault,entries:()=>exerciseList().map(entry=>({...entry,subject:exerciseLookup(entry.id)?.subject??null,chapter:entry.chapter??entry.topic,section:entry.section??null})),exerciseLookup,startSession:input=>sessions.startSession(input)});
 const importLegacy=legacyDirectory?createLegacyImport({directory:legacyDirectory,db,vault,store}):async()=>({sessions:0,sets:0});
 const practiceSets={...baseSets};
 for(const name of ['get','openItem','move'])practiceSets[name]=async(...args)=>{
@@ -31,7 +39,7 @@ for(const name of ['get','openItem','move'])practiceSets[name]=async(...args)=>{
  }
 };
 const data=createStudentData({db,vault,store,sessions,exerciseLookup});
-const app=createAccountApp({db,accounts,data,sessions,practiceSets,importLegacy,exerciseList,setExerciseLookup:exerciseLookup,rendererBaseUrl:rendererUrl,engineStatus:()=>engineAdmission.snapshot(),origin});
+const app=createAccountApp({db,accounts,data,sessions,practiceSets,importLegacy,exerciseList,setExerciseLookup:exerciseLookup,rendererBaseUrl:rendererUrl,engineStatus:()=>engineAdmission.snapshot(),refreshCatalog:()=>publishedCatalog?.refresh(),origin});
 app.requestTimeout=10000;app.headersTimeout=10000;app.keepAliveTimeout=5000;app.maxConnections=128;
-return {app,db,accounts,data,sessions,practiceSets,store};
+return {app,db,accounts,data,sessions,practiceSets,store,publishedCatalog,closeCatalog:()=>catalogQuery?.close()};
 }

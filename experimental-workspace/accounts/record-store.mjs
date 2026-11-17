@@ -28,7 +28,7 @@ export function createRecordStore({db,vault,legacyDirectory,exerciseLookup,runti
    await importLegacy(record);row=await db.current(async client=>(await client.query('SELECT * FROM practice_runtime.sessions WHERE id=$1',[id])).rows[0]);
   }
   if(!row)throw missing();let record;try{record=vault.open(row.encrypted_record,'session:'+id);}catch{throw new ExerciseSessionError('STORAGE_ERROR','The saved session could not be read.');}
-  if(record._source){const current=exerciseLookup(record.exerciseId)?.source;if(!current||current.sha256!==record._source.sha256||current.revision!==record._source.revision)throw new ExerciseSessionError('EXERCISE_WITHDRAWN','The source changed; the saved session was retained.');}
+  if(record._source){const current=exerciseLookup(record.exerciseId)?.source;if(!current||current.sha256!==record._source.sha256||current.revision!==record._source.revision||record._source.contextId&&current.contextId!==record._source.contextId||record._source.versionId&&current.versionId!==record._source.versionId)throw new ExerciseSessionError('EXERCISE_WITHDRAWN','The source changed; the saved session was retained.');}
   ctx.record={id,generation:Number(row.generation),principalId:row.principal_id,contract:row.contract,contractGeneration:row.contract_generation===null?null:Number(row.contract_generation)};
   const pending=await db.current(async client=>(await client.query("SELECT state,lease_until,request_key FROM practice_runtime.operations WHERE session_id=$1 AND state IN('in-flight','uncertain')",[id])).rows[0]);
   record=authority(record);if(pending&&pending.request_key!==ctx.operation?.requestKey)record._pendingSubmission=pending.state==='uncertain'||new Date(pending.lease_until).getTime()<Date.now()?'uncertain':'in-flight';
@@ -37,7 +37,7 @@ export function createRecordStore({db,vault,legacyDirectory,exerciseLookup,runti
  async function save(record,{replace=false}={}){
   const ctx=context();if(!uuid.test(record.id)||record.ownerHash!==hash(ctx.ownerToken))throw new ExerciseSessionError('SESSION_FORBIDDEN','Session was not found.');
   const value=structuredClone(record);delete value._pendingSubmission;const source=exerciseLookup(record.exerciseId)?.source;
-  if(!replace&&source)value._source={revision:source.revision,sha256:source.sha256,runtime:runtimeDigest};
+  if(!replace&&source)value._source={revision:source.revision,sha256:source.sha256,runtime:runtimeDigest,...(source.contextId?{contextId:source.contextId,versionId:source.versionId}:{})};
   await db.current(async client=>{
    const old=(await client.query('SELECT * FROM practice_runtime.sessions WHERE id=$1 FOR UPDATE',[record.id])).rows[0];
    if(!replace){

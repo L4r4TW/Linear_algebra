@@ -28,7 +28,7 @@ try{
   try{$report=Get-Content -LiteralPath $temporary -Raw|ConvertFrom-Json}finally{Remove-Item -LiteralPath $temporary}
   if(-not $report.complete){throw 'Incomplete browser observations'}
   $report|Add-Member -NotePropertyName sourceHashes -NotePropertyValue $hashes -Force
-  $report|Add-Member -NotePropertyName serverTests -NotePropertyValue 15 -Force
+  $report|Add-Member -NotePropertyName serverTests -NotePropertyValue 16 -Force
   $report|Add-Member -NotePropertyName realDatabaseTests -NotePropertyValue 1 -Force
   $report|Add-Member -NotePropertyName browserTests -NotePropertyValue $(if($name -eq 'discovery'){7}else{5}) -Force
   $report|Add-Member -NotePropertyName imageId -NotePropertyValue ((docker image inspect linear-algebra-discovery --format '{{.Id}}')-join '') -Force

@@ -2,7 +2,7 @@ import {randomUUID,randomInt} from 'node:crypto';
 import {actors,AccountError} from './db.mjs';import {hash} from './crypto.mjs';
 import {PracticeSetError} from '../application/server/practice-sets.mjs';
 const validId=value=>typeof value==='string'&&/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(value);
-const binding=entry=>entry?.source?{sha256:entry.source.sha256,revision:entry.source.revision}:null;
+const binding=entry=>entry?.source?{sha256:entry.source.sha256,revision:entry.source.revision,...(entry.source.contextId?{contextId:entry.source.contextId,versionId:entry.source.versionId}:{})}:null;
 function selectionOf(input){
  if(!input||typeof input!=='object'||Array.isArray(input)||Object.entries(input).some(([k,v])=>!['subject','chapter','section'].includes(k)||typeof v!=='string'||!v.trim()||v.length>200||/[\x00-\x1f\x7f]/.test(v))||input.chapter&&!input.subject||input.section&&!input.chapter)throw new PracticeSetError('INVALID_SET_INPUT');
  return {subject:input.subject??null,chapter:input.chapter??null,section:input.section??null};
@@ -15,7 +15,7 @@ export function createSetStore({db,vault,entries,exerciseLookup,startSession}){
   if(!row)throw new PracticeSetError('SET_NOT_FOUND');
   row.items=(await client.query('SELECT * FROM practice_runtime.set_items WHERE set_id=$1 ORDER BY position',[id])).rows;return row;
  }
- const available=item=>{const current=binding(exerciseLookup(item.exercise_id));return current!==null&&current.sha256===item.source.sha256&&current.revision===item.source.revision;};
+ const available=item=>{const current=binding(exerciseLookup(item.exercise_id));return current!==null&&current.sha256===item.source.sha256&&current.revision===item.source.revision&&(!item.source.contextId||current.contextId===item.source.contextId)&&(!item.source.versionId||current.versionId===item.source.versionId);};
  function present(row){return {id:row.id,revision:Number(row.revision),title:row.title,selection:row.selection,createdAt:new Date(row.created_at).toISOString(),position:row.position,total:row.items.length,
  policy:{maximum:20,order:'exercise-id-ascending',skipped:'retained-for-revisit',positionMeaning:'location-not-correctness'},
  items:row.items.map(item=>({position:item.position,exerciseId:item.exercise_id,title:item.title,sessionId:item.session_id,state:item.state,skipped:item.skipped,available:available(item)}))};}

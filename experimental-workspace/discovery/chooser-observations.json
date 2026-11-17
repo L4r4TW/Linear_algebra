@@ -1,6 +1,6 @@
 {
     "version":  1,
-    "observedAt":  "2026-11-17T09:19:29.368Z",
+    "observedAt":  "2026-11-17T10:50:14.885Z",
     "scope":  "Task 9 real catalog chooser and temporary owned prototype session; no activation or account assertions",
     "desktopColumns":  true,
     "dependentSelection":  true,
@@ -16,7 +16,7 @@
     "sourceHashes":  [
                          {
                              "file":  "catalog.mjs",
-                             "sha256":  "0158c73367c1444d24c01f2c7addd23057ea99a2fd659b510e6f5c5edead08b4"
+                             "sha256":  "724eb935e6412543242072a0e497f2ed23924977c58e4f0d143f61ff0342d523"
                          },
                          {
                              "file":  "chooser.mjs",
@@ -76,7 +76,7 @@
                          },
                          {
                              "file":  "catalog.test.mjs",
-                             "sha256":  "b10e81abf9bc3d86dceab563d6ae728abfe5c827b1e6a125e0e794201cc86c6e"
+                             "sha256":  "09bd92b6586bfec9f04898e6ec3174d0d398592f0e23479112c2f6300db432b6"
                          },
                          {
                              "file":  "chooser.test.mjs",
@@ -116,11 +116,11 @@
                          },
                          {
                              "file":  "verify.ps1",
-                             "sha256":  "c6b9f6a0b7c429802f5cbed450e09921f2fcb104fee670c533836b43402af7da"
+                             "sha256":  "8e66a194cc8590a62bdf46830d297db741446cb3b9574e7ca1a6253f235f113a"
                          }
                      ],
-    "serverTests":  15,
+    "serverTests":  16,
     "realDatabaseTests":  1,
     "browserTests":  5,
-    "imageId":  "sha256:2e32abd9a102f8f12eff984dd127bf75504d555de9fab542e60b3ba1d2642318"
+    "imageId":  "sha256:81e589469f203eb15307200dbaa0e85e0f96a2486eab746a7083e1a939d13024"
 }

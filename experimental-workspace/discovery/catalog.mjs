@@ -61,10 +61,11 @@ export function createCatalog({query=queryDatabase,practiceOrigin='http://worksp
    if(!response.ok)throw Error();
    const value=await response.json();
    if(!Array.isArray(value.exercises))throw Error();
-   return value.exercises.filter(v=>typeof v.id==='string'&&metadata.some(m=>m.id===v.id)).map(v=>{
+   return value.exercises.filter(v=>typeof v.id==='string'&&(metadata.some(m=>m.id===v.id)||uuid.test(v.id)&&text(v.subject)&&text(v.chapter))).map(v=>{
     const source=metadata.find(m=>m.id===v.id);
-    return {id:v.id,title:v.title,description:v.description,subject:source.subject,chapter:v.topic,section:null,topic:v.topic,
-     canPractice:true,availability:'practice-ready',titleOrigin:'reviewed-title'};
+    return {id:v.id,title:v.title,description:v.description,subject:source?.subject??v.subject,chapter:source?v.topic:v.chapter,section:source?null:text(v.section),topic:v.topic,
+     canPractice:true,availability:'practice-ready',titleOrigin:source?'reviewed-title':v.titleOrigin??'source-metadata',
+     ...(source?{}:{attribution:{authors:Array.isArray(v.attribution?.authors)?v.attribution.authors.filter(a=>typeof a==='string'):[],institutions:Array.isArray(v.attribution?.institutions)?v.attribution.institutions.filter(a=>typeof a==='string'):[]}})};
    });
   }catch{throw new DiscoveryError('PRACTICE_UNAVAILABLE',503);}
  }
@@ -76,25 +77,36 @@ export function createCatalog({query=queryDatabase,practiceOrigin='http://worksp
  }
  async function summary(){
   if(cache&&cache.until>Date.now())return cache.value;
-  const value=await query("SELECT jsonb_build_object('counts',catalog_api.opl_counts(),'subjects',(SELECT coalesce(jsonb_agg(to_jsonb(x)),'[]') FROM(SELECT subject,sum(indexed)::integer indexed FROM catalog_api.opl_topics() WHERE subject IS NOT NULL GROUP BY subject ORDER BY subject)x))");
-  const result={indexed:value.counts.indexed,practiceReady:value.counts.practiceReady,unclassified:value.counts.unclassified,subjects:value.subjects};
+  const [counts,subjects]=await Promise.all([
+   query("SELECT catalog_api.opl_counts()"),
+   query("SELECT coalesce(jsonb_agg(to_jsonb(x)),'[]') FROM(SELECT subject,sum(indexed)::integer indexed FROM catalog_api.opl_topics() WHERE subject IS NOT NULL GROUP BY subject ORDER BY subject)x")
+  ]);
+  const result={indexed:counts.indexed,practiceReady:counts.practiceReady,unclassified:counts.unclassified,subjects};
   cache={value:result,until:Date.now()+15000};return result;
  }
  async function search(input){
-  const after=decodeCursor(input);
+
   if(input.view==='practice'){
-   if(input.cursor||input.area)throw new DiscoveryError('INVALID_FILTER');
-   const entries=(await practice()).filter(e=>(!input.subject||e.subject===input.subject)&&(!input.chapter||e.chapter===input.chapter)&&!input.section&&
-    input.q.toLocaleLowerCase().split(/\s+/).every(word=>[e.title,e.description,e.subject,e.chapter].filter(Boolean).join(' ').toLocaleLowerCase().includes(word)));
-   return {entries,nextCursor:null,view:'practice'};
+   if(input.area)throw new DiscoveryError('INVALID_FILTER');
+   const live=await practice(),generation=createHash('sha256').update(JSON.stringify(live)).digest('hex');let offset=0;
+   if(input.cursor){
+    try{const c=JSON.parse(Buffer.from(input.cursor,'base64url'));if(c.kind!=='practice'||c.binding!==binding(input)||!Number.isInteger(c.offset)||c.offset<1)throw Error();if(c.generation!==generation)throw new DiscoveryError('CATALOG_CHANGED',409);offset=c.offset;}
+    catch(error){if(error instanceof DiscoveryError)throw error;throw new DiscoveryError('INVALID_CURSOR');}
+   }
+   const entries=live.filter(e=>(!input.subject||e.subject===input.subject)&&(!input.chapter||e.chapter===input.chapter)&&(!input.section||e.section===input.section)&&
+    input.q.toLocaleLowerCase().split(/\s+/).every(word=>[e.title,e.description,e.subject,e.chapter,e.section,...(e.attribution?.authors??[]),...(e.attribution?.institutions??[])].filter(Boolean).join(' ').toLocaleLowerCase().includes(word))).sort((a,b)=>a.title.localeCompare(b.title,'en')||a.id.localeCompare(b.id,'en'));
+   if(offset>=entries.length&&offset)throw new DiscoveryError('INVALID_CURSOR');
+   const next=offset+12;
+   return {entries:entries.slice(offset,next),nextCursor:next<entries.length?Buffer.from(JSON.stringify({kind:'practice',binding:binding(input),generation,offset:next})).toString('base64url'):null,view:'practice'};
   }
+  const after=decodeCursor(input);
   const args=[input.q,input.subject,input.chapter,input.section,input.area].map(literal).join(',');
   const rows=await query("SELECT coalesce(jsonb_agg(to_jsonb(x)),'[]') FROM catalog_api.search_opl("+args+",13,"+literal(after?.title??'')+","+literal(after?.id??'00000000-0000-0000-0000-000000000000')+"::uuid,"+(after?literal(after.runId)+'::uuid':'NULL')+")x");
   const page=rows.slice(0,12);return {entries:page.map(publicEntry),nextCursor:rows.length>12?cursor(page.at(-1),input):null,view:'library'};
  }
  async function topics(input){
   if(input.view==='practice'){
-   const entries=await practice();return {topics:entries.filter(e=>!input.subject||input.subject===e.subject).map(e=>({subject:e.subject,chapter:e.chapter,section:null,indexed:0}))};
+   const entries=await practice();return {topics:entries.filter(e=>!input.subject||input.subject===e.subject).map(e=>({subject:e.subject,chapter:e.chapter,section:e.section??null,indexed:0}))};
   }
   const key=JSON.stringify([input.subject,input.chapter]);
   let cached=topicCache.get(key);

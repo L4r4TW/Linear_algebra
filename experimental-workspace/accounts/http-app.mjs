@@ -22,7 +22,7 @@ async function body(req,limit=8192){
  if(!input||typeof input!=='object'||Array.isArray(input))throw new AccountError('INVALID_INPUT',400);return input;
 }
 function keys(input,allowed){if(Object.keys(input).some(key=>!allowed.includes(key)))throw new AccountError('INVALID_INPUT',400);}
-export function createAccountApp({db,accounts,data,sessions,practiceSets,importLegacy,exerciseList,setExerciseLookup,rendererBaseUrl,engineStatus=()=>null,origin='http://localhost:3100'}){
+export function createAccountApp({db,accounts,data,sessions,practiceSets,importLegacy,exerciseList,setExerciseLookup,rendererBaseUrl,engineStatus=()=>null,refreshCatalog=async()=>{},origin='http://localhost:3100'}){
  const admission=createAdmission();
  const inner=createApp({sessions,practiceSets,exerciseList,setExerciseLookup,rendererBaseUrl,origin}).listeners('request')[0];
  const secure=new URL(origin).protocol==='https:'?'; Secure':'';
@@ -58,8 +58,9 @@ export function createAccountApp({db,accounts,data,sessions,practiceSets,importL
     }
    }
    // Public static resources and the catalog require no account/session lookup.
-   if(!accountRoute&&!draft&&!url.pathname.startsWith('/api/sessions'))return await inner(req,res);
+   if(!accountRoute&&!draft&&!url.pathname.startsWith('/api/sessions')){if(url.pathname==='/api/exercises')await refreshCatalog();return await inner(req,res);}
    const resolved=await accounts.resolveCookies(req.headers.cookie);
+   await refreshCatalog();
    admission.checkRate('owner:'+resolved.actor.principalId,{limit:240});
    if(resolved.newGuest)res.setHeader('Set-Cookie',cookie('la_experiment_owner',resolved.newGuest,'/api/sessions'));
    return await actors.run({...resolved.actor,requestSignal:requestAbort.signal},async()=>{

@@ -1,0 +1,12 @@
+{
+  "complete": true,
+  "syntheticApprovalsOnlyInDisposableCatalog": true,
+  "realPrivateRenderer": true,
+  "databaseUUIDListed": true,
+  "privateBindingsExcluded": true,
+  "ownedSessionStarted": true,
+  "grading": true,
+  "sameSessionRestoration": true,
+  "foreignOwnerDenied": true,
+  "sectionPracticeSet": true
+}

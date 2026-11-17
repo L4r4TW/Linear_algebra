@@ -29,3 +29,13 @@ test('attribution is allowlisted and text remains data',()=>{
  assert.deepEqual(row.attribution.authors,['Author']);assert.equal(row.title,'<img src=x onerror=alert(1)>');
  assert.equal(row.canPractice,false);
 });
+
+test('approved backend UUID entries support section filtering, attribution search and bounded shareable practice pages',async()=>{
+ const exercises=Array.from({length:25},(_,i)=>({id:id(i+1),title:'Derivative '+String(i).padStart(2,'0'),subject:'Calculus',chapter:'Differentiation',section:'Chain rule',attribution:{authors:['Example author']}}));
+ const catalog=createCatalog({fetcher:async()=>Response.json({exercises})});
+ const first=await catalog.search(input('subject=Calculus&chapter=Differentiation&section=Chain+rule&q=author'));assert.equal(first.entries.length,12);assert.ok(first.entries.every(e=>e.canPractice));assert.ok(first.nextCursor);
+ const next=await catalog.search(input('subject=Calculus&chapter=Differentiation&section=Chain+rule&q=author&cursor='+first.nextCursor));assert.equal(next.entries.length,12);assert.notEqual(first.entries[0].id,next.entries[0].id);
+ await assert.rejects(catalog.search(input('q=other&cursor='+first.nextCursor)),{code:'INVALID_CURSOR'});
+ exercises.pop();await assert.rejects(catalog.search(input('subject=Calculus&chapter=Differentiation&section=Chain+rule&q=author&cursor='+first.nextCursor)),{code:'CATALOG_CHANGED'});
+ assert.ok((await catalog.topics(input('subject=Calculus'))).topics.every(t=>t.section==='Chain rule'));
+});

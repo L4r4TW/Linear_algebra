@@ -1,0 +1,5519 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-17T10:54:43.530Z",
+  "contextId": "6a5647c8-26bc-4cf0-851f-da88b9b901f5",
+  "scope": "Technical transport/layout verification only; no independent reviews, publication or student availability inferred.",
+  "enqueue": [
+    "b1389654-aca6-472f-a5e1-760027a2a34f"
+  ],
+  "topics": [
+    {
+      "id": "limits-continuity",
+      "target": 10,
+      "technicalPassed": 4,
+      "pending": 6,
+      "unused": 18,
+      "exhausted": false,
+      "selected": [
+        {
+          "id": "0e41bf3b-5568-4b60-a90d-76f6be780425",
+          "sourceVersionId": "5dd50d1e-6c30-463d-8a11-c0902fecebd2",
+          "jobId": "4be939cf-a123-4fad-afe9-3bf75489fa8e"
+        },
+        {
+          "id": "db1fae79-6693-47a9-96f2-ec71c3a5c80c",
+          "sourceVersionId": "88be1406-64f2-4ae8-90b2-32775c138461",
+          "jobId": "6d3c5b2e-d4fe-400c-b257-03e23e881fd7"
+        },
+        {
+          "id": "cf59cb5c-67f5-44f4-b251-538c1585aaf9",
+          "sourceVersionId": "6f7ba7e3-b051-441d-9dae-8326660d7351",
+          "jobId": "3022ca2c-d72f-48a2-9e1c-ddf3640e0c83"
+        },
+        {
+          "id": "0d7aa921-9eb7-4c94-a7f6-13741f42c12c",
+          "sourceVersionId": "61ee4791-f6df-4f19-b3be-440a11bdda20",
+          "jobId": "168cef46-a812-47df-99dd-8f34fbd3cdf2"
+        }
+      ]
+    },
+    {
+      "id": "definition-differentiability",
+      "target": 10,
+      "technicalPassed": 2,
+      "pending": 8,
+      "unused": 19,
+      "exhausted": false,
+      "selected": [
+        {
+          "id": "f15b0c27-1666-4d0b-8a4e-1399e174baec",
+          "sourceVersionId": "0e84b731-e72a-4530-b9f0-5cd991a7c032",
+          "jobId": "10a57f9d-a0fe-4414-95fb-37acc3fdf8da"
+        },
+        {
+          "id": "51c8e561-90fd-41c3-839e-f32b587bad3c",
+          "sourceVersionId": "9a628538-4271-4d4e-9940-14f4362b198c",
+          "jobId": "09468fb1-52e6-451e-afe4-262ba835ed51"
+        }
+      ]
+    },
+    {
+      "id": "basic-rules",
+      "target": 15,
+      "technicalPassed": 5,
+      "pending": 10,
+      "unused": 29,
+      "exhausted": false,
+      "selected": [
+        {
+          "id": "bb3a7a7e-b287-4005-b987-0b3f7eb728a1",
+          "sourceVersionId": "37e04575-f056-4050-87ad-b6b2074446ff",
+          "jobId": "10ec4c28-f44d-4265-8d39-53ace1fab85d"
+        },
+        {
+          "id": "23e2b65d-41ad-49b1-814f-29bbc64d5af3",
+          "sourceVersionId": "73106232-0c35-4421-bbcb-affa5ad33c59",
+          "jobId": "21fdf623-bff9-4bc8-9bb8-f24255238ced"
+        },
+        {
+          "id": "8d96ce67-aeea-405e-bf04-742a892b58c2",
+          "sourceVersionId": "b767b418-e212-45b8-937b-8e6b9ffccd01",
+          "jobId": "73352741-79ba-4ffd-8ba2-dfe0cf558069"
+        },
+        {
+          "id": "81fa382d-89db-40d8-a511-f3676765f7a8",
+          "sourceVersionId": "af30c5ea-751f-4867-9d99-3c361c53ebb1",
+          "jobId": "784274e1-ee47-4044-98d0-e22e1cdf545f"
+        },
+        {
+          "id": "d3a1358b-50ec-49a1-adab-4c5e268fb6a8",
+          "sourceVersionId": "fb952c23-44b1-4167-819d-78a416592508",
+          "jobId": "3fc542e4-6d2c-4f06-9980-9cb037626f3b"
+        }
+      ]
+    },
+    {
+      "id": "chain-transcendental",
+      "target": 20,
+      "technicalPassed": 4,
+      "pending": 16,
+      "unused": 36,
+      "exhausted": false,
+      "selected": [
+        {
+          "id": "78ccf273-c816-4077-a128-2648b2cdb0ba",
+          "sourceVersionId": "d6f591d9-a192-4d25-81e3-71e7d25dba6d",
+          "jobId": "35571551-da6e-499d-9a66-630e6d1ff3d3"
+        },
+        {
+          "id": "d6ed7245-9b13-435d-9e80-c1a9fe371635",
+          "sourceVersionId": "330a59cf-60b8-4c71-98be-d44d26500100",
+          "jobId": "0f3cbd7b-1b2d-428a-8b5c-f944db532002"
+        },
+        {
+          "id": "32a8aa04-ba68-45d7-8bea-6d868601e6c2",
+          "sourceVersionId": "28805c58-2b72-4aaa-86a9-f9d655fbbaae",
+          "jobId": "103667d9-426a-4b3d-9824-65b837fa63ad"
+        },
+        {
+          "id": "da3ae667-c37e-4bca-9ebe-33af71ec410b",
+          "sourceVersionId": "0883d181-57ea-4283-a756-5455108d4622",
+          "jobId": "0daf3194-4c4b-47fa-981a-62385991539d"
+        }
+      ]
+    },
+    {
+      "id": "implicit-logarithmic",
+      "target": 10,
+      "technicalPassed": 4,
+      "pending": 6,
+      "unused": 16,
+      "exhausted": false,
+      "selected": [
+        {
+          "id": "a367269c-b7a0-4dea-8a0d-9c853a04bbd2",
+          "sourceVersionId": "570a8614-dc78-45be-a464-f3098db4525c",
+          "jobId": "16764b62-5555-4138-81f1-c5775745f10d"
+        },
+        {
+          "id": "3ff3177b-ef8e-440f-8c95-ba01594a4e29",
+          "sourceVersionId": "d907b3ab-b30b-49fa-bdb9-378168ca1d54",
+          "jobId": "6bfdd672-570d-46a0-8ec2-654b67ef8343"
+        },
+        {
+          "id": "f56bdad7-4e97-4413-8cdc-31071e66468a",
+          "sourceVersionId": "47368f83-87d3-44e1-a7e7-9ca43a6a199e",
+          "jobId": "29e936e1-f9e0-4649-9773-4c12ee952cc0"
+        },
+        {
+          "id": "71c0e3ef-8a7b-4587-aceb-80dd0de4b3ab",
+          "sourceVersionId": "c4023c3a-0683-45f6-af90-7ab926f8530e",
+          "jobId": "6fd967fc-f20d-494f-bc96-63eff3c90af2"
+        }
+      ]
+    },
+    {
+      "id": "higher-tangents-linear",
+      "target": 10,
+      "technicalPassed": 6,
+      "pending": 4,
+      "unused": 20,
+      "exhausted": false,
+      "selected": [
+        {
+          "id": "0c01ad63-5cf7-47b0-a18f-727577ba95e1",
+          "sourceVersionId": "5d48e80f-f53e-4edd-b0fe-ddc09a5eaa45",
+          "jobId": "4231a1cc-1696-4411-adda-3f4b525ae28b"
+        },
+        {
+          "id": "6c9dbe72-7e2b-4eff-a567-c61bbc1b8d28",
+          "sourceVersionId": "b5bb7923-7480-4827-b40c-30b3bebc0833",
+          "jobId": "23292eef-d0df-42fd-aa06-1dfcacd1e466"
+        },
+        {
+          "id": "4b7c3483-2302-4ecc-a9fb-903c29e6f30d",
+          "sourceVersionId": "f44b53d8-ddab-4aa2-9f6b-7a4b8614d9b7",
+          "jobId": "230505f2-6b5a-431a-b63a-4b63b4da4b79"
+        },
+        {
+          "id": "e46f2fc1-533e-41fe-8719-84bf0dd6b899",
+          "sourceVersionId": "5826c9cc-c9f7-4d6d-a46f-f5c2c20535e5",
+          "jobId": "4ed2f72c-3b90-4f62-99aa-5dd8e0482a73"
+        },
+        {
+          "id": "949f3018-aac5-488c-b1d0-63da4755be4b",
+          "sourceVersionId": "bdc141aa-134b-402f-827d-05e04866222a",
+          "jobId": "4e5283ae-3dc7-49fd-987e-b98c9ebdd0a7"
+        },
+        {
+          "id": "c28afb4c-99fb-407d-9aab-9aed22a8abf5",
+          "sourceVersionId": "87bdefdd-47df-4e27-a86b-946d9bdd3856",
+          "jobId": "3e5d1afe-7fc6-4ce1-aa7a-7286cd78f73c"
+        }
+      ]
+    },
+    {
+      "id": "curve-analysis",
+      "target": 15,
+      "technicalPassed": 3,
+      "pending": 11,
+      "unused": 28,
+      "exhausted": false,
+      "selected": [
+        {
+          "id": "35999854-fe79-448c-a00c-1d8ab2d9035d",
+          "sourceVersionId": "affe7fdc-8036-45a0-ba29-c7871ac31b7a",
+          "jobId": "5c3ab3ba-4065-45a1-aaab-a0ea9b8a27a2"
+        },
+        {
+          "id": "bfd6aa44-8315-41c4-b07c-9f07e1fc75e8",
+          "sourceVersionId": "4189f442-a3bf-46f8-9a52-8a6673769afb",
+          "jobId": "5cc341b9-d5fd-4b40-87d4-0832df58acc1"
+        },
+        {
+          "id": "294fc6a5-c8d6-421d-816f-631e0049830c",
+          "sourceVersionId": "d1301df0-5ac3-4c6d-98a4-d04368dd07a7",
+          "jobId": "323c5e84-40ff-4b7b-8214-2763651c985e"
+        }
+      ]
+    },
+    {
+      "id": "optimization-related-rates",
+      "target": 10,
+      "technicalPassed": 4,
+      "pending": 6,
+      "unused": 19,
+      "exhausted": false,
+      "selected": [
+        {
+          "id": "fc5c960f-7a10-4882-838f-2f8e5911a2b1",
+          "sourceVersionId": "0af17889-e6de-4cd5-b442-69847b847a76",
+          "jobId": "6e5e9cfa-6a1d-4dc5-96e5-5d50be122112"
+        },
+        {
+          "id": "663f471b-a90f-4b9b-bf36-8e698eef7eee",
+          "sourceVersionId": "79bae998-d016-4f6d-8bc9-be21072fbaaf",
+          "jobId": "641c7d6d-3173-4bc1-8264-7ac46fe64a50"
+        },
+        {
+          "id": "ebd8c7a9-df86-4951-82f8-4f2ee5fa03a0",
+          "sourceVersionId": "c0faf89c-8b57-41c3-8227-04078b8823ca",
+          "jobId": "7890993d-cb8f-4c19-8ecb-64e6b122b763"
+        },
+        {
+          "id": "815b01c2-467a-4ffd-bce5-abf5390b0fe4",
+          "sourceVersionId": "05ff19d8-a15f-4faa-9a97-6f5fe72f7a64",
+          "jobId": "4fc89f6d-35b8-4a3d-8ee8-5f0226c061f8"
+        }
+      ]
+    }
+  ],
+  "complete": false,
+  "exhausted": false,
+  "jobs": [
+    {
+      "id": "6063a39d-2bee-480d-987a-50cb460bec1d",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "7bba2e76-d658-4906-8fe1-c87e9d83ca44"
+    },
+    {
+      "id": "fc45f06a-c6f0-4e4e-98de-95ede65c1a8e",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "a77a5fa2-486f-423b-9dc1-12edfda4de41"
+    },
+    {
+      "id": "f97cbc6d-551b-4d42-a418-1f45e78d1597",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "a5ae93d0-f182-4de3-bfbe-9d774d2b1102"
+    },
+    {
+      "id": "b7c042b7-53fb-407b-8fb9-d70fb1194d3e",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "e633d7c2-23be-4890-8f19-5c9c00809d5a"
+    },
+    {
+      "id": "4be939cf-a123-4fad-afe9-3bf75489fa8e",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 43179,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "5dd50d1e-6c30-463d-8a11-c0902fecebd2"
+    },
+    {
+      "id": "6d3c5b2e-d4fe-400c-b257-03e23e881fd7",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 57604,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "88be1406-64f2-4ae8-90b2-32775c138461"
+    },
+    {
+      "id": "a6408d1b-6d25-4837-859e-bb5c147a2941",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "d805c63f-c5e2-4b2d-ae9d-89b5569b24b0"
+    },
+    {
+      "id": "a2393efa-1ff7-4307-acc5-8d8c7c1a627f",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "4eeb5ae2-ab5c-46f2-9ec6-1918e2006c6a"
+    },
+    {
+      "id": "d23a1702-dd14-48a1-8259-2aaea5f39707",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "3f7d7821-afe1-4abe-93c7-41f17fc29c1a"
+    },
+    {
+      "id": "8f764eb2-8ef4-422e-b72f-1686982c717a",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "0089e7ca-b33c-4e78-8b4e-07516553c427"
+    },
+    {
+      "id": "16764b62-5555-4138-81f1-c5775745f10d",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 40732,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "570a8614-dc78-45be-a464-f3098db4525c"
+    },
+    {
+      "id": "87068d2c-69c0-4f02-a46d-a6f9b9f36dd0",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "ebf65ec9-2b7b-40a2-95ab-5dfb67b1f4ea"
+    },
+    {
+      "id": "aa84cc64-3cb4-45d8-8363-d5089016deb7",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "bde458b6-c740-4a8c-bb58-e9593fa67ae0"
+    },
+    {
+      "id": "d0fa2346-6cc4-482f-aeb9-59d26114a119",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "9f9de759-22a2-460a-8983-6f17e4f78ca4"
+    },
+    {
+      "id": "c850e6da-4f1f-4b32-90c7-5a6a480a1295",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "17cdee32-bc1c-422f-80a4-07975168e84d"
+    },
+    {
+      "id": "d5885810-9f59-497c-a1c7-92fcff113b0c",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "21865ada-675b-4deb-83e2-5eea3ae29987"
+    },
+    {
+      "id": "7e0d2397-5d06-4b79-8d4b-de9b3c3a2f14",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "0d08a2a1-b660-49a2-b750-53f8bdee4c2a"
+    },
+    {
+      "id": "bfa5173c-26af-4ce8-b5d7-4c177d40d369",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "e621f971-0bda-4790-bdcf-1028c320d9a6"
+    },
+    {
+      "id": "865648af-2b10-4d65-a76b-68f9ac3c522a",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "8f2d0ab3-15cc-4e84-a9a3-d1048fae83e4"
+    },
+    {
+      "id": "d255133a-ee47-47fa-ac1e-6f88c17af110",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "7733e299-4135-417c-b900-e0b81fc7e0d4"
+    },
+    {
+      "id": "e97700e6-a67f-42e7-8d98-1ac947f92ead",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "a118bbbb-76d9-4816-8d29-d689765aca3c"
+    },
+    {
+      "id": "8f82f231-410f-4ef6-97a1-79afbfe5d325",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "c9778036-d9e5-4fd1-aa7b-cf5bf7be7d90"
+    },
+    {
+      "id": "9d2fad98-736d-44a4-aacf-47791a1c36f2",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "fd591598-f453-492a-941f-de1e26bdd7e8"
+    },
+    {
+      "id": "b59f95ff-10d0-4aea-b844-ddd001a35eab",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "591a07c5-780b-4fbc-a2a1-61d1e2bf14d8"
+    },
+    {
+      "id": "c3787eac-d29e-4bdd-85df-cca7da55e7dc",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "f57cbb59-f086-4f27-8679-24b11bed4c65"
+    },
+    {
+      "id": "c7254da2-6e0a-4897-ab32-79c8c875e90c",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "6f014f0b-ba0f-4fc5-904f-39ba2c685db2"
+    },
+    {
+      "id": "a746dd74-a0a6-40c9-b4fb-9ab320825b26",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "294f429e-2104-4efb-abe5-577164a7ad63"
+    },
+    {
+      "id": "b7bff87f-bb07-491b-b567-0dbb188c895a",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "0b64bda0-7b46-44ce-8474-c68c8e86efab"
+    },
+    {
+      "id": "b81ed0bf-75d2-4718-90ec-3277c4b2e4e4",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "daef8a3d-c48c-4005-ab88-c0c8e9b06fc3"
+    },
+    {
+      "id": "b0dffeca-e888-43b8-888d-fc7f6103bed1",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "d97b4b4a-20f1-4d7d-9e75-a7f86034b8bf"
+    },
+    {
+      "id": "e25d5895-359b-4d85-af00-c344bd8d0fdd",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "8b40d07b-f145-4b83-ac1b-65b1ae9ad865"
+    },
+    {
+      "id": "daa3bd04-d506-4790-9087-fadb87526a19",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "0b8d02c5-0bda-4a79-9bbc-4efcb4a3ea25"
+    },
+    {
+      "id": "f280a5cc-40b4-4e61-9cd2-e7d986e9bd6e",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "77fedb50-e36f-4c20-8a9a-00783b9b3f97"
+    },
+    {
+      "id": "85271d18-d1ba-4cb8-8f37-4170e155e9c6",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "45087b15-be8b-4009-b4af-2a8cd53285e9"
+    },
+    {
+      "id": "fd685168-93e9-437f-8439-b87b8d32f274",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "080b4aab-7f1e-4e26-8876-6a1ae44e5f00"
+    },
+    {
+      "id": "dc7ed95d-774d-4ea1-bf7d-85e00777a6ba",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "d41543eb-4328-4ea9-8025-906c9026e9b7"
+    },
+    {
+      "id": "21fdf623-bff9-4bc8-9bb8-f24255238ced",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 86773,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "73106232-0c35-4421-bbcb-affa5ad33c59"
+    },
+    {
+      "id": "c05a061c-1409-4dc2-a0a4-945bfef8106b",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "e10544b6-c25f-4d6b-8c16-78b576ae6fe3"
+    },
+    {
+      "id": "1cf5215c-332d-4bd5-b4b9-77bb565a1782",
+      "state": "failed",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": "QA_CORRECT_SCORE",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 0.5,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": "QA_CORRECT_SCORE",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 0.5,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_CORRECT_SCORE",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 0.5,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_CORRECT_SCORE",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 0.5,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 33396,
+        "technicalState": "failed"
+      },
+      "attempt_count": 1,
+      "technical_state": "failed",
+      "source_version_id": "798bdf1a-2623-4467-a966-ffb9236bece4"
+    },
+    {
+      "id": "c5917088-b876-4fd2-b6d8-f922830124fc",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "83c6f018-9b18-4aca-aa66-0d1da10751c7"
+    },
+    {
+      "id": "c8591025-6567-4323-a18c-d5019b24e440",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "3afad64a-044f-4339-8b1d-7648177fb6a7"
+    },
+    {
+      "id": "d2229c25-47ed-45cc-9de2-fc1c2d12bc30",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "6ef534b1-c2ed-4999-bebe-1c55ce8c1da5"
+    },
+    {
+      "id": "adb1ef12-a2c1-491a-96ea-ec6662adcf39",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "9e73ea38-3f33-4a59-9656-a8176f0fda35"
+    },
+    {
+      "id": "f44b9c51-e7e1-44d0-882c-75157950f17f",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "f6874ff8-4368-4c66-ba0c-a4659772912d"
+    },
+    {
+      "id": "9ab7679c-9bc7-4d21-9e6b-3ae7e5bbfd4f",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "86b43455-53b2-484a-b4a5-95c124e4b7f0"
+    },
+    {
+      "id": "cec18899-6291-4439-8fb7-6534cf41b299",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "a09a43e0-fe92-45cd-98dd-ad47e6c31161"
+    },
+    {
+      "id": "d3889fe7-a5ff-41db-bbee-921519f63639",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "31a0b935-ba5a-44bc-ab75-ba58cbf7f861"
+    },
+    {
+      "id": "29e936e1-f9e0-4649-9773-4c12ee952cc0",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 66260,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "47368f83-87d3-44e1-a7e7-9ca43a6a199e"
+    },
+    {
+      "id": "0c85a6d3-3323-4351-8554-65ee1d4e4801",
+      "state": "failed",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "RENDER_OR_INTERACTION_ERROR",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 68330,
+        "technicalState": "failed"
+      },
+      "attempt_count": 1,
+      "technical_state": "failed",
+      "source_version_id": "21458b06-0c0b-456b-8ca3-fc4d0aacb996"
+    },
+    {
+      "id": "2ec349d1-9300-4f96-81ce-1dac1c1ba392",
+      "state": "failed",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": "QA_INVALID_CLASSIFICATION",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": "QA_INVALID_CLASSIFICATION",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_INVALID_CLASSIFICATION",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_INVALID_CLASSIFICATION",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 29233,
+        "technicalState": "failed"
+      },
+      "attempt_count": 1,
+      "technical_state": "failed",
+      "source_version_id": "92b544cb-bf01-47dc-97ae-f9d7e77fc08e"
+    },
+    {
+      "id": "0daf3194-4c4b-47fa-981a-62385991539d",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 57199,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "0883d181-57ea-4283-a756-5455108d4622"
+    },
+    {
+      "id": "103667d9-426a-4b3d-9824-65b837fa63ad",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 74663,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "28805c58-2b72-4aaa-86a9-f9d655fbbaae"
+    },
+    {
+      "id": "304c47bb-dbdc-4a30-bcba-09e3f9b26d4e",
+      "state": "failed",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 22189,
+        "technicalState": "failed"
+      },
+      "attempt_count": 1,
+      "technical_state": "failed",
+      "source_version_id": "b39e6c83-e0f3-4d7b-9688-b12116040d27"
+    },
+    {
+      "id": "0f3cbd7b-1b2d-428a-8b5c-f944db532002",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 46294,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "330a59cf-60b8-4c71-98be-d44d26500100"
+    },
+    {
+      "id": "0ff8e587-e038-431c-a272-e820e90339b3",
+      "state": "failed",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [
+              "NARROW_FRAME_SCROLL"
+            ],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [
+              "NARROW_FRAME_SCROLL"
+            ],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [
+              "NARROW_FRAME_SCROLL"
+            ],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [
+              "NARROW_FRAME_SCROLL"
+            ],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 25539,
+        "technicalState": "failed"
+      },
+      "attempt_count": 1,
+      "technical_state": "failed",
+      "source_version_id": "b34ed1b4-e69a-46a9-8edf-1dbb3b508be4"
+    },
+    {
+      "id": "35571551-da6e-499d-9a66-630e6d1ff3d3",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 77466,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "d6f591d9-a192-4d25-81e3-71e7d25dba6d"
+    },
+    {
+      "id": "4231a1cc-1696-4411-adda-3f4b525ae28b",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 46202,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "5d48e80f-f53e-4edd-b0fe-ddc09a5eaa45"
+    },
+    {
+      "id": "3fc542e4-6d2c-4f06-9980-9cb037626f3b",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 93586,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "fb952c23-44b1-4167-819d-78a416592508"
+    },
+    {
+      "id": "4e5283ae-3dc7-49fd-987e-b98c9ebdd0a7",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 85604,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "bdc141aa-134b-402f-827d-05e04866222a"
+    },
+    {
+      "id": "6bfdd672-570d-46a0-8ec2-654b67ef8343",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 59090,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "d907b3ab-b30b-49fa-bdb9-378168ca1d54"
+    },
+    {
+      "id": "6c76cfec-3b58-478c-9441-f48fb7b21429",
+      "state": "failed",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": "QA_CORRECT_SCORE",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 0,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": "QA_CORRECT_SCORE",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 0,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_CORRECT_SCORE",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 0,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_CORRECT_SCORE",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 0,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 37197,
+        "technicalState": "failed"
+      },
+      "attempt_count": 1,
+      "technical_state": "failed",
+      "source_version_id": "2bf62619-b892-4e54-b798-a9cb2ff634de"
+    },
+    {
+      "id": "6fd967fc-f20d-494f-bc96-63eff3c90af2",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 51544,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "c4023c3a-0683-45f6-af90-7ab926f8530e"
+    },
+    {
+      "id": "73352741-79ba-4ffd-8ba2-dfe0cf558069",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 74922,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "b767b418-e212-45b8-937b-8e6b9ffccd01"
+    },
+    {
+      "id": "fb51d697-bc6e-4982-a182-cc1a7ad53aeb",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "590fb446-5d39-49d8-b2e2-a8dd0c9a4bec"
+    },
+    {
+      "id": "c3864780-38c5-4c88-afa5-68e93d6efed1",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "edc0316d-5b46-486a-be3f-53a322597479"
+    },
+    {
+      "id": "a49f5aed-e5d0-43df-8b29-3887a08e173e",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "fce2bd37-4ef5-45a8-ac84-541e3d00653b"
+    },
+    {
+      "id": "e1bb6d58-ef92-4f6a-860a-c41ba04be7c2",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "4c32d2e2-33cc-410d-b94d-8496076750dd"
+    },
+    {
+      "id": "c96521af-bc25-41d2-9dc3-05b92c92cd59",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "2492e7e4-5f12-491f-9054-6dff04f68fb0"
+    },
+    {
+      "id": "92ea3dca-117d-458f-b32e-e98ab54d44a3",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "c46aee6e-cd6a-487a-9a0c-8cd1cfa0b960"
+    },
+    {
+      "id": "c69469a8-d7a9-45c9-9090-4f079d02a3ce",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "76a58401-a333-41e9-a1e9-0599f5380cba"
+    },
+    {
+      "id": "abe682e1-e366-40f1-bdab-bbcd70d7b5ce",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "469ba1b1-3b6e-4fc3-8c4e-b01f68405a9d"
+    },
+    {
+      "id": "f7b4b692-13d1-4535-87da-d08732b4db1d",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "b2dab626-dcb3-4e60-b86d-4af78436e5f0"
+    },
+    {
+      "id": "970e7838-ec07-46f6-9b0c-0ec02d71588e",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "2b03aab5-a461-4979-accb-3f71f6788e78"
+    },
+    {
+      "id": "8ab8ed16-7601-4eb5-a94b-e639b963a20b",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "29844c01-1b15-47e2-8922-a4d11f4190d2"
+    },
+    {
+      "id": "dd318b94-b651-41eb-b670-5edfa020ea21",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "88829083-6884-450c-8c30-7f27e9e7452e"
+    },
+    {
+      "id": "cb25cf90-4c84-4629-bfed-716e6c3ade51",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "36f4fbb1-ab53-4f96-b8e2-e3b24908e4b1"
+    },
+    {
+      "id": "9901bddf-b0e4-42b3-a131-140707dfb17d",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "642a7271-6186-4980-9451-698513f72c2d"
+    },
+    {
+      "id": "8b6f5441-aabd-4f5d-9237-520186bd17f0",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "ac8fa735-c104-413d-a31a-b9abe9ac10f9"
+    },
+    {
+      "id": "168cef46-a812-47df-99dd-8f34fbd3cdf2",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 53781,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "61ee4791-f6df-4f19-b3be-440a11bdda20"
+    },
+    {
+      "id": "10a57f9d-a0fe-4414-95fb-37acc3fdf8da",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 94470,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "0e84b731-e72a-4530-b9f0-5cd991a7c032"
+    },
+    {
+      "id": "10ec4c28-f44d-4265-8d39-53ace1fab85d",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 50621,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "37e04575-f056-4050-87ad-b6b2074446ff"
+    },
+    {
+      "id": "0d660c58-0db6-4f7f-b0a5-c3367cac18d9",
+      "state": "failed",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": "QA_CORRECT_SCORE",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 0,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": "QA_CORRECT_SCORE",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 0,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_CORRECT_SCORE",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 0,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_CORRECT_SCORE",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 0,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 24105,
+        "technicalState": "failed"
+      },
+      "attempt_count": 1,
+      "technical_state": "failed",
+      "source_version_id": "475e8487-0e7d-44c3-ac70-e5a33e9eaff8"
+    },
+    {
+      "id": "5c3ab3ba-4065-45a1-aaab-a0ea9b8a27a2",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 45834,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "affe7fdc-8036-45a0-ba29-c7871ac31b7a"
+    },
+    {
+      "id": "09468fb1-52e6-451e-afe4-262ba835ed51",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 45657,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "9a628538-4271-4d4e-9940-14f4362b198c"
+    },
+    {
+      "id": "064924fd-a332-4a36-9e88-e5daf98448e0",
+      "state": "failed",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": "QA_CORRECT_SCORE",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 0,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": "QA_CORRECT_SCORE",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 0,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_CORRECT_SCORE",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 0,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_CORRECT_SCORE",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 0,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 22140,
+        "technicalState": "failed"
+      },
+      "attempt_count": 1,
+      "technical_state": "failed",
+      "source_version_id": "29765b01-6265-41b3-9f63-e48be5be1621"
+    },
+    {
+      "id": "b6fbac7b-04e2-4374-8c07-885559d04102",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "1730f80f-3dd1-43b6-b09f-70e9a136eaa3"
+    },
+    {
+      "id": "23292eef-d0df-42fd-aa06-1dfcacd1e466",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 61043,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "b5bb7923-7480-4827-b40c-30b3bebc0833"
+    },
+    {
+      "id": "725de5a7-2efc-4b50-b94c-aa7d4354e6f8",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "710b7ff4-d888-44b6-9d58-3c0726520114"
+    },
+    {
+      "id": "47f9df53-ac7c-4aa4-bad9-1c6d7f517266",
+      "state": "failed",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": "RENDER_OR_INTERACTION_ERROR",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": false,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": "RENDER_OR_INTERACTION_ERROR",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": false,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "RENDER_OR_INTERACTION_ERROR",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": false,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "RENDER_OR_INTERACTION_ERROR",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": false,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 126761,
+        "technicalState": "failed"
+      },
+      "attempt_count": 1,
+      "technical_state": "failed",
+      "source_version_id": "3026d992-3640-4ce8-bf1a-b6775062727f"
+    },
+    {
+      "id": "0cfb400c-ffde-416c-8d24-21553098ffb6",
+      "state": "failed",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 13746,
+        "technicalState": "failed"
+      },
+      "attempt_count": 1,
+      "technical_state": "failed",
+      "source_version_id": "89754570-b045-4b90-89c9-9be05f93e1d1"
+    },
+    {
+      "id": "03b6f628-5c34-4855-a7af-f81a18d68347",
+      "state": "failed",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0.0769230769230769,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 52001,
+        "technicalState": "failed"
+      },
+      "attempt_count": 1,
+      "technical_state": "failed",
+      "source_version_id": "27c4c834-e821-4991-a79b-39781c4960fd"
+    },
+    {
+      "id": "230505f2-6b5a-431a-b63a-4b63b4da4b79",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 75919,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "f44b53d8-ddab-4aa2-9f6b-7a4b8614d9b7"
+    },
+    {
+      "id": "3022ca2c-d72f-48a2-9e1c-ddf3640e0c83",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 63706,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "6f7ba7e3-b051-441d-9dae-8326660d7351"
+    },
+    {
+      "id": "3581b982-f091-4eaa-a0e6-7fa52669c812",
+      "state": "failed",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": "QA_CORRECT_SCORE",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 0,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": "QA_CORRECT_SCORE",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 0,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_CORRECT_SCORE",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 0,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_CORRECT_SCORE",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": 0,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 42239,
+        "technicalState": "failed"
+      },
+      "attempt_count": 1,
+      "technical_state": "failed",
+      "source_version_id": "78daa347-d8a8-4419-b336-cb826c8756f4"
+    },
+    {
+      "id": "323c5e84-40ff-4b7b-8214-2763651c985e",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 62382,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "d1301df0-5ac3-4c6d-98a4-d04368dd07a7"
+    },
+    {
+      "id": "1eb098d4-bc46-4a74-a695-9c9e212344d8",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "a891e2fb-e084-449b-8434-a5da3a906b04"
+    },
+    {
+      "id": "3e5d1afe-7fc6-4ce1-aa7a-7286cd78f73c",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 100026,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "87bdefdd-47df-4e27-a86b-946d9bdd3856"
+    },
+    {
+      "id": "1ef3b663-b6d9-4111-a2c3-126ac167ee53",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "c3a8e77f-0c69-4ac1-928e-a08f15f0089b"
+    },
+    {
+      "id": "4aa6a3e2-b592-402b-9da2-a1fa7ab63466",
+      "state": "failed",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": "QA_INVALID_CLASSIFICATION",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": "QA_INVALID_CLASSIFICATION",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_INVALID_CLASSIFICATION",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_INVALID_CLASSIFICATION",
+            "checks": {
+              "mobile": true,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": true,
+              "ownership": false,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 15215,
+        "technicalState": "failed"
+      },
+      "attempt_count": 1,
+      "technical_state": "failed",
+      "source_version_id": "74076f78-bce2-4d1e-bbc2-a485a4738805"
+    },
+    {
+      "id": "38da73b0-c1e3-46e4-9105-47c0618c53fc",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "c690f568-5b77-4263-9cf9-435b7822cafa"
+    },
+    {
+      "id": "969ae438-e300-4e5a-8b03-76c95448ff09",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "2956fdbf-1403-471f-8c6a-a83b0965ced2"
+    },
+    {
+      "id": "3fcb8dd9-82d6-44ea-9377-79ba70ed264c",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "939ec677-5414-42a2-946b-4c0608ef9d92"
+    },
+    {
+      "id": "4bfcc74c-4943-4da4-bfab-c63ccfe60dcd",
+      "state": "failed",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [
+              "NARROW_FRAME_SCROLL"
+            ],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [
+              "NARROW_FRAME_SCROLL"
+            ],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [
+              "NARROW_FRAME_SCROLL"
+            ],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [
+              "NARROW_FRAME_SCROLL"
+            ],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 40401,
+        "technicalState": "failed"
+      },
+      "attempt_count": 1,
+      "technical_state": "failed",
+      "source_version_id": "8fb1b884-5eab-41c0-8475-9c3d495ab3fc"
+    },
+    {
+      "id": "4fc89f6d-35b8-4a3d-8ee8-5f0226c061f8",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 51825,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "05ff19d8-a15f-4faa-9a97-6f5fe72f7a64"
+    },
+    {
+      "id": "4ed2f72c-3b90-4f62-99aa-5dd8e0482a73",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 82601,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "5826c9cc-c9f7-4d6d-a46f-f5c2c20535e5"
+    },
+    {
+      "id": "641c7d6d-3173-4bc1-8264-7ac46fe64a50",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 45946,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "79bae998-d016-4f6d-8bc9-be21072fbaaf"
+    },
+    {
+      "id": "5cc341b9-d5fd-4b40-87d4-0832df58acc1",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 49401,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "4189f442-a3bf-46f8-9a52-8a6673769afb"
+    },
+    {
+      "id": "ce006b92-6799-4ee1-aef3-0f9cfc5344ee",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "7d25215f-ae16-4761-997a-3302e995d2e6"
+    },
+    {
+      "id": "6dc9850b-70d7-4efc-bd76-4635759b2026",
+      "state": "failed",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [
+              "NARROW_FRAME_SCROLL"
+            ],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [
+              "NARROW_FRAME_SCROLL"
+            ],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [
+              "NARROW_FRAME_SCROLL"
+            ],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [
+              "NARROW_FRAME_SCROLL"
+            ],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 30943,
+        "technicalState": "failed"
+      },
+      "attempt_count": 1,
+      "technical_state": "failed",
+      "source_version_id": "7f2d498f-de69-4667-92da-9add6bd4cc7b"
+    },
+    {
+      "id": "47bcf23e-2d60-4949-9c3c-52f9d3ebedd5",
+      "state": "queued",
+      "result": null,
+      "attempt_count": 0,
+      "technical_state": null,
+      "source_version_id": "b56ed6b0-3816-4ee3-9838-549ab71505f4"
+    },
+    {
+      "id": "6e5e9cfa-6a1d-4dc5-96e5-5d50be122112",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 49201,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "0af17889-e6de-4cd5-b442-69847b847a76"
+    },
+    {
+      "id": "7d814338-cec5-4ee5-bdc8-3f8859065724",
+      "state": "running",
+      "result": null,
+      "attempt_count": 1,
+      "technical_state": null,
+      "source_version_id": "60479288-4ad0-432d-b12d-a223cc5ae015"
+    },
+    {
+      "id": "79de5540-5666-4922-8a94-39a0282f6bab",
+      "state": "failed",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": "QA_BLANK_SCORE",
+            "checks": {
+              "mobile": false,
+              "grading": false,
+              "refresh": false,
+              "retries": false,
+              "keyboard": false,
+              "ownership": false,
+              "rendering": true,
+              "interaction": false,
+              "answerCapture": false
+            },
+            "outcome": "failed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": null,
+            "correctScore": null,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 15798,
+        "technicalState": "failed"
+      },
+      "attempt_count": 1,
+      "technical_state": "failed",
+      "source_version_id": "7be0acdf-1a6a-48c3-9b89-c91186ec10bd"
+    },
+    {
+      "id": "784274e1-ee47-4044-98d0-e22e1cdf545f",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 84725,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "af30c5ea-751f-4867-9d99-3c361c53ebb1"
+    },
+    {
+      "id": "7890993d-cb8f-4c19-8ecb-64e6b122b763",
+      "state": "needs-review",
+      "result": {
+        "cases": [
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 1234,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "desktop",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          },
+          {
+            "seed": 4321,
+            "error": null,
+            "checks": {
+              "mobile": true,
+              "grading": true,
+              "refresh": true,
+              "retries": true,
+              "keyboard": true,
+              "ownership": true,
+              "rendering": true,
+              "interaction": true,
+              "answerCapture": true
+            },
+            "outcome": "passed",
+            "viewport": "mobile",
+            "limitations": [],
+            "clearedScore": 0,
+            "correctScore": 1,
+            "sourceVerified": true
+          }
+        ],
+        "error": null,
+        "elapsedMs": 53182,
+        "technicalState": "passed"
+      },
+      "attempt_count": 1,
+      "technical_state": "passed",
+      "source_version_id": "c0faf89c-8b57-41c3-8227-04078b8823ca"
+    }
+  ]
+}

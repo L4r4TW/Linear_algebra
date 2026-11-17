@@ -1,0 +1,20 @@
+services:
+  operator:
+    image: linear-algebra-calculus-tools
+    environment:
+      RENDERER_URL: http://linear-algebra-calculus-renderer-1:3000
+    networks: [catalog, private, console, calculus]
+  preview1234:
+    image: linear-algebra-calculus-tools
+    environment:
+      RENDERER_URL: http://linear-algebra-calculus-renderer-1:3000
+    networks: [catalog, private, console, calculus]
+  preview4321:
+    image: linear-algebra-calculus-tools
+    environment:
+      RENDERER_URL: http://linear-algebra-calculus-renderer-1:3000
+    networks: [catalog, private, console, calculus]
+networks:
+  calculus:
+    external: true
+    name: linear-algebra-calculus_private

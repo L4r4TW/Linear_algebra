@@ -1,5 +1,9 @@
 # Linear Algebra Exercises
 
+## Calculus expansion in progress
+
+The active goal is [100 distinct playable differential-calculus exercises](experimental-workspace/calculus-100/README.md). A 300-source candidate pool, strict-clean private renderer and reviewed-publication player adapter are implemented. Automated verification is running; candidates are not student exercises until independent review and controlled publication pass.
+
 ## Account integration checkpoint
 
 Read [the current account/platform handoff](experimental-workspace/accounts/CURRENT_STATE.md) before using older counts below. Milestone 12 now connects the home to local accounts, private saved work and progress. Original 3100 remains an independent anonymous prototype. Follow the account guide for setup and immutable acceptance; preserve all existing data and the unchanged compatibility/provenance gates.

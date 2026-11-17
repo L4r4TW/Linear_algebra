@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {sql,json} from '../importer/db.mjs';
+if(!/^opl_importer_test_[a-z0-9]+$/.test(process.env.PGDATABASE??''))throw Error('DISPOSABLE_DATABASE_REQUIRED');
+const original=readFileSync('/qa/pipeline/publication-checks.sql','utf8');
+const before="account_key:=gen_random_uuid();",withdraw="IF (SELECT count(*) FROM catalog_api.practice_opl())<>0";
+if(!original.includes(before)||!original.includes(withdraw))throw Error('PUBLICATION_TEST_CONTRACT_CHANGED');
+const source=original.replace(before,`IF jsonb_array_length(catalog_backend.player_catalog()->'entries')<>1 OR catalog_backend.player_catalog()->'entries'->0->>'id'<>s.exercise_id::text OR catalog_backend.player_catalog()->'entries'->0->>'source_version_id'<>s.id::text THEN RAISE EXCEPTION 'Private player identity projection failed';END IF;
+ IF catalog_backend.player_catalog()->'entries'->0->'metadata' ? 'raw' THEN RAISE EXCEPTION 'Raw metadata leaked';END IF;
+ `+before).replace(withdraw,`IF jsonb_array_length(catalog_backend.player_catalog()->'entries')<>0 THEN RAISE EXCEPTION 'Withdrawn source remained authorized';END IF;
+ `+withdraw);
+assert.equal(sql(source),'true');
+assert.deepEqual(json("SET ROLE catalog_player;SELECT catalog_backend.player_catalog()->'entries';"),[]);
+for(const statement of ["SET ROLE anon;SELECT catalog_backend.player_catalog();","SET ROLE authenticated;SELECT catalog_backend.player_catalog();","SET ROLE catalog_player;SELECT * FROM catalog.import_entries;","SET ROLE catalog_player;SELECT catalog.claim_verification('forged-player');","SET ROLE catalog_player;SELECT * FROM practice_private.sessions;"])assert.throws(()=>sql(statement),/DATABASE_QUERY_FAILED/);
+console.log(JSON.stringify({complete:true,syntheticOnly:true,positiveProjection:true,stableExerciseIdentity:true,withdrawal:true,rawExcluded:true,playerRoleRestricted:true,browserRolesDenied:true}));
