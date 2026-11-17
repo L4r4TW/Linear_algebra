@@ -65,3 +65,5 @@ The local six-exercise player remains usable. The 77,134-source imported catalog
 - 12.2 private storage primitives verified against actual Supabase users (10 forced-RLS tables, encrypted records, explicit claim/retirement). Backend/Auth-session/student-data adapters and UI still pending.
 
 - Private BFF Auth adapter real-probed; HTTP/UI and actual student-data persistence still pending. Preserve the deployed 10–11 platform while preparing account adapters.
+
+- 12.2 candidate: real database record/set/draft/bookmark/progress/claim and HTTP adapters verified through accounts/verify-adapters.ps1. Live home unchanged; fresh generic-hook full gate is running in linear-algebra-accounts-hook-gate. Public account UI, legacy migration acceptance and release work remain.

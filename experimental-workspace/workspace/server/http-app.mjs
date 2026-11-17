@@ -121,6 +121,7 @@ function publicSession(result, assets) {
       id: result.session.id,
       exerciseId: result.session.exerciseId,
       createdAt: result.session.createdAt,
+      ...(['in-flight','uncertain'].includes(result.session.checkState)?{checkState:result.session.checkState}:{}),
     },
     submission: result.submission ? {
       ...(result.submission.feedbackVisibility==='suppressed'?{feedbackVisibility:'suppressed'}:{}),
@@ -159,6 +160,8 @@ function failure(error) {
     return new ApiError(503,'SET_UNAVAILABLE','Practice sets are temporarily unavailable. Saved work has been kept.');
   }
   if (error instanceof ExerciseSessionError) {
+    if(error.code==='SUBMISSION_REPLAY')return new ApiError(409,error.code,'This check was already saved. Reload the saved result before checking again.');
+    if(error.code==='SUBMISSION_UNCERTAIN')return new ApiError(409,error.code,'This check could not be confirmed. Your work is retained; another check is blocked until recovery is reviewed.');
     if (error.code === 'SESSION_BUSY') return new ApiError(409, 'SESSION_BUSY', 'An answer is already being checked. Please wait.');
     if (error.code === 'INVALID_ANSWERS') return new ApiError(400, 'INVALID_ANSWERS', 'Some answer fields are not valid for this exercise.');
     if (error.code === 'INVALID_INPUT') return new ApiError(400, 'INVALID_INPUT', 'The session request is invalid.');
@@ -245,7 +248,7 @@ export function createApp({
         const input=await readJsonInput(request);
         if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).length!==2||!Object.hasOwn(input,'selection')||typeof input.requestKey!=='string')throw new ApiError(400,'INVALID_INPUT','Provide only selection and requestKey.');
         const existingOwner=ownerFromCookie(request),ownerToken=existingOwner??randomBytes(32).toString('base64url');
-        const set=setStore().create(input.selection,{ownerToken,requestKey:input.requestKey});
+        const set=await setStore().create(input.selection,{ownerToken,requestKey:input.requestKey});
         json(response,201,{set},{...(!existingOwner?{'Set-Cookie':COOKIE+'='+ownerToken+'; Path=/api/sessions; HttpOnly; SameSite=Strict; Max-Age=2592000'+cookieSecure}:{})});return;
       }
       const setMatch=url.pathname.match(/^\/api\/sessions\/sets\/([a-f0-9-]{36})(?:\/(open|position))?$/);
@@ -253,14 +256,14 @@ export function createApp({
         const ownerToken=ownerFromCookie(request);if(!ownerToken)throw new ApiError(404,'SET_NOT_FOUND','Practice set was not found.');
         if(!setMatch[2]){
           if(request.method!=='GET')throw new ApiError(405,'METHOD_NOT_ALLOWED','Use GET to restore a set.');
-          json(response,200,{set:setStore().get(setMatch[1],{ownerToken})});return;
+          json(response,200,{set:await setStore().get(setMatch[1],{ownerToken})});return;
         }
         if(request.method!=='POST')throw new ApiError(405,'METHOD_NOT_ALLOWED','Use POST to navigate a set.');
         const input=await readJsonInput(request);
         const keys=setMatch[2]==='open'?['position','revision']:['position','revision','skip'];
         if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(key=>!keys.includes(key))||!Number.isInteger(input.position))throw new ApiError(400,'INVALID_INPUT','Provide only valid position/revision/skip fields.');
         if(setMatch[2]==='open')json(response,200,await setStore().openItem(setMatch[1],input.position,{ownerToken,revision:input.revision}));
-        else json(response,200,{set:setStore().move(setMatch[1],{ownerToken,...input})});
+        else json(response,200,{set:await setStore().move(setMatch[1],{ownerToken,...input})});
         return;
       }
       if (url.pathname === '/api/sessions') {
@@ -294,7 +297,9 @@ export function createApp({
             Object.keys(input).length !== 1 || !Array.isArray(input.answers)) {
           throw new ApiError(400, 'INVALID_INPUT', 'Provide only an answers array of name/value pairs.');
         }
-        const result = await sessions.submitAnswers(answerMatch[1], input.answers, { ownerToken });
+        const operationKey=request.headers['idempotency-key'];
+        if(operationKey!==undefined&&!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(operationKey))throw new ApiError(400,'INVALID_INPUT','Provide a valid submission identity.');
+        const result = await sessions.submitAnswers(answerMatch[1], input.answers, { ownerToken,...(operationKey?{operationKey}:{}) });
         json(response, 200, publicSession(result, assets));
         return;
       }

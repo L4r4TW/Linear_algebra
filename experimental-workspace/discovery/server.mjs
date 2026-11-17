@@ -15,6 +15,7 @@ export function createHome({origin=process.env.HOME_ORIGIN??'http://localhost:31
   const headers={Accept:req.headers.accept??'*/*'};
   if(req.headers.cookie)headers.Cookie=req.headers.cookie;
   if(req.headers['content-type'])headers['Content-Type']=req.headers['content-type'];
+  if(req.headers['idempotency-key'])headers['Idempotency-Key']=req.headers['idempotency-key'];
   if(method==='POST'||req.headers.origin)headers.Origin=practiceOrigin;
   return fetcher(practiceUrl+path,{method,headers,body,redirect:'manual',signal:AbortSignal.timeout(40000)});
  }

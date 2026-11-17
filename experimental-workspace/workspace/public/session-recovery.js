@@ -5,6 +5,7 @@ export class ExerciseRequestError extends Error {
 export function sessionRecovery(error,{phase='load'}={}){
  const code=error?.code;
  const choices={
+  SUBMISSION_UNCERTAIN:['This check needs recovery','The exercise service may have received your answers, but the result could not be confirmed. Your saved session and draft are retained. Another check is blocked until this submission is reviewed.'],
   INVALID_INPUT:['This session link is invalid','This session link is not valid. Choose an exercise from the topic list to continue.'],
   SESSION_EXPIRED:['This saved session has expired','The renderer confirmed that this saved session has expired. Saved answers and any draft in this tab have been kept. Choose another exercise to continue.'],
   SESSION_REJECTED:['This saved session cannot be resumed','The exercise service no longer accepts this saved session. Saved answers and any draft in this tab have been kept. Choose another exercise to continue.'],
@@ -13,7 +14,7 @@ export function sessionRecovery(error,{phase='load'}={}){
   UNKNOWN_EXERCISE:['This exercise is currently unavailable','This exercise is not available in the practice catalog. Choose another available exercise.']
  };
  if(Object.hasOwn(choices,code))return {code,title:choices[code][0],message:choices[code][1],retry:false,reconcile:false,terminal:true};
- const uncertain=phase==='grade'&&(error?.name==='TimeoutError'||error instanceof TypeError||['INVALID_RESPONSE','UNCONFIRMED_SUBMISSION','SESSION_BUSY'].includes(code));
+ const uncertain=phase==='grade'&&(error?.name==='TimeoutError'||error instanceof TypeError||['INVALID_RESPONSE','UNCONFIRMED_SUBMISSION','SESSION_BUSY','SUBMISSION_REPLAY'].includes(code));
  if(uncertain)return {code,title:'Check the saved session before retrying',message:code==='SESSION_BUSY'
   ?'An answer is already being checked. Wait a moment, then reload this saved session before checking again.'
   :'We could not confirm whether your answers were saved. Reload this saved session to check the latest result before checking again.',retry:false,reconcile:true,terminal:false};

@@ -1,0 +1,44 @@
+import assert from 'node:assert/strict';
+import {readFile,mkdir,writeFile} from 'node:fs/promises';import {randomBytes,randomUUID} from 'node:crypto';
+import {createDatabase,actors} from './db.mjs';import {createVault} from './crypto.mjs';import {createAccounts} from './auth.mjs';
+import {createRecordStore} from './record-store.mjs';import {createAccountSessions} from './session-service.mjs';
+import {ExerciseSessionError} from '../application/server/exercise-sessions.mjs';
+const db=createDatabase({domainErrors:[ExerciseSessionError]}),other=createDatabase({domainErrors:[ExerciseSessionError]});
+const vault=createVault((await readFile('/secrets/encryption-key','utf8')).trim()),accounts=createAccounts({db,vault});
+const report={version:1,observedAt:new Date().toISOString(),scope:'Actual nonsuperuser forced-RLS database, real Supabase users and controlled renderer double; not a live PG or public account UI acceptance'};
+try{
+ const login=async()=>accounts.signIn({signup:true,email:'records-'+randomBytes(12).toString('hex')+'@example.test',password:randomBytes(24).toString('base64url')+'Aa1!'});
+ const a=(await login()).actor,b=(await login()).actor,lookup=id=>id==='synthetic'?{source:{revision:'synthetic',sha256:'a'.repeat(64)}}:null;
+ const store=createRecordStore({db,vault,exerciseLookup:lookup,runtimeDigest:'synthetic'}),store2=createRecordStore({db:other,vault,exerciseLookup:lookup,runtimeDigest:'synthetic'});
+ const html='<div id="problem_body"><input name="AnSwEr0001"><input type="checkbox" name="AnSwEr0002" value="a"><input type="checkbox" name="AnSwEr0002" value="b"></div>';
+ let grades=0,gate=null;
+ const rendered=()=>({html,sessionToken:'synthetic-session-'+grades,problemToken:'synthetic-problem-'+grades,score:0.5,resources:[],feedback:{message:'',summary:''},fieldFeedback:[]});
+ const renderer={loadExercise:async()=>rendered(),restoreSession:async()=>rendered(),submitAnswers:async()=>{grades++;if(gate)await gate;return rendered();}};
+ const service=createAccountSessions({store,rendererClient:renderer,exerciseLookup:lookup}),service2=createAccountSessions({store:store2,rendererClient:renderer,exerciseLookup:lookup,directory:'/private/other'});
+ const run=(actor,work)=>actors.run({...actor},work),session=await run(a,()=>service.startSession({exerciseId:'synthetic',ownerToken:a.ownerToken}));
+ const id=session.session.id,seed=session.session.seed,answers=[['AnSwEr0001',' 1/2 '],['AnSwEr0002','a'],['AnSwEr0002','b']],key=randomUUID();
+ const checked=await run(a,()=>service.submitAnswers(id,answers,{ownerToken:a.ownerToken,operationKey:key}));
+ assert.equal(checked.submission.number,1);assert.deepEqual(checked.submission.answers,answers);assert.equal(grades,1);
+ await assert.rejects(()=>run(a,()=>service2.submitAnswers(id,answers,{ownerToken:a.ownerToken,operationKey:key})),e=>e.code==='SUBMISSION_REPLAY');
+ assert.equal(grades,1);
+ const restored=await run(a,()=>service2.resumeSession(id,{ownerToken:a.ownerToken}));assert.equal(restored.session.seed,seed);assert.deepEqual(restored.submission,checked.submission);
+ await assert.rejects(()=>run(b,()=>service2.resumeSession(id,{ownerToken:b.ownerToken})),e=>e.code==='SESSION_NOT_FOUND');
+ report.exactOrderedRepeatedAnswers=true;report.atomicTokensAndAttempt=true;report.acceptedReplayDoesNotRegrade=true;report.crossConnectionRestoration=true;report.crossAccountDenied=true;
+ let release;gate=new Promise(resolve=>release=resolve);
+ const pending=run(a,()=>service.submitAnswers(id,answers,{ownerToken:a.ownerToken,operationKey:randomUUID()}));
+ for(let n=0;n<100&&grades<2;n++)await new Promise(resolve=>setTimeout(resolve,10));assert.equal(grades,2);
+ await assert.rejects(()=>run(a,()=>service2.submitAnswers(id,answers,{ownerToken:a.ownerToken,operationKey:randomUUID()})),e=>e.code==='SESSION_BUSY');
+ release();await pending;gate=null;assert.equal(grades,2);report.databaseSerializesWriters=true;
+ // Fail after the external service has received a submission; a new process must not guess or recheck.
+ const lossy=createAccountSessions({store:{...store,save:async(record,options)=>{if(options?.replace)throw Error('controlled disk failure');return store.save(record,options);}},rendererClient:renderer,exerciseLookup:lookup});
+ await assert.rejects(()=>run(a,()=>lossy.submitAnswers(id,answers,{ownerToken:a.ownerToken,operationKey:randomUUID()})),e=>e.code==='STORAGE_ERROR');
+ assert.equal(grades,3);
+ const uncertain=await run(a,()=>store2.read(id));assert.equal(uncertain._pendingSubmission,'uncertain');assert.equal(uncertain.submissionCount,2);
+ await assert.rejects(()=>run(a,()=>service2.submitAnswers(id,answers,{ownerToken:a.ownerToken,operationKey:randomUUID()})),e=>e.code==='SUBMISSION_UNCERTAIN');assert.equal(grades,3);
+ report.unconfirmedExternalCheckBlocksRetry=true;
+ const next=await run(a,()=>service.startSession({exerciseId:'synthetic',ownerToken:a.ownerToken})),nextId=next.session.id,nextKey=randomUUID();
+ await assert.rejects(()=>run(a,()=>service.submitAnswers(nextId,[['AnSwEr9999','bad']],{ownerToken:a.ownerToken,operationKey:nextKey})),e=>e.code==='INVALID_ANSWERS');
+ const retry=await run(a,()=>service.submitAnswers(nextId,answers,{ownerToken:a.ownerToken,operationKey:randomUUID()}));assert.equal(retry.submission.number,1);report.preRendererFailureCanRetry=true;
+ const counts=await db.transaction(a,async client=>(await client.query('SELECT (SELECT count(*) FROM practice_runtime.attempts WHERE session_id=$1)::int attempts,(SELECT generation FROM practice_runtime.sessions WHERE id=$1)::int generation',[id])).rows[0]);assert.deepEqual(counts,{attempts:2,generation:2});report.appendOnlyActualAttemptHistory=true;
+ report.complete=true;await mkdir('/artifacts',{recursive:true});await writeFile('/artifacts/record-store-observations.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({complete:true,privateDataDisclosed:false}));
+}finally{await Promise.all([db.close(),other.close()]);}

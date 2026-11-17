@@ -463,6 +463,7 @@ async function finishFrame(error = false) {
   setBusy(false);
   frameState.answerBridge.showFeedback(frameState.lastSubmission?.fieldFeedback ?? [], frameState.lastSubmission?.answers ?? []);
   displayResult(frameState.lastSubmission, frameState.answerBridge.getSnapshot()?.entries);
+  if(frameState.session.checkState)showSubmissionRecovery(frameState,new ExerciseRequestError(frameState.session.checkState==='uncertain'?'SUBMISSION_UNCERTAIN':'SESSION_BUSY',409,'A check is pending.'));
   if (firstReady) {
     if (frameState.focusAt === interaction) title.focus();
     announce(error ? 'The exercise is ready, but math formatting needs attention.'
@@ -622,7 +623,7 @@ function startExercise(exerciseId) {
 async function submitCurrentAnswers() {
   if (busy || submission || navigationPending || !frameState?.ready || frameState.recoveryRequired) return;
   const current = frameState;
-  const attempt = { controller: new AbortController() };
+  const attempt = { controller: new AbortController(),operationKey:crypto.randomUUID() };
   submission = attempt;
   submissionError.hidden = true;
   submissionError.textContent = '';
@@ -638,7 +639,7 @@ async function submitCurrentAnswers() {
     persistDraft(current,snapshot.answers);
     const data = await request('/api/sessions/' + encodeURIComponent(current.sessionId) + '/answers', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json','Idempotency-Key':attempt.operationKey },
       body: JSON.stringify({ answers: snapshot.answers.entries }),
     }, attempt.controller.signal);
     if (submission !== attempt || frameState !== current) return;

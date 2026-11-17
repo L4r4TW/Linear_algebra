@@ -1,0 +1,91 @@
+{
+    "version":  1,
+    "observedAt":  "2026-11-17T01:09:56.919Z",
+    "scope":  "Real HTTP BFF and real local Supabase/RLS; controlled renderer double, no public deployment claim",
+    "explicitClaimRequired":  true,
+    "claimedCookieRetired":  true,
+    "accountCookieHttpOnly":  true,
+    "noBrowserTokens":  true,
+    "ownerCheckedHttp":  true,
+    "draftCasThroughHttp":  true,
+    "gradeReplayThroughHttp":  true,
+    "setBookmarkProgressHttp":  true,
+    "callerAuthorityRejected":  true,
+    "crossOriginRejected":  true,
+    "logoutRetiresBffSession":  true,
+    "complete":  true,
+    "sourceHashes":  [
+                         {
+                             "file":  "record-store.mjs",
+                             "sha256":  "79ff07d9f6e24e8d5558a131398b0dcc5ec5c45db545096543f99e9059abd4a9"
+                         },
+                         {
+                             "file":  "session-service.mjs",
+                             "sha256":  "4cb84ac088a834e8ec87a700586a439a00f4e10988ab4dd93ec0b60447654694"
+                         },
+                         {
+                             "file":  "set-store.mjs",
+                             "sha256":  "6bd5bb2079ad20316bde626f1aa9d8f70bfe9857c4d576216998b2bd9e19fe19"
+                         },
+                         {
+                             "file":  "student-data.mjs",
+                             "sha256":  "e405688a12d11cf04a3a345878a2a5ae7dd190b70e2fb0aba18c3884fd584028"
+                         },
+                         {
+                             "file":  "http-app.mjs",
+                             "sha256":  "81230bc0095d31f7142de6d3a7c66e497e51c987b131688ca5043c40bdea9e87"
+                         },
+                         {
+                             "file":  "db.mjs",
+                             "sha256":  "1e2ed9a7b03e94531c573ab77214766bd79cf11d3e5cc65fddbb3ed25f7726c9"
+                         },
+                         {
+                             "file":  "auth.mjs",
+                             "sha256":  "f218cfe74c1c715be21f7d67734df77095c36df0313da3ef79f04a0b065cd95f"
+                         },
+                         {
+                             "file":  "crypto.mjs",
+                             "sha256":  "598fc225d782b6d09f682e99251ff8408f05169f9dc84e21c945c2ee4677a4a3"
+                         },
+                         {
+                             "file":  "migrations/001_runtime.sql",
+                             "sha256":  "b6e26d5f0f18bfa2f5f01330c45d418c816b9f0269db8e48c3700d6c37f156e5"
+                         },
+                         {
+                             "file":  "record-store-probe.mjs",
+                             "sha256":  "0490bebbc512f7bbb6a5808860356040e2799a3d81ad26267595bcde4b1394e3"
+                         },
+                         {
+                             "file":  "student-data-probe.mjs",
+                             "sha256":  "c9609ee62608db66306dce35976de08bd96d1b9e0d806b8633c774edd5717237"
+                         },
+                         {
+                             "file":  "http-probe.mjs",
+                             "sha256":  "238aa6f3ac42d3c37fe912b851bb7f6df60e06e268314b47068020adb1f6000f"
+                         },
+                         {
+                             "file":  "Tools.Dockerfile",
+                             "sha256":  "45894e35dc6b5babef1fafc14a217ab6f053bf2f6773d15ce7a26bb4f55faed1"
+                         },
+                         {
+                             "file":  "verify-adapters.ps1",
+                             "sha256":  "e76117afdd467b427e846ce9e69e85f16a74497635b03dbd884b10391803d4e3"
+                         },
+                         {
+                             "file":  "../workspace/server/exercise-sessions.mjs",
+                             "sha256":  "0bb8b418237c9c5391d524148c6988a66f5b9e77014d99cbac5aab8d6aeabb83"
+                         },
+                         {
+                             "file":  "../workspace/server/http-app.mjs",
+                             "sha256":  "c8edf037ebe60bf6478a4a32a085b9bd74787898126b326d282346062a2560b5"
+                         },
+                         {
+                             "file":  "../workspace/server/answer-contract.mjs",
+                             "sha256":  "e60ff80b7c3d4174689f184bd5d8cf67a83117d1dcf310b42615da0f5602f1dc"
+                         },
+                         {
+                             "file":  "../workspace/server/practice-sets.mjs",
+                             "sha256":  "85c376c06d07a8d9f1f6b10111e9d30524a0f2bf03b1b0ac7feec4ace16a127f"
+                         }
+                     ]
+}

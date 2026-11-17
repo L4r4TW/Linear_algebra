@@ -45,6 +45,7 @@ function present(record, rendered) {
       exerciseId: record.exerciseId,
       seed: record.seed,
       createdAt: record.createdAt,
+      ...(['in-flight','uncertain'].includes(record._pendingSubmission)?{checkState:record._pendingSubmission}:{}),
     },
     submission,
     exercise: {
@@ -62,6 +63,8 @@ export function createExerciseSessions({
   directory = env.EXERCISE_SESSION_DIR,
   exerciseLookup = getExerciseById,
   seedGenerator = () => randomInt(1, 2147483648),
+  idGenerator = randomUUID,
+  recordStore,
   rendererClient = createRendererClient({exerciseLookup}),
 } = {}) {
   if (!isText(directory) || !isAbsolute(directory)) {
@@ -69,6 +72,10 @@ export function createExerciseSessions({
   }
 
   async function save(record, { replace = false } = {}) {
+    if(recordStore){
+      try{await recordStore.save(record,{replace});return;}
+      catch(cause){if(cause instanceof ExerciseSessionError)throw cause;throw new ExerciseSessionError('STORAGE_ERROR','Could not save exercise session.',{cause});}
+    }
     const temporary = join(directory, '.' + record.id + '-' + randomUUID() + '.tmp');
     const destination = join(directory, record.id + '.json');
     try {
@@ -95,8 +102,9 @@ export function createExerciseSessions({
     }
     let record;
     try {
-      record = JSON.parse(await readFile(join(directory, sessionId + '.json'), 'utf8'));
+      record = recordStore?await recordStore.read(sessionId):JSON.parse(await readFile(join(directory, sessionId + '.json'), 'utf8'));
     } catch (cause) {
+      if(cause instanceof ExerciseSessionError)throw cause;
       if (cause.code === 'ENOENT') throw new ExerciseSessionError('SESSION_NOT_FOUND', 'Exercise session was not found.');
       throw new ExerciseSessionError('STORAGE_ERROR', 'Could not read exercise session.', { cause });
     }
@@ -121,7 +129,8 @@ export function createExerciseSessions({
       if (input.ownerToken !== undefined && !isOwnerToken(input.ownerToken)) {
         throw new ExerciseSessionError('INVALID_INPUT', 'A valid owner token is required.');
       }
-      const id = randomUUID();
+      const id = idGenerator();
+      if(!isSessionId(id))throw new ExerciseSessionError('INVALID_CONFIGURATION','The session identity generator returned an invalid identity.');
       const seed = seedGenerator();
       if (!Number.isInteger(seed) || seed < 1 || seed > 2147483647) {
         throw new ExerciseSessionError('INVALID_CONFIGURATION', 'The session seed generator returned an invalid seed.');
@@ -152,7 +161,7 @@ export function createExerciseSessions({
       return present(record, rendered);
     },
 
-    async submitAnswers(sessionId, answers, { ownerToken } = {}) {
+    async submitAnswers(sessionId, answers, { ownerToken,operationKey } = {}) {
       // Grading always requires ownership, including for internal callers.
       if (!isOwnerToken(ownerToken)) throw new ExerciseSessionError('SESSION_FORBIDDEN', 'Exercise session was not found.');
       await readSession(sessionId, ownerToken);
@@ -165,6 +174,7 @@ export function createExerciseSessions({
       }
       activeSubmissions.add(lockKey);
       try {
+        if(recordStore?.claimSubmission)await recordStore.claimSubmission(sessionId,{operationKey:operationKey??randomUUID(),answers});
         const record = await readSession(sessionId, ownerToken);
         const restored = await rendererClient.restoreSession({
           exerciseId: record.exerciseId, seed: record.seed, sessionToken: record.rendererSessionToken,
@@ -207,7 +217,7 @@ export function createExerciseSessions({
         await save(updated, { replace: true });
         return present(updated, graded);
       } finally {
-        activeSubmissions.delete(lockKey);
+        try{await recordStore?.releaseSubmission?.(sessionId);}finally{activeSubmissions.delete(lockKey);}
       }
     },
   };
