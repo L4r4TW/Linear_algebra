@@ -1,6 +1,6 @@
 {
     "version":  1,
-    "observedAt":  "2026-11-17T10:50:24.449Z",
+    "observedAt":  "2026-11-17T17:56:43.217Z",
     "scope":  "Real catalog and unchanged practice gateway; temporary anonymous test sessions; sanitized booleans only",
     "realCatalog":  true,
     "playableDefault":  true,
@@ -130,5 +130,5 @@
     "serverTests":  16,
     "realDatabaseTests":  1,
     "browserTests":  7,
-    "imageId":  "sha256:81e589469f203eb15307200dbaa0e85e0f96a2486eab746a7083e1a939d13024"
+    "imageId":  "sha256:bbeba930a3ba1f145de46c01751d02dc9ba9db1b87ced90c57e4355e7e266534"
 }

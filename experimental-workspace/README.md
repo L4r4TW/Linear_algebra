@@ -1,5 +1,9 @@
 # Experimental Docker workspace
 
+## Calculus expansion checkpoint
+
+Read [the current calculus handoff](calculus-100/README.md). One hundred classified candidates now have 400 passing technical cases and isolated discovery acceptance. The user keeps them pending independent review; live practice remains six and no imported batch is activated. The 3105 backend uses the clean private candidate renderer/player override; original 3100 is independent. Private catalog publication authority also governs legacy aliases, and outages cannot bypass withdrawal. Historical counts/provenance statements below describe earlier images; the new candidate passes the unchanged full PG-clean check while production OS/npm/manual-review blockers remain.
+
 ## Account integration checkpoint
 
 Read [the current account/platform handoff](accounts/CURRENT_STATE.md) before using older counts below. Milestone 12 now connects the home to local accounts, private saved work and progress. Original 3100 remains an independent anonymous prototype. Follow the account guide for setup and immutable acceptance; preserve all existing data and the unchanged compatibility/provenance gates.

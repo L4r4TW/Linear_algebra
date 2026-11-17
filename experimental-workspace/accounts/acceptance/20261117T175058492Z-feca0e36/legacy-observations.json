@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-17T17:51:24.265Z",
+  "scope": "Read-only import of synthetic legacy JSON and SQLite in a fresh temporary directory; existing student volume not mounted",
+  "originalJsonUnchanged": true,
+  "foreignJsonExcluded": true,
+  "repeatImportNoDuplicates": true,
+  "sameSessionAndSeed": true,
+  "originalSetMembershipPreserved": true,
+  "explicitClaimRetiresGuest": true,
+  "missingLegacyAttemptsNotInvented": true,
+  "complete": true
+}

@@ -119,3 +119,5 @@ Keep discovery SQL read-only and anon-scoped; no private base-table/service-role
 ## Calculus expansion
 
 Use calculus-100/README.md for the 100-exercise rollout. Keep strict context/attestation checks, publication eligibility and independent reviews. Player admission is a private same-context projection; source paths and tokens never enter discovery DTOs. UUID publication must not display a legacy alias as another distinct exercise. Catalog outage/withdrawal preserves records and never starts a replacement. Use fresh probe-only secrets/account storage for multi-network adapter tests (calculus-100/verify-player.ps1).
+
+The 100 selected candidates now pass 400 cases and metadata projection; user keeps all pending independent review. No real reviews/publication may be fabricated. Latest proof is in calculus-100/README.md. Legacy aliases remain governed after publication withdrawal; missing catalog authority is an outage, never permission to fall back. Resume measured containers without rebuilding; reports persist in their dedicated volume.

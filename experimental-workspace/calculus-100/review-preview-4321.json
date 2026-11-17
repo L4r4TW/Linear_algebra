@@ -1,0 +1,12 @@
+{
+  "complete": true,
+  "operatorAuthRequired": true,
+  "moreThan100JobsAccessible": true,
+  "earlyPassingJobAccessible": true,
+  "actualFixedSeedVerified": true,
+  "seed": 4321,
+  "separateOwnerCookie": true,
+  "foreignOwnerDenied": true,
+  "noStudentDataMounted": true,
+  "published": false
+}

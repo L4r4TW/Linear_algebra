@@ -2,9 +2,9 @@ name: Experimental practice platform
 on:
   push:
     branches: [main]
-    paths: ["experimental-workspace/**", ".gitattributes", ".github/workflows/experimental-platform.yml"]
+    paths: ["experimental-workspace/**", "supabase/migrations/**", ".gitattributes", ".github/workflows/experimental-platform.yml"]
   pull_request:
-    paths: ["experimental-workspace/**", ".gitattributes", ".github/workflows/experimental-platform.yml"]
+    paths: ["experimental-workspace/**", "supabase/migrations/**", ".gitattributes", ".github/workflows/experimental-platform.yml"]
   workflow_dispatch:
 permissions:
   contents: read
@@ -23,8 +23,10 @@ jobs:
       - name: Run server contracts
         run: docker run --rm --workdir /service/application practice-checks npm test
       - name: Run cryptography and admission checks
-        run: docker run --rm --workdir /service/accounts practice-checks node --test crypto.test.mjs admission.test.mjs
+        run: docker run --rm --workdir /service/accounts practice-checks node --test crypto.test.mjs admission.test.mjs published-catalog.test.mjs
       - name: Run discovery contracts
         run: docker run --rm --workdir /service/discovery practice-checks npm test
+      - name: Run calculus selection and queue-planning contracts
+        run: docker run --rm --workdir /service/calculus practice-checks node --test
       - name: Explain integration release gate
         run: echo "This checks contracts and existing evidence. Real OPL/Supabase/browser, migration, backup/restore and manual release checks remain mandatory; this workflow does not deploy or activate exercises."

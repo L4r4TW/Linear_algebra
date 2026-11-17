@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {metadataReady} from './candidate-ready.mjs';
+const row={courseTopic:'basic-rules',metadata:{title:'Differentiate a polynomial',normalized:['Calculus - single variable','Differentiation','Derivatives of polynomials and power functions']}};
+test('ambiguous raw labels cannot substitute for normalized player metadata',()=>{assert.equal(metadataReady(row),true);assert.equal(metadataReady({...row,metadata:{...row.metadata,normalized:null,sourceLabels:row.metadata.normalized}}),false);assert.equal(metadataReady({...row,courseTopic:'implicit-logarithmic'}),false);assert.equal(metadataReady({...row,metadata:{...row.metadata,title:'bad\nlabel'}}),false);});

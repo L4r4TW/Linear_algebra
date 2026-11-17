@@ -1,6 +1,6 @@
 {
     "version":  1,
-    "observedAt":  "2026-11-17T10:50:14.885Z",
+    "observedAt":  "2026-11-17T17:56:38.900Z",
     "scope":  "Task 9 real catalog chooser and temporary owned prototype session; no activation or account assertions",
     "desktopColumns":  true,
     "dependentSelection":  true,
@@ -122,5 +122,5 @@
     "serverTests":  16,
     "realDatabaseTests":  1,
     "browserTests":  5,
-    "imageId":  "sha256:81e589469f203eb15307200dbaa0e85e0f96a2486eab746a7083e1a939d13024"
+    "imageId":  "sha256:bbeba930a3ba1f145de46c01751d02dc9ba9db1b87ced90c57e4355e7e266534"
 }

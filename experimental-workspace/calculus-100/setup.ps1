@@ -1,4 +1,6 @@
+param([switch]$NewContext)
 $ErrorActionPreference='Stop'
+if((Test-Path -LiteralPath (Join-Path $PSScriptRoot 'context.json')) -and -not $NewContext){& (Join-Path $PSScriptRoot 'resume.ps1');return}
 $taskRoot=Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 Push-Location $taskRoot
 try {
@@ -15,10 +17,20 @@ try {
  if($LASTEXITCODE -ne 0){throw 'Could not pause the old operator worker'}
  $workerImage=docker image inspect linear-algebra-calculus-tools --format '{{.Id}}'
  $rendererImage=docker image inspect linear-algebra-calculus-renderer --format '{{.Id}}'
- docker compose -f experimental-workspace/calculus-100/compose.yaml run --rm -e "MEASURED_WORKER_IMAGE=$workerImage" -e "MEASURED_RENDERER_IMAGE=$rendererImage" tools calculus/register.mjs context
+ $registration='calculus-registration-'+[guid]::NewGuid().ToString('N').Substring(0,12)
+ docker compose -f experimental-workspace/calculus-100/compose.yaml run --name $registration -e "MEASURED_WORKER_IMAGE=$workerImage" -e "MEASURED_RENDERER_IMAGE=$rendererImage" tools calculus/register.mjs context
  if($LASTEXITCODE -ne 0){throw 'Strict context registration failed'}
+ docker cp ($registration+':/artifacts/context.json') (Join-Path $PSScriptRoot 'context.json')
+ if($LASTEXITCODE -ne 0){throw 'Measured context report copy failed'}
+ docker rm $registration|Out-Null
  docker compose -f experimental-workspace/calculus-100/compose.yaml run --rm tools calculus/register.mjs enqueue
  if($LASTEXITCODE -ne 0){throw 'Bounded primary queue creation failed'}
  docker compose -f experimental-workspace/calculus-100/compose.yaml up -d --scale worker=2 worker
  if($LASTEXITCODE -ne 0){throw 'Worker startup failed'}
+ docker compose -f experimental-workspace/calculus-100/compose.yaml build controller
+ if($LASTEXITCODE -ne 0){throw 'Controller/review image build failed'}
+ docker compose -f experimental-workspace/calculus-100/compose.yaml up -d --no-deps controller
+ if($LASTEXITCODE -ne 0){throw 'Controller startup failed'}
+ docker compose -f experimental-workspace/verification-pipeline/compose.yaml -f experimental-workspace/calculus-100/operator.override.yaml up -d --no-deps operator preview1234 preview4321
+ if($LASTEXITCODE -ne 0){throw 'Operator preview startup failed'}
 } finally {Pop-Location}

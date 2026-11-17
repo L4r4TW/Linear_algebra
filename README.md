@@ -2,7 +2,7 @@
 
 ## Calculus expansion in progress
 
-The active goal is [100 distinct playable differential-calculus exercises](experimental-workspace/calculus-100/README.md). A 300-source candidate pool, strict-clean private renderer and reviewed-publication player adapter are implemented. Automated verification is running; candidates are not student exercises until independent review and controlled publication pass.
+The active goal is [100 distinct playable differential-calculus exercises](experimental-workspace/calculus-100/README.md). A 300-source candidate pool, strict-clean private renderer and reviewed-publication player adapter are implemented. Technical verification now covers 100 classified candidates and 400 passing cases. Candidates remain pending review by user instruction; they are not activated student exercises.
 
 ## Account integration checkpoint
 

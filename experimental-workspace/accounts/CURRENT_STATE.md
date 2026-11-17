@@ -1,5 +1,9 @@
 # Current platform handoff
 
+## Calculus expansion checkpoint
+
+Read [the current calculus handoff](../calculus-100/README.md). One hundred classified candidates now have 400 passing technical cases and isolated discovery acceptance. The user keeps them pending independent review; live practice remains six and no imported batch is activated. The 3105 backend uses the clean private candidate renderer/player override; original 3100 is independent. Private catalog publication authority also governs legacy aliases, and outages cannot bypass withdrawal. Historical counts/provenance statements below describe earlier images; the new candidate passes the unchanged full PG-clean check while production OS/npm/manual-review blockers remain.
+
 The local home is http://localhost:3105, with /browse, /account and /progress. Milestones 9-12 are connected and usable locally. The original 3100 anonymous prototype and 3101 loopback renderer editor remain separate development endpoints. The original Next.js app is unchanged.
 
 Accounts use the user-selected local Supabase Auth/Postgres project. Auth and renderer credentials stay encrypted/server-only. Sessions, ordered draft pairs, retained practice sets, bookmarks and immutable PG attempts persist. Signing in does not claim anonymous work; transfer requires the actual browser credential and explicit consent. Conflicting account drafts require a choice. Database operation claims prevent duplicate grading across processes; an unconfirmed external check blocks regrading. Legacy JSON/SQLite import is read-only, owner-proved and preserves IDs without inventing missing attempts.

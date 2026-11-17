@@ -10,7 +10,7 @@ if(!publishedCatalog&&process.env.PUBLISHED_CATALOG_ENABLED==='true'){
  const profile=JSON.parse(await readFile(new URL('../application/server/compatibility-profile.json',import.meta.url),'utf8'));
  catalogQuery=createCatalogQuery();publishedCatalog=createPublishedCatalog({query:()=>catalogQuery.query(),rendererUrl,runtimeDigest:runtimeFingerprint(),sourceRevision:profile.sourceRevision});
 }
-if(publishedCatalog){const legacyLookup=exerciseLookup,legacyList=exerciseList;exerciseLookup=id=>legacyLookup(id)??publishedCatalog.get(id);exerciseList=()=>mergeExerciseLists(legacyList(),publishedCatalog.list(),exerciseLookup);}
+if(publishedCatalog){const legacyLookup=exerciseLookup,legacyList=exerciseList;exerciseLookup=id=>{const original=legacyLookup(id);return original?(publishedCatalog.legacy?publishedCatalog.legacy(original):original):publishedCatalog.get(id);};exerciseList=()=>mergeExerciseLists(legacyList().filter(entry=>exerciseLookup(entry.id)),publishedCatalog.list(),exerciseLookup);}
 rendererClient??=createRendererClient({baseUrl:rendererUrl,exerciseLookup});
 const db=createDatabase({domainErrors:[ExerciseSessionError,PracticeSetError]}),vault=createVault((await readFile('/secrets/encryption-key','utf8')).trim()),accounts=createAccounts({db,vault});
 const store=createRecordStore({db,vault,legacyDirectory,exerciseLookup,runtimeDigest:runtimeFingerprint()});

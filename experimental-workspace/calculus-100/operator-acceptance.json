@@ -1,0 +1,15 @@
+{
+  "complete": true,
+  "operatorAuth": true,
+  "privateApiDenied": true,
+  "csrfDenied": true,
+  "currentCertifiedContextVisible": true,
+  "indexedToggle": true,
+  "zeroDatabasePracticeReady": true,
+  "evidenceDialogKeyboard": true,
+  "independentReviewAcknowledgementRequired": true,
+  "mobile360": true,
+  "pageErrors": 0,
+  "reviewMutations": 0,
+  "publicationMutations": 0
+}

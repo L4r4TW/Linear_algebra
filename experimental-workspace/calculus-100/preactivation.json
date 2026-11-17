@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-17T17:55:04.779Z",
+  "complete": true,
+  "scope": "Isolated discovery using actual candidate metadata and synthetic backend admission; not live activation or independent mathematical review.",
+  "distinctSources": 100,
+  "passingTechnicalCases": 400,
+  "sourceProjection": 100,
+  "pages": 9,
+  "sectionFilter": true,
+  "urlRestoration": true,
+  "mobile390": true,
+  "keyboard": true,
+  "pageErrors": 0,
+  "upstreamWrites": 0,
+  "independentReviewed": 0,
+  "studentActivation": false,
+  "contextId": "6a5647c8-26bc-4cf0-851f-da88b9b901f5",
+  "sourceHashes": [
+    {
+      "file": "preactivation.mjs",
+      "sha256": "55560e130df4fee6fd64468aa0e5fbfda9beeba81ac64db7593548361a64e816"
+    },
+    {
+      "file": "technical-status.json",
+      "sha256": "e325b22ec8401e7c530efb3ff5633dd2afc1e99fec4adb41d23cbd94e29b94dd"
+    },
+    {
+      "file": "review-pack.json",
+      "sha256": "7177556231a5a82ef85c83231e96aeb35e310b6b5245f213173d3cd7ea7f9ea5"
+    },
+    {
+      "file": "../accounts/published-catalog.mjs",
+      "sha256": "e7792fdf1c9ae7e97239bdd783766d1724086a60317b349a81d528987cc8d221"
+    },
+    {
+      "file": "../discovery/catalog.mjs",
+      "sha256": "724eb935e6412543242072a0e497f2ed23924977c58e4f0d143f61ff0342d523"
+    },
+    {
+      "file": "../discovery/server.mjs",
+      "sha256": "d3c4afdfe5d37cbfdaf0a15c20fd3438236e4c10bc20adb0ab62b3161bd35bbc"
+    }
+  ]
+}

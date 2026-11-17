@@ -65,6 +65,24 @@ services:
     depends_on:
       renderer:
         condition: service_healthy
+  controller:
+    container_name: linear-algebra-calculus-controller
+    image: linear-algebra-calculus-review
+    build:
+      context: ../..
+      dockerfile: experimental-workspace/calculus-100/Controller.Dockerfile
+    init: true
+    command: [calculus/controller.mjs, --loop]
+    environment: *database
+    networks: [catalog]
+    cpus: 0.5
+    mem_limit: 256m
+    pids_limit: 64
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    tmpfs: ["/tmp:rw,noexec,nosuid,size=8m"]
+    volumes: [reports:/artifacts]
 networks:
   private:
     internal: true
@@ -72,6 +90,7 @@ networks:
     external: true
     name: linear-algebra-opl-catalog_catalog
 volumes:
+  reports: {}
   opl:
     external: true
     name: linear-algebra-experimental_opl

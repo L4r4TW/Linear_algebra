@@ -5,12 +5,14 @@ services:
       RENDERER_URL: http://linear-algebra-calculus-renderer-1:3000
     networks: [catalog, private, console, calculus]
   preview1234:
-    image: linear-algebra-calculus-tools
+    image: linear-algebra-calculus-review
+    entrypoint: [node, calculus/review-server.mjs]
     environment:
       RENDERER_URL: http://linear-algebra-calculus-renderer-1:3000
     networks: [catalog, private, console, calculus]
   preview4321:
-    image: linear-algebra-calculus-tools
+    image: linear-algebra-calculus-review
+    entrypoint: [node, calculus/review-server.mjs]
     environment:
       RENDERER_URL: http://linear-algebra-calculus-renderer-1:3000
     networks: [catalog, private, console, calculus]
