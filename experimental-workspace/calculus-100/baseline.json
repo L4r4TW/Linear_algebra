@@ -1,0 +1,191 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-17T10:11:05.056Z",
+  "goal": {
+    "distinctExercises": 100,
+    "subject": "Single-variable differential calculus",
+    "seeds": [
+      1234,
+      4321
+    ],
+    "viewports": [
+      "desktop",
+      "mobile"
+    ],
+    "minimumCases": 400
+  },
+  "baseline": {
+    "liveTotal": 6,
+    "liveDifferentialCalculus": 3,
+    "context": {
+      "id": "ff2116d9-7cc5-498b-bf59-71edf550589a",
+      "certified": false,
+      "runtimeDigest": "8ff066dd7e957a03850b3f23cda907a3285b9dd536cd60ad0f396a20aa9d879e"
+    },
+    "indexed": {
+      "areas": {
+        "Contrib": 29624,
+        "Pending": 6969,
+        "OpenProblemLibrary": 40541
+      },
+      "runId": "fa805a18-f7ed-4c6e-9023-b75b455c26d9",
+      "indexed": 77134,
+      "generation": 1,
+      "unclassified": 38394,
+      "practiceReady": 0,
+      "identityReview": 0
+    },
+    "chapters": [
+      {
+        "count": 2,
+        "chapter": "Application of integration"
+      },
+      {
+        "count": 1982,
+        "chapter": "Applications of differentiation"
+      },
+      {
+        "count": 26,
+        "chapter": "Applications of Differentiation"
+      },
+      {
+        "count": 1111,
+        "chapter": "Applications of integration"
+      },
+      {
+        "count": 5,
+        "chapter": "Applications of Integration"
+      },
+      {
+        "count": 2375,
+        "chapter": "Differentiation"
+      },
+      {
+        "count": 17,
+        "chapter": "Differentiation Techniques and Application"
+      },
+      {
+        "count": 9,
+        "chapter": "Functions Graphs and Excel"
+      },
+      {
+        "count": 1117,
+        "chapter": "Infinite sequences and series"
+      },
+      {
+        "count": 129,
+        "chapter": "Infinite Sequences and Series"
+      },
+      {
+        "count": 1402,
+        "chapter": "Integrals"
+      },
+      {
+        "count": 1128,
+        "chapter": "Limits and continuity"
+      },
+      {
+        "count": 33,
+        "chapter": "Limits and Continuity"
+      },
+      {
+        "count": 213,
+        "chapter": "Parametric"
+      },
+      {
+        "count": 1,
+        "chapter": "Parametric Equations and Polar Coordinates"
+      },
+      {
+        "count": 139,
+        "chapter": "Polar"
+      },
+      {
+        "count": 1,
+        "chapter": "Practice Quizzes"
+      },
+      {
+        "count": 38,
+        "chapter": "Rate of Change and Derivatives"
+      },
+      {
+        "count": 69,
+        "chapter": "Symbolic Differentiation"
+      },
+      {
+        "count": 1529,
+        "chapter": "Techniques of integration"
+      },
+      {
+        "count": 131,
+        "chapter": null
+      }
+    ],
+    "databasePlayable": 0
+  },
+  "topics": [
+    {
+      "id": "limits-continuity",
+      "title": "Limits and continuity",
+      "target": 10,
+      "indexed": 1110,
+      "withoutDetectedUnsupportedCapability": 1041
+    },
+    {
+      "id": "definition-differentiability",
+      "title": "Derivative definition and differentiability",
+      "target": 10,
+      "indexed": 333,
+      "withoutDetectedUnsupportedCapability": 301
+    },
+    {
+      "id": "basic-rules",
+      "title": "Power, product and quotient rules",
+      "target": 15,
+      "indexed": 414,
+      "withoutDetectedUnsupportedCapability": 406
+    },
+    {
+      "id": "chain-transcendental",
+      "title": "Chain rule and transcendental derivatives",
+      "target": 20,
+      "indexed": 2653,
+      "withoutDetectedUnsupportedCapability": 2611
+    },
+    {
+      "id": "implicit-logarithmic",
+      "title": "Implicit and logarithmic differentiation",
+      "target": 10,
+      "indexed": 260,
+      "withoutDetectedUnsupportedCapability": 257
+    },
+    {
+      "id": "higher-tangents-linear",
+      "title": "Higher derivatives, tangents and linear approximation",
+      "target": 10,
+      "indexed": 435,
+      "withoutDetectedUnsupportedCapability": 428
+    },
+    {
+      "id": "curve-analysis",
+      "title": "Monotonicity, concavity and extrema",
+      "target": 15,
+      "indexed": 776,
+      "withoutDetectedUnsupportedCapability": 753
+    },
+    {
+      "id": "optimization-related-rates",
+      "title": "Optimization and related rates",
+      "target": 10,
+      "indexed": 483,
+      "withoutDetectedUnsupportedCapability": 458
+    }
+  ],
+  "constraints": [
+    "Strict context certification remains unchanged.",
+    "Four independent attempt-bound review categories remain mandatory.",
+    "Student player currently authorizes JSON prototype entries only.",
+    "Discovery filters practice metadata to six known prototype IDs.",
+    "No manual reviews or activations are inferred from this audit."
+  ]
+}
