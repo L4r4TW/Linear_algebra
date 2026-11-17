@@ -29,3 +29,11 @@ db.mjs binds verified server identity/guest proof to a transaction on one pooled
 Actual /user-validated Supabase accounts were used to prove cross-account/missing-actor denial, encrypted round trip, cross-owner parent-link rejection, wrong guest-proof rejection, explicit claim and retired anonymous authority. Two separate encryption tests cover tampering, record swapping and stable private account-owner derivation.
 
 Run verify-storage.ps1 after starting the Auth stack. The report database-observations.json contains booleans/counts/hashes only. Synthetic accounts/rows are created only in this new local development database and are not production students. Account UI, real saved-work import, history/progress, drafts and multi-process submission coordination remain pending; these tests do not claim those integrations are complete.
+
+## Verified server-side Auth session adapter (12.2, still private)
+
+auth.mjs now resolves identity through the actual GoTrue /user endpoint, stores access/refresh tokens encrypted in the forced-RLS database, and gives the browser an unrelated random opaque session value. Account-owner authority is derived privately and is stable across devices; it is never a browser JWT or a caller-selected account ID. Unknown/duplicate cookies fail closed, claimed guest credentials cannot become anonymous authorities again, and BFF logout revokes its opaque session immediately.
+
+The actual bff-probe.mjs check passes two separate sign-ins for one account, stable cross-device identity, distinct opaque sessions, encrypted token storage, random/duplicate-cookie rejection, claimed-guest rejection and immediate BFF logout. The pinned upstream logout currently uses global refresh-session scope; no claim is made that all unexpired access JWTs are revoked immediately. The public account controller/UI and saved-work adapters are still pending and must explicitly define logout scope.
+
+The Auth/crypto/database files are server-only. Never serialize the internal actor or owner token into an HTTP response. Only a narrow public account DTO may be exposed. Real guest-work transfer, private session/attempt persistence, remote drafts and progress still require application integration.

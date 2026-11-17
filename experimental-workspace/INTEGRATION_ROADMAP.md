@@ -63,3 +63,5 @@ The local six-exercise player remains usable. The 77,134-source imported catalog
 - Tasks 10 and 11.4 complete/deployed: runtime 20fb8629d71be21f0886a47ae17a5ac21d4a5c0f8c0d2df7622dc6eb259e63ad, 182 server + 62 browser + 12 home/chooser checks, actual set and shell reviews. Full operator matrix 43/44 retains seed-4321 mobile GraphTool keyboard failure and all limitations. Same six exercises enabled. Next: 12.2 backend account storage/claim; 12.1 real local Auth foundation already verified. Task 13 release/manual checks remain pending.
 
 - 12.2 private storage primitives verified against actual Supabase users (10 forced-RLS tables, encrypted records, explicit claim/retirement). Backend/Auth-session/student-data adapters and UI still pending.
+
+- Private BFF Auth adapter real-probed; HTTP/UI and actual student-data persistence still pending. Preserve the deployed 10–11 platform while preparing account adapters.
