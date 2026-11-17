@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';import {randomBytes,createHmac} from 'node:crypto';import {mkdir,writeFile} from 'node:fs/promises';
+const base=process.env.AUTH_URL??'http://auth:9999',nonce=randomBytes(12).toString('hex'),email='practice-'+nonce+'@example.test',password=randomBytes(20).toString('base64url')+'Aa1!';
+const call=(path,body,token)=>fetch(base+path,{method:body?'POST':'GET',headers:{...(body?{'Content-Type':'application/json'}:{}),...(token?{Authorization:'Bearer '+token}:{})},...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(15000)});
+const report={version:1,observedAt:new Date().toISOString(),scope:'Actual isolated local Supabase Auth; random test account; no private credentials/tokens in report'};
+let response=await call('/health');assert.equal(response.status,200);report.healthy=true;
+response=await call('/signup',{email,password});assert.equal(response.status,200);const signup=await response.json();assert.ok(signup.user?.id);assert.equal(typeof signup.access_token,'string');report.actualSignup=true;
+response=await call('/token?grant_type=password',{email,password});assert.equal(response.status,200);const login=await response.json();assert.equal(login.user.id,signup.user.id);report.actualPasswordLogin=true;
+response=await call('/user',null,login.access_token);assert.equal(response.status,200);const user=await response.json();assert.equal(user.id,signup.user.id);report.serverValidatedIdentity=true;
+const header=Buffer.from(JSON.stringify({alg:'HS256',typ:'JWT'})).toString('base64url'),payload=Buffer.from(JSON.stringify({sub:user.id,aud:'authenticated',role:'authenticated',exp:Math.floor(Date.now()/1000)+3600})).toString('base64url'),signature=createHmac('sha256',randomBytes(32)).update(header+'.'+payload).digest('base64url');
+response=await call('/user',null,header+'.'+payload+'.'+signature);assert.ok([401,403].includes(response.status));report.forgedJwtRejected=true;
+response=await call('/token?grant_type=password',{email,password:password+'wrong'});assert.equal(response.status,400);report.wrongPasswordRejected=true;
+response=await call('/token?grant_type=refresh_token',{refresh_token:login.refresh_token});assert.equal(response.status,200);const refreshed=await response.json();assert.equal(refreshed.user.id,user.id);report.actualRefresh=true;
+response=await call('/logout?scope=global',{},refreshed.access_token);assert.equal(response.status,204);report.actualLogout=true;
+response=await call('/token?grant_type=refresh_token',{refresh_token:refreshed.refresh_token});assert.ok([400,401].includes(response.status));report.loggedOutRefreshRejected=true;
+report.complete=true;const output=process.env.AUTH_PROBE_OUTPUT??'/artifacts';await mkdir(output,{recursive:true});await writeFile(output+'/auth-observations.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({complete:true,checks:9,credentialsDisclosed:false}));

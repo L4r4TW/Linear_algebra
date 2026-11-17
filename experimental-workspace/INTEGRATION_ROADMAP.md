@@ -57,3 +57,5 @@ The local six-exercise player remains usable. The 77,134-source imported catalog
 - 11.1 standalone persistence groundwork implemented/tested while task-10 proof runs. No HTTP/UI integration yet; see PRACTICE_SETS.md.
 
 - 11.2–11.3 candidate integrated: owned APIs + chooser + real position/guarded navigation. Focused three-exercise PG check passes. Combined full gate/browser verification still running; do not redeploy host source before proof. Task 12 environment preference: new local Supabase (explicit user answer).
+
+- 12.1 user-selected local Supabase Auth/Postgres environment healthy; nine actual Auth checks pass. Separate private volumes only. Backend account/saved-work integration remains pending.

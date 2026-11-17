@@ -1,0 +1,57 @@
+{
+    "version":  1,
+    "observedAt":  "2026-11-17T00:12:18.569Z",
+    "scope":  "Actual isolated local Supabase Auth; random test account; no private credentials/tokens in report",
+    "healthy":  true,
+    "actualSignup":  true,
+    "actualPasswordLogin":  true,
+    "serverValidatedIdentity":  true,
+    "forgedJwtRejected":  true,
+    "wrongPasswordRejected":  true,
+    "actualRefresh":  true,
+    "actualLogout":  true,
+    "loggedOutRefreshRejected":  true,
+    "complete":  true,
+    "sourceHashes":  [
+                         {
+                             "file":  "secrets.mjs",
+                             "sha256":  "6ef4b1cd5c34c4aa5701a388d5cf2189554678f907145856930a0f80275938e2"
+                         },
+                         {
+                             "file":  "init-db.sh",
+                             "sha256":  "4ac77cb45f2470e3b9c55f0b37937189b9221d32dc37307f8090c0cf07276f01"
+                         },
+                         {
+                             "file":  "start-auth.sh",
+                             "sha256":  "66be8656317344d30fc826fca49a0eebfd01ccfa4045faf3bff9578036e88151"
+                         },
+                         {
+                             "file":  "compose.yaml",
+                             "sha256":  "57096a891c52d2987f4e041380d431e9202053e82447d1caa9658f1696027031"
+                         },
+                         {
+                             "file":  "Secrets.Dockerfile",
+                             "sha256":  "49329d34c7010271a01f6552c99b0d277d81cf6ba224d96dad9bf474590f0ec5"
+                         },
+                         {
+                             "file":  "Database.Dockerfile",
+                             "sha256":  "291642ee08232b9d65dcb8be7729500d2b6ca8ed8f13dfcea46e50ccbb6811c4"
+                         },
+                         {
+                             "file":  "Auth.Dockerfile",
+                             "sha256":  "d7cbd5612c2ccff7da4e7fd0c4090cffa7a3f01b93f09987f74782015a80813f"
+                         },
+                         {
+                             "file":  "Tools.Dockerfile",
+                             "sha256":  "90178e705cde4bddef01cef7a3f818a4cd4c1978e7dc49057e320902f31b2702"
+                         },
+                         {
+                             "file":  "auth-probe.mjs",
+                             "sha256":  "c8a9c4575262338bf904892e43cf1b7b0fd7ed27e2febd6b1fc9fdc01b9e9c9b"
+                         },
+                         {
+                             "file":  "verify-auth.ps1",
+                             "sha256":  "2c1d7d20c09be547f1addb65ab339b0b16e27554cb5a3def8a393d98d65dd6da"
+                         }
+                     ]
+}

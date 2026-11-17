@@ -1,0 +1,74 @@
+name: linear-algebra-accounts
+services:
+  secrets-init:
+    image: linear-algebra-account-secrets
+    build:
+      context: ../..
+      dockerfile: experimental-workspace/accounts/Secrets.Dockerfile
+    volumes: [secrets:/secrets]
+    network_mode: none
+  database:
+    image: linear-algebra-account-database
+    build:
+      context: ../..
+      dockerfile: experimental-workspace/accounts/Database.Dockerfile
+    environment:
+      POSTGRES_DB: accounts
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD_FILE: /secrets/database-password
+    volumes: [database:/var/lib/postgresql/data, secrets:/secrets:ro]
+    networks: [private]
+    depends_on:
+      secrets-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: [CMD, pg_isready, -U, postgres, -d, accounts]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    mem_limit: 384m
+  auth:
+    image: linear-algebra-account-auth
+    build:
+      context: ../..
+      dockerfile: experimental-workspace/accounts/Auth.Dockerfile
+    user: "1000:1000"
+    environment:
+      GOTRUE_API_HOST: 0.0.0.0
+      GOTRUE_API_PORT: 9999
+      API_EXTERNAL_URL: http://localhost:3105
+      GOTRUE_SITE_URL: http://localhost:3105
+      GOTRUE_URI_ALLOW_LIST: http://localhost:3105
+      GOTRUE_DB_DRIVER: postgres
+      GOTRUE_DB_NAMESPACE: auth
+      GOTRUE_DISABLE_SIGNUP: "false"
+      GOTRUE_EXTERNAL_EMAIL_ENABLED: "true"
+      GOTRUE_EXTERNAL_ANONYMOUS_USERS_ENABLED: "false"
+      GOTRUE_MAILER_AUTOCONFIRM: "true"
+      GOTRUE_JWT_ADMIN_ROLES: service_role
+      GOTRUE_JWT_AUD: authenticated
+      GOTRUE_JWT_DEFAULT_GROUP_NAME: authenticated
+      GOTRUE_JWT_EXP: 3600
+      GOTRUE_PASSWORD_MIN_LENGTH: 12
+      GOTRUE_JWT_ISSUER: http://localhost:3105/auth
+    volumes: [secrets:/secrets:ro]
+    networks: [private]
+    depends_on:
+      database:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, wget, --no-verbose, --tries=1, --spider, http://localhost:9999/health]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    read_only: true
+    tmpfs: ["/tmp:rw,noexec,nosuid,size=16m"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 192m
+networks:
+  private:
+    internal: true
+volumes:
+  database: {}
+  secrets: {}
