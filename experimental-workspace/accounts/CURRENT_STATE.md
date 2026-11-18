@@ -1,5 +1,10 @@
 # Current platform handoff
 
+## Maintained source checkpoint
+
+The 2026-11-18 review consolidates the shared curriculum reader in practice-400/study-model.mjs, formats operational source and adds the isolated maintenance quality gate. Browser requests now have bounded cancellation/error handling; retained-set retries and cached-page restoration have regression coverage. Public API contracts, PG runtime and existing data are preserved. Read [the contributor guide](../../CONTRIBUTING.md), [review findings](../CODE_REVIEW.md) and the newest root PROJECT_CONTEXT.md entry for current test results and immutable acceptance. Earlier counts below are historical.
+
+
 ## Latest: two-level learning UX and private completion
 
 Read [../LEARNING_UX.md](../LEARNING_UX.md). Home3105 leads to ordered subject/chapter pages with completion indicators. Auth migration004 is applied locally. Credits/receipts commit with accepted server-PG attempts, preserve owner-consistent forced RLS and deduplicate repeated grades/aliases/claimed principals. Fixed study goals, not growing availability or mastery, define percentages. GET /api/sessions/account/learning-progress exposes only owner-scoped public totals. Historical exact-source PG attempts backfill in bounded requests; legacy attempts do not acquire fabricated credit.

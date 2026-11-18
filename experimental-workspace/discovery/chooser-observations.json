@@ -1,6 +1,6 @@
 {
     "version":  1,
-    "observedAt":  "2026-11-18T09:13:31.204Z",
+    "observedAt":  "2026-11-18T10:22:23.628Z",
     "scope":  "Live two-level subject/chapter UX, random saved sets, anonymous owner semantics and emulated mobile; no manual screen-reader or physical-device claim",
     "subjects":  true,
     "orderedChapters":  true,
@@ -11,6 +11,7 @@
     "keyboardMobile":  true,
     "blockedStorage":  true,
     "retryRequestIdentity":  true,
+    "cachedViewRecovery":  true,
     "complete":  true,
     "sourceHashes":  [
                          {
@@ -18,40 +19,56 @@
                              "sha256":  "bbd93e04f0f38690d30191d1c5002b741ff8a87e0804efeef700c0b6589a5e4f"
                          },
                          {
+                             "file":  "../practice-400/study-model.mjs",
+                             "sha256":  "8b14a16c954f4562f5c6c595d197280f0232b65bd6f4ecfd752b281c0c7f9b7c"
+                         },
+                         {
+                             "file":  "client.test.mjs",
+                             "sha256":  "be87efd00c4de4ef250f2a362a8bf97e03076f0aa15931cb502854b97d629d92"
+                         },
+                         {
+                             "file":  "public/http-client.js",
+                             "sha256":  "8e9437878775463cedd8b9db294dcfdccd3081678178a125d101eebb15dd07b6"
+                         },
+                         {
+                             "file":  "public/pending-practice.js",
+                             "sha256":  "7d769e92167ace561274439f7580d0266c8a62bce9e35217aaffbffb809ca745"
+                         },
+                         {
                              "file":  "subject.mjs",
-                             "sha256":  "b4be063ae5c73974bdcc2ad1964f543e350dfd22af0ab4592e09aed262af6fda"
+                             "sha256":  "a5b6cdbe64a05f5cc9f554ad358fa6c6643fa9e912d386a47f2f7a1fc2a17d0f"
                          },
                          {
                              "file":  "subject.test.mjs",
-                             "sha256":  "1e066dd6b935e4c35c38fc238d5a3256091bb62e48428f81573b1143d15dd440"
+                             "sha256":  "66715055d67202ce705e18f28f0486e67e6f107147543cb9c1d347e3601a9bca"
                          },
                          {
                              "file":  "public/subject.html",
-                             "sha256":  "6a6f6ad393008a7f38d5caa0fc1093880500aabe0a0692c11b427d65903ecb78"
+                             "sha256":  "f42003d84cd460f61b8d52a0f7470b7bc84daeb58a7d8b8f0696d90d987d6b07"
                          },
                          {
                              "file":  "public/subject.js",
-                             "sha256":  "7cf4dc44d9f5fe66dcd30a038bbbbb225444b508315d4cd87a55da61ebd26466"
+                             "sha256":  "4922a6ed2d19491e601934f16df9c50a4cd3c8f5cf1bb7ea6b78df78d6c2ce64"
                          },
                          {
                              "file":  "public/subject.css",
-                             "sha256":  "94017274e2b2daca129b70f8bec757126726fb7ea8642249fe527ccc3467f171"
+                             "sha256":  "259361051cd6251389153ba618cb0e2da54b15ea9fcc57d2433e3d3d9771025a"
                          },
                          {
                              "file":  "public/study-progress.js",
-                             "sha256":  "81e53b77b47bf1d3d4da567d23e9d907db238da41f1e65b8729e053fc3c7ea16"
+                             "sha256":  "d80bd8c3c473bd1e58664035eddd7e2f103d55d8190a8a66faf47dcac0a5f14d"
                          },
                          {
                              "file":  "catalog.mjs",
-                             "sha256":  "2edf526b0cf1cca1065375f66de5daa337636bd38dcfca36f2f92e473c50bf2c"
+                             "sha256":  "5105d5525f3281329a9a47aefaad2da6566738b1761987072ec9ea5acd50f485"
                          },
                          {
                              "file":  "chooser.mjs",
-                             "sha256":  "58167f6d3a498603087e67bdbe19325e538caf54c8bf222d4e1e3d450c9e6301"
+                             "sha256":  "62260909a631de799c0ca8f5e583a187bdfdf0a2690c1076a91d4dca3d26d348"
                          },
                          {
                              "file":  "server.mjs",
-                             "sha256":  "dd44bd5106aec253b99c30ae6e736d84f5a2c98d6edb209f4a383a2d1485fa07"
+                             "sha256":  "2f1c9fd20668099e96df0d75d649875c411472e4918d41fd98b80af45ce85bdb"
                          },
                          {
                              "file":  "practice-metadata.json",
@@ -59,79 +76,79 @@
                          },
                          {
                              "file":  "package.json",
-                             "sha256":  "13397aa54112b0e2b39c62d21ed945502e656393174753430f599cc439fe7f35"
+                             "sha256":  "9445f65f8487efb3a40f08959c8e223f42100066238a3f4872913b38f4351abb"
                          },
                          {
                              "file":  "public/index.html",
-                             "sha256":  "5c70e3dbe00353e65214692eb79df4581db1537ca839a4252cf1e3709c02cacf"
+                             "sha256":  "8dbb847016c353ee13e43d0e787684698310b940246950e59e757c3fa7f019dd"
                          },
                          {
                              "file":  "public/sources.html",
-                             "sha256":  "c7c23a88a07e95bc115cd7d886b6a402cf7e1a592c806a2a971ecda10c3c449b"
+                             "sha256":  "8c0ea220ee31ab01a317a240dd52485790004e1dca08dd4d836be64afd33b25c"
                          },
                          {
                              "file":  "public/home.js",
-                             "sha256":  "2d1f1a15a0b8d6a43e6f8155962054836ba58601fd7181a9a05dded257125900"
+                             "sha256":  "ec32c035b0b5d09f7fcf1ca68868c11d232a1cb1e9e648d99a7712b52a75fc8f"
                          },
                          {
                              "file":  "public/home.css",
-                             "sha256":  "c3cd4db7d4021d8466e2b6f3bac4ea2448693932405492fbfd65be71954aa349"
+                             "sha256":  "aa839896c49a329c617ba9f0a67ded7c5f50d6cabd67590cae2a75b353c3a89c"
                          },
                          {
                              "file":  "public/account.html",
-                             "sha256":  "0ea4e3af724b8083f30194b5d08430447f06265dc88389017f6784110dafa627"
+                             "sha256":  "04196c231592afe1e1e532252acd5856821f7df8df31b32326a6e9b2e0aed8b0"
                          },
                          {
                              "file":  "public/account.js",
-                             "sha256":  "68b5adec8a00f9d652fcb0053f21f55ce7d6f0437b0e81f7b87850d0183b878c"
+                             "sha256":  "6dad7c6ff83457686375b5a270f761e51e174686b854fad56f440c046fa68698"
                          },
                          {
                              "file":  "public/account.css",
-                             "sha256":  "b776c93c7953066028a906452204c509378d0c985aa48d30a4a196473e165f19"
+                             "sha256":  "8f0558717f3864b16ca5160dc2a7e3a846cbfda356e52943f69d9bb009a8dac4"
                          },
                          {
                              "file":  "public/chooser.html",
-                             "sha256":  "5c2862a3f5835f084d35e06de95b44dc7eb815ee5d724f03e685bd76583901c4"
+                             "sha256":  "af7102fa63e772762d482774ebc609cb2478577a5aad1227953ce3d24e99a80f"
                          },
                          {
                              "file":  "public/chooser.js",
-                             "sha256":  "b0da4fd84f4ab25f281b0cf18e865acc4a0f44fef5baccc0314aa70704272952"
+                             "sha256":  "2ba978422e26d04d01b9d1e776d4cccec651631026522083f89e1316962d59b4"
                          },
                          {
                              "file":  "public/chooser.css",
-                             "sha256":  "3384d77479da0bbaa8de2765aeb648076fa2d0d01c1e1c44cab1da45d3cb9fbd"
+                             "sha256":  "4ebcd2d95dcbf0b232667ec55c6d798f35d3b4371dca6dcf0b7e335fcfcfe870"
                          },
                          {
                              "file":  "public/practice-plan-store.js",
-                             "sha256":  "414237e32fe8241058cbd9f88ca09ed853dc8ea936b5127d6daac7bb9c6d21b4"
+                             "sha256":  "134f5bf16b71e1878998e7868560e415d8145804a6ef5f1910f166bf6d3ff07c"
                          },
                          {
                              "file":  "catalog.test.mjs",
-                             "sha256":  "4a1519f733ca48a5ce96164d041328a0b015fa6354275001ca257adc87fd9baf"
+                             "sha256":  "5c18011990497610a68d31a06a20d45946ffdb3a21c202127b341ca2cc52333f"
                          },
                          {
                              "file":  "chooser.test.mjs",
-                             "sha256":  "248838413d12a165afed58d63fdc0913a651fabad90e689aec534ef7035a14f3"
+                             "sha256":  "a08bbcb095ad8de58184f53af5743415e9ed76bb29471ac4d4071fd09dc38f53"
                          },
                          {
                              "file":  "server.test.mjs",
-                             "sha256":  "09b85f23ea9d83cc570aa3fd6d335c61c140e43c4cef419aa8138c01d7e94716"
+                             "sha256":  "226ce0eded362c37a05a252d2405de620139c2371e8c241f6ccb90a032c1b788"
                          },
                          {
                              "file":  "catalog.integration.mjs",
-                             "sha256":  "0ba2dd026fb2fefb807d62223e88ed8a43224484945b3129be023f15f806b7ff"
+                             "sha256":  "0d14b8f099aeeeb33f1599833a21b22fa5d9d21ddff4817289ad7286638eaa83"
                          },
                          {
                              "file":  "browser.test.mjs",
-                             "sha256":  "b078e00e12b7115649840dd49e3b8bf2f57da95396a31d8a7d03820a26e2a5a4"
+                             "sha256":  "12740fdafa1639ef232f5b090ad002179fc0f868f64a554030df3af5f1bd1144"
                          },
                          {
                              "file":  "chooser.browser.mjs",
-                             "sha256":  "8c7bbcae57b860578129bd5d782cd55d5e47f5802ddfe780189310e5a6e95593"
+                             "sha256":  "142e58ac5d7327063c08497fb6523a49a89663b6d2b1661cec6251c4818c1243"
                          },
                          {
                              "file":  "Dockerfile",
-                             "sha256":  "329a77d9b23e74a98b4abb9aee3ad9f671faa3e63c7f57ea05642ca769e9a0f0"
+                             "sha256":  "5d53b59bfe857536e5df7929965e9ceb87aa52e5e89c2be3e639656d7fba16dc"
                          },
                          {
                              "file":  "Browser.Dockerfile",
@@ -147,11 +164,11 @@
                          },
                          {
                              "file":  "verify.ps1",
-                             "sha256":  "49277ca69619d59a0a4554d1d7c89f114292e1daf6725615b2693b8893a136bc"
+                             "sha256":  "f8acc6d2e61c03987f3ba2fa722f8db2c87060201c61494affa40681eaab04b9"
                          }
                      ],
-    "serverTests":  17,
+    "serverTests":  30,
     "realDatabaseTests":  1,
-    "browserTests":  5,
-    "imageId":  "sha256:61fac64be5b7019e938008cf4bfaeff7f5d422c94bc3b21250d8e8c0d3501f3a"
+    "browserTests":  6,
+    "imageId":  "sha256:ef6878dc2b89643d6857266801254bc59db4fd0030d50141469a8f7827dfc7c5"
 }

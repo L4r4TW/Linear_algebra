@@ -552,3 +552,5 @@ Safe PG feedback presentation is documented in [FEEDBACK_PRESENTATION.md](FEEDBA
 ## Retry and move on
 
 [PRACTICE_ACTIONS.md](PRACTICE_ACTIONS.md) documents same-session retries and protected navigation. Every result has Return to answers and Choose another exercise. Browsing the list keeps the current frame; selecting a card collects/saves fresh edits and asks before leaving unchecked or uncertain work. Cancel keeps the frame, values and URL. A fresh variation is explicitly labelled as a new session. Old drafts stay bound to their original sessions for Back/Forward restoration. Browser exit/reload uses its standard prompt for cached unfinished work, subject to browser rules; tab drafts are not permanent storage.
+
+Contributor maintenance: see [CONTRIBUTING.md](../CONTRIBUTING.md) and [CODE_REVIEW.md](CODE_REVIEW.md). The active accounts/discovery/collection source has isolated formatting/lint checks in maintenance/; canonical PG runtime and evidence are excluded. Current curriculum behavior is shared through practice-400/study-model.mjs.

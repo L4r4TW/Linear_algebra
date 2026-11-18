@@ -1,19 +1,107 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Browse mathematics · MathPractice</title><link rel="icon" href="data:,"><link rel="stylesheet" href="/home.css"><link rel="stylesheet" href="/chooser.css"><script type="module" src="/chooser.js"></script></head>
-<body><a class="skip" href="#topic-browser">Skip to topics</a><div class="app-shell">
-<header><a class="brand" href="/" aria-label="MathPractice home"><span aria-hidden="true">∑</span> MathPractice</a><nav aria-label="Main"><a href="/">Home</a> <a href="/practice">Practice space ↗</a></nav></header>
-<main id="topic-browser"><div class="chooser-heading"><div><p class="eyebrow">FIND YOUR NEXT TOPIC</p><h1>Browse mathematics</h1></div><p class="muted">Subject / Chapter / Section</p></div>
-<div class="browse-toolbar"><div class="view-switch" role="group" aria-label="Choose collection"><button id="topic-practice" aria-pressed="true" type="button">Available practice</button><button id="topic-library" aria-pressed="false" type="button">Indexed library</button></div><button id="reset-topics" class="text-button" type="button">Clear selections</button></div>
-<p id="topic-note" class="collection-note"></p>
-<p id="topic-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
-<div id="topic-error" class="notice error" role="alert" hidden></div>
-<div id="topic-columns" class="topic-columns" aria-busy="true">
-<section class="topic-column" aria-labelledby="subject-heading"><h2 id="subject-heading" tabindex="-1">Subject</h2><label class="sr-only" for="subject-find">Filter subjects</label><input id="subject-find" type="search" maxlength="200" placeholder="Filter subjects…"><ul id="subject-options" aria-label="Subjects"></ul><p id="subject-note" class="muted"></p></section>
-<section class="topic-column" aria-labelledby="chapter-heading"><h2 id="chapter-heading" tabindex="-1">Chapter</h2><label class="sr-only" for="chapter-find">Filter chapters</label><input id="chapter-find" type="search" maxlength="200" placeholder="Filter chapters…"><ul id="chapter-options" aria-label="Chapters"></ul><p id="chapter-note" class="muted">Choose a subject.</p></section>
-<section class="topic-column" aria-labelledby="section-heading"><h2 id="section-heading" tabindex="-1">Section</h2><label class="sr-only" for="section-find">Filter sections</label><input id="section-find" type="search" maxlength="200" placeholder="Filter sections…"><ul id="section-options" aria-label="Sections"></ul><p id="section-note" class="muted">Choose a chapter.</p></section>
-</div>
-<div class="topic-footer"><div><h2 id="selected-topic">Choose a subject</h2><nav id="topic-breadcrumb" aria-label="Selected topic"></nav><p id="topic-count" class="muted"></p></div><div class="topic-actions"><a id="topic-results" class="secondary" href="/">View exercises</a><button id="topic-start" type="button" class="primary" disabled>Practice <span aria-hidden="true">→</span></button></div></div>
-<p id="plan-status" role="status" aria-live="polite"></p><div id="plan-error" class="notice error" role="alert" hidden></div>
-<noscript><p class="notice">Enable JavaScript to browse dependent topics. <a href="/">Return to search</a>.</p></noscript>
-</main><footer>Choose a topic. Give yourself room to think.</footer></div></body></html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Browse mathematics · MathPractice</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/home.css" />
+    <link rel="stylesheet" href="/chooser.css" />
+    <script type="module" src="/chooser.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#topic-browser">Skip to topics</a>
+    <div class="app-shell">
+      <header>
+        <a class="brand" href="/" aria-label="MathPractice home"
+          ><span aria-hidden="true">∑</span> MathPractice</a
+        >
+        <nav aria-label="Main"><a href="/">Home</a> <a href="/practice">Practice space ↗</a></nav>
+      </header>
+      <main id="topic-browser">
+        <div class="chooser-heading">
+          <div>
+            <p class="eyebrow">FIND YOUR NEXT TOPIC</p>
+            <h1>Browse mathematics</h1>
+          </div>
+          <p class="muted">Subject / Chapter / Section</p>
+        </div>
+        <div class="browse-toolbar">
+          <div class="view-switch" role="group" aria-label="Choose collection">
+            <button id="topic-practice" aria-pressed="true" type="button">Available practice</button
+            ><button id="topic-library" aria-pressed="false" type="button">Indexed library</button>
+          </div>
+          <button id="reset-topics" class="text-button" type="button">Clear selections</button>
+        </div>
+        <p id="topic-note" class="collection-note"></p>
+        <p
+          id="topic-announcement"
+          class="sr-only"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        ></p>
+        <div id="topic-error" class="notice error" role="alert" hidden></div>
+        <div id="topic-columns" class="topic-columns" aria-busy="true">
+          <section class="topic-column" aria-labelledby="subject-heading">
+            <h2 id="subject-heading" tabindex="-1">Subject</h2>
+            <label class="sr-only" for="subject-find">Filter subjects</label
+            ><input
+              id="subject-find"
+              type="search"
+              maxlength="200"
+              placeholder="Filter subjects…"
+            />
+            <ul id="subject-options" aria-label="Subjects"></ul>
+            <p id="subject-note" class="muted"></p>
+          </section>
+          <section class="topic-column" aria-labelledby="chapter-heading">
+            <h2 id="chapter-heading" tabindex="-1">Chapter</h2>
+            <label class="sr-only" for="chapter-find">Filter chapters</label
+            ><input
+              id="chapter-find"
+              type="search"
+              maxlength="200"
+              placeholder="Filter chapters…"
+            />
+            <ul id="chapter-options" aria-label="Chapters"></ul>
+            <p id="chapter-note" class="muted">Choose a subject.</p>
+          </section>
+          <section class="topic-column" aria-labelledby="section-heading">
+            <h2 id="section-heading" tabindex="-1">Section</h2>
+            <label class="sr-only" for="section-find">Filter sections</label
+            ><input
+              id="section-find"
+              type="search"
+              maxlength="200"
+              placeholder="Filter sections…"
+            />
+            <ul id="section-options" aria-label="Sections"></ul>
+            <p id="section-note" class="muted">Choose a chapter.</p>
+          </section>
+        </div>
+        <div class="topic-footer">
+          <div>
+            <h2 id="selected-topic">Choose a subject</h2>
+            <nav id="topic-breadcrumb" aria-label="Selected topic"></nav>
+            <p id="topic-count" class="muted"></p>
+          </div>
+          <div class="topic-actions">
+            <a id="topic-results" class="secondary" href="/">View exercises</a
+            ><button id="topic-start" type="button" class="primary" disabled>
+              Practice <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+        <p id="plan-status" role="status" aria-live="polite"></p>
+        <div id="plan-error" class="notice error" role="alert" hidden></div>
+        <noscript
+          ><p class="notice">
+            Enable JavaScript to browse dependent topics. <a href="/">Return to search</a>.
+          </p></noscript
+        >
+      </main>
+      <footer>Choose a topic. Give yourself room to think.</footer>
+    </div>
+  </body>
+</html>

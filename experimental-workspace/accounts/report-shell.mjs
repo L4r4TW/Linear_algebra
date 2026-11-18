@@ -1,7 +1,7 @@
-import {readFileSync} from 'node:fs';
-export function practiceShell(){
- const html=readFileSync(new URL('../application/public/index.html',import.meta.url),'utf8');
- const block=`<section aria-label="Exercise quality" id="problem-report" class="page-footer">
+import { readFileSync } from 'node:fs';
+export function practiceShell() {
+  const html = readFileSync(new URL('../application/public/index.html', import.meta.url), 'utf8');
+  const block = `<section aria-label="Exercise quality" id="problem-report" class="page-footer">
  <p id="pilot-note" hidden>Tested local pilot. If something looks wrong, please report it.</p>
  <button type="button" id="report-open" class="action" disabled>Report a problem</button>
  <form id="report-form" hidden>
@@ -12,7 +12,14 @@ export function practiceShell(){
  <button type="submit" id="report-send" class="action">Send report</button> <button type="button" id="report-cancel" class="action">Cancel</button>
  </form><p id="report-status" role="status" aria-live="polite"></p></section>
  <script type="module" src="/assets/problem-report.js"></script>`;
- return html.replace('</head>','<link rel="stylesheet" href="/assets/collection-shell.css"></head>').replace('<p class="page-footer">Take your time. Understanding grows with practice.</p>',block);
+  return html
+    .replace('</head>', '<link rel="stylesheet" href="/assets/collection-shell.css"></head>')
+    .replace(
+      '<p class="page-footer">Take your time. Understanding grows with practice.</p>',
+      block,
+    );
 }
-export const collectionStyle=readFileSync(new URL('./public/collection-shell.css',import.meta.url));
-export const reportScript=readFileSync(new URL('./public/problem-report.js',import.meta.url));
+export const collectionStyle = readFileSync(
+  new URL('./public/collection-shell.css', import.meta.url),
+);
+export const reportScript = readFileSync(new URL('./public/problem-report.js', import.meta.url));

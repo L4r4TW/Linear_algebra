@@ -1,5 +1,8 @@
 # Linear Algebra Exercises
 
+Contributors: start with [CONTRIBUTING.md](CONTRIBUTING.md) for the architecture, source-quality tools and reproducible checks. The latest [maintainability review](experimental-workspace/CODE_REVIEW.md) records fixes and remaining limits.
+
+
 ## Subject and chapter practice
 
 Open **http://localhost:3105**. There are now **100 playable exercises each in differential calculus, algebra, trigonometry and statistics**. Choose a subject, follow its ordered chapters, or start random practice across the whole subject. Subject/chapter percentages count distinct fully correct WeBWorK results toward fixed study goals; repeats do not inflate progress. Sign in and explicitly transfer guest work for continuation across devices. Search and the optional indexed library remain available.

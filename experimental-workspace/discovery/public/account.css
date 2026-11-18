@@ -1,1 +1,62 @@
-main>section{margin-block:2rem}#auth-form{display:grid;gap:.7rem;max-width:30rem}#auth-form input{font:inherit;padding:.8rem;border:1px solid #d4d4d4;border-radius:.7rem;min-width:0}button{min-height:48px}button:disabled{opacity:.6}#error{padding:1rem;border:1px solid #b91c1c;border-radius:.7rem;color:#991b1b}#activity,#sets,#bookmarks{display:grid;gap:1rem;padding-left:1.5rem}.account-actions{display:flex;gap:.7rem;flex-wrap:wrap}h3{margin-top:1.5rem}#identity{overflow-wrap:anywhere}a:focus-visible,input:focus-visible,button:focus-visible{outline:3px solid #5755e7;outline-offset:4px}@media(max-width:480px){.account-actions{display:grid}.app-shell{margin:.5rem}header nav{flex-wrap:wrap}}
+main > section {
+  margin-block: 2rem;
+}
+#auth-form {
+  display: grid;
+  gap: 0.7rem;
+  max-width: 30rem;
+}
+#auth-form input {
+  font: inherit;
+  padding: 0.8rem;
+  border: 1px solid #d4d4d4;
+  border-radius: 0.7rem;
+  min-width: 0;
+}
+button {
+  min-height: 48px;
+}
+button:disabled {
+  opacity: 0.6;
+}
+#error {
+  padding: 1rem;
+  border: 1px solid #b91c1c;
+  border-radius: 0.7rem;
+  color: #991b1b;
+}
+#activity,
+#sets,
+#bookmarks {
+  display: grid;
+  gap: 1rem;
+  padding-left: 1.5rem;
+}
+.account-actions {
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+h3 {
+  margin-top: 1.5rem;
+}
+#identity {
+  overflow-wrap: anywhere;
+}
+a:focus-visible,
+input:focus-visible,
+button:focus-visible {
+  outline: 3px solid #5755e7;
+  outline-offset: 4px;
+}
+@media (max-width: 480px) {
+  .account-actions {
+    display: grid;
+  }
+  .app-shell {
+    margin: 0.5rem;
+  }
+  header nav {
+    flex-wrap: wrap;
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-18T10:22:38.726Z",
+  "scope": "Actual Supabase BFF session and private RLS storage; no browser JWTs, credentials or student records in report",
+  "actualServerSideAuth": true,
+  "crossDeviceAccountIdentity": true,
+  "opaqueDistinctSessions": true,
+  "authTokensEncrypted": true,
+  "forgedAndDuplicateCookiesRejected": true,
+  "claimedGuestCannotReauthenticate": true,
+  "otherDeviceRemainsSignedIn": true,
+  "bffLogoutImmediate": true,
+  "complete": true
+}

@@ -1,12 +1,17 @@
 # Experimental workspace conventions
 
+## Maintained source and contributor checks
+
+Read [../CONTRIBUTING.md](../CONTRIBUTING.md) and [CODE_REVIEW.md](CODE_REVIEW.md). Accounts/discovery/practice-400 operational JS and public JS/CSS/HTML use the isolated maintenance/check.ps1 formatter/linter and CI quality job. Curriculum validation, chapter order and alias identity live in practice-400/study-model.mjs; keep account completion and discovery aligned through that shared reader. Do not format canonical PG runtime or immutable evidence as part of routine cleanup. Six-entry/anonymous-only statements below describe the original 3100 prototype; current 3105 has accounts and 400 collection members. Preserve all compatibility/privacy gates.
+
+
 ## Latest two-level learning UX
 
 Student home opens subject/chapter pages, with no section selector. Follow [LEARNING_UX.md](LEARNING_UX.md) for completion and random-practice contracts. Fixed study-goals-v1 completion is private, once per fully correct exercise, and distinct from mastery/availability. Account migration004 is applied locally. Preserve owner-consistent forced RLS, transactional completion receipts, canonical alias identity, explicit guest transfer, fixed denominators, historical backfill guards and frozen set retries. Do not reshape PG controls for this shell. Run discovery/verify.ps1 and both accounts/verify-accounts.ps1 and accounts/verify-learning.ps1. Latest results/availability are in root PROJECT_CONTEXT.md; older six/sixteen-entry counts are historical.
 
 ## Current: focused 400-exercise delivery
 
-Follow practice-400/README.md and the newest root handoff. The user authorizes tested local collections without moderator approval: 100 each in calculus, algebra, trigonometry and statistics. Calculus has reached 100; other collections are processing. The controller and 1,200-candidate pool persist in linear-algebra-collections_reports.
+Follow practice-400/README.md and the newest root handoff. The user authorizes tested local collections without moderator approval: 100 each in calculus, algebra, trigonometry and statistics. All four collections have reached 100 playable entries each; retain final-status.json and its actual admission evidence. The controller and 1,200-candidate pool persist in linear-algebra-collections_reports.
 
 Keep all required technical/source/context/renderer checks, existing apps/data, explicit withdrawals and source privacy. Source screening is not mathematical certification; never fabricate independent reviews. The old ten-entry pilot suite has historical fixed counts and is not current collection acceptance. Resume existing measured workers/context; do not reset fingerprints or volumes. Document/push actual feature and collection milestones.
 

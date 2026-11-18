@@ -4,10 +4,19 @@ $root=(Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $probe='discovery_qa_'+[guid]::NewGuid().ToString('N').Substring(0,12)
 $created=$false
 function Check([string]$message){if($LASTEXITCODE -ne 0){throw $message}}
+ $hashes=@()
+ foreach($file in @('../practice-400/collections.json','../practice-400/study-model.mjs','client.test.mjs','public/http-client.js','public/pending-practice.js','subject.mjs','subject.test.mjs','public/subject.html','public/subject.js','public/subject.css','public/study-progress.js','catalog.mjs','chooser.mjs','server.mjs','practice-metadata.json','package.json','public/index.html','public/sources.html','public/home.js','public/home.css','public/account.html','public/account.js','public/account.css','public/chooser.html','public/chooser.js','public/chooser.css','public/practice-plan-store.js','catalog.test.mjs','chooser.test.mjs','server.test.mjs','catalog.integration.mjs','browser.test.mjs','chooser.browser.mjs','Dockerfile','Browser.Dockerfile','compose.yaml','setup.ps1','verify.ps1')){
+  $hashes += [pscustomobject]@{file=$file;sha256=(Get-FileHash -LiteralPath (Join-Path $PSScriptRoot $file) -Algorithm SHA256).Hash.ToLowerInvariant()}
+ }
 try{
  docker compose -f $compose config --quiet;Check 'Invalid discovery Compose'
  & (Join-Path $PSScriptRoot 'setup.ps1')
- docker compose -f $compose exec -T home npm test;Check 'Discovery unit/server tests failed'
+ $serverOutput=@(docker compose -f $compose exec -T home npm test)
+ Check 'Discovery unit/server tests failed'
+ $serverOutput|ForEach-Object {Write-Output $_}
+ $summary=$serverOutput|Select-String '^# tests (\d+)$'|Select-Object -Last 1
+ if(-not $summary){throw 'Missing server test summary'}
+ $serverTests=[int]$summary.Matches[0].Groups[1].Value
  docker compose -f $compose exec -T home node --test catalog.integration.mjs;Check 'Real catalog tests failed'
  docker image inspect linear-algebra-picker-qa:latest *> $null
  if($LASTEXITCODE -ne 0){
@@ -17,9 +26,8 @@ try{
  $created=$true
  docker run --name $probe --network linear-algebra-discovery_console --shm-size=1g linear-algebra-discovery-qa
  Check 'Discovery/chooser browser acceptance failed'
- $hashes=@()
- foreach($file in @('../practice-400/collections.json','subject.mjs','subject.test.mjs','public/subject.html','public/subject.js','public/subject.css','public/study-progress.js','catalog.mjs','chooser.mjs','server.mjs','practice-metadata.json','package.json','public/index.html','public/sources.html','public/home.js','public/home.css','public/account.html','public/account.js','public/account.css','public/chooser.html','public/chooser.js','public/chooser.css','public/practice-plan-store.js','catalog.test.mjs','chooser.test.mjs','server.test.mjs','catalog.integration.mjs','browser.test.mjs','chooser.browser.mjs','Dockerfile','Browser.Dockerfile','compose.yaml','setup.ps1','verify.ps1')){
-  $hashes += [pscustomobject]@{file=$file;sha256=(Get-FileHash -LiteralPath (Join-Path $PSScriptRoot $file) -Algorithm SHA256).Hash.ToLowerInvariant()}
+ foreach($entry in $hashes){
+  if((Get-FileHash -LiteralPath (Join-Path $PSScriptRoot $entry.file) -Algorithm SHA256).Hash.ToLowerInvariant() -ne $entry.sha256){throw 'Source changed during verification; do not publish this run'}
  }
  foreach($name in @('discovery','chooser')){
   $temporary=Join-Path ([IO.Path]::GetTempPath()) ($probe+'_'+$name+'.json')
@@ -28,9 +36,9 @@ try{
   try{$report=Get-Content -LiteralPath $temporary -Raw|ConvertFrom-Json}finally{Remove-Item -LiteralPath $temporary}
   if(-not $report.complete){throw 'Incomplete browser observations'}
   $report|Add-Member -NotePropertyName sourceHashes -NotePropertyValue $hashes -Force
-  $report|Add-Member -NotePropertyName serverTests -NotePropertyValue 17 -Force
+  $report|Add-Member -NotePropertyName serverTests -NotePropertyValue $serverTests -Force
   $report|Add-Member -NotePropertyName realDatabaseTests -NotePropertyValue 1 -Force
-  $report|Add-Member -NotePropertyName browserTests -NotePropertyValue $(if($name -eq 'discovery'){7}else{5}) -Force
+  $report|Add-Member -NotePropertyName browserTests -NotePropertyValue $(if($name -eq 'discovery'){7}else{6}) -Force
   $report|Add-Member -NotePropertyName imageId -NotePropertyValue ((docker image inspect linear-algebra-discovery --format '{{.Id}}')-join '') -Force
   $previous=Join-Path $PSScriptRoot ($name+'-observations.json')
   if(Test-Path -LiteralPath $previous){

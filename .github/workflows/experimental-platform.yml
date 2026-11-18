@@ -9,6 +9,17 @@ on:
 permissions:
   contents: read
 jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Build isolated formatting and lint tools
+        run: docker build -f experimental-workspace/maintenance/Dockerfile -t practice-quality .
+      - name: Check maintained application sources without secrets or network access
+        run: docker run --rm --network none practice-quality
   contracts:
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -23,7 +34,7 @@ jobs:
       - name: Run server contracts
         run: docker run --rm --workdir /service/application practice-checks npm test
       - name: Run cryptography and admission checks
-        run: docker run --rm --workdir /service/accounts practice-checks node --test crypto.test.mjs admission.test.mjs published-catalog.test.mjs
+        run: docker run --rm --workdir /service/accounts practice-checks node --test crypto.test.mjs admission.test.mjs published-catalog.test.mjs learning-progress.test.mjs ../practice-400/study-model.test.mjs ../practice-400/contract.test.mjs
       - name: Run discovery contracts
         run: docker run --rm --workdir /service/discovery practice-checks npm test
       - name: Run calculus selection and queue-planning contracts

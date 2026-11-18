@@ -1,12 +1,17 @@
 # Repository development guide
 
+## Maintained source and contributor checks
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) and [experimental-workspace/CODE_REVIEW.md](experimental-workspace/CODE_REVIEW.md). Accounts/discovery/practice-400 operational JS and public JS/CSS/HTML use the isolated maintenance/check.ps1 formatter/linter and CI quality job. Curriculum validation, chapter order and alias identity live in practice-400/study-model.mjs; keep account completion and discovery aligned through that shared reader. Do not format canonical PG runtime or immutable evidence as part of routine cleanup. Six-entry/anonymous-only statements below describe the original 3100 prototype; current 3105 has accounts and 400 collection members. Preserve all compatibility/privacy gates.
+
+
 ## Latest subject/chapter UX
 
-Read [LEARNING_UX.md](experimental-workspace/LEARNING_UX.md) and the latest PROJECT_CONTEXT.md section. Student navigation has two levels, subject and chapter, at localhost:3105; keep source sections internally and redirect old browse URLs. Private completion uses fixed study-goals-v1 targets and distinct fully correct visible server-PG attempts, never client claims or mastery labels. Preserve forced RLS, transactional credits/receipts, explicit guest claims, bounded source-bound backfill and unchanged old sets. New sets sample unfinished exercises randomly without replacement and freeze order on creation; retries reuse the same request identity. Run discovery/verify.ps1, accounts/verify-accounts.ps1 and accounts/verify-learning.ps1 for changes here. Root and original3100 apps remain separate. Older counts below are historical.
+Read [LEARNING_UX.md](experimental-workspace/LEARNING_UX.md) and the latest PROJECT_CONTEXT.md section. Student navigation has two levels, subject and chapter, at localhost:3105; keep source sections internally and redirect old browse URLs. Private completion uses fixed study-goals-v1 targets and distinct fully correct visible server-PG attempts, never client claims or mastery labels. Preserve forced RLS, transactional credits/receipts, explicit guest claims, bounded source-bound backfill and unchanged old sets. New sets sample unfinished exercises randomly without replacement and freeze order on creation; retries reuse the same request identity. Run discovery/verify.ps1, accounts/verify-accounts.ps1 and accounts/verify-learning.ps1 for changes here. Root and original 3100 apps remain separate. Older counts below are historical.
 
 ## Current short-term goal: four 100-exercise collections
 
-The user authorized implementing and pushing the 400-exercise plan. Read experimental-workspace/practice-400/README.md and the newest PROJECT_CONTEXT.md section. Calculus has reached 100; other collections are processing. Do not revert to the old fixed-ten or human-moderator hold for these user-authorized tested collections. Never fabricate mathematical/independent reviews.
+The user authorized implementing and pushing the 400-exercise plan. Read experimental-workspace/practice-400/README.md and the newest PROJECT_CONTEXT.md section. All four collections have reached 100 playable entries each; retain final-status.json and its actual admission evidence. Do not revert to the old fixed-ten or human-moderator hold for these user-authorized tested collections. Never fabricate mathematical/independent reviews.
 
 Preserve the measured verifier context/worker images, full technical gate, source/attempt bindings, private renderer/student data, and explicit withdrawals. Use the new collection pipeline and live counters; older fixed-ten acceptance scripts are historical. Do not assume background processing means all four quotas are complete. Keep pushing feature checkpoints and saving actual progress/evidence.
 

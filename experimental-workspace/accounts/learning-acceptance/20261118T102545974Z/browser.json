@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-18T10:25:54.922Z",
+  "scope": "Real local home/Auth/RLS/private PG and independent student-question answer; synthetic users only; no original secrets/student volumes in this QA container",
+  "realPGUpdatesSubjectAndChapter": true,
+  "repeatDoesNotInflate": true,
+  "signInRequiresExplicitTransfer": true,
+  "crossDeviceAccountContinuation": true,
+  "otherBrowserDoesNotSeeProgress": true,
+  "complete": true
+}

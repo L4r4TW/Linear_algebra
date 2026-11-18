@@ -8,4 +8,5 @@ COPY experimental-workspace/discovery/ ./discovery/
 COPY experimental-workspace/compatibility/ ./compatibility/
 COPY experimental-workspace/deployment/ ./deployment/
 COPY experimental-workspace/calculus-100/ ./calculus/
+COPY experimental-workspace/practice-400/ ./practice-400/
 CMD ["node","deployment/check-evidence.mjs"]

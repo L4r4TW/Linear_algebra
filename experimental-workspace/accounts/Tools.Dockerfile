@@ -4,6 +4,6 @@ COPY experimental-workspace/accounts/package.json experimental-workspace/account
 RUN npm ci --omit=dev --ignore-scripts
 COPY experimental-workspace/accounts/ ./accounts/
 COPY experimental-workspace/workspace/ ./application/
-COPY experimental-workspace/practice-400/collections.json ./practice-400/collections.json
+COPY experimental-workspace/practice-400/collections.json experimental-workspace/practice-400/study-model.mjs experimental-workspace/practice-400/study-model.test.mjs ./practice-400/
 WORKDIR /service/accounts
 CMD ["node","auth-probe.mjs"]

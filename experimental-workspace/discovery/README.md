@@ -1,5 +1,10 @@
 # Home and discovery (milestone 8)
 
+## Maintained source checkpoint
+
+The 2026-11-18 review consolidates the shared curriculum reader in practice-400/study-model.mjs, formats operational source and adds the isolated maintenance quality gate. Browser requests now have bounded cancellation/error handling; retained-set retries and cached-page restoration have regression coverage. Public API contracts, PG runtime and existing data are preserved. Read [the contributor guide](../../CONTRIBUTING.md), [review findings](../CODE_REVIEW.md) and the newest root PROJECT_CONTEXT.md entry for current test results and immutable acceptance. Earlier counts below are historical.
+
+
 ## Latest: subject/chapter learning flow
 
 Home presents four subject cards with private completion bars. /subject?subject=... shows numbered chapters in curriculum order, subject-wide Start practice and individual chapter actions. No section selector remains; old /browse links redirect. Search and the indexed library remain optional. Completion is supplied by the owner-checked account backend, never inferred from catalog counts. See [../LEARNING_UX.md](../LEARNING_UX.md). New sets use server-random, unfinished-first membership; saved sets and request-key retries remain stable.

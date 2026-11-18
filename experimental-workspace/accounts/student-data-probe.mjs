@@ -1,48 +1,217 @@
-import assert from 'node:assert/strict';import {readFile,mkdir,writeFile} from 'node:fs/promises';import {randomBytes,randomUUID} from 'node:crypto';
-import {createDatabase,actors} from './db.mjs';import {createVault} from './crypto.mjs';import {createAccounts} from './auth.mjs';
-import {createRecordStore} from './record-store.mjs';import {createAccountSessions} from './session-service.mjs';import {createSetStore} from './set-store.mjs';import {createStudentData} from './student-data.mjs';
-import {ExerciseSessionError} from '../application/server/exercise-sessions.mjs';import {PracticeSetError} from '../application/server/practice-sets.mjs';
-const db=createDatabase({domainErrors:[ExerciseSessionError,PracticeSetError]}),vault=createVault((await readFile('/secrets/encryption-key','utf8')).trim()),accounts=createAccounts({db,vault});
-const report={version:1,observedAt:new Date().toISOString(),scope:'Actual Supabase users and forced-RLS storage, controlled renderer double; no public UI or live PG claim'};
-try{
- const signup=async()=>accounts.signIn({signup:true,email:'student-'+randomBytes(12).toString('hex')+'@example.test',password:randomBytes(24).toString('base64url')+'Aa1!'});
- const a=(await signup()).actor,b=(await signup()).actor;
- let withdrawn=false;const lookup=id=>!withdrawn&&['one','two'].includes(id)?{id,title:id,source:{sha256:'a'.repeat(64),revision:'synthetic'}}:null;
- const store=createRecordStore({db,vault,exerciseLookup:lookup,runtimeDigest:'synthetic'});
- const html='<div id="problem_body"><input name="AnSwEr0001"><input type="checkbox" name="AnSwEr0002"><input type="checkbox" name="AnSwEr0002"></div>';
- const result=()=>({html,sessionToken:'synthetic-private-token',problemToken:'synthetic-private-problem',score:.5,resources:[],feedback:{message:'',summary:''},fieldFeedback:[]});
- const sessions=createAccountSessions({store,exerciseLookup:lookup,rendererClient:{loadExercise:async()=>result(),restoreSession:async()=>result(),submitAnswers:async()=>result()}});
- const sets=createSetStore({db,vault,exerciseLookup:lookup,entries:()=>['two','one'].map(id=>({id,title:id,subject:'Math',chapter:'Synthetic',section:null})),startSession:input=>sessions.startSession(input)});
- const data=createStudentData({db,vault,store,sessions,exerciseLookup:lookup}),run=(actor,work)=>actors.run({...actor},work);
- const requestKey=randomUUID(),set=await run(a,()=>sets.create({subject:'Math'},{ownerToken:a.ownerToken,requestKey}));
- assert.equal(set.total,2);assert.deepEqual(new Set(set.items.map(i=>i.exerciseId)),new Set(['one','two']));assert.equal(set.policy.order,'random-without-replacement');
- assert.equal((await run(a,()=>sets.create({subject:'Math'},{ownerToken:a.ownerToken,requestKey}))).id,set.id);
- await assert.rejects(()=>run(b,()=>sets.get(set.id,{ownerToken:b.ownerToken})),e=>e.code==='SET_NOT_FOUND');
- const opened=await run(a,()=>sets.openItem(set.id,0,{ownerToken:a.ownerToken,revision:set.revision})),id=opened.sessionId;
- const again=await run(a,()=>sets.openItem(set.id,0,{ownerToken:a.ownerToken}));assert.equal(again.sessionId,id);
- const saved=await run(a,()=>sessions.resumeSession(id,{ownerToken:a.ownerToken}));assert.equal(saved.session.id,id);
- const moved=await run(a,()=>sets.move(set.id,{ownerToken:a.ownerToken,position:1,revision:opened.set.revision,skip:true}));assert.equal(moved.items[0].skipped,true);
- await assert.rejects(()=>run(a,()=>sets.move(set.id,{ownerToken:a.ownerToken,position:0,revision:opened.set.revision})),e=>e.code==='SET_CONFLICT');
- report.stableSetOrderAndSessions=true;report.ownerCheckedSets=true;report.revisionCheckedNavigation=true;report.skipsRetained=true;
- const entries=[['AnSwEr0001',' work '],['AnSwEr0002','a'],['AnSwEr0002','b']];
- const draft=await run(a,()=>data.saveDraft(id,{entries,revision:0,baseAttemptId:null}));assert.equal(draft.revision,1);
- assert.deepEqual((await run(a,()=>data.getDraft(id))).entries,entries);
- await assert.rejects(()=>run(a,()=>data.saveDraft(id,{entries:[],revision:0,baseAttemptId:null})),e=>e.code==='DRAFT_CONFLICT');
- await assert.rejects(()=>run(a,()=>data.saveDraft(id,{entries:[['AnSwEr9999','injected']],revision:1,baseAttemptId:null})),e=>e.code==='INVALID_DRAFT');
- await assert.rejects(()=>run(b,()=>data.getDraft(id)),e=>e.code==='ENOENT');
- const graded=await run(a,()=>sessions.submitAnswers(id,entries,{ownerToken:a.ownerToken,operationKey:randomUUID()}));
- await assert.rejects(()=>run(a,()=>data.saveDraft(id,{entries,revision:1,baseAttemptId:null})),e=>e.code==='DRAFT_BASE_CHANGED');
- await run(a,()=>data.saveDraft(id,{entries,revision:1,baseAttemptId:graded.submission.id}));
- report.orderedRepeatedDrafts=true;report.conflictingTabRejected=true;report.trustedFieldsOnly=true;report.staleCheckedBaseRejected=true;
- await run(a,()=>data.bookmark('one',true));assert.equal((await run(a,()=>data.bookmarks())).length,1);assert.equal((await run(b,()=>data.bookmarks())).length,0);
- const progress=await run(a,()=>data.progress());assert.equal(progress.counts.attempts,1);assert.equal(progress.recent[0].outcome,'partial');assert.equal((await run(b,()=>data.progress())).counts.attempts,0);
- assert.ok(!JSON.stringify(progress).includes('synthetic-private'));assert.ok(!JSON.stringify(progress).includes('AnSwEr'));report.privateBookmarksAndProgress=true;report.progressExcludesAnswersAndTokens=true;
- withdrawn=true;assert.equal((await run(a,()=>data.progress())).recent[0].score,null);
- await assert.rejects(()=>run(a,()=>sets.openItem(set.id,0,{ownerToken:a.ownerToken})),e=>e.code==='SET_EXERCISE_UNAVAILABLE');withdrawn=false;report.withdrawalRetainsRecords=true;
- const guestToken=randomBytes(32).toString('base64url'),guest=await accounts.resolveGuest(guestToken),guestSession=await run(guest,()=>sessions.startSession({exerciseId:'one',ownerToken:guestToken}));
- await assert.rejects(()=>run(a,()=>data.claimGuest(randomBytes(32).toString('base64url'))),e=>e.code==='GUEST_WORK_UNAVAILABLE');
- const claim=await run(a,()=>data.claimGuest(guestToken));assert.equal(claim.sessions,1);
- assert.equal((await run(a,()=>sessions.resumeSession(guestSession.session.id,{ownerToken:a.ownerToken}))).session.id,guestSession.session.id);
- await assert.rejects(()=>accounts.resolveGuest(guestToken),e=>e.code==='GUEST_CLAIMED');report.explicitGuestClaimRetiresOldAuthority=true;
- report.complete=true;await mkdir('/artifacts',{recursive:true});await writeFile('/artifacts/student-data-observations.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({complete:true,privateDataDisclosed:false}));
-}finally{await db.close();}
+import assert from 'node:assert/strict';
+import { readFile, mkdir, writeFile } from 'node:fs/promises';
+import { randomBytes, randomUUID } from 'node:crypto';
+import { createDatabase, actors } from './db.mjs';
+import { createVault } from './crypto.mjs';
+import { createAccounts } from './auth.mjs';
+import { createRecordStore } from './record-store.mjs';
+import { createAccountSessions } from './session-service.mjs';
+import { createSetStore } from './set-store.mjs';
+import { createStudentData } from './student-data.mjs';
+import { ExerciseSessionError } from '../application/server/exercise-sessions.mjs';
+import { PracticeSetError } from '../application/server/practice-sets.mjs';
+const db = createDatabase({ domainErrors: [ExerciseSessionError, PracticeSetError] }),
+  vault = createVault((await readFile('/secrets/encryption-key', 'utf8')).trim()),
+  accounts = createAccounts({ db, vault });
+const report = {
+  version: 1,
+  observedAt: new Date().toISOString(),
+  scope:
+    'Actual Supabase users and forced-RLS storage, controlled renderer double; no public UI or live PG claim',
+};
+try {
+  const signup = async () =>
+    accounts.signIn({
+      signup: true,
+      email: 'student-' + randomBytes(12).toString('hex') + '@example.test',
+      password: randomBytes(24).toString('base64url') + 'Aa1!',
+    });
+  const a = (await signup()).actor,
+    b = (await signup()).actor;
+  let withdrawn = false;
+  const lookup = (id) =>
+    !withdrawn && ['one', 'two'].includes(id)
+      ? { id, title: id, source: { sha256: 'a'.repeat(64), revision: 'synthetic' } }
+      : null;
+  const store = createRecordStore({
+    db,
+    vault,
+    exerciseLookup: lookup,
+    runtimeDigest: 'synthetic',
+  });
+  const html =
+    '<div id="problem_body"><input name="AnSwEr0001"><input type="checkbox" name="AnSwEr0002"><input type="checkbox" name="AnSwEr0002"></div>';
+  const result = () => ({
+    html,
+    sessionToken: 'synthetic-private-token',
+    problemToken: 'synthetic-private-problem',
+    score: 0.5,
+    resources: [],
+    feedback: { message: '', summary: '' },
+    fieldFeedback: [],
+  });
+  const sessions = createAccountSessions({
+    store,
+    exerciseLookup: lookup,
+    rendererClient: {
+      loadExercise: async () => result(),
+      restoreSession: async () => result(),
+      submitAnswers: async () => result(),
+    },
+  });
+  const sets = createSetStore({
+    db,
+    vault,
+    exerciseLookup: lookup,
+    entries: () =>
+      ['two', 'one'].map((id) => ({
+        id,
+        title: id,
+        subject: 'Math',
+        chapter: 'Synthetic',
+        section: null,
+      })),
+    startSession: (input) => sessions.startSession(input),
+  });
+  const data = createStudentData({ db, vault, store, sessions, exerciseLookup: lookup }),
+    run = (actor, work) => actors.run({ ...actor }, work);
+  const requestKey = randomUUID(),
+    set = await run(a, () =>
+      sets.create({ subject: 'Math' }, { ownerToken: a.ownerToken, requestKey }),
+    );
+  assert.equal(set.total, 2);
+  assert.deepEqual(new Set(set.items.map((i) => i.exerciseId)), new Set(['one', 'two']));
+  assert.equal(set.policy.order, 'random-without-replacement');
+  assert.equal(
+    (await run(a, () => sets.create({ subject: 'Math' }, { ownerToken: a.ownerToken, requestKey })))
+      .id,
+    set.id,
+  );
+  await assert.rejects(
+    () => run(b, () => sets.get(set.id, { ownerToken: b.ownerToken })),
+    (e) => e.code === 'SET_NOT_FOUND',
+  );
+  const opened = await run(a, () =>
+      sets.openItem(set.id, 0, { ownerToken: a.ownerToken, revision: set.revision }),
+    ),
+    id = opened.sessionId;
+  const again = await run(a, () => sets.openItem(set.id, 0, { ownerToken: a.ownerToken }));
+  assert.equal(again.sessionId, id);
+  const saved = await run(a, () => sessions.resumeSession(id, { ownerToken: a.ownerToken }));
+  assert.equal(saved.session.id, id);
+  const moved = await run(a, () =>
+    sets.move(set.id, {
+      ownerToken: a.ownerToken,
+      position: 1,
+      revision: opened.set.revision,
+      skip: true,
+    }),
+  );
+  assert.equal(moved.items[0].skipped, true);
+  await assert.rejects(
+    () =>
+      run(a, () =>
+        sets.move(set.id, { ownerToken: a.ownerToken, position: 0, revision: opened.set.revision }),
+      ),
+    (e) => e.code === 'SET_CONFLICT',
+  );
+  report.stableSetOrderAndSessions = true;
+  report.ownerCheckedSets = true;
+  report.revisionCheckedNavigation = true;
+  report.skipsRetained = true;
+  const entries = [
+    ['AnSwEr0001', ' work '],
+    ['AnSwEr0002', 'a'],
+    ['AnSwEr0002', 'b'],
+  ];
+  const draft = await run(a, () =>
+    data.saveDraft(id, { entries, revision: 0, baseAttemptId: null }),
+  );
+  assert.equal(draft.revision, 1);
+  assert.deepEqual((await run(a, () => data.getDraft(id))).entries, entries);
+  await assert.rejects(
+    () => run(a, () => data.saveDraft(id, { entries: [], revision: 0, baseAttemptId: null })),
+    (e) => e.code === 'DRAFT_CONFLICT',
+  );
+  await assert.rejects(
+    () =>
+      run(a, () =>
+        data.saveDraft(id, {
+          entries: [['AnSwEr9999', 'injected']],
+          revision: 1,
+          baseAttemptId: null,
+        }),
+      ),
+    (e) => e.code === 'INVALID_DRAFT',
+  );
+  await assert.rejects(
+    () => run(b, () => data.getDraft(id)),
+    (e) => e.code === 'ENOENT',
+  );
+  const graded = await run(a, () =>
+    sessions.submitAnswers(id, entries, { ownerToken: a.ownerToken, operationKey: randomUUID() }),
+  );
+  await assert.rejects(
+    () => run(a, () => data.saveDraft(id, { entries, revision: 1, baseAttemptId: null })),
+    (e) => e.code === 'DRAFT_BASE_CHANGED',
+  );
+  await run(a, () =>
+    data.saveDraft(id, { entries, revision: 1, baseAttemptId: graded.submission.id }),
+  );
+  report.orderedRepeatedDrafts = true;
+  report.conflictingTabRejected = true;
+  report.trustedFieldsOnly = true;
+  report.staleCheckedBaseRejected = true;
+  await run(a, () => data.bookmark('one', true));
+  assert.equal((await run(a, () => data.bookmarks())).length, 1);
+  assert.equal((await run(b, () => data.bookmarks())).length, 0);
+  const progress = await run(a, () => data.progress());
+  assert.equal(progress.counts.attempts, 1);
+  assert.equal(progress.recent[0].outcome, 'partial');
+  assert.equal((await run(b, () => data.progress())).counts.attempts, 0);
+  assert.ok(!JSON.stringify(progress).includes('synthetic-private'));
+  assert.ok(!JSON.stringify(progress).includes('AnSwEr'));
+  report.privateBookmarksAndProgress = true;
+  report.progressExcludesAnswersAndTokens = true;
+  withdrawn = true;
+  assert.equal((await run(a, () => data.progress())).recent[0].score, null);
+  await assert.rejects(
+    () => run(a, () => sets.openItem(set.id, 0, { ownerToken: a.ownerToken })),
+    (e) => e.code === 'SET_EXERCISE_UNAVAILABLE',
+  );
+  withdrawn = false;
+  report.withdrawalRetainsRecords = true;
+  const guestToken = randomBytes(32).toString('base64url'),
+    guest = await accounts.resolveGuest(guestToken),
+    guestSession = await run(guest, () =>
+      sessions.startSession({ exerciseId: 'one', ownerToken: guestToken }),
+    );
+  await assert.rejects(
+    () => run(a, () => data.claimGuest(randomBytes(32).toString('base64url'))),
+    (e) => e.code === 'GUEST_WORK_UNAVAILABLE',
+  );
+  const claim = await run(a, () => data.claimGuest(guestToken));
+  assert.equal(claim.sessions, 1);
+  assert.equal(
+    (
+      await run(a, () =>
+        sessions.resumeSession(guestSession.session.id, { ownerToken: a.ownerToken }),
+      )
+    ).session.id,
+    guestSession.session.id,
+  );
+  await assert.rejects(
+    () => accounts.resolveGuest(guestToken),
+    (e) => e.code === 'GUEST_CLAIMED',
+  );
+  report.explicitGuestClaimRetiresOldAuthority = true;
+  report.complete = true;
+  await mkdir('/artifacts', { recursive: true });
+  await writeFile(
+    '/artifacts/student-data-observations.json',
+    JSON.stringify(report, null, 2) + '\n',
+  );
+  console.log(JSON.stringify({ complete: true, privateDataDisclosed: false }));
+} finally {
+  await db.close();
+}

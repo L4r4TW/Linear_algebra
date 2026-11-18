@@ -1,35 +1,283 @@
-import {test,before,after} from 'node:test';import assert from 'node:assert/strict';import {mkdir,writeFile} from 'node:fs/promises';import {chromium} from 'playwright';
-const origin='http://localhost:3105',backend='http://linear-algebra-discovery-home-1:3005';let browser;const report={version:1,observedAt:new Date().toISOString(),scope:'Live two-level subject/chapter UX, random saved sets, anonymous owner semantics and emulated mobile; no manual screen-reader or physical-device claim'};
-before(async()=>{browser=await chromium.launch();await mkdir('/qa/artifacts',{recursive:true});});
-after(async()=>{await browser?.close();report.complete=['subjects','orderedChapters','noSectionUI','wholeSubjectSet','chapterSet','history','keyboardMobile','blockedStorage','retryRequestIdentity'].every(k=>report[k]===true);await writeFile('/qa/artifacts/chooser-observations.json',JSON.stringify(report,null,2)+'\n');});
-async function pageFor(t,mobile=false){const ctx=await browser.newContext({viewport:{width:mobile?390:1280,height:900},isMobile:mobile,hasTouch:mobile});await ctx.route(origin+'/**',async route=>{try{const r=await route.fetch({url:route.request().url().replace(origin,backend),maxRedirects:0});await route.fulfill({response:r});}catch{await route.fulfill({status:503,json:{error:{code:'QA_TRANSPORT_UNAVAILABLE'}}}).catch(()=>{});}});t.after(()=>ctx.close());const page=await ctx.newPage();page.setDefaultTimeout(30000);page.on('dialog',d=>d.accept());return page;}
-const chapters=page=>page.waitForFunction(()=>document.querySelector('#chapters')?.getAttribute('aria-busy')==='false');
-const ready=page=>page.waitForFunction(()=>document.querySelector('#check-answer')&&!document.querySelector('#check-answer').disabled&&!document.querySelector('#session-status').hidden);
-test('home subjects open an ordered chapter page with completion and no section controls',{timeout:90000},async t=>{
- const page=await pageFor(t);await page.goto(origin);await page.locator('.collection-card progress').first().waitFor();assert.equal(await page.locator('.collection-card').count(),4);assert.equal(await page.locator('#search-results').isVisible(),false);
- await page.getByRole('link').filter({has:page.getByRole('heading',{name:'Differential calculus',exact:true})}).click();await page.waitForURL('**/subject?subject=*');await chapters(page);assert.equal(await page.getByRole('heading',{level:1}).textContent(),'Differential calculus');
- assert.equal(await page.locator('.chapter-card h3').nth(0).textContent(),'Limits and continuity');assert.equal(await page.locator('.chapter-card h3').nth(1).textContent(),'Derivative definition');assert.equal(await page.locator('.chapter-card').count(),7);assert.equal(await page.locator('#section,#section-options,#section-find').count(),0);
- await page.locator('#subject-progress progress').waitFor();assert.equal(await page.locator('#subject-progress progress').getAttribute('value'),'0');
- await page.goBack();await page.locator('.collection-card progress').first().waitFor();assert.equal(new URL(page.url()).pathname,'/');await page.goForward();await chapters(page);
- report.subjects=true;report.orderedChapters=true;report.noSectionUI=true;report.history=true;await page.screenshot({path:'/qa/artifacts/subject-desktop.png',fullPage:true});
+import { test, before, after } from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { chromium } from 'playwright';
+const origin = 'http://localhost:3105',
+  backend = 'http://linear-algebra-discovery-home-1:3005';
+let browser;
+const report = {
+  version: 1,
+  observedAt: new Date().toISOString(),
+  scope:
+    'Live two-level subject/chapter UX, random saved sets, anonymous owner semantics and emulated mobile; no manual screen-reader or physical-device claim',
+};
+before(async () => {
+  browser = await chromium.launch();
+  await mkdir('/qa/artifacts', { recursive: true });
 });
-test('whole subject practice is a frozen random set and refresh restores the same session',{timeout:120000},async t=>{
- const page=await pageFor(t);await page.goto(origin+'/subject?subject=Differential+calculus');await chapters(page);await page.locator('#subject-start').click();await page.waitForURL('**/practice?session=*&set=*&item=0');await ready(page);
- const url=new URL(page.url()),id=url.searchParams.get('session'),setId=url.searchParams.get('set');
- const stored=await page.evaluate(async id=>(await(await fetch('/api/sessions/sets/'+id)).json()).set,setId);
- assert.equal(stored.policy.order,'random-without-replacement');assert.equal(stored.total,20);assert.equal(new Set(stored.items.map(i=>i.exerciseId)).size,20);assert.equal(stored.selection.subject,'Differential calculus');assert.equal(stored.selection.chapter,null);
- await page.reload();await ready(page);assert.equal(new URL(page.url()).searchParams.get('session'),id);const again=await page.evaluate(async id=>(await(await fetch('/api/sessions/sets/'+id)).json()).set,setId);assert.deepEqual(again.items.map(i=>i.exerciseId),stored.items.map(i=>i.exerciseId));report.wholeSubjectSet=true;
+after(async () => {
+  await browser?.close();
+  report.complete = [
+    'subjects',
+    'orderedChapters',
+    'noSectionUI',
+    'wholeSubjectSet',
+    'chapterSet',
+    'history',
+    'keyboardMobile',
+    'blockedStorage',
+    'retryRequestIdentity',
+    'cachedViewRecovery',
+  ].every((k) => report[k] === true);
+  await writeFile(
+    '/qa/artifacts/chooser-observations.json',
+    JSON.stringify(report, null, 2) + '\n',
+  );
 });
-test('mobile chapter practice stays within the chapter and has keyboard labels and comfortable controls',{timeout:120000},async t=>{
- const page=await pageFor(t,true);await page.goto(origin+'/subject?subject=Differential+calculus');await chapters(page);const button=page.getByRole('button',{name:'Practice Limits and continuity',exact:true});await button.focus();assert.ok(await button.evaluate(e=>e===document.activeElement));assert.ok((await button.boundingBox()).height>=44);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true);await page.screenshot({path:'/qa/artifacts/subject-mobile.png',fullPage:true});
- await page.keyboard.press('Enter');await page.waitForURL('**/practice?session=*&set=*&item=0');await ready(page);const setId=new URL(page.url()).searchParams.get('set'),set=await page.evaluate(async id=>(await(await fetch('/api/sessions/sets/'+id)).json()).set,setId);assert.equal(set.selection.chapter,'Limits and continuity');assert.equal(set.total,15);
- const catalog=await page.evaluate(async()=>(await(await fetch('/api/exercises')).json()).exercises);assert.ok(set.items.every(item=>catalog.find(e=>e.id===item.exerciseId)?.chapter==='Limits and continuity'));report.chapterSet=true;report.keyboardMobile=true;
+async function pageFor(t, mobile = false) {
+  const ctx = await browser.newContext({
+    viewport: { width: mobile ? 390 : 1280, height: 900 },
+    isMobile: mobile,
+    hasTouch: mobile,
+  });
+  await ctx.route(origin + '/**', async (route) => {
+    try {
+      const r = await route.fetch({
+        url: route.request().url().replace(origin, backend),
+        maxRedirects: 0,
+      });
+      await route.fulfill({ response: r });
+    } catch {
+      await route
+        .fulfill({ status: 503, json: { error: { code: 'QA_TRANSPORT_UNAVAILABLE' } } })
+        .catch(() => {});
+    }
+  });
+  t.after(() => ctx.close());
+  const page = await ctx.newPage();
+  page.setDefaultTimeout(30000);
+  page.on('dialog', (d) => d.accept());
+  return page;
+}
+const chapters = (page) =>
+  page.waitForFunction(
+    () => document.querySelector('#chapters')?.getAttribute('aria-busy') === 'false',
+  );
+const ready = (page) =>
+  page.waitForFunction(
+    () =>
+      document.querySelector('#check-answer') &&
+      !document.querySelector('#check-answer').disabled &&
+      !document.querySelector('#session-status').hidden,
+  );
+test(
+  'home subjects open an ordered chapter page with completion and no section controls',
+  { timeout: 90000 },
+  async (t) => {
+    const page = await pageFor(t);
+    await page.goto(origin);
+    await page.locator('.collection-card progress').first().waitFor();
+    assert.equal(await page.locator('.collection-card').count(), 4);
+    assert.equal(await page.locator('#search-results').isVisible(), false);
+    await page
+      .getByRole('link')
+      .filter({ has: page.getByRole('heading', { name: 'Differential calculus', exact: true }) })
+      .click();
+    await page.waitForURL('**/subject?subject=*');
+    await chapters(page);
+    assert.equal(
+      await page.getByRole('heading', { level: 1 }).textContent(),
+      'Differential calculus',
+    );
+    assert.equal(
+      await page.locator('.chapter-card h3').nth(0).textContent(),
+      'Limits and continuity',
+    );
+    assert.equal(
+      await page.locator('.chapter-card h3').nth(1).textContent(),
+      'Derivative definition',
+    );
+    assert.equal(await page.locator('.chapter-card').count(), 7);
+    assert.equal(await page.locator('#section,#section-options,#section-find').count(), 0);
+    await page.locator('#subject-progress progress').waitFor();
+    assert.equal(await page.locator('#subject-progress progress').getAttribute('value'), '0');
+    await page.goBack();
+    await page.locator('.collection-card progress').first().waitFor();
+    assert.equal(new URL(page.url()).pathname, '/');
+    await page.goForward();
+    await chapters(page);
+    report.subjects = true;
+    report.orderedChapters = true;
+    report.noSectionUI = true;
+    report.history = true;
+    await page.screenshot({ path: '/qa/artifacts/subject-desktop.png', fullPage: true });
+  },
+);
+test(
+  'whole subject practice is a frozen random set and refresh restores the same session',
+  { timeout: 120000 },
+  async (t) => {
+    const page = await pageFor(t);
+    await page.goto(origin + '/subject?subject=Differential+calculus');
+    await chapters(page);
+    await page.locator('#subject-start').click();
+    await page.waitForURL('**/practice?session=*&set=*&item=0');
+    await ready(page);
+    const url = new URL(page.url()),
+      id = url.searchParams.get('session'),
+      setId = url.searchParams.get('set');
+    const stored = await page.evaluate(
+      async (id) => (await (await fetch('/api/sessions/sets/' + id)).json()).set,
+      setId,
+    );
+    assert.equal(stored.policy.order, 'random-without-replacement');
+    assert.equal(stored.total, 20);
+    assert.equal(new Set(stored.items.map((i) => i.exerciseId)).size, 20);
+    assert.equal(stored.selection.subject, 'Differential calculus');
+    assert.equal(stored.selection.chapter, null);
+    await page.reload();
+    await ready(page);
+    assert.equal(new URL(page.url()).searchParams.get('session'), id);
+    const again = await page.evaluate(
+      async (id) => (await (await fetch('/api/sessions/sets/' + id)).json()).set,
+      setId,
+    );
+    assert.deepEqual(
+      again.items.map((i) => i.exerciseId),
+      stored.items.map((i) => i.exerciseId),
+    );
+    report.wholeSubjectSet = true;
+  },
+);
+test(
+  'mobile chapter practice stays within the chapter and has keyboard labels and comfortable controls',
+  { timeout: 120000 },
+  async (t) => {
+    const page = await pageFor(t, true);
+    await page.goto(origin + '/subject?subject=Differential+calculus');
+    await chapters(page);
+    const button = page.getByRole('button', {
+      name: 'Practice Limits and continuity',
+      exact: true,
+    });
+    await button.focus();
+    assert.ok(await button.evaluate((e) => e === document.activeElement));
+    assert.ok((await button.boundingBox()).height >= 44);
+    assert.equal(
+      await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1),
+      true,
+    );
+    await page.screenshot({ path: '/qa/artifacts/subject-mobile.png', fullPage: true });
+    await page.keyboard.press('Enter');
+    await page.waitForURL('**/practice?session=*&set=*&item=0');
+    await ready(page);
+    const setId = new URL(page.url()).searchParams.get('set'),
+      set = await page.evaluate(
+        async (id) => (await (await fetch('/api/sessions/sets/' + id)).json()).set,
+        setId,
+      );
+    assert.equal(set.selection.chapter, 'Limits and continuity');
+    assert.equal(set.total, 15);
+    const catalog = await page.evaluate(
+      async () => (await (await fetch('/api/exercises')).json()).exercises,
+    );
+    assert.ok(
+      set.items.every(
+        (item) =>
+          catalog.find((e) => e.id === item.exerciseId)?.chapter === 'Limits and continuity',
+      ),
+    );
+    report.chapterSet = true;
+    report.keyboardMobile = true;
+  },
+);
+test('legacy browse links become two-level subject URLs', { timeout: 90000 }, async (t) => {
+  const page = await pageFor(t); // Use the reachable service for a real redirect chain; fulfilled redirects cannot re-route localhost in Chromium.
+  await page.goto(
+    backend + '/browse?subject=Differential+calculus&chapter=Limits+and+continuity&section=Old',
+  );
+  await chapters(page);
+  assert.equal(new URL(page.url()).pathname, '/subject');
+  assert.equal(new URL(page.url()).searchParams.has('section'), false);
 });
-test('legacy browse links become two-level subject URLs',{timeout:90000},async t=>{
- const page=await pageFor(t);// Use the reachable service for a real redirect chain; fulfilled redirects cannot re-route localhost in Chromium.
- await page.goto(backend+'/browse?subject=Differential+calculus&chapter=Limits+and+continuity&section=Old');await chapters(page);assert.equal(new URL(page.url()).pathname,'/subject');assert.equal(new URL(page.url()).searchParams.has('section'),false);
-});
-test('blocked storage prevents starting and failed creation retries keep the same request identity',{timeout:90000},async t=>{
- const page=await pageFor(t);await page.addInitScript(()=>{Storage.prototype.setItem=function(){throw new DOMException('Storage blocked','SecurityError');};});let starts=0;page.on('request',r=>{if(r.method()==='POST'&&r.url().endsWith('/sets'))starts++;});await page.goto(origin+'/subject?subject=Algebra');await chapters(page);await page.locator('#subject-start').click();await page.locator('#practice-start-error').waitFor();assert.equal(starts,0);report.blockedStorage=true;
- const other=await pageFor(t),keys=[];await other.route('**/api/sessions/sets',async route=>{keys.push(JSON.parse(route.request().postData()).requestKey);await route.fulfill({status:503,json:{error:{message:'Controlled service failure'}}});});await other.goto(origin+'/subject?subject=Algebra');await chapters(other);await other.locator('#subject-start').click();await other.locator('#practice-start-error').waitFor();await other.locator('#subject-start').click();await other.waitForFunction(()=>document.querySelector('#practice-start-status').textContent==='');assert.equal(keys.length,2);assert.equal(keys[0],keys[1]);report.retryRequestIdentity=true;
-});
+test(
+  'blocked storage prevents starting and failed creation retries keep the same request identity',
+  { timeout: 90000 },
+  async (t) => {
+    const page = await pageFor(t);
+    await page.addInitScript(() => {
+      Storage.prototype.setItem = function () {
+        throw new DOMException('Storage blocked', 'SecurityError');
+      };
+    });
+    let starts = 0;
+    page.on('request', (r) => {
+      if (r.method() === 'POST' && r.url().endsWith('/sets')) starts++;
+    });
+    await page.goto(origin + '/subject?subject=Algebra');
+    await chapters(page);
+    await page.locator('#subject-start').click();
+    await page.locator('#practice-start-error').waitFor();
+    assert.equal(starts, 0);
+    report.blockedStorage = true;
+    const other = await pageFor(t),
+      keys = [];
+    await other.route('**/api/sessions/sets', async (route) => {
+      keys.push(JSON.parse(route.request().postData()).requestKey);
+      await route.fulfill({
+        status: 503,
+        json: { error: { message: 'Controlled service failure' } },
+      });
+    });
+    await other.goto(origin + '/subject?subject=Algebra');
+    await chapters(other);
+    await other.locator('#subject-start').click();
+    await other.locator('#practice-start-error').waitFor();
+    await other.locator('#subject-start').click();
+    await other.waitForFunction(
+      () => document.querySelector('#practice-start-status').textContent === '',
+    );
+    assert.equal(keys.length, 2);
+    assert.equal(keys[0], keys[1]);
+    report.retryRequestIdentity = true;
+  },
+);
+
+test(
+  'cached-page restoration reloads progress and unlocks the subject start control',
+  { timeout: 90000 },
+  async (t) => {
+    const page = await pageFor(t);
+    let progressReads = 0;
+    page.on('request', (request) => {
+      if (request.url().endsWith('/account/learning-progress')) progressReads++;
+    });
+    await page.goto(origin + '/subject?subject=Algebra');
+    await page.locator('#subject-progress progress').waitFor();
+    const before = progressReads;
+    // Exercise the actual browser lifecycle handler, including the frozen disabled state.
+    await page.evaluate(() => {
+      document.querySelector('#subject-start').disabled = true;
+      window.dispatchEvent(new PageTransitionEvent('pagehide', { persisted: true }));
+      window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true }));
+    });
+    await page.waitForFunction(
+      () =>
+        !document.querySelector('#subject-start').disabled &&
+        document.querySelector('#subject-progress progress'),
+    );
+    assert.ok(progressReads > before);
+    await page.goto(origin);
+    await page.locator('.collection-card progress').first().waitFor();
+    const homeReads = progressReads;
+    const refreshed = page.waitForResponse((response) =>
+      response.url().endsWith('/account/learning-progress'),
+    );
+    await page.evaluate(() =>
+      window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true })),
+    );
+    await refreshed;
+    assert.ok(progressReads > homeReads);
+    report.cachedViewRecovery = true;
+  },
+);

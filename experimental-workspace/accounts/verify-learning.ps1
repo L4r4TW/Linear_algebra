@@ -10,7 +10,7 @@ $files+=Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'public') -File
 $files+=Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'migrations') -File
 $files+=Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot '../discovery') -File|Where-Object {$_.Extension -in @('.mjs','.yaml') -or $_.Name -in @('package.json','Dockerfile')}
 $files+=Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot '../discovery/public') -File
-$files+=Get-Item -LiteralPath (Join-Path $PSScriptRoot '../practice-400/collections.json')
+$files+=Get-Item -LiteralPath (Join-Path $PSScriptRoot '../practice-400/collections.json'),(Join-Path $PSScriptRoot '../practice-400/study-model.mjs')
 $files+=Get-Item -LiteralPath (Join-Path $PSScriptRoot '../calculus-100/student-oracles.mjs')
 $hashes=@($files|Sort-Object FullName -Unique|ForEach-Object {[ordered]@{file=$_.FullName.Substring($root.Length+1).Replace('\','/');sha256=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()}})
 docker build -f (Join-Path $PSScriptRoot 'Browser.Dockerfile') -t linear-algebra-account-browser-qa $root;Check 'Learning browser build failed'
