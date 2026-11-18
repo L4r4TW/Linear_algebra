@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "scope": "Actual local Auth/RLS with controlled renderer, no mathematical or live-PG claim",
+  "observedAt": "2026-11-18T09:09:17.178Z",
+  "fullyCorrectOnly": true,
+  "repeatsAndAliasesDoNotInflate": true,
+  "foreignOwnerSeesNoCredit": true,
+  "suppressionRespected": true,
+  "withdrawalPreservesEarnedCredit": true,
+  "unfinishedFirstAndFrozenRetry": true,
+  "browserRoleDenied": true,
+  "claimMergesWithoutDoubleCounting": true,
+  "existingPGHistoryBackfillsOnce": true,
+  "complete": true
+}

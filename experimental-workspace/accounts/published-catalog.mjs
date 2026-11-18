@@ -16,13 +16,13 @@ export function projectPublished(row,{context,sourceRevision}){
  const title=text(display?.title??metadata.title,1000),description=text(metadata.description,5000)??'';
  if(!title||!subject||!chapter)throw Error('APPROVED_METADATA_INCOMPLETE');
  const rendererPath=path.startsWith('OpenProblemLibrary/')?path.replace(/^OpenProblemLibrary\//,'Library/'):path.startsWith('Contrib/')?path:'webwork-open-problem-library/'+path;
- return {collectionId:text(metadata.practiceCollection?.id,100),reviewStatus:row.review_status==='tested-local-pilot'?'tested-local-pilot':'independently-reviewed',id:row.id,title,description,topicId:'catalog:'+chapter,topic:section??chapter,subject,chapter,section:section??null,titleOrigin:display?'reviewed-title':metadata.titleOrigin??'source-metadata',
+ return {identityId:row.id,collectionId:text(metadata.practiceCollection?.id,100),reviewStatus:row.review_status==='tested-local-pilot'?'tested-local-pilot':'independently-reviewed',id:row.id,title,description,topicId:'catalog:'+chapter,topic:chapter,subject,chapter,section:section??null,titleOrigin:display?'reviewed-title':metadata.titleOrigin??'source-metadata',
  attribution:{authors:strings(metadata.authors),institutions:strings(metadata.institutions)},
  source:{path:row.path,versionId:row.source_version_id,revision:row.revision,sha256:row.sha256,contextId:context.id},renderer:{sourceFilePath:rendererPath}};
 }
 export function publicPublished(entry){
  const {id,title,description,topicId,topic,subject,chapter,section,titleOrigin,attribution,reviewStatus,collectionId}=entry;
- return {id,title,description,topicId,topic,subject,chapter,section,titleOrigin,attribution,reviewStatus,collectionId};
+ return {id,title,description,topicId,topic,subject,chapter,section:null,titleOrigin,attribution,reviewStatus,collectionId};
 }
 export function createPublishedCatalog({query,rendererUrl,runtimeDigest,sourceRevision,fetcher=fetch}){
  let entries=new Map(),pending,unavailable=true,initialized=false,managedLegacyIds=new Set();

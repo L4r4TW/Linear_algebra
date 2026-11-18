@@ -6,7 +6,8 @@ New-Item -ItemType Directory -Path $output|Out-Null
 function Check([string]$message){if($LASTEXITCODE -ne 0){throw $message}}
 $hashes=@()
 $files=@()
-$files+=Get-ChildItem -LiteralPath $PSScriptRoot -File|Where-Object {$_.Extension -in @('.mjs','.ps1','.yaml','.json') -or $_.Name -like '*Dockerfile'}
+$files+=Get-Item -LiteralPath (Join-Path $PSScriptRoot '../practice-400/collections.json')
+$files+=Get-ChildItem -LiteralPath $PSScriptRoot -File|Where-Object {$_.Extension -in @('.mjs','.sh','.ps1','.yaml','.json') -or $_.Name -like '*Dockerfile'}
 $files+=Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'migrations') -File
 $files+=Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'public') -File
 $files+=Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot '../workspace/server') -File|Where-Object {$_.Extension -in @('.mjs','.json')}
@@ -21,8 +22,9 @@ docker build -f (Join-Path $PSScriptRoot 'Tools.Dockerfile') -t linear-algebra-a
 Check 'Account tools build failed'
 docker build -f (Join-Path $PSScriptRoot 'Browser.Dockerfile') -t linear-algebra-account-browser-qa $root
 Check 'Account browser build failed'
-docker run --rm linear-algebra-account-tools node --test crypto.test.mjs admission.test.mjs;Check 'Cryptography/admission checks failed'
+docker run --rm linear-algebra-account-tools node --test crypto.test.mjs admission.test.mjs learning-progress.test.mjs;Check 'Cryptography/admission checks failed'
 $cases=@(
+ @{script='learning-probe.mjs';report='learning-observations.json';image='linear-algebra-account-tools'},
  @{script='work-lifetime-probe.mjs';report='work-lifetime-observations.json';image='linear-algebra-account-tools'},
  @{script='record-store-probe.mjs';report='record-store-observations.json';image='linear-algebra-account-tools'},
  @{script='student-data-probe.mjs';report='student-data-observations.json';image='linear-algebra-account-tools'},

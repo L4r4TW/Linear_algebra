@@ -82,6 +82,7 @@ export function createAccountApp({reports,db,accounts,data,sessions,practiceSets
       if(req.method==='GET')return json(res,200,{bookmarks:await data.bookmarks()});
       if(req.method==='POST'){const input=await body(req);keys(input,['exerciseId','saved']);return json(res,200,await data.bookmark(input.exerciseId,input.saved));}
      }
+     if(action==='learning-progress'&&req.method==='GET')return json(res,200,{...await data.learningProgress(),scope:resolved.actor.kind==='account'?'account':'this-browser'});
      if(action==='progress'&&req.method==='GET')return json(res,200,await data.progress());
      if(action==='continuation'&&req.method==='GET'){
       if(resolved.actor.kind!=='account')throw new AccountError('ACCOUNT_AUTH_REQUIRED',401);

@@ -1,5 +1,9 @@
 # Experimental Docker workspace
 
+## Current home: subjects and chapters
+
+Open **http://localhost:3105** for four subject cards with completion bars and dedicated ordered chapter pages. Start random practice across a subject or within one chapter. The student section level is removed; indexed search remains available. Progress counts distinct fully correct PG results toward fixed goals, with explicit guest-to-account transfer and cross-device account continuation. See [LEARNING_UX.md](LEARNING_UX.md) for the contract, migration004 and verification commands, and root PROJECT_CONTEXT.md for current acceptance and collection counts. Earlier chooser/pilot checkpoints below are historical.
+
 ## Current focused collections
 
 Differential calculus now has 100 playable collection exercises at http://localhost:3105/?subject=Differential+calculus. The other three 100-exercise collections are processing through [the focused pipeline](practice-400/README.md). The home shows actual available counts; indexed metadata does not count as playable. Older six/ten-entry statements below are historical. Canonical PG integration and original apps/data remain intact.

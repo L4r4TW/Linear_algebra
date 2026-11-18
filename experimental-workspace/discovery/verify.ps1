@@ -18,7 +18,7 @@ try{
  docker run --name $probe --network linear-algebra-discovery_console --shm-size=1g linear-algebra-discovery-qa
  Check 'Discovery/chooser browser acceptance failed'
  $hashes=@()
- foreach($file in @('catalog.mjs','chooser.mjs','server.mjs','practice-metadata.json','package.json','public/index.html','public/sources.html','public/home.js','public/home.css','public/account.html','public/account.js','public/account.css','public/chooser.html','public/chooser.js','public/chooser.css','public/practice-plan-store.js','catalog.test.mjs','chooser.test.mjs','server.test.mjs','catalog.integration.mjs','browser.test.mjs','chooser.browser.mjs','Dockerfile','Browser.Dockerfile','compose.yaml','setup.ps1','verify.ps1')){
+ foreach($file in @('../practice-400/collections.json','subject.mjs','subject.test.mjs','public/subject.html','public/subject.js','public/subject.css','public/study-progress.js','catalog.mjs','chooser.mjs','server.mjs','practice-metadata.json','package.json','public/index.html','public/sources.html','public/home.js','public/home.css','public/account.html','public/account.js','public/account.css','public/chooser.html','public/chooser.js','public/chooser.css','public/practice-plan-store.js','catalog.test.mjs','chooser.test.mjs','server.test.mjs','catalog.integration.mjs','browser.test.mjs','chooser.browser.mjs','Dockerfile','Browser.Dockerfile','compose.yaml','setup.ps1','verify.ps1')){
   $hashes += [pscustomobject]@{file=$file;sha256=(Get-FileHash -LiteralPath (Join-Path $PSScriptRoot $file) -Algorithm SHA256).Hash.ToLowerInvariant()}
  }
  foreach($name in @('discovery','chooser')){

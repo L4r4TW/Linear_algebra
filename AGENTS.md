@@ -1,5 +1,9 @@
 # Repository development guide
 
+## Latest subject/chapter UX
+
+Read [LEARNING_UX.md](experimental-workspace/LEARNING_UX.md) and the latest PROJECT_CONTEXT.md section. Student navigation has two levels, subject and chapter, at localhost:3105; keep source sections internally and redirect old browse URLs. Private completion uses fixed study-goals-v1 targets and distinct fully correct visible server-PG attempts, never client claims or mastery labels. Preserve forced RLS, transactional credits/receipts, explicit guest claims, bounded source-bound backfill and unchanged old sets. New sets sample unfinished exercises randomly without replacement and freeze order on creation; retries reuse the same request identity. Run discovery/verify.ps1, accounts/verify-accounts.ps1 and accounts/verify-learning.ps1 for changes here. Root and original3100 apps remain separate. Older counts below are historical.
+
 ## Current short-term goal: four 100-exercise collections
 
 The user authorized implementing and pushing the 400-exercise plan. Read experimental-workspace/practice-400/README.md and the newest PROJECT_CONTEXT.md section. Calculus has reached 100; other collections are processing. Do not revert to the old fixed-ten or human-moderator hold for these user-authorized tested collections. Never fabricate mathematical/independent reviews.

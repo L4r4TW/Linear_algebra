@@ -1,19 +1,46 @@
 {
     "version":  1,
-    "observedAt":  "2026-11-17T20:26:58.513Z",
-    "scope":  "Task 9 real catalog chooser and temporary owned prototype session; no activation or account assertions",
-    "desktopColumns":  true,
-    "dependentSelection":  true,
-    "urlHistory":  true,
-    "keyboard":  true,
-    "libraryNoPractice":  true,
-    "mobileStack":  true,
-    "missingMetadata":  true,
-    "staleRecovery":  true,
-    "definedPlanStart":  true,
-    "blockedStorageNoStart":  true,
+    "observedAt":  "2026-11-18T09:13:31.204Z",
+    "scope":  "Live two-level subject/chapter UX, random saved sets, anonymous owner semantics and emulated mobile; no manual screen-reader or physical-device claim",
+    "subjects":  true,
+    "orderedChapters":  true,
+    "noSectionUI":  true,
+    "history":  true,
+    "wholeSubjectSet":  true,
+    "chapterSet":  true,
+    "keyboardMobile":  true,
+    "blockedStorage":  true,
+    "retryRequestIdentity":  true,
     "complete":  true,
     "sourceHashes":  [
+                         {
+                             "file":  "../practice-400/collections.json",
+                             "sha256":  "bbd93e04f0f38690d30191d1c5002b741ff8a87e0804efeef700c0b6589a5e4f"
+                         },
+                         {
+                             "file":  "subject.mjs",
+                             "sha256":  "b4be063ae5c73974bdcc2ad1964f543e350dfd22af0ab4592e09aed262af6fda"
+                         },
+                         {
+                             "file":  "subject.test.mjs",
+                             "sha256":  "1e066dd6b935e4c35c38fc238d5a3256091bb62e48428f81573b1143d15dd440"
+                         },
+                         {
+                             "file":  "public/subject.html",
+                             "sha256":  "6a6f6ad393008a7f38d5caa0fc1093880500aabe0a0692c11b427d65903ecb78"
+                         },
+                         {
+                             "file":  "public/subject.js",
+                             "sha256":  "7cf4dc44d9f5fe66dcd30a038bbbbb225444b508315d4cd87a55da61ebd26466"
+                         },
+                         {
+                             "file":  "public/subject.css",
+                             "sha256":  "94017274e2b2daca129b70f8bec757126726fb7ea8642249fe527ccc3467f171"
+                         },
+                         {
+                             "file":  "public/study-progress.js",
+                             "sha256":  "81e53b77b47bf1d3d4da567d23e9d907db238da41f1e65b8729e053fc3c7ea16"
+                         },
                          {
                              "file":  "catalog.mjs",
                              "sha256":  "2edf526b0cf1cca1065375f66de5daa337636bd38dcfca36f2f92e473c50bf2c"
@@ -24,7 +51,7 @@
                          },
                          {
                              "file":  "server.mjs",
-                             "sha256":  "dae7a3b203c775943bda16757a6843255f65a4e34bde7232b896668715e96c5a"
+                             "sha256":  "dd44bd5106aec253b99c30ae6e736d84f5a2c98d6edb209f4a383a2d1485fa07"
                          },
                          {
                              "file":  "practice-metadata.json",
@@ -32,11 +59,11 @@
                          },
                          {
                              "file":  "package.json",
-                             "sha256":  "13096eaeaa0beaa4bea61d639199c063fad4eef097cc0ffb1380592c82326c02"
+                             "sha256":  "13397aa54112b0e2b39c62d21ed945502e656393174753430f599cc439fe7f35"
                          },
                          {
                              "file":  "public/index.html",
-                             "sha256":  "426100c01e3741fe5b89ac7cad5f661fc038d71462514e63019a5194863d26de"
+                             "sha256":  "5c70e3dbe00353e65214692eb79df4581db1537ca839a4252cf1e3709c02cacf"
                          },
                          {
                              "file":  "public/sources.html",
@@ -44,7 +71,7 @@
                          },
                          {
                              "file":  "public/home.js",
-                             "sha256":  "478e53a9fdf37ef9f2203dcb9d58c8c609281eb4fac91e683929cfdfadefd88d"
+                             "sha256":  "2d1f1a15a0b8d6a43e6f8155962054836ba58601fd7181a9a05dded257125900"
                          },
                          {
                              "file":  "public/home.css",
@@ -88,23 +115,23 @@
                          },
                          {
                              "file":  "server.test.mjs",
-                             "sha256":  "3f5207ee4e4e9a6e4f348907663f2434c97125d5c7984209e1c62b5bedd4e3a0"
+                             "sha256":  "09b85f23ea9d83cc570aa3fd6d335c61c140e43c4cef419aa8138c01d7e94716"
                          },
                          {
                              "file":  "catalog.integration.mjs",
-                             "sha256":  "54064a6ef58acb379d82c7f8945c71c0f9513ab0d662290c70116bc92e124499"
+                             "sha256":  "0ba2dd026fb2fefb807d62223e88ed8a43224484945b3129be023f15f806b7ff"
                          },
                          {
                              "file":  "browser.test.mjs",
-                             "sha256":  "4493cd1f03a61faff97676d95f1d4e09f78c07ce06dd3ac670d591cda4355483"
+                             "sha256":  "b078e00e12b7115649840dd49e3b8bf2f57da95396a31d8a7d03820a26e2a5a4"
                          },
                          {
                              "file":  "chooser.browser.mjs",
-                             "sha256":  "f8ffad6c5c4b7bdd75af7ebc321d4ca09e86e48aad0b17688777a823e51d091e"
+                             "sha256":  "8c7bbcae57b860578129bd5d782cd55d5e47f5802ddfe780189310e5a6e95593"
                          },
                          {
                              "file":  "Dockerfile",
-                             "sha256":  "3550dff197e515d3610d4f537781e7f7cbe3914f34cb5f2c896d1ace4fa72922"
+                             "sha256":  "329a77d9b23e74a98b4abb9aee3ad9f671faa3e63c7f57ea05642ca769e9a0f0"
                          },
                          {
                              "file":  "Browser.Dockerfile",
@@ -120,11 +147,11 @@
                          },
                          {
                              "file":  "verify.ps1",
-                             "sha256":  "1cbfb18ff1de6699b7ff8bf140bceba90164580050c7981bf2193a1b584e364b"
+                             "sha256":  "49277ca69619d59a0a4554d1d7c89f114292e1daf6725615b2693b8893a136bc"
                          }
                      ],
     "serverTests":  17,
     "realDatabaseTests":  1,
     "browserTests":  5,
-    "imageId":  "sha256:e37efd29b22bc58f93e7f4ac6da5e036cb2b3890ca05ea7da94e80a8ff866f50"
+    "imageId":  "sha256:61fac64be5b7019e938008cf4bfaeff7f5d422c94bc3b21250d8e8c0d3501f3a"
 }

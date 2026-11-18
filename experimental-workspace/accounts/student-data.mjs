@@ -1,3 +1,4 @@
+import {createLearningProgress} from './learning-progress.mjs';
 import {randomUUID} from 'node:crypto';
 import {actors,AccountError} from './db.mjs';import {hash} from './crypto.mjs';
 import {completeAnswerEntries} from '../application/server/answer-contract.mjs';
@@ -60,5 +61,5 @@ export function createStudentData({db,vault,store,sessions,exerciseLookup}){
    return {counts:total,recent,sets,denominator:'Each set retains its original membership; position, skips and repeated attempts are not mastery.',history:'Imported legacy sessions retain only their latest known check; missing attempts are not reconstructed.'};
   });
  }
- return {getDraft,saveDraft,bookmarks,bookmark,claimGuest,progress};
+ return {getDraft,saveDraft,bookmarks,bookmark,claimGuest,progress,learningProgress:createLearningProgress({db,vault,exerciseLookup})};
 }

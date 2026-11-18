@@ -2,13 +2,14 @@ import {createServer} from 'node:http';
 import {readFileSync} from 'node:fs';
 import {pathToFileURL} from 'node:url';
 import {createCatalog,filters,DiscoveryError} from './catalog.mjs';
+import {projectSubject,subjectInput} from './subject.mjs';
 import {chooser,chooserInput,createPracticePlan} from './chooser.mjs';
 
 const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
 const secureHeaders={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'};
 const homePolicy="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'";
 function send(res,status,body){res.writeHead(status,{...secureHeaders,'Content-Type':'application/json; charset=utf-8'});res.end(JSON.stringify(body));}
-const files=new Map([['/',['index.html','text/html']],['/sources',['sources.html','text/html']],['/home.js',['home.js','text/javascript']],['/home.css',['home.css','text/css']],['/browse',['chooser.html','text/html']],['/chooser.js',['chooser.js','text/javascript']],['/chooser.css',['chooser.css','text/css']],['/practice-plan-store.js',['practice-plan-store.js','text/javascript']],['/account',['account.html','text/html']],['/progress',['account.html','text/html']],['/account.js',['account.js','text/javascript']],['/account.css',['account.css','text/css']]]);
+const files=new Map([['/',['index.html','text/html']],['/sources',['sources.html','text/html']],['/subject',['subject.html','text/html']],['/subject.js',['subject.js','text/javascript']],['/subject.css',['subject.css','text/css']],['/study-progress.js',['study-progress.js','text/javascript']],['/home.js',['home.js','text/javascript']],['/home.css',['home.css','text/css']],['/browse',['chooser.html','text/html']],['/chooser.js',['chooser.js','text/javascript']],['/chooser.css',['chooser.css','text/css']],['/practice-plan-store.js',['practice-plan-store.js','text/javascript']],['/account',['account.html','text/html']],['/progress',['account.html','text/html']],['/account.js',['account.js','text/javascript']],['/account.css',['account.css','text/css']]]);
 export function createHome({origin=process.env.HOME_ORIGIN??'http://localhost:3105',practiceUrl=process.env.PRACTICE_URL??'http://linear-algebra-experimental-workspace-1:3000',
  practiceOrigin=process.env.PRACTICE_ORIGIN??'http://localhost:3100',catalog=createCatalog({practiceOrigin:practiceUrl}),fetcher=fetch}={}){
  async function upstream(req,path,{method=req.method,body}={}){
@@ -57,6 +58,7 @@ export function createHome({origin=process.env.HOME_ORIGIN??'http://localhost:31
    const url=new URL(req.url,origin),isApi=url.pathname.startsWith('/api/');
    if(isApi&&(req.headers['sec-fetch-site']==='cross-site'||req.headers.origin&&req.headers.origin!==origin))throw new DiscoveryError('ORIGIN_REJECTED',403);
    if(req.method==='GET'&&url.pathname==='/health')return send(res,200,{ok:true});
+   if(req.method==='GET'&&url.pathname==='/browse'){const target=new URL(url.searchParams.get('view')==='library'?'/':'/subject',origin);for(const key of ['subject','chapter'])if(url.searchParams.get(key))target.searchParams.set(key,url.searchParams.get(key));if(url.searchParams.get('view')==='library')target.searchParams.set('view','library');if(target.pathname==='/subject'&&!target.searchParams.has('subject'))target.pathname='/';res.writeHead(302,{...secureHeaders,Location:target.pathname+target.search});res.end();return;}
    if(req.method==='GET'&&files.has(url.pathname)){
     const [file,type]=files.get(url.pathname);
     // Old player session links reaching the home are preserved explicitly.
@@ -67,6 +69,7 @@ export function createHome({origin=process.env.HOME_ORIGIN??'http://localhost:31
     res.writeHead(200,{...secureHeaders,'Content-Security-Policy':homePolicy,'Content-Type':type+'; charset=utf-8'});
     res.end(readFileSync(new URL('./public/'+file,import.meta.url)));return;
    }
+   if(url.pathname==='/api/discovery/subject'){if(req.method!=='GET')throw new DiscoveryError('METHOD_NOT_ALLOWED',405);return send(res,200,projectSubject(await catalog.practice(),subjectInput(url.searchParams)));}
    if(url.pathname==='/api/discovery/practice-plans'){
     if(req.method!=='POST')throw new DiscoveryError('METHOD_NOT_ALLOWED',405);
     if(req.headers.origin!==origin)throw new DiscoveryError('ORIGIN_REJECTED',403);
@@ -94,7 +97,7 @@ export function createHome({origin=process.env.HOME_ORIGIN??'http://localhost:31
     throw new DiscoveryError('NOT_FOUND',404);
    }
    if(req.method==='GET'&&url.pathname==='/api/sessions/recent'&&!url.search)return await recent(req,res);
-   const account=/^\/api\/sessions\/account\/(?:status|signup|login|logout|claim|bookmarks|progress|continuation)$/.test(url.pathname),draft=/^\/api\/sessions\/[a-f0-9-]{36}\/draft$/.test(url.pathname);
+   const account=/^\/api\/sessions\/account\/(?:status|signup|login|logout|claim|bookmarks|progress|learning-progress|continuation)$/.test(url.pathname),draft=/^\/api\/sessions\/[a-f0-9-]{36}\/draft$/.test(url.pathname);
    const session=account||draft||/^\/api\/sessions(?:\/[a-f0-9-]{36}(?:\/(?:answers|reports))?)?$/.test(url.pathname)||/^\/api\/sessions\/sets(?:\/[a-f0-9-]{36}(?:\/(?:open|position))?)?$/.test(url.pathname);
    const asset=/^\/assets\/[a-zA-Z0-9_./-]+$/.test(url.pathname)&&!url.pathname.includes('..');
    const player=url.pathname==='/practice';

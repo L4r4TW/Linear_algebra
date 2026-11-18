@@ -1,5 +1,11 @@
 # Home and discovery (milestone 8)
 
+## Latest: subject/chapter learning flow
+
+Home presents four subject cards with private completion bars. /subject?subject=... shows numbered chapters in curriculum order, subject-wide Start practice and individual chapter actions. No section selector remains; old /browse links redirect. Search and the indexed library remain optional. Completion is supplied by the owner-checked account backend, never inferred from catalog counts. See [../LEARNING_UX.md](../LEARNING_UX.md). New sets use server-random, unfinished-first membership; saved sets and request-key retries remain stable.
+
+Fresh acceptance: 24 contracts, one actual catalog/database test, 12 desktop/mobile home/chapter/player cases and six original smoke cases passed. Run verify.ps1 after rebuilding, then ../accounts/verify-learning.ps1 for real PG-to-progress/account continuation. Older counts and three-column descriptions below are historical; root PROJECT_CONTEXT.md is the current handoff.
+
 ## Current local availability
 
 The live account backend now supplies sixteen playable entries: six original exercises and ten calculus exercises under the explicit user-authorized tested-pilot policy. Pilot cards are labelled and the practice shell offers Report a problem. See ../calculus-100/LOCAL_PILOT_POLICY.md and ../accounts/PROBLEM_REPORTS.md. The indexed library and normal independently reviewed database publication counts remain separate. Older six-entry milestones below are historical; the independent localhost:3100 player still has six.

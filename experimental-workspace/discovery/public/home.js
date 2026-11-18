@@ -1,5 +1,7 @@
+import {loadStudyProgress,progressElements} from './study-progress.js';
+let studyProgress,studyProgressError=false;
 const $=id=>document.getElementById(id);
-const controls=['subject','chapter','section','area'];
+const controls=['subject','chapter','area'];
 let overview,requestId=0,controller,starting=false,current=new URL(location.href);const topicCache=new Map();
 const number=value=>new Intl.NumberFormat().format(value);
 const node=(tag,text,className)=>{const value=document.createElement(tag);if(text!==undefined)value.textContent=text;if(className)value.className=className;return value;};
@@ -20,7 +22,7 @@ function go(changes,{focus=false,replace=false}={}){
  history[replace?'replaceState':'pushState']({},'',target);current=target;void load(focus);
 }
 function sync(){
- const mode=view();$('query').value=current.searchParams.get('q')??'';
+ const mode=view();$('subjects').closest('section').hidden=mode!=='library';$('study-collections').closest('section').hidden=mode==='library';$('search-results').hidden=mode!=='library'&&!['q','subject','chapter'].some(k=>current.searchParams.get(k));document.querySelector('.browse-toolbar').hidden=$('search-results').hidden;$('collection-note').hidden=$('search-results').hidden;$('query').value=current.searchParams.get('q')??'';
  const selectedSubject=current.searchParams.get('subject')??'';
  if(selectedSubject&&![...$('subject').options].some(o=>o.value===selectedSubject))$('subject').add(new Option(selectedSubject,selectedSubject));
  $('subject').value=selectedSubject;
@@ -37,7 +39,20 @@ function options(id,values,placeholder,selected){
 }
 function renderStudyCollections(){
  const container=$('study-collections');container.replaceChildren();
- for(const c of overview?.collections??[]){const card=node(c.available&&c.playable?'a':'div',undefined,'collection-card');if(card.tagName==='A')card.href='/?subject='+encodeURIComponent(c.title);card.append(node('h3',c.title),node('p',c.available?number(c.playable)+' / '+c.target+' available':'Temporarily unavailable','muted'));if(c.available&&!c.playable)card.append(node('p','Exercises are being prepared.','muted'));container.append(card);}
+ for(const c of overview?.collections??[]){
+ const card=node(c.available&&c.playable?'a':'div',undefined,'collection-card');if(card.tagName==='A')card.href='/subject?subject='+encodeURIComponent(c.title);
+ const completion=node('div',undefined,'collection-progress'),value=studyProgress?.collections.find(p=>p.id===c.id);
+ card.append(node('h3',c.title),node('p',c.available?number(c.playable)+' exercises available':'Temporarily unavailable','muted'),completion);
+ if(value)progressElements(completion,value,c.title);else completion.append(node('p',studyProgressError?'Progress unavailable':'Loading progress…','muted'));
+ if(c.available&&!c.playable)card.append(node('p','Exercises are being prepared.','muted'));
+ container.append(card);
+ }
+}
+async function loadCompletion(){
+ $('retry-study-progress').hidden=true;studyProgressError=false;
+ try{studyProgress=await loadStudyProgress();$('home-progress-scope').textContent=studyProgress.scope==='account'?'Your account progress · completed once with a fully correct WeBWorK result.':'Progress saved in this browser · sign in and transfer your work to continue across devices.';}
+ catch{studyProgress=null;studyProgressError=true;$('retry-study-progress').hidden=false;$('home-progress-scope').textContent='Progress is temporarily unavailable. You can still browse subjects.';}
+ renderStudyCollections();
 }
 function renderSubjects(){
  const mode=view(),container=$('subjects');container.replaceChildren();container.setAttribute('aria-busy','false');
@@ -52,7 +67,7 @@ function renderSubjects(){
  if(!subjects.length){container.append(notice('No subjects available here yet',mode==='practice'?'Verified practice will appear here when it is available. You can explore indexed coverage in the library.':'No classified subjects have been indexed. Search can still find unclassified sources.'));return;}
  const icons=[['algebra','⊞'],['calculus','∫'],['geometry','∠'],['statistics','▥'],['equations','∂']];
  for(const subject of subjects){
-  const a=node('a',undefined,'subject-card'),url=new URL(location.href);url.search='';if(mode==='library')url.searchParams.set('view','library');url.searchParams.set('subject',subject.subject);a.href='/browse'+url.search;
+  const a=node('a',undefined,'subject-card'),url=new URL(location.href);url.search='';if(mode==='library')url.searchParams.set('view','library');url.searchParams.set('subject',subject.subject);a.href=mode==='library'?'/'+url.search:'/subject'+url.search;
   const top=node('div',undefined,'subject-top'),icon=node('span',icons.find(([term])=>subject.subject.toLowerCase().includes(term))?.[1]??'∑','subject-icon');icon.setAttribute('aria-hidden','true');
   top.append(icon,node('span',subject.subject,'subject-name'));
   const meta=node('div',undefined,'subject-meta');meta.append(node('span',mode==='practice'?number(subject.practice)+(subject.practice===1?' exercise':' exercises')+' · Explore topics':number(subject.indexed)+' indexed sources · Browse coverage'),node('span','→'));a.append(top,meta);
@@ -79,7 +94,7 @@ function renderResults(data){
  }
  for(const entry of data.entries){
   const card=node('article',undefined,'exercise-card');
-  card.append(node('p',[entry.subject,entry.chapter,entry.section].filter(Boolean).join(' / ')||'Unclassified source','breadcrumb'),node('h3',entry.title));
+  card.append(node('p',[entry.subject,entry.chapter].filter(Boolean).join(' / ')||'Unclassified source','breadcrumb'),node('h3',entry.title));
   if(entry.reviewStatus==='tested-local-pilot')card.append(node('p','Tested pilot · report issues while practicing','source-note'));
   if(entry.description)card.append(node('p',entry.description,'description'));
   if(entry.titleOrigin==='generated-source-label')card.append(node('p','Source label · descriptive title not yet reviewed','source-note'));
@@ -98,6 +113,7 @@ function renderResults(data){
 async function load(focus=false){
  const sequence=++requestId;controller?.abort();controller=new AbortController();sync();renderSubjects();
  $('results').setAttribute('aria-busy','true');$('results').replaceChildren(node('div',undefined,'skeleton'),node('p','Loading exercises…','sr-only'));
+ if($('search-results').hidden){$('results').setAttribute('aria-busy','false');return;}
  $('results-status').textContent='Loading exercises…';$('pagination').hidden=true;
  if(focus){$('results-title').tabIndex=-1;$('results-title').focus({preventScroll:true});$('search-results').scrollIntoView({block:'start'});}
  const p=params();const signal=controller.signal;
@@ -113,7 +129,6 @@ async function load(focus=false){
   if(sequence!==requestId)return;
   const topics=topicsResult.topics,subject=current.searchParams.get('subject'),chapter=current.searchParams.get('chapter');
   options('chapter',subject?topics.filter(t=>t.subject===subject).map(t=>t.chapter):[],'All topics',chapter);
-  options('section',chapter?topics.filter(t=>t.subject===subject&&t.chapter===chapter).map(t=>t.section):[],'All sections',current.searchParams.get('section'));
   $('area').value=current.searchParams.get('area')??'';renderResults(result);
  }catch(error){
   if(signal.aborted||sequence!==requestId)return;
@@ -133,9 +148,11 @@ async function loadContinue(){
 }
 $('search-form').addEventListener('submit',event=>{event.preventDefault();go({q:$('query').value.trim()||null},{focus:true});});
 $('filters').addEventListener('submit',event=>event.preventDefault());
-for(const id of controls)$(id).addEventListener('change',()=>{const changes={[id]:$(id).value||null};if(id==='subject'){changes.chapter=null;changes.section=null;}if(id==='chapter')changes.section=null;go(changes,{focus:false});});
+for(const id of controls)$(id).addEventListener('change',()=>{const changes={[id]:$(id).value||null};if(id==='subject')changes.chapter=null;go(changes,{focus:false});});
 for(const mode of ['practice','library'])$(mode+'-view').addEventListener('click',()=>go({view:mode,q:$('query').value.trim()||null,subject:null,chapter:null,section:null,area:null}));
 $('clear').addEventListener('click',()=>go({q:null,subject:null,chapter:null,section:null,area:null}));
 $('retry-overview').addEventListener('click',()=>void loadOverview());
 window.addEventListener('popstate',()=>{current=new URL(location.href);void load();});
-await Promise.all([loadOverview(),load(),loadContinue()]);
+$('retry-study-progress').addEventListener('click',loadCompletion);
+if(current.searchParams.has('section')){current.searchParams.delete('section');history.replaceState({},'',current);}
+await Promise.all([loadOverview(),load(),loadContinue(),loadCompletion()]);

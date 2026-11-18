@@ -12,7 +12,7 @@ const browser=await chromium.launch(),contexts=[],email='browser-'+randomBytes(1
 const report={version:1,observedAt:new Date().toISOString(),runtimeFingerprint:runtimeFingerprint(),scope:'Actual local Supabase/RLS, real private PG, actual gateway and account/player UI. Operator injection retains only the six pre-existing active fixtures. No original student volume or production approval.'};
 async function context(){const context=await browser.newContext({viewport:{width:1280,height:950}});contexts.push(context);await context.route(origin+'/**',async route=>{const response=await route.fetch({url:route.request().url().replace(origin,homeBackend)});await route.fulfill({response});});return context;}
 const first=await context(),page=await first.newPage();page.setDefaultTimeout(30000);page.on('dialog',dialog=>dialog.accept());
-const ready=async p=>{await p.waitForFunction(()=>document.querySelector('#check-answer')&&!document.querySelector('#check-answer').disabled);await p.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').waitFor();};
+const ready=async p=>{await p.waitForFunction(()=>document.querySelector('#check-answer')&&!document.querySelector('#check-answer').disabled);await p.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]').first().waitFor();};
 const field=p=>p.frameLocator('.exercise-frame').locator('[name=AnSwEr0001]');
 async function auth(p,signup){await p.goto(origin+'/account');await p.locator('#auth-form').waitFor();await p.locator('#email').fill(email);await p.locator('#password').fill(password);await p.getByRole('button',{name:signup?'Create account':'Sign in',exact:true}).click();await p.locator('#signed-in').waitFor({state:'visible'});}
 try{

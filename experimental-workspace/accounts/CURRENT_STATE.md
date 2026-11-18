@@ -1,5 +1,11 @@
 # Current platform handoff
 
+## Latest: two-level learning UX and private completion
+
+Read [../LEARNING_UX.md](../LEARNING_UX.md). Home3105 leads to ordered subject/chapter pages with completion indicators. Auth migration004 is applied locally. Credits/receipts commit with accepted server-PG attempts, preserve owner-consistent forced RLS and deduplicate repeated grades/aliases/claimed principals. Fixed study goals, not growing availability or mastery, define percentages. GET /api/sessions/account/learning-progress exposes only owner-scoped public totals. Historical exact-source PG attempts backfill in bounded requests; legacy attempts do not acquire fabricated credit.
+
+New sets sample unfinished exercises randomly without replacement and persist order; retries and older sets remain stable. Fresh acceptance at acceptance/20261118T091736603Z-7ba79fce/manifest.json passed nine groups plus nine unit tests. Real student-question-derived PG completion/claim/cross-device evidence is in learning-acceptance/20261118T092243106Z/manifest.json. Root PROJECT_CONTEXT.md records current collection counts; older six/sixteen-entry checkpoints below are historical. No PG frame/runtime fingerprint changed.
+
 ## Latest: ten tested calculus pilots and student reports
 
 Local 3105 now has sixteen playable entries. The added ten follow the explicit user-authorized tested-pilot policy, not fabricated independent moderator approvals. Read ../calculus-100/LOCAL_PILOT_POLICY.md. Standard publication and the original six-entry 3100 application remain separate.

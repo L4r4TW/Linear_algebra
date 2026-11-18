@@ -1,3 +1,4 @@
+import {randomPracticeMembers} from './random-practice.mjs';
 import {randomUUID,randomInt} from 'node:crypto';
 import {actors,AccountError} from './db.mjs';import {hash} from './crypto.mjs';
 import {PracticeSetError} from '../application/server/practice-sets.mjs';
@@ -17,7 +18,7 @@ export function createSetStore({db,vault,entries,exerciseLookup,startSession}){
  }
  const available=item=>{const current=binding(exerciseLookup(item.exercise_id));return current!==null&&current.sha256===item.source.sha256&&current.revision===item.source.revision&&(!item.source.contextId||current.contextId===item.source.contextId)&&(!item.source.versionId||current.versionId===item.source.versionId);};
  function present(row){return {id:row.id,revision:Number(row.revision),title:row.title,selection:row.selection,createdAt:new Date(row.created_at).toISOString(),position:row.position,total:row.items.length,
- policy:{maximum:20,order:'exercise-id-ascending',skipped:'retained-for-revisit',positionMeaning:'location-not-correctness'},
+ policy:{maximum:20,order:row.order_strategy??'exercise-id-ascending',selection:row.order_strategy==='random-without-replacement'?'unfinished-first':'original-membership',skipped:'retained-for-revisit',positionMeaning:'location-not-correctness'},
  items:row.items.map(item=>({position:item.position,exerciseId:item.exercise_id,title:item.title,sessionId:item.session_id,state:item.state,skipped:item.skipped,available:available(item)}))};}
  async function create(input,{ownerToken,requestKey}){
   const ctx=context();if(ownerToken!==ctx.ownerToken||!validId(requestKey))throw new PracticeSetError('INVALID_SET_INPUT');
@@ -28,10 +29,11 @@ export function createSetStore({db,vault,entries,exerciseLookup,startSession}){
    const old=(await client.query('SELECT id,request_digest FROM practice_runtime.sets WHERE principal_id=$1 AND request_key=$2',[ctx.principalId,requestKey])).rows[0];
    if(old){if(old.request_digest!==requestDigest)throw new PracticeSetError('SET_CONFLICT');return present(await read(client,old.id));}
    const count=(await client.query('SELECT count(*)::int n FROM practice_runtime.sets WHERE principal_id=$1',[ctx.principalId])).rows[0].n;if(count>=1000)throw new PracticeSetError('SET_LIMIT');
-   const members=[...new Map(entries().filter(entry=>Object.entries(selection).every(([k,v])=>v===null||entry[k]===v)).map(entry=>[entry.id,entry])).values()].sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0).slice(0,20);
+   const completed=new Set((await client.query('SELECT DISTINCT exercise_key FROM practice_runtime.learning_credits')).rows.map(r=>r.exercise_key));
+   const members=randomPracticeMembers(entries(),selection,{completed});
    if(!members.length)throw new PracticeSetError('SET_TOPIC_UNAVAILABLE');
    const id=randomUUID(),title=selection.section??selection.chapter??selection.subject??'Available mathematics';
-   await client.query('INSERT INTO practice_runtime.sets(id,principal_id,request_key,request_digest,title,selection) VALUES($1,$2,$3,$4,$5,$6)',[id,ctx.principalId,requestKey,requestDigest,title,JSON.stringify(selection)]);
+   await client.query('INSERT INTO practice_runtime.sets(id,principal_id,request_key,request_digest,title,selection,order_strategy) VALUES($1,$2,$3,$4,$5,$6,$7)',[id,ctx.principalId,requestKey,requestDigest,title,JSON.stringify(selection),'random-without-replacement']);
    for(const [position,entry] of members.entries()){
     const source=binding(exerciseLookup(entry.id));if(!source)throw new PracticeSetError('SET_TOPIC_UNAVAILABLE');
     await client.query('INSERT INTO practice_runtime.set_items(set_id,principal_id,position,exercise_id,title,source) VALUES($1,$2,$3,$4,$5,$6)',[id,ctx.principalId,position,entry.id,entry.title,JSON.stringify(source)]);

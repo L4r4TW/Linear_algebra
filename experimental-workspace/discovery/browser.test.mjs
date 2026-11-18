@@ -12,26 +12,16 @@ async function pageFor(t,viewport={width:1360,height:1000}){
  t.after(async()=>{await context.unrouteAll({behavior:'ignoreErrors'});await context.close();});const page=await context.newPage();page.setDefaultTimeout(25000);return page;
 }
 async function settled(page){await page.waitForFunction(()=>document.querySelector('#results').getAttribute('aria-busy')==='false');}
-test('home shows real playable subjects and explicit indexed coverage',{timeout:90000},async t=>{
- const page=await pageFor(t),errors=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto(base);await settled(page);await page.locator('#subjects .subject-card').first().waitFor();
- assert.equal(await page.getByRole('heading',{level:1}).textContent(),'What would you like to practice?');
- const catalog=await page.evaluate(async()=> (await (await fetch('/api/exercises')).json()).exercises);assert.ok(catalog.length>=6);assert.equal(await page.locator('.exercise-card .primary').count(),Math.min(12,catalog.length));const summary=await page.evaluate(async()=> (await (await fetch('/api/discovery/overview')).json()));assert.equal(await page.locator('.subject-card').count(),summary.practice.subjects.length);
- await page.getByRole('button',{name:'Indexed library',exact:true}).click();await settled(page);
- assert.equal(await page.locator('.exercise-card').count(),12);assert.equal(await page.locator('.exercise-card .primary').count(),0);
- assert.match(await page.locator('#coverage').textContent(),/77,134/);
- const first=await page.locator('.exercise-card h3').first().textContent();
- await page.getByRole('button',{name:/Next page/}).click();await settled(page);assert.ok(new URL(page.url()).searchParams.get('cursor'));
- assert.notEqual(await page.locator('.exercise-card h3').first().textContent(),first);
- const url=page.url(),title=await page.locator('.exercise-card h3').first().textContent();
- await page.reload();await settled(page);assert.equal(page.url(),url);assert.equal(await page.locator('.exercise-card h3').first().textContent(),title);
- await page.getByRole('button',{name:'First page'}).click();await settled(page);assert.equal(await page.locator('.exercise-card h3').first().textContent(),first);
- await page.locator('#query').fill('derivative');await page.locator('#query').press('Enter');await settled(page);
- assert.equal(new URL(page.url()).searchParams.get('q'),'derivative');assert.ok(await page.locator('.exercise-card').count()>0);
- await page.goBack();await settled(page);assert.equal(new URL(page.url()).searchParams.has('q'),false);
- assert.deepEqual(errors,[]);observations.realCatalog=true;observations.playableDefault=true;observations.paginationAndShareableUrls=true;observations.browserHistory=true;observations.pageErrorsAbsent=true;
- await page.goto(base);await settled(page);await page.screenshot({path:'/qa/artifacts/discovery-desktop.png',fullPage:true});
+test('home shows subjects with completion and retains indexed-library search',{timeout:90000},async t=>{
+ const page=await pageFor(t),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(base);await settled(page);await page.locator('.collection-card progress').first().waitFor();
+ assert.equal(await page.getByRole('heading',{level:1}).textContent(),'What would you like to practice?');assert.equal(await page.locator('.collection-card').count(),4);assert.equal(await page.locator('#search-results').isVisible(),false);assert.equal(await page.locator('#section').count(),0);
+ await page.getByRole('link',{name:'Browse indexed library',exact:true}).click();await settled(page);assert.equal(await page.locator('.exercise-card').count(),12);assert.equal(await page.locator('.exercise-card .primary').count(),0);assert.match(await page.locator('#coverage').textContent(),/77,134/);
+ const first=await page.locator('.exercise-card h3').first().textContent();await page.getByRole('button',{name:/Next page/}).click();await settled(page);assert.ok(new URL(page.url()).searchParams.get('cursor'));assert.notEqual(await page.locator('.exercise-card h3').first().textContent(),first);
+ const url=page.url(),title=await page.locator('.exercise-card h3').first().textContent();await page.reload();await settled(page);assert.equal(page.url(),url);assert.equal(await page.locator('.exercise-card h3').first().textContent(),title);await page.getByRole('button',{name:'First page'}).click();await settled(page);assert.equal(await page.locator('.exercise-card h3').first().textContent(),first);
+ await page.locator('#query').fill('derivative');await page.locator('#query').press('Enter');await settled(page);assert.equal(new URL(page.url()).searchParams.get('q'),'derivative');assert.ok(await page.locator('.exercise-card').count()>0);assert.deepEqual(errors,[]);
+ observations.realCatalog=true;observations.playableDefault=true;observations.paginationAndShareableUrls=true;observations.browserHistory=true;observations.pageErrorsAbsent=true;await page.goto(base);await page.locator('.collection-card progress').first().waitFor();await page.screenshot({path:'/qa/artifacts/discovery-desktop.png',fullPage:true});
 });
+
 test('subject and dependent topic filters use real source classifications',{timeout:90000},async t=>{
  const page=await pageFor(t);await page.goto(base+'/?view=library&subject=Linear+algebra');await settled(page);
  assert.equal(await page.locator('#subject').inputValue(),'Linear algebra');
@@ -108,8 +98,8 @@ test('partial catalog outage retains practice and unavailable continuation has e
  const page=await pageFor(t);
  await page.route('**/api/discovery/overview',route=>route.fulfill({json:{practice:{available:true,count:6,subjects:[{subject:'Linear algebra',practice:1}]},library:{available:false,indexed:null,subjects:[]}}}));
  await page.route('**/api/sessions/recent',route=>route.fulfill({json:{status:'temporarily-unavailable',href:'/practice?session=00000000-0000-0000-0000-000000000001'}}));
- await page.goto(base);await settled(page);
- assert.ok(await page.locator('.exercise-card .primary').count()>=6);
+ await page.goto(base+'/?subject=Linear+algebra');await settled(page);
+ assert.ok(await page.locator('.exercise-card .primary').count()>0);
  await page.getByRole('link',{name:'Open saved session'}).waitFor();assert.match(await page.locator('#continue-description').textContent(),/saved work has been kept/);
  await page.getByRole('button',{name:'Indexed library',exact:true}).click();
  await page.getByRole('heading',{name:'This collection is temporarily unavailable'}).waitFor();

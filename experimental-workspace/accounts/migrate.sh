@@ -16,4 +16,5 @@ unset account_backend_password
 psql -X -q -v ON_ERROR_STOP=1 -f /migrations/001_runtime.sql
 psql -X -q -v ON_ERROR_STOP=1 -f /migrations/002_immutable_attempts.sql
 psql -X -q -v ON_ERROR_STOP=1 -f /migrations/003_problem_reports.sql
+psql -X -q -v ON_ERROR_STOP=1 -f /migrations/004_learning_progress.sql
 unset PGPASSWORD

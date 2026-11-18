@@ -15,7 +15,7 @@ try{
  const sets=createSetStore({db,vault,exerciseLookup:lookup,entries:()=>['two','one'].map(id=>({id,title:id,subject:'Math',chapter:'Synthetic',section:null})),startSession:input=>sessions.startSession(input)});
  const data=createStudentData({db,vault,store,sessions,exerciseLookup:lookup}),run=(actor,work)=>actors.run({...actor},work);
  const requestKey=randomUUID(),set=await run(a,()=>sets.create({subject:'Math'},{ownerToken:a.ownerToken,requestKey}));
- assert.equal(set.total,2);assert.equal(set.items[0].exerciseId,'one');
+ assert.equal(set.total,2);assert.deepEqual(new Set(set.items.map(i=>i.exerciseId)),new Set(['one','two']));assert.equal(set.policy.order,'random-without-replacement');
  assert.equal((await run(a,()=>sets.create({subject:'Math'},{ownerToken:a.ownerToken,requestKey}))).id,set.id);
  await assert.rejects(()=>run(b,()=>sets.get(set.id,{ownerToken:b.ownerToken})),e=>e.code==='SET_NOT_FOUND');
  const opened=await run(a,()=>sets.openItem(set.id,0,{ownerToken:a.ownerToken,revision:set.revision})),id=opened.sessionId;

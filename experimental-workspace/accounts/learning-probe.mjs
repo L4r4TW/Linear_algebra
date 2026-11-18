@@ -1,0 +1,27 @@
+import {createStudentData} from './student-data.mjs';import {hash} from './crypto.mjs';
+import assert from 'node:assert/strict';import {readFile,mkdir,writeFile} from 'node:fs/promises';import {randomBytes,randomUUID} from 'node:crypto';import {createDatabase,actors} from './db.mjs';import {createVault} from './crypto.mjs';import {createAccounts} from './auth.mjs';import {createRecordStore} from './record-store.mjs';import {createAccountSessions} from './session-service.mjs';import {createLearningProgress} from './learning-progress.mjs';import {createSetStore} from './set-store.mjs';
+const db=createDatabase(),vault=createVault((await readFile('/secrets/encryption-key','utf8')).trim()),accounts=createAccounts({db,vault}),report={version:1,scope:'Actual local Auth/RLS with controlled renderer, no mathematical or live-PG claim',observedAt:new Date().toISOString()};
+const run=(a,f)=>actors.run({...a},f);let score=0,suppressed=false,withdrawn=false;
+const source={sha256:'a'.repeat(64),revision:'b'.repeat(40),versionId:randomUUID()};
+const lookup=id=>!withdrawn&&['one','alias','two'].includes(id)?{id,identityId:id==='alias'?'one':id,collectionId:'calculus',subject:'Differential calculus',chapter:'Limits and continuity',title:id,source}:null;
+const rendered=()=>({html:'<div id="problem_body"><input name="AnSwEr0001"></div>',sessionToken:'private-learning-token',problemToken:'private-learning-problem',score,resources:[],feedback:{message:'',summary:''},fieldFeedback:[],...(suppressed?{feedbackVisibility:'suppressed'}:{})});
+try{
+ const a=(await accounts.signIn({signup:true,email:'learning-'+randomBytes(12).toString('hex')+'@example.test',password:randomBytes(24).toString('base64url')+'Aa1!'})).actor;
+ const b=(await accounts.signIn({signup:true,email:'learning-'+randomBytes(12).toString('hex')+'@example.test',password:randomBytes(24).toString('base64url')+'Aa1!'})).actor;
+ const store=createRecordStore({db,vault,exerciseLookup:lookup,runtimeDigest:'synthetic-learning'}),sessions=createAccountSessions({store,exerciseLookup:lookup,rendererClient:{loadExercise:async()=>rendered(),restoreSession:async()=>rendered(),submitAnswers:async()=>rendered()}});
+ const learning=createLearningProgress({db,vault,exerciseLookup:lookup}),count=async actor=>(await run(actor,learning)).collections[0].completed;
+ const start=async(exerciseId,actor=a)=>(await run(actor,()=>sessions.startSession({exerciseId,ownerToken:actor.ownerToken}))).session.id;
+ const grade=async(id,actor=a)=>run(actor,()=>sessions.submitAnswers(id,[['AnSwEr0001','1']],{ownerToken:actor.ownerToken,operationKey:randomUUID()}));
+ const id=await start('one');assert.equal(await count(a),0);score=.5;await grade(id);assert.equal(await count(a),0);score=1;await grade(id);assert.equal(await count(a),1);await grade(id);assert.equal(await count(a),1);
+ await grade(await start('alias'));assert.equal(await count(a),1);assert.equal(await count(b),0);
+ report.fullyCorrectOnly=true;report.repeatsAndAliasesDoNotInflate=true;report.foreignOwnerSeesNoCredit=true;
+ const two=await start('two');suppressed=true;await grade(two);assert.equal(await count(a),1);suppressed=false;
+ withdrawn=true;assert.equal(await count(a),1);withdrawn=false;report.suppressionRespected=true;report.withdrawalPreservesEarnedCredit=true;
+ const sets=createSetStore({db,vault,exerciseLookup:lookup,entries:()=>['one','two'].map(id=>({...lookup(id),section:null})),startSession:input=>sessions.startSession(input)}),key=randomUUID();
+ const set=await run(a,()=>sets.create({subject:'Differential calculus'},{ownerToken:a.ownerToken,requestKey:key}));assert.equal(set.total,1);assert.equal(set.items[0].exerciseId,'two');assert.equal(set.policy.order,'random-without-replacement');
+ const replay=await run(a,()=>sets.create({subject:'Differential calculus'},{ownerToken:a.ownerToken,requestKey:key}));assert.deepEqual(replay.items,set.items);report.unfinishedFirstAndFrozenRetry=true;
+ const permissions=await db.transaction({},async client=>(await client.query("SELECT has_table_privilege('anon','practice_runtime.learning_credits','SELECT') exposed")).rows[0]);assert.equal(permissions.exposed,false);report.browserRoleDenied=true;
+ const guest=await accounts.resolveGuest(randomBytes(32).toString('base64url'));score=1;await grade(await start('one',guest),guest);assert.equal(await count(guest),1);const data=createStudentData({db,vault,store,sessions,exerciseLookup:lookup});await run(a,()=>data.claimGuest(guest.ownerToken));assert.equal(await count(a),1);await assert.rejects(()=>accounts.resolveGuest(guest.ownerToken));report.claimMergesWithoutDoubleCounting=true;
+ const historical={id:randomUUID(),number:99,submittedAt:new Date().toISOString(),exerciseId:'two',source,provenance:'server-pg',score:1};await run(a,()=>db.current(client=>client.query('INSERT INTO practice_runtime.attempts(id,session_id,principal_id,ordinal,encrypted_attempt,content_digest,submitted_at) VALUES($1,$2,$3,$4,$5,$6,$7)',[historical.id,two,a.principalId,99,vault.seal(historical,'attempt:'+historical.id+':'+two),hash(historical),historical.submittedAt])));assert.equal(await count(a),2);assert.equal(await count(a),2);report.existingPGHistoryBackfillsOnce=true;
+ report.complete=true;await mkdir('/artifacts',{recursive:true});await writeFile('/artifacts/learning-observations.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({complete:true,privateDataDisclosed:false}));
+}finally{await db.close();}

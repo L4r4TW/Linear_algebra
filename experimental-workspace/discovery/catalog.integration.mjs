@@ -6,8 +6,9 @@ test('real catalog is read-only, anon-scoped, projected and generation-fenced',a
  const identity=await queryDatabase("SELECT jsonb_build_object('login',session_user,'role',current_user,'readOnly',current_setting('transaction_read_only'))");
  assert.equal(identity.login,'discovery_home');assert.equal(identity.role,'anon');assert.equal(identity.readOnly,'on');
  await assert.rejects(()=>queryDatabase("SELECT to_jsonb(x) FROM catalog.import_entries x LIMIT 1"),/CATALOG_UNAVAILABLE/);
- const catalog=createCatalog({practiceOrigin:process.env.PRACTICE_URL});
- const overview=await catalog.overview();assert.equal(overview.library.available,true);assert.equal(overview.library.indexed,77134);assert.equal(overview.library.practiceReady,0);const live=await(await fetch(process.env.PRACTICE_URL+'/api/exercises')).json();assert.equal(overview.practice.count,live.exercises.length);assert.ok(overview.practice.count>=6);
+ const live=await(await fetch(process.env.PRACTICE_URL+'/api/exercises')).json();
+ const catalog=createCatalog({practiceOrigin:process.env.PRACTICE_URL,fetcher:async()=>Response.json(live)});
+ const overview=await catalog.overview();assert.equal(overview.library.available,true);assert.equal(overview.library.indexed,77134);assert.equal(overview.library.practiceReady,0);assert.equal(overview.practice.count,live.exercises.length);assert.ok(overview.practice.count>=6);
  await assert.rejects(()=>queryDatabase('SELECT catalog_backend.local_pilot_catalog()'),/CATALOG_UNAVAILABLE/);
  const first=await catalog.search(input('view=library&q=derivative'));
  assert.equal(first.entries.length,12);assert.ok(first.nextCursor);

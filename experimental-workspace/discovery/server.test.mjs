@@ -97,3 +97,10 @@ test('problem reports use the owned session gateway and preserve errors without 
  assert.equal((await fetch(base+'/api/sessions/'+id+'/reports',{method:'POST',headers:{...headers,Origin:'https://foreign.invalid'},body:'{}'})).status,403);
  assert.equal((await fetch(base+'/api/reports')).status,404);
 });
+
+test('subject pages expose only two levels, validate input and redirect old browse links',async t=>{
+ const base=await app(t,async()=>Response.json({}));assert.equal((await fetch(base+'/subject?subject=Algebra')).status,200);
+ const r=await fetch(base+'/browse?subject=Math&chapter=Vectors&section=Old',{redirect:'manual'});assert.equal(r.status,302);assert.equal(r.headers.get('location'),'/subject?subject=Math&chapter=Vectors');
+ assert.equal((await fetch(base+'/api/discovery/subject?subject=Missing')).status,404);assert.equal((await fetch(base+'/api/discovery/subject?subject=Math&section=X')).status,400);
+});
+test('learning progress is a fixed owner-cookie gateway route',async t=>{const calls=[],base=await app(t,async(url,options)=>{calls.push({url,options});return Response.json({collections:[],syncing:false});});const r=await fetch(base+'/api/sessions/account/learning-progress',{headers:{Cookie:'mathpractice_account=opaque'}});assert.equal(r.status,200);assert.ok(calls[0].url.endsWith('/account/learning-progress'));assert.equal(calls[0].options.headers.Cookie,'mathpractice_account=opaque');assert.equal((await fetch(base+'/api/sessions/account/learning-progress?principal=forged')).status,400);});

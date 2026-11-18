@@ -1,0 +1,138 @@
+{
+    "version":  1,
+    "observedAt":  "2026-11-17T20:27:07.480Z",
+    "scope":  "Real catalog and unchanged practice gateway; temporary anonymous test sessions; sanitized booleans only",
+    "realCatalog":  true,
+    "playableDefault":  true,
+    "paginationAndShareableUrls":  true,
+    "browserHistory":  true,
+    "pageErrorsAbsent":  true,
+    "subjectTopicAndAreaFilters":  true,
+    "emptyAndErrorRecovery":  true,
+    "staleCursorRecovery":  true,
+    "loadingState":  true,
+    "metadataAsText":  true,
+    "mobile360":  true,
+    "keyboardAndAnnouncements":  true,
+    "realExerciseLaunch":  true,
+    "gradingAndRefresh":  true,
+    "draftsAcrossHomeNavigation":  true,
+    "ownerCheckedContinue":  true,
+    "startFailureAndDuplicateGuard":  true,
+    "partialOutageAndRecovery":  true,
+    "complete":  true,
+    "sourceHashes":  [
+                         {
+                             "file":  "catalog.mjs",
+                             "sha256":  "2edf526b0cf1cca1065375f66de5daa337636bd38dcfca36f2f92e473c50bf2c"
+                         },
+                         {
+                             "file":  "chooser.mjs",
+                             "sha256":  "58167f6d3a498603087e67bdbe19325e538caf54c8bf222d4e1e3d450c9e6301"
+                         },
+                         {
+                             "file":  "server.mjs",
+                             "sha256":  "dae7a3b203c775943bda16757a6843255f65a4e34bde7232b896668715e96c5a"
+                         },
+                         {
+                             "file":  "practice-metadata.json",
+                             "sha256":  "4068fd65c363f111f9762271f15c2e52b64baeb072b41a5fbe9be77339587f43"
+                         },
+                         {
+                             "file":  "package.json",
+                             "sha256":  "13096eaeaa0beaa4bea61d639199c063fad4eef097cc0ffb1380592c82326c02"
+                         },
+                         {
+                             "file":  "public/index.html",
+                             "sha256":  "426100c01e3741fe5b89ac7cad5f661fc038d71462514e63019a5194863d26de"
+                         },
+                         {
+                             "file":  "public/sources.html",
+                             "sha256":  "c7c23a88a07e95bc115cd7d886b6a402cf7e1a592c806a2a971ecda10c3c449b"
+                         },
+                         {
+                             "file":  "public/home.js",
+                             "sha256":  "478e53a9fdf37ef9f2203dcb9d58c8c609281eb4fac91e683929cfdfadefd88d"
+                         },
+                         {
+                             "file":  "public/home.css",
+                             "sha256":  "c3cd4db7d4021d8466e2b6f3bac4ea2448693932405492fbfd65be71954aa349"
+                         },
+                         {
+                             "file":  "public/account.html",
+                             "sha256":  "0ea4e3af724b8083f30194b5d08430447f06265dc88389017f6784110dafa627"
+                         },
+                         {
+                             "file":  "public/account.js",
+                             "sha256":  "68b5adec8a00f9d652fcb0053f21f55ce7d6f0437b0e81f7b87850d0183b878c"
+                         },
+                         {
+                             "file":  "public/account.css",
+                             "sha256":  "b776c93c7953066028a906452204c509378d0c985aa48d30a4a196473e165f19"
+                         },
+                         {
+                             "file":  "public/chooser.html",
+                             "sha256":  "5c2862a3f5835f084d35e06de95b44dc7eb815ee5d724f03e685bd76583901c4"
+                         },
+                         {
+                             "file":  "public/chooser.js",
+                             "sha256":  "b0da4fd84f4ab25f281b0cf18e865acc4a0f44fef5baccc0314aa70704272952"
+                         },
+                         {
+                             "file":  "public/chooser.css",
+                             "sha256":  "3384d77479da0bbaa8de2765aeb648076fa2d0d01c1e1c44cab1da45d3cb9fbd"
+                         },
+                         {
+                             "file":  "public/practice-plan-store.js",
+                             "sha256":  "414237e32fe8241058cbd9f88ca09ed853dc8ea936b5127d6daac7bb9c6d21b4"
+                         },
+                         {
+                             "file":  "catalog.test.mjs",
+                             "sha256":  "4a1519f733ca48a5ce96164d041328a0b015fa6354275001ca257adc87fd9baf"
+                         },
+                         {
+                             "file":  "chooser.test.mjs",
+                             "sha256":  "248838413d12a165afed58d63fdc0913a651fabad90e689aec534ef7035a14f3"
+                         },
+                         {
+                             "file":  "server.test.mjs",
+                             "sha256":  "3f5207ee4e4e9a6e4f348907663f2434c97125d5c7984209e1c62b5bedd4e3a0"
+                         },
+                         {
+                             "file":  "catalog.integration.mjs",
+                             "sha256":  "54064a6ef58acb379d82c7f8945c71c0f9513ab0d662290c70116bc92e124499"
+                         },
+                         {
+                             "file":  "browser.test.mjs",
+                             "sha256":  "4493cd1f03a61faff97676d95f1d4e09f78c07ce06dd3ac670d591cda4355483"
+                         },
+                         {
+                             "file":  "chooser.browser.mjs",
+                             "sha256":  "f8ffad6c5c4b7bdd75af7ebc321d4ca09e86e48aad0b17688777a823e51d091e"
+                         },
+                         {
+                             "file":  "Dockerfile",
+                             "sha256":  "3550dff197e515d3610d4f537781e7f7cbe3914f34cb5f2c896d1ace4fa72922"
+                         },
+                         {
+                             "file":  "Browser.Dockerfile",
+                             "sha256":  "8d0e33d22eaec77b2adb358e7354ebfb5b69fa97cd0c59963b9bfe81923978c7"
+                         },
+                         {
+                             "file":  "compose.yaml",
+                             "sha256":  "cb7c3fd27d644e7b6e67be4a0284e1f4b8c7a854b6e01863ed0d0b4a3cb0f1a1"
+                         },
+                         {
+                             "file":  "setup.ps1",
+                             "sha256":  "710d71b07d02d01abba58ffa462b306a0ac0c29379e11773919f4ab9fdc17aca"
+                         },
+                         {
+                             "file":  "verify.ps1",
+                             "sha256":  "1cbfb18ff1de6699b7ff8bf140bceba90164580050c7981bf2193a1b584e364b"
+                         }
+                     ],
+    "serverTests":  17,
+    "realDatabaseTests":  1,
+    "browserTests":  7,
+    "imageId":  "sha256:e37efd29b22bc58f93e7f4ac6da5e036cb2b3890ca05ea7da94e80a8ff866f50"
+}

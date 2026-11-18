@@ -1,5 +1,9 @@
 # Local account environment (task 12)
 
+## Subject/chapter completion and random sets
+
+Local migration004 adds private forced-RLS completion receipts/credits and persisted set ordering strategy. Fully correct visible server-PG attempts count once toward fixed subject/chapter goals, with canonical alias deduplication, bounded historical backfill and explicit guest claims. New random sets prefer unfinished exercises; old sets retain order. See [../LEARNING_UX.md](../LEARNING_UX.md), verify-accounts.ps1 and verify-learning.ps1. The latter verifies actual PG grading through visible completion and cross-device continuation. Latest acceptance is recorded in root PROJECT_CONTEXT.md; older sixteen-entry statements below are historical.
+
 ## Tested local practice and reports
 
 The 3105 account integration now offers sixteen exercises, including ten calculus tested pilots under ../calculus-100/LOCAL_PILOT_POLICY.md. Use the combined accounts/compose.yaml and calculus-100/player.override.yaml to retain the clean renderer and explicit local-pilot opt-in. The original 3100 player remains six.

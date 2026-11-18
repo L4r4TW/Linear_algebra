@@ -1,3 +1,4 @@
+import {learningAssignment,recordLearning} from './learning-progress.mjs';
 import {readFile,stat} from 'node:fs/promises';import {join} from 'node:path';
 import {actors,AccountError} from './db.mjs';import {hash} from './crypto.mjs';
 import {ExerciseSessionError} from '../application/server/exercise-sessions.mjs';
@@ -7,10 +8,11 @@ export function createRecordStore({db,vault,legacyDirectory,exerciseLookup,runti
  const authority=row=>({...row,ownerHash:hash(context().ownerToken)});
  const missing=()=>{const error=Error('Session was not found');error.code='ENOENT';return error;};
  async function appendAttempt(client,record,principalId,provenance){
-  const attempt={...record.lastSubmission,provenance,exerciseId:record.exerciseId,source:record._source??null};
+  const attempt={...record.lastSubmission,provenance,exerciseId:record.exerciseId,source:record._source??null,...(provenance==='server-pg'?{learning:learningAssignment(exerciseLookup(record.exerciseId))}:{})};
   const digest=hash(attempt),previous=(await client.query('SELECT content_digest FROM practice_runtime.attempts WHERE id=$1',[attempt.id])).rows[0];
   if(previous){if(previous.content_digest!==digest)throw new AccountError('ATTEMPT_CONFLICT');return;}
   await client.query('INSERT INTO practice_runtime.attempts(id,session_id,principal_id,ordinal,encrypted_attempt,content_digest,submitted_at) VALUES($1,$2,$3,$4,$5,$6,$7)',[attempt.id,record.id,principalId,attempt.number,vault.seal(attempt,'attempt:'+attempt.id+':'+record.id),digest,attempt.submittedAt]);
+  await recordLearning(client,{attempt,entry:exerciseLookup(record.exerciseId),principalId});
  }
  async function importLegacy(record){
   const ctx=context();if(!uuid.test(record?.id??'')||record.ownerHash!==hash(ctx.ownerToken)||!Number.isInteger(record.seed)||typeof record.rendererSessionToken!=='string'||typeof record.rendererProblemToken!=='string')throw missing();

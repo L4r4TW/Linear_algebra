@@ -1,5 +1,9 @@
 # Experimental workspace conventions
 
+## Latest two-level learning UX
+
+Student home opens subject/chapter pages, with no section selector. Follow [LEARNING_UX.md](LEARNING_UX.md) for completion and random-practice contracts. Fixed study-goals-v1 completion is private, once per fully correct exercise, and distinct from mastery/availability. Account migration004 is applied locally. Preserve owner-consistent forced RLS, transactional completion receipts, canonical alias identity, explicit guest transfer, fixed denominators, historical backfill guards and frozen set retries. Do not reshape PG controls for this shell. Run discovery/verify.ps1 and both accounts/verify-accounts.ps1 and accounts/verify-learning.ps1. Latest results/availability are in root PROJECT_CONTEXT.md; older six/sixteen-entry counts are historical.
+
 ## Current: focused 400-exercise delivery
 
 Follow practice-400/README.md and the newest root handoff. The user authorizes tested local collections without moderator approval: 100 each in calculus, algebra, trigonometry and statistics. Calculus has reached 100; other collections are processing. The controller and 1,200-candidate pool persist in linear-algebra-collections_reports.

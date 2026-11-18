@@ -1,5 +1,11 @@
 # Linear Algebra Exercises
 
+## Subject and chapter practice
+
+Open **http://localhost:3105**. Choose a subject, follow its ordered chapters, or start random practice across the whole subject. Subject/chapter percentages count distinct fully correct WeBWorK results toward fixed study goals; repeats do not inflate progress. Sign in and explicitly transfer guest work for continuation across devices. Search and the optional indexed library remain available.
+
+See [the UX and completion contract](experimental-workspace/LEARNING_UX.md) and [current handoff](PROJECT_CONTEXT.md) for setup, privacy, verification and current collection availability. The student flow now has two levels: subject and chapter. Older chooser/pilot descriptions below are historical.
+
 ## Focused practice collections
 
 The short-term target is **100 exercises each in differential calculus, algebra, trigonometry and statistics**. [Differential calculus is now available with 100 collection exercises](http://localhost:3105/?subject=Differential+calculus). Other collections are processing; the [home](http://localhost:3105) shows current available counts.

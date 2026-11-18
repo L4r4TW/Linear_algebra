@@ -1,5 +1,15 @@
 # Project context and session handoff
 
+## Latest UX: subjects and chapters (2026-11-18)
+
+Open http://localhost:3105. Home shows four subject cards with private completion indicators. Each opens an ordered chapter page at /subject?subject=...; the student section level is removed. Whole-subject and chapter actions create random, unfinished-first sets of up to 20, with frozen order/session identities and retry keys. Old sets retain their original order; old /browse links redirect. Search and the optional indexed library remain available.
+
+Read [LEARNING_UX.md](experimental-workspace/LEARNING_UX.md). Completion means distinct fully correct, visible server-PG results toward fixed 100-exercise subject goals and fixed chapter targets, not mastery. Repeats/seeds/partial credit/skips do not inflate it. Earned credits survive withdrawal. Local Auth migration004 is applied: private forced-RLS receipts/credits, owner-consistent attempt references, transactional writes and bounded historical PG backfill. Guest progress stays in its browser unless explicitly claimed; account progress continues across devices. No client completion claims or renderer tokens are exposed.
+
+Fresh verification: 24 discovery contracts, one actual read-only catalog/database check, 12 desktop/mobile home/chapter/player cases and the original six-entry smoke passed. Nine account acceptance groups plus nine unit tests passed at accounts/acceptance/20261118T091736603Z-7ba79fce/manifest.json. Actual PG grading, subject/chapter updates, repeat deduplication, explicit guest claim, cross-device continuation and foreign-browser isolation passed in accounts/learning-acceptance/20261118T092243106Z/manifest.json. The earlier 091302941 account run is incomplete (a generic readiness locator assumed a single answer field); final acceptance fixes that assumption for valid repeated-name radio groups. No manual screen-reader or physical-device result is claimed.
+
+The canonical PG frame/runtime fingerprint is unchanged. Root app3000, original prototype3100 and existing data remain intact. Collection processing is independent: last observed counts were calculus100, algebra100, trigonometry100 and statistics98; inspect live counts before claiming all400. Older six/sixteen-entry descriptions below are historical.
+
 ## Active short-term delivery: 400 focused exercises
 
 The user authorized implementing 100 differential-calculus, 100 algebra, 100 trigonometry and 100 statistics exercises, with documentation/pushes for functionality checkpoints. Read [practice-400/README.md](experimental-workspace/practice-400/README.md). **Calculus has reached 100 playable collection entries.** Other collections are processing, not complete. Live home counters are authoritative; older sixteen-entry statements below are historical.

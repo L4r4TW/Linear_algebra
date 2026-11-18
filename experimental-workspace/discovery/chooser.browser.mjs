@@ -1,63 +1,35 @@
-import {test,before,after} from 'node:test';
-import assert from 'node:assert/strict';
-import {mkdir,writeFile} from 'node:fs/promises';
-import {chromium} from 'playwright';
-const base='http://localhost:3105',backend='http://linear-algebra-discovery-home-1:3005';
-let browser;const observations={version:1,observedAt:new Date().toISOString(),scope:'Task 9 real catalog chooser and temporary owned prototype session; no activation or account assertions'};
+import {test,before,after} from 'node:test';import assert from 'node:assert/strict';import {mkdir,writeFile} from 'node:fs/promises';import {chromium} from 'playwright';
+const origin='http://localhost:3105',backend='http://linear-algebra-discovery-home-1:3005';let browser;const report={version:1,observedAt:new Date().toISOString(),scope:'Live two-level subject/chapter UX, random saved sets, anonymous owner semantics and emulated mobile; no manual screen-reader or physical-device claim'};
 before(async()=>{browser=await chromium.launch();await mkdir('/qa/artifacts',{recursive:true});});
-after(async()=>{await browser?.close();observations.complete=['desktopColumns','dependentSelection','urlHistory','mobileStack','keyboard','missingMetadata','staleRecovery','definedPlanStart','blockedStorageNoStart','libraryNoPractice'].every(key=>observations[key]===true);await writeFile('/qa/artifacts/chooser-observations.json',JSON.stringify(observations,null,2)+'\n');});
-async function pageFor(t,viewport={width:1280,height:900}){
- const context=await browser.newContext({viewport});await context.route(base+'/**',async route=>{const response=await route.fetch({url:route.request().url().replace(base,backend)});await route.fulfill({response});});
- t.after(async()=>{await context.unrouteAll({behavior:'ignoreErrors'});await context.close();});const page=await context.newPage();page.setDefaultTimeout(25000);return page;
-}
-const ready=page=>page.waitForFunction(()=>document.querySelector('#topic-columns')?.getAttribute('aria-busy')==='false');
-test('desktop chooser preserves dependent URL selections, counts and keyboard access',{timeout:90000},async t=>{
- const page=await pageFor(t);await page.goto(base+'/browse?view=library');await ready(page);
- const columns=await page.locator('.topic-column').all();const boxes=await Promise.all(columns.map(c=>c.boundingBox()));assert.ok(boxes[0].x<boxes[1].x&&boxes[1].x<boxes[2].x);
- await page.locator('#subject-options button').filter({hasText:'Linear algebra'}).click();await ready(page);
- assert.equal(new URL(page.url()).searchParams.get('subject'),'Linear algebra');assert.ok(await page.locator('#chapter-options button').count()>0);
- const chapter=await page.locator('#chapter-options button').first().getAttribute('data-label');
- await page.locator('#chapter-options button').first().click();await ready(page);
- assert.equal(new URL(page.url()).searchParams.get('chapter'),chapter);assert.ok(await page.locator('#section-options button').count()>0);
- await page.locator('#section-options button').first().click();await ready(page);
- const url=page.url(),breadcrumb=await page.locator('#topic-breadcrumb').textContent();assert.ok(new URL(url).searchParams.get('section'));
- await page.reload();await ready(page);assert.equal(await page.locator('#topic-breadcrumb').textContent(),breadcrumb);
- await page.goBack();await ready(page);assert.equal(new URL(page.url()).searchParams.has('section'),false);await page.goForward();await ready(page);assert.equal(page.url(),url);
- assert.equal(await page.locator('#topic-start').isDisabled(),true);
- await page.locator('#subject-options button').first().focus();await page.keyboard.press('ArrowDown');assert.ok(await page.locator('#subject-options button').nth(1).evaluate(el=>el===document.activeElement));
- assert.ok(await page.locator('#topic-announcement[aria-live=polite]').count());
- observations.desktopColumns=true;observations.dependentSelection=true;observations.urlHistory=true;observations.keyboard=true;observations.libraryNoPractice=true;
- await page.screenshot({path:'/qa/artifacts/chooser-desktop.png',fullPage:true});
+after(async()=>{await browser?.close();report.complete=['subjects','orderedChapters','noSectionUI','wholeSubjectSet','chapterSet','history','keyboardMobile','blockedStorage','retryRequestIdentity'].every(k=>report[k]===true);await writeFile('/qa/artifacts/chooser-observations.json',JSON.stringify(report,null,2)+'\n');});
+async function pageFor(t,mobile=false){const ctx=await browser.newContext({viewport:{width:mobile?390:1280,height:900},isMobile:mobile,hasTouch:mobile});await ctx.route(origin+'/**',async route=>{try{const r=await route.fetch({url:route.request().url().replace(origin,backend),maxRedirects:0});await route.fulfill({response:r});}catch{await route.fulfill({status:503,json:{error:{code:'QA_TRANSPORT_UNAVAILABLE'}}}).catch(()=>{});}});t.after(()=>ctx.close());const page=await ctx.newPage();page.setDefaultTimeout(30000);page.on('dialog',d=>d.accept());return page;}
+const chapters=page=>page.waitForFunction(()=>document.querySelector('#chapters')?.getAttribute('aria-busy')==='false');
+const ready=page=>page.waitForFunction(()=>document.querySelector('#check-answer')&&!document.querySelector('#check-answer').disabled&&!document.querySelector('#session-status').hidden);
+test('home subjects open an ordered chapter page with completion and no section controls',{timeout:90000},async t=>{
+ const page=await pageFor(t);await page.goto(origin);await page.locator('.collection-card progress').first().waitFor();assert.equal(await page.locator('.collection-card').count(),4);assert.equal(await page.locator('#search-results').isVisible(),false);
+ await page.getByRole('link').filter({has:page.getByRole('heading',{name:'Differential calculus',exact:true})}).click();await page.waitForURL('**/subject?subject=*');await chapters(page);assert.equal(await page.getByRole('heading',{level:1}).textContent(),'Differential calculus');
+ assert.equal(await page.locator('.chapter-card h3').nth(0).textContent(),'Limits and continuity');assert.equal(await page.locator('.chapter-card h3').nth(1).textContent(),'Derivative definition');assert.equal(await page.locator('.chapter-card').count(),7);assert.equal(await page.locator('#section,#section-options,#section-find').count(),0);
+ await page.locator('#subject-progress progress').waitFor();assert.equal(await page.locator('#subject-progress progress').getAttribute('value'),'0');
+ await page.goBack();await page.locator('.collection-card progress').first().waitFor();assert.equal(new URL(page.url()).pathname,'/');await page.goForward();await chapters(page);
+ report.subjects=true;report.orderedChapters=true;report.noSectionUI=true;report.history=true;await page.screenshot({path:'/qa/artifacts/subject-desktop.png',fullPage:true});
 });
-test('stacked mobile columns and uneven practice metadata remain usable',{timeout:90000},async t=>{
- const page=await pageFor(t,{width:360,height:800});await page.goto(base+'/browse?subject=Linear+algebra');await ready(page);
- await page.locator('#chapter-options button').first().click();await ready(page);
- assert.equal(await page.locator('#section-options button').count(),0);assert.match(await page.locator('#section-note').textContent(),/No further levels/);
- assert.equal(await page.locator('#topic-start').isDisabled(),false);
- const boxes=await Promise.all((await page.locator('.topic-column').all()).map(c=>c.boundingBox()));assert.ok(boxes[0].y<boxes[1].y&&boxes[1].y<boxes[2].y);
- assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
- await page.screenshot({path:'/qa/artifacts/chooser-mobile.png',fullPage:true});observations.mobileStack=true;observations.missingMetadata=true;
+test('whole subject practice is a frozen random set and refresh restores the same session',{timeout:120000},async t=>{
+ const page=await pageFor(t);await page.goto(origin+'/subject?subject=Differential+calculus');await chapters(page);await page.locator('#subject-start').click();await page.waitForURL('**/practice?session=*&set=*&item=0');await ready(page);
+ const url=new URL(page.url()),id=url.searchParams.get('session'),setId=url.searchParams.get('set');
+ const stored=await page.evaluate(async id=>(await(await fetch('/api/sessions/sets/'+id)).json()).set,setId);
+ assert.equal(stored.policy.order,'random-without-replacement');assert.equal(stored.total,20);assert.equal(new Set(stored.items.map(i=>i.exerciseId)).size,20);assert.equal(stored.selection.subject,'Differential calculus');assert.equal(stored.selection.chapter,null);
+ await page.reload();await ready(page);assert.equal(new URL(page.url()).searchParams.get('session'),id);const again=await page.evaluate(async id=>(await(await fetch('/api/sessions/sets/'+id)).json()).set,setId);assert.deepEqual(again.items.map(i=>i.exerciseId),stored.items.map(i=>i.exerciseId));report.wholeSubjectSet=true;
 });
-test('invalid topics reset and filtering is shareable without clearing selection',{timeout:90000},async t=>{
- const page=await pageFor(t);await page.goto(base+'/browse?subject=Removed+subject');await ready(page);
- await page.getByRole('button',{name:'Reset selections',exact:true}).click();await ready(page);
- assert.equal(new URL(page.url()).searchParams.has('subject'),false);
- await page.locator('#subject-find').fill('linear');await page.waitForURL('**subjectFind=linear');await ready(page);
- assert.equal(await page.locator('#subject-options button').count(),1);await page.locator('#subject-options button').click();await ready(page);
- assert.equal(new URL(page.url()).searchParams.get('subject'),'Linear algebra');observations.staleRecovery=true;
+test('mobile chapter practice stays within the chapter and has keyboard labels and comfortable controls',{timeout:120000},async t=>{
+ const page=await pageFor(t,true);await page.goto(origin+'/subject?subject=Differential+calculus');await chapters(page);const button=page.getByRole('button',{name:'Practice Limits and continuity',exact:true});await button.focus();assert.ok(await button.evaluate(e=>e===document.activeElement));assert.ok((await button.boundingBox()).height>=44);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true);await page.screenshot({path:'/qa/artifacts/subject-mobile.png',fullPage:true});
+ await page.keyboard.press('Enter');await page.waitForURL('**/practice?session=*&set=*&item=0');await ready(page);const setId=new URL(page.url()).searchParams.get('set'),set=await page.evaluate(async id=>(await(await fetch('/api/sessions/sets/'+id)).json()).set,setId);assert.equal(set.selection.chapter,'Limits and continuity');assert.equal(set.total,15);
+ const catalog=await page.evaluate(async()=>(await(await fetch('/api/exercises')).json()).exercises);assert.ok(set.items.every(item=>catalog.find(e=>e.id===item.exerciseId)?.chapter==='Limits and continuity'));report.chapterSet=true;report.keyboardMobile=true;
 });
-test('Practice saves a bounded exact plan before starting its first owned session',{timeout:90000},async t=>{
- const page=await pageFor(t);await page.goto(base+'/browse?subject=Linear+algebra');await ready(page);
- await page.locator('#topic-start').click();await page.waitForURL('**/practice?session=*');
- await page.waitForFunction(()=>document.querySelector('#check-answer')&&!document.querySelector('#check-answer').disabled);
- const sessionId=new URL(page.url()).searchParams.get('session');
- const stored=await page.evaluate(id=>{const planId=sessionStorage.getItem('mathpractice.session-plan.'+id);return JSON.parse(sessionStorage.getItem('mathpractice.plan.'+planId));},sessionId);
- assert.equal(stored.total,1);assert.equal(stored.items[0].exerciseId,'dot-product-01');assert.equal(stored.items[0].sessionId,sessionId);assert.equal(stored.policy.maximum,20);
- observations.definedPlanStart=true;
+test('legacy browse links become two-level subject URLs',{timeout:90000},async t=>{
+ const page=await pageFor(t);// Use the reachable service for a real redirect chain; fulfilled redirects cannot re-route localhost in Chromium.
+ await page.goto(backend+'/browse?subject=Differential+calculus&chapter=Limits+and+continuity&section=Old');await chapters(page);assert.equal(new URL(page.url()).pathname,'/subject');assert.equal(new URL(page.url()).searchParams.has('section'),false);
 });
-test('blocked plan storage never starts a renderer session',{timeout:90000},async t=>{
- const page=await pageFor(t);await page.addInitScript(()=>{Storage.prototype.setItem=function(){throw new DOMException('Storage blocked','SecurityError');};});
- let starts=0;page.on('request',request=>{if(request.method()==='POST'&&new URL(request.url()).pathname==='/api/sessions')starts++;});
- await page.goto(base+'/browse?subject=Linear+algebra');await ready(page);await page.locator('#topic-start').click();await page.locator('#plan-error').waitFor();assert.equal(starts,0);assert.equal(new URL(page.url()).pathname,'/browse');
- observations.blockedStorageNoStart=true;
+test('blocked storage prevents starting and failed creation retries keep the same request identity',{timeout:90000},async t=>{
+ const page=await pageFor(t);await page.addInitScript(()=>{Storage.prototype.setItem=function(){throw new DOMException('Storage blocked','SecurityError');};});let starts=0;page.on('request',r=>{if(r.method()==='POST'&&r.url().endsWith('/sets'))starts++;});await page.goto(origin+'/subject?subject=Algebra');await chapters(page);await page.locator('#subject-start').click();await page.locator('#practice-start-error').waitFor();assert.equal(starts,0);report.blockedStorage=true;
+ const other=await pageFor(t),keys=[];await other.route('**/api/sessions/sets',async route=>{keys.push(JSON.parse(route.request().postData()).requestKey);await route.fulfill({status:503,json:{error:{message:'Controlled service failure'}}});});await other.goto(origin+'/subject?subject=Algebra');await chapters(other);await other.locator('#subject-start').click();await other.locator('#practice-start-error').waitFor();await other.locator('#subject-start').click();await other.waitForFunction(()=>document.querySelector('#practice-start-status').textContent==='');assert.equal(keys.length,2);assert.equal(keys[0],keys[1]);report.retryRequestIdentity=true;
 });
