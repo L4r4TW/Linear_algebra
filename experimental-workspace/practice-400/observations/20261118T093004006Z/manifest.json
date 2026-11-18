@@ -1,0 +1,59 @@
+{
+    "version":  1,
+    "complete":  true,
+    "observedAt":  "2026-11-18T09:32:14.6854611Z",
+    "scope":  "Exact 400-member live catalog admission and uniqueness; complete retained technical evidence per controller; separate final-two browser reports; no independent mathematical/manual-device certification",
+    "collectionCounts":  [
+                             {
+                                 "id":  "calculus",
+                                 "title":  "Differential calculus",
+                                 "target":  100,
+                                 "technicalPassed":  100,
+                                 "playable":  100
+                             },
+                             {
+                                 "id":  "algebra",
+                                 "title":  "Algebra",
+                                 "target":  100,
+                                 "technicalPassed":  100,
+                                 "playable":  100
+                             },
+                             {
+                                 "id":  "trigonometry",
+                                 "title":  "Trigonometry",
+                                 "target":  100,
+                                 "technicalPassed":  100,
+                                 "playable":  100
+                             },
+                             {
+                                 "id":  "statistics",
+                                 "title":  "Statistics",
+                                 "target":  100,
+                                 "technicalPassed":  100,
+                                 "playable":  100
+                             }
+                         ],
+    "exactLiveMembership":  true,
+    "distinctSourceIdentities":  400,
+    "chapterQuotasSatisfied":  true,
+    "backendImage":  "sha256:94067f5bb84a9a594427b2f52351c37c20856bc55456547ef40c80db70d72c0f",
+    "homeImage":  "sha256:61fac64be5b7019e938008cf4bfaeff7f5d422c94bc3b21250d8e8c0d3501f3a",
+    "sourceHashes":  [
+                         {
+                             "file":  "experimental-workspace/practice-400/final-status.json",
+                             "sha256":  "87f212c81e89da8232533f1e0eff1dfa241bd882069450bf3ed7f5b000a517f5"
+                         },
+                         {
+                             "file":  "experimental-workspace/practice-400/extend-pool.mjs",
+                             "sha256":  "e11a10a98d8b83ed19c92f58d62d5e70ca66724f906d6a62b3347d5331755854"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/collections.browser.mjs",
+                             "sha256":  "e680e7dafa52d681e1027a708d3e4d7964e089703cb086101c47b4c52b82e513"
+                         },
+                         {
+                             "file":  "experimental-workspace/accounts/published-catalog.mjs",
+                             "sha256":  "e34c1f9b0bd1c9e11ecff27a63c55927cc7a275a3b17eeecd67b7d133cbcd903"
+                         }
+                     ]
+}

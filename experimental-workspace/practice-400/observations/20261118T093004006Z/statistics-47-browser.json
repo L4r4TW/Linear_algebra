@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "observedAt": "2026-11-18T09:31:30.012Z",
+  "scope": "Actual home/account/private PG; random seeds; bridge grading/drafts/ownership; no mathematical certification or physical device claim",
+  "cases": [
+    {
+      "id": "fc771d9f-c3da-49d0-aea7-e9029beb211f",
+      "collection": "statistics",
+      "viewport": "desktop",
+      "selected": true,
+      "draftVerified": false,
+      "grading": true,
+      "checkedRestoration": true,
+      "ownership": true,
+      "keyboard": true,
+      "narrowShell": true
+    },
+    {
+      "id": "fc771d9f-c3da-49d0-aea7-e9029beb211f",
+      "collection": "statistics",
+      "viewport": "mobile",
+      "selected": true,
+      "draftVerified": false,
+      "grading": true,
+      "checkedRestoration": true,
+      "ownership": true,
+      "keyboard": true,
+      "narrowShell": true
+    }
+  ],
+  "catalogCount": 403,
+  "complete": true
+}

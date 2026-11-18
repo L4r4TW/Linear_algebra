@@ -2,7 +2,7 @@
 
 ## Subject and chapter practice
 
-Open **http://localhost:3105**. Choose a subject, follow its ordered chapters, or start random practice across the whole subject. Subject/chapter percentages count distinct fully correct WeBWorK results toward fixed study goals; repeats do not inflate progress. Sign in and explicitly transfer guest work for continuation across devices. Search and the optional indexed library remain available.
+Open **http://localhost:3105**. There are now **100 playable exercises each in differential calculus, algebra, trigonometry and statistics**. Choose a subject, follow its ordered chapters, or start random practice across the whole subject. Subject/chapter percentages count distinct fully correct WeBWorK results toward fixed study goals; repeats do not inflate progress. Sign in and explicitly transfer guest work for continuation across devices. Search and the optional indexed library remain available.
 
 See [the UX and completion contract](experimental-workspace/LEARNING_UX.md) and [current handoff](PROJECT_CONTEXT.md) for setup, privacy, verification and current collection availability. The student flow now has two levels: subject and chapter. Older chooser/pilot descriptions below are historical.
 

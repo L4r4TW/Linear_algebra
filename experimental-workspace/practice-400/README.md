@@ -1,5 +1,24 @@
 # Four focused practice collections
 
+## Completed local delivery (2026-11-18)
+
+All four collections now have 100 distinct playable entries each. final-status.json records complete=true, exact source/job/attempt bindings and every chapter quota. observations/20261118T093004006Z/manifest.json verifies all400 identities against the actual student API and home counters. The final two statistics additions also passed four actual desktop/mobile selection, grading, draft, restoration, ownership and keyboard cases. Earlier 24-case live acceptance remains sampled; each admitted entry independently retains the full technical gate. No independent mathematical or physical-device/screen-reader certification is claimed.
+
+The student experience now has subject cards with private completion percentages and ordered chapter pages; see ../LEARNING_UX.md. Completion is a fixed learning goal, distinct from catalog availability. Older processing statements below are historical.
+
+### Replenish exhausted reserves
+
+extend-pool.mjs appends screened, pinned-hash-checked, deduplicated candidates without resetting existing candidates, ranks, grants or failed evidence. It excludes current unsuccessful jobs and retains the normal admission gate. Stop the controller before extending; it loads its pool at startup. Only one pool writer may run. The file replacement is atomic and detects a changed input pool. This does not change chapter targets or create reviews.
+
+```powershell
+docker compose -f experimental-workspace/practice-400/compose.yaml stop controller
+docker compose -f experimental-workspace/practice-400/compose.yaml build tools
+docker compose -f experimental-workspace/practice-400/compose.yaml run --rm --no-deps tools collections/extend-pool.mjs statistics descriptive 30
+docker compose -f experimental-workspace/practice-400/compose.yaml up -d controller health
+```
+
+The delivered extension appended30 descriptive-statistics reserves to the existing1200, preserving the pool and completing the last two missing entries. Ordinary restart must not run preparation/extension again. Do not remove volumes. The stopped completed controller needs no work; retain the separate health observer to keep availability fail-closed against actual renderer health.
+
 Goal: 100 distinct playable sources each in differential calculus, algebra, trigonometry and statistics. Topic quotas are in collections.json. Seeds do not count as extra exercises. The root app, original 3100 player and all student data stay intact.
 
 ## Implemented
